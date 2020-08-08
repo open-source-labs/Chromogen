@@ -1,0 +1,38 @@
+html {
+  margin: 0;
+  width: 100vh;
+  background-color: rgb(48, 48, 48);
+  color: whitesmoke;
+  font-family: 'Palanquin', sans-serif;
+}
+.listContainer {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 33fr 33fr 33fr;
+}
+.itemCreator, select {
+  margin: 0 auto;
+}
+h1 {
+  text-align: center;
+}
+input, button, select {
+  background-color: rgb(63, 63, 63);
+  border: 1px solid lightgray;
+  box-shadow: 1px 2px 2px rgba(11, 11, 22, 0.171);
+  border: none;
+  padding: 20px;
+  border-radius: 4px;
+color: whitesmoke;
+}
+.listContainer {
+  width: 80vw;
+  margin: 0 auto;
+}
+select {
+ width: 100%;
+}
+
+.listRow {
+  margin: 0 auto;
+}
