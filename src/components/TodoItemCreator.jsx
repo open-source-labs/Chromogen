@@ -24,7 +24,7 @@ const TodoItemCreator = () => {
 
   return (
     <div className="itemCreator">
-      <input type="text" value={inputValue} onChange={onChange} />
+      <input className="inputText" type="text" value={inputValue} onChange={onChange} />
       <button type="submit" onClick={addItem}>
         Add
       </button>

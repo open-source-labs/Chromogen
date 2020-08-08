@@ -10,9 +10,7 @@ html {
   height: 100vh;
   grid-template-rows: 33fr 33fr 33fr;
 }
-.itemCreator, select {
-  margin: 0 auto;
-}
+
 h1 {
   text-align: center;
 }
@@ -23,16 +21,20 @@ input, button, select {
   border: none;
   padding: 20px;
   border-radius: 4px;
-color: whitesmoke;
+  color: whitesmoke;
 }
 .listContainer {
   width: 80vw;
   margin: 0 auto;
 }
-select {
+select, .itemCreator {
  width: 100%;
 }
 
 .listRow {
   margin: 0 auto;
+  width: 300px;
+}
+.inputText {
+  width: 196px;
 }

@@ -9,6 +9,8 @@
 // });
 
 
+// import recoil-react-hooks-testing-library
+
 
 // transactions array will be built by our package methods
 const transactions = [
@@ -27,5 +29,5 @@ test(`${transactions[0].selector} should derive state correctly`, () => {
   expect(result.current).toBe(updatedState);
 });
 
-// tests will be generated WHENEVR a selector is triggered. 
+// tests will be generated WHENEVER a selector is triggered. 
 // i.e. in the selector function
