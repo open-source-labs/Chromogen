@@ -15,11 +15,15 @@ const TodoList = () => {
       {/* <TodoListStats /> */}
       <div className="row listRow">
         <h1>Totally Todos!</h1>
-        <TodoListFilters />
+    
+        <div className="itemsContainer">
+        <TodoItemCreator />
         {todoList.map((todoItem) => (
           <TodoItem key={todoItem.id} item={todoItem} />
         ))}
-              <TodoItemCreator />
+           <TodoListFilters />
+        </div>
+
       </div>
       <div className="row" />
     </div>

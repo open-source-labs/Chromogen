@@ -9,6 +9,7 @@ const todoListFilterState = atom({
   key: 'todoListFilterState',
   default: 'Show All',
 });
+
 const filteredTodoListState = selector({
   key: 'filteredTodoListState',
   get: ({ get }) => {

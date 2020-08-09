@@ -8,11 +8,19 @@ const TodoListFilters = () => {
     setFilter(value);
   };
   return (
-    <select value={filter} onChange={updateFilter}>
-      <option value="Show All">All</option>
-      <option value="Show Completed">Completed</option>
-      <option value="Show Uncompleted">Uncompleted</option>
-    </select>
+    <ul>
+      <button type="submit" value="Show All" onClick={updateFilter}>
+        All
+      </button>
+
+      <button type="submit" value="Show Uncompleted" onClick={updateFilter}>
+        Uncompleted
+      </button>
+
+      <button type="submit" value="Show Completed" onClick={updateFilter}>
+        Completed
+      </button>
+    </ul>
   );
 };
 

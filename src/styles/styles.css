@@ -1,6 +1,5 @@
 html {
   margin: 0;
-  width: 100vh;
   background-color: rgb(48, 48, 48);
   color: whitesmoke;
   font-family: 'Palanquin', sans-serif;
@@ -8,16 +7,20 @@ html {
 .listContainer {
   display: grid;
   height: 100vh;
-  grid-template-rows: 33fr 33fr 33fr;
+  width: 100vw;
+  grid-template-rows: 15fr 33fr 33fr;
 }
-
+.itemsContainer {
+  box-shadow: 1px 5px 15px rgba(11, 11, 22, 0.171);
+}
 h1 {
   text-align: center;
+  color: rgb(175, 99, 88);
+ text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
 }
 input, button, select {
   background-color: rgb(63, 63, 63);
   border: 1px solid lightgray;
-  box-shadow: 1px 2px 2px rgba(11, 11, 22, 0.171);
   border: none;
   padding: 20px;
   border-radius: 4px;
@@ -27,14 +30,44 @@ input, button, select {
   width: 80vw;
   margin: 0 auto;
 }
-select, .itemCreator {
- width: 100%;
+.itemCreator input, button {
+
+ border-radius: 4px 4px 0px 0px;
 }
 
 .listRow {
   margin: 0 auto;
-  width: 300px;
+  width: 500px;
 }
 .inputText {
-  width: 196px;
+  width: 79%;
+}
+.itemsContainer {
+  max-height: 500px;
+  overflow: auto;
+}
+ul {
+  display: inline-flex;
+  margin: 0;
+  padding: 0px;
+  width: 100%;
+}
+ul button {
+  width: 33.33%;
+  border-radius: 0px 0px 4px 4px;
+}
+.itemContainer {
+  display: grid;
+  grid-template-columns: 60fr 20fr 20fr;
+  border-bottom: 1px solid rgba(245, 245, 245, 0.336);
+}
+button:focus {
+  outline: none;
+  background-color: rgb(68, 68, 68);
+}
+button:active {
+  background-color: rgb(68, 68, 68);
+}
+input:focus {
+  outline: none;
 }
