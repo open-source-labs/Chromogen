@@ -39,6 +39,7 @@ const TodoItem = ({ item }) => {
       <input type="text" value={item.text} onChange={editItemText} />
       <input
         checked={item.isComplete}
+        className="checkbox"
         id="checkbox"
         type="checkbox"
         onChange={toggleItemCompletion}
