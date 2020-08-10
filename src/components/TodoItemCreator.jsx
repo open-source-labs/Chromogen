@@ -11,7 +11,7 @@ import { todoListState } from '../store/store';
 
 const TodoItemCreator = () => {
   const [inputValue, setInputValue] = useState('');
-  const [priorityValue, setPriorityValue] = useState('none');
+  const [priorityValue, setPriorityValue] = useState('low');
   const setTodoList = useSetRecoilState(todoListState); // sets TodoList atom state
 
   const addItem = () => {
@@ -25,7 +25,7 @@ const TodoItemCreator = () => {
       },
     ]);
     setInputValue('');
-    setPriorityValue('none')
+    setPriorityValue('low')
   };
 
   const onChange = ({ target: { value } }) => {

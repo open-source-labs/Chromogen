@@ -4,6 +4,24 @@ html {
   color: whitesmoke;
   font-family: 'Palanquin', sans-serif;
 }
+h1 {
+  text-align: center;
+  font-size: 2.3rem;
+  color: #af6358;
+ text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
+ letter-spacing: 2px;
+ font-style: italic;
+}
+input, button, select {
+  background-color: rgb(63, 63, 63);
+  border: 1px solid lightgray;
+  border: none;
+  padding: 20px;
+  border-radius: 4px;
+  color: whitesmoke;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
 .listContainer {
   display: grid;
   height: 100vh;
@@ -28,27 +46,8 @@ html {
   color: #66bb6a;
   opacity: .70;
 }
-h1 {
-  text-align: center;
-  font-size: 2.3rem;
-  color: #af6358;
- text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
- letter-spacing: 2px;
-}
-input, button, select {
-  background-color: rgb(63, 63, 63);
-  border: 1px solid lightgray;
-  border: none;
-  padding: 20px;
-  border-radius: 4px;
-  color: whitesmoke;
-  font-size: 15px;
-  letter-spacing: 1px;
-}
-.listContainer {
-  width: 80vw;
-  margin: 0 auto;
-}
+
+
 
 .listRow {
   margin: 0 auto;
@@ -65,8 +64,8 @@ ul {
   padding: 0px;
   width: 100%;
 }
-ul button {
-  width: 33.33%;
+ul .filter-button {
+  width: 30%;
   border-radius: 0px 0px 4px 4px;
 }
 .itemContainer, .lowPriority, .mediumPriority, .highPriority {
@@ -112,6 +111,10 @@ button span {
  #radioDiv svg {
   margin-top: 11px;
   opacity: .70;
+ }
+
+ #sortBtn {
+   font-size: 25px;
  }
 /* 
  .MuiCheckbox-root:hover {

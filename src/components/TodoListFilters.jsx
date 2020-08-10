@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { todoListFilterState, todoListStatsState } from '../store/store';
+import { todoListFilterState, todoListStatsState, todoListSortState } from '../store/store';
 
 const TodoListFilters = () => {
   const [filter, setFilter] = useRecoilState(todoListFilterState);
+  const [sort, setSort] = useRecoilState(todoListSortState); // need to ddefine this
+
   const { totalNum, totalCompletedNum, totalUncompletedNum, percentCompleted } = useRecoilValue(
     todoListStatsState,
   );
@@ -11,9 +13,16 @@ const TodoListFilters = () => {
     console.log(value);
     setFilter(value);
   };
+
+  const changeSort = () => {
+    console.log(sort);
+    setSort(!sort);
+  };
+
   return (
     <ul>
       <button
+        className="filter-button"
         style={{ color: filter === 'Show All' ? '#af6358' : 'whitesmoke' }}
         type="submit"
         value="Show All"
@@ -23,6 +32,7 @@ const TodoListFilters = () => {
       </button>
 
       <button
+        className="filter-button"
         style={{ color: filter === 'Show Uncompleted' ? '#af6358' : 'whitesmoke' }}
         type="submit"
         value="Show Uncompleted"
@@ -32,12 +42,16 @@ const TodoListFilters = () => {
       </button>
 
       <button
+        className="filter-button"
         style={{ color: filter === 'Show Completed' ? '#af6358' : 'whitesmoke' }}
         type="submit"
         value="Show Completed"
         onClick={updateFilter}
       >
         Completed <span>{totalCompletedNum || ''}</span>
+      </button>
+      <button id="sortBtn" type="submit" onClick={changeSort}>
+        ^
       </button>
     </ul>
   );

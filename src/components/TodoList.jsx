@@ -1,13 +1,13 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { filteredTodoListState } from '../store/store';
+import { sortedTodoListState } from '../store/store';
 import TodoItem from './TodoItem';
 import TodoItemCreator from './TodoItemCreator';
 import '../styles/styles.css';
 import TodoListFilters from './TodoListFilters';
 
 const TodoList = () => {
-  const todoList = useRecoilValue(filteredTodoListState);
+  const todoList = useRecoilValue(sortedTodoListState);
 
   return (
     <div className="listContainer">
