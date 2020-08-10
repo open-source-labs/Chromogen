@@ -36,13 +36,16 @@ const TodoItem = ({ item }) => {
   return (
     <div className="itemContainer">
       <input type="text" value={item.text} onChange={editItemText} />
-      <input
-        checked={item.isComplete}
-        className="checkbox"
-        id="checkbox"
-        type="checkbox"
-        onChange={toggleItemCompletion}
-      />
+      <label className="checkbox-label">
+        <input
+          checked={item.isComplete}
+          className="checkbox"
+          id="checkbox"
+          type="checkbox"
+          onClick={toggleItemCompletion}
+        />{' '}
+        <span className="checkbox-custom" />
+      </label>
       <button type="submit" onClick={deleteItem}>
         X
       </button>
