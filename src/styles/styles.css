@@ -8,9 +8,9 @@ h1 {
   text-align: center;
   font-size: 2.3rem;
   color: #af6358;
- text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
- letter-spacing: 2px;
- font-style: italic;
+  text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
+  letter-spacing: 3px;
+  font-style: italic;
 }
 input, button, select {
   background-color: rgb(63, 63, 63);
@@ -22,57 +22,7 @@ input, button, select {
   font-size: 15px;
   letter-spacing: 1px;
 }
-.listContainer {
-  display: grid;
-  height: 100vh;
-  width: 100vw;
-  grid-template-rows: 15fr 33fr 33fr;
-}
-.itemsContainer {
-  background-color: rgb(63, 63, 63);
-  box-shadow: 0px 0px 35px 10px rgba(0, 0, 0, 0.171);
-}
-.highPriority svg {
-  color: #ef5350;
-  opacity: .70;
-
-}
-.mediumPriority svg {
-  color: #ffee58;
-  opacity: .70;
-
-}
-.lowPriority svg {
-  color: #66bb6a;
-  opacity: .70;
-}
-
-
-
-.listRow {
-  margin: 0 auto;
-  width: 700px;
-}
-
-.itemsContainer {
-  max-height: 500px;
-  overflow: auto;
-}
-ul {
-  display: inline-flex;
-  margin: 0;
-  padding: 0px;
-  width: 100%;
-}
-ul .filter-button {
-  width: 30%;
-  border-radius: 0px 0px 4px 4px;
-}
-.itemContainer, .lowPriority, .mediumPriority, .highPriority {
-  display: grid;
-  grid-template-columns: 60fr 20fr 20fr;
-  border-bottom: 1px solid rgba(245, 245, 245, 0.336);
-}
+/* remove browser defaults */
 button:focus {
   outline: none;
   background-color: rgb(68, 68, 68);
@@ -83,19 +33,33 @@ button:active {
 input:focus {
   outline: none;
 }
-input::placeholder {
-  font-style: italic;
-  letter-spacing: 1.5px;
-
+/* overall containera for todo list + buttons display */
+.listRow {
+  margin: 0 auto;
+  width: 700px;
 }
 
-button span {
-  opacity: .60;
+.listContainer {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: 15fr 33fr 33fr;
+}
+/* maintains list sx + background of radio buttons */
+.itemsContainer {
+  background-color: rgb(63, 63, 63);
+  box-shadow: 0px 0px 35px 10px rgba(0, 0, 0, 0.171);
 }
 
+/* add item elements */
 .itemCreator button {
   padding: 0px;
   height: 60px;
+}
+
+input::placeholder {
+  font-style: italic;
+  letter-spacing: 1.5px;
 }
 
 .itemCreator input {
@@ -113,10 +77,48 @@ button span {
   opacity: .70;
  }
 
- #sortBtn {
-   font-size: 25px;
- }
-/* 
- .MuiCheckbox-root:hover {
-  background-color: transparent;
- } */
+/* dynamic checkbox color */
+.itemContainer, .lowPriority, .mediumPriority, .highPriority {
+  display: grid;
+  grid-template-columns: 60fr 20fr 20fr;
+  border-bottom: 1px solid rgba(245, 245, 245, 0.336);
+}
+
+.highPriority svg {
+  color: #ef5350;
+  opacity: .70;
+}
+.mediumPriority svg {
+  color: #ffee58;
+  opacity: .70;
+}
+.lowPriority svg {
+  color: #66bb6a;
+  opacity: .70;
+}
+
+/* row of filter/sort options  */
+ul {
+  display: inline-flex;
+  margin: 0;
+  padding: 0px;
+  width: 100%;
+}
+ul .filter-button {
+  width: 30%;
+  border-radius: 0px 0px 4px 4px;
+}
+
+#sortedWhite svg {
+  color: whitesmoke;
+}
+#unsortedGray svg {
+  color: rgba(245, 245, 245, 0.336);
+}
+
+
+/* filter stats (number) */
+button span {
+  opacity: .60;
+}
+

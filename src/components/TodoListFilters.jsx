@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import SortIcon from '@material-ui/icons/Sort';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { todoListFilterState, todoListStatsState, todoListSortState } from '../store/store';
 
@@ -18,7 +19,10 @@ const TodoListFilters = () => {
     console.log(sort);
     setSort(!sort);
   };
-
+  const sortIconColor = {
+    true: 'sortedWhite',
+    false: 'unsortedGray'
+  }
   return (
     <ul>
       <button
@@ -50,8 +54,8 @@ const TodoListFilters = () => {
       >
         Completed <span>{totalCompletedNum || ''}</span>
       </button>
-      <button id="sortBtn" type="submit" onClick={changeSort}>
-        ^
+      <button id={sortIconColor[sort]} type="submit" onClick={changeSort}>
+        <SortIcon/>
       </button>
     </ul>
   );
