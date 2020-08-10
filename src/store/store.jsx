@@ -31,7 +31,7 @@ const filteredTodoListState = selector({
     }
   },
 });
-// remember to change filteredTodoListState to sortedTodoListState
+
 const sortedTodoListState = selector({
   key: 'sortedTodoListState',
   get: ({ get }) => {

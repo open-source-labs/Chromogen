@@ -36,7 +36,7 @@ const TodoItemCreator = () => {
     setPriorityValue(event.target.value);
   };
 
-  /* MUI Radio styles */
+  /* MUI Radio Button styles */
   const GreenRadio = withStyles({
     root: {
       color: green[400],
@@ -66,6 +66,7 @@ const TodoItemCreator = () => {
     },
     checked: {},
   })((props) => <Radio color="default" size="small" {...props} />);
+
   return (
     <div className="itemCreator">
       <input

@@ -7,7 +7,7 @@ const TodoListFilters = () => {
   const [filter, setFilter] = useRecoilState(todoListFilterState);
   const [sort, setSort] = useRecoilState(todoListSortState); // need to ddefine this
 
-  const { totalNum, totalCompletedNum, totalUncompletedNum, percentCompleted } = useRecoilValue(
+  const { totalNum, totalCompletedNum, totalUncompletedNum } = useRecoilValue(
     todoListStatsState,
   );
   const updateFilter = ({ target: { value } }) => {

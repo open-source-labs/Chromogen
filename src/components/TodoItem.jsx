@@ -42,7 +42,7 @@ const TodoItem = ({ item }) => {
   };
 
   return (
-    <div className={checkBoxClasses[item.priority] || 'itemContainer'}>
+    <div className={checkBoxClasses[item.priority] || 'itemContainer'} id='todoItem'>
       <input type="text" value={item.text} onChange={editItemText} />
       <Checkbox
         disableRipple
