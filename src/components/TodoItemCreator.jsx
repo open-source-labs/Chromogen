@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { todoListState } from '../store/atoms';
+import { todoListState } from '../store/store';
 
 const TodoItemCreator = () => {
   const [inputValue, setInputValue] = useState('');
@@ -24,7 +24,7 @@ const TodoItemCreator = () => {
 
   return (
     <div className="itemCreator">
-      <input className="inputText" type="text" value={inputValue} onChange={onChange} />
+      <input className="inputText" type="text" value={inputValue} onChange={onChange} placeholder="What needs to be done?"/>
       <button type="submit" onClick={addItem}>
         Add
       </button>

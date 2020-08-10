@@ -11,12 +11,14 @@ html {
   grid-template-rows: 15fr 33fr 33fr;
 }
 .itemsContainer {
-  box-shadow: 1px 5px 15px rgba(11, 11, 22, 0.171);
+  box-shadow: 0px 0px 35px 10px rgba(0, 0, 0, 0.171);
 }
 h1 {
   text-align: center;
-  color: rgb(175, 99, 88);
+  font-size: 2.3rem;
+  color: #af6358;
  text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
+ letter-spacing: 2px;
 }
 input, button, select {
   background-color: rgb(63, 63, 63);
@@ -25,23 +27,19 @@ input, button, select {
   padding: 20px;
   border-radius: 4px;
   color: whitesmoke;
+  font-size: 15px;
+  letter-spacing: 1px;
 }
 .listContainer {
   width: 80vw;
   margin: 0 auto;
 }
-.itemCreator input, button {
-
- border-radius: 4px 4px 0px 0px;
-}
 
 .listRow {
   margin: 0 auto;
-  width: 500px;
+  width: 700px;
 }
-.inputText {
-  width: 79%;
-}
+
 .itemsContainer {
   max-height: 500px;
   overflow: auto;
@@ -71,6 +69,9 @@ button:active {
 input:focus {
   outline: none;
 }
+input::placeholder {
+  font-style: italic;
+}
 .checkbox {
   -webkit-appearance: none;
 }
@@ -83,3 +84,22 @@ input:focus {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
 	color: #99a1a7;
 }
+
+button span {
+  opacity: .60;
+}
+
+.itemCreator button {
+  width: 15%;
+  padding: 0px;
+  height: 60px;
+}
+.itemCreator input {
+  padding: 0 0 0 5%;
+  width: 80%;
+  height: 60px;
+}
+
+.itemCreator input, button {
+  border-radius: 4px 4px 0px 0px;
+ }

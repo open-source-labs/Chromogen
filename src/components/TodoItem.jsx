@@ -1,15 +1,14 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { todoListState } from '../store/atoms';
+import { todoListState } from '../store/store';
 import '../styles/styles.css';
-
 
 function replaceItemAtIndex(arr, index, newValue) {
   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
 }
 
 function removeItemAtIndex(arr, index) {
-  return [arr.slice(0, index), ...arr.slice(index + 1)];
+  return [...arr.slice(0, index), ...arr.slice(index + 1)];
 }
 
 const TodoItem = ({ item }) => {
@@ -33,7 +32,7 @@ const TodoItem = ({ item }) => {
   const deleteItem = () => {
     const newList = removeItemAtIndex(todoList, index);
     setTodoList(newList);
-  }
+  };
   return (
     <div className="itemContainer">
       <input type="text" value={item.text} onChange={editItemText} />
@@ -44,10 +43,10 @@ const TodoItem = ({ item }) => {
         type="checkbox"
         onChange={toggleItemCompletion}
       />
-      <button type="submit" onClick={deleteItem}>X</button>
+      <button type="submit" onClick={deleteItem}>
+        X
+      </button>
     </div>
   );
 };
 export default TodoItem;
-
-
