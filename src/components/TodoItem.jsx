@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import Checkbox from '@material-ui/core/Checkbox';
 import { todoListState } from '../store/store';
 import '../styles/styles.css';
 
@@ -33,19 +34,23 @@ const TodoItem = ({ item }) => {
     const newList = removeItemAtIndex(todoList, index);
     setTodoList(newList);
   };
+
+  const checkBoxClasses = {
+    low: 'lowPriority',
+    medium: 'mediumPriority',
+    high: 'highPriority'
+  };
+
   return (
-    <div className="itemContainer">
+    <div className={checkBoxClasses[item.priority]}>
       <input type="text" value={item.text} onChange={editItemText} />
-      <label className="checkbox-label">
-        <input
-          checked={item.isComplete}
-          className="checkbox"
-          id="checkbox"
-          type="checkbox"
-          onClick={toggleItemCompletion}
-        />{' '}
-        <span className="checkbox-custom" />
-      </label>
+      <Checkbox
+        disableRipple
+        checked={item.isComplete}
+        color="default"
+        inputProps={{ 'aria-label': 'primary checkbox' }}
+        onChange={toggleItemCompletion}
+      />
       <button type="submit" onClick={deleteItem}>
         X
       </button>

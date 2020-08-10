@@ -14,6 +14,20 @@ html {
   background-color: rgb(63, 63, 63);
   box-shadow: 0px 0px 35px 10px rgba(0, 0, 0, 0.171);
 }
+.highPriority svg {
+  color: #ef5350;
+  opacity: .70;
+
+}
+.mediumPriority svg {
+  color: #ffee58;
+  opacity: .70;
+
+}
+.lowPriority svg {
+  color: #66bb6a;
+  opacity: .70;
+}
 h1 {
   text-align: center;
   font-size: 2.3rem;
@@ -55,7 +69,7 @@ ul button {
   width: 33.33%;
   border-radius: 0px 0px 4px 4px;
 }
-.itemContainer {
+.itemContainer, .lowPriority, .mediumPriority, .highPriority {
   display: grid;
   grid-template-columns: 60fr 20fr 20fr;
   border-bottom: 1px solid rgba(245, 245, 245, 0.336);
@@ -75,46 +89,31 @@ input::placeholder {
   letter-spacing: 1.5px;
 
 }
-.checkbox {
-  opacity: 0;
-  cursor: pointer;
-  position: absolute;
-}
-
- .checkbox-label {
-  margin: auto auto;
-  height: 24px;
-  width: 24px;
-  background-color: transparent;
-  border-radius: 5px;
-  border: 2px solid white;
-}
-/* .checkbox:active, .checkbox:checked:active {
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
-}
-.checkbox:checked {
-  content: '\2713\0020';
-	background-color: #e9ecee;
-	border: 1px solid #adb8c0;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-	color: #0c4e81;
-} */
 
 button span {
   opacity: .60;
 }
 
 .itemCreator button {
-  width: 15%;
   padding: 0px;
   height: 60px;
 }
+
 .itemCreator input {
   padding: 0 0 0 5%;
-  width: 80%;
+  width: 70%;
   height: 60px;
 }
 
 .itemCreator input, button {
   border-radius: 4px 4px 0px 0px;
  }
+
+ #radioDiv svg {
+  margin-top: 11px;
+  opacity: .70;
+ }
+/* 
+ .MuiCheckbox-root:hover {
+  background-color: transparent;
+ } */
