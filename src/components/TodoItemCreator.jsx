@@ -76,7 +76,7 @@ const TodoItemCreator = () => {
         value={inputValue}
         onChange={onChange}
       />
-      <span id="radioDiv">
+      <span id="radioContainer">
         <FormControl component="fieldset">
           <FormLabel color="secondary" component="label" />
           <RadioGroup

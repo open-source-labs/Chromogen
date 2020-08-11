@@ -1,3 +1,4 @@
+/* -------------General Styles---------------- */
 html {
   margin: 0;
   background-color: rgb(48, 48, 48);
@@ -26,34 +27,35 @@ input, button, select {
 button:focus {
   outline: none;
 }
-
 input:focus {
   outline: none;
 }
-/* overall containera for todo list + buttons display */
-.listRow {
-  margin: 0 auto;
-  width: 700px;
-}
-
-.listContainer {
+/* topmost container */
+.mainContainer {
   display: grid;
   height: 100vh;
   width: 100vw;
   grid-template-rows: 15fr 33fr 33fr;
 }
+/* overall row container for todo list display */
+.todosDisplayRow {
+  margin: 0 auto;
+  width: 700px;
+}
+
 /* container for entire list display */
-.itemsContainer {
+.todosContainer {
   background-color: rgb(63, 63, 63);
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 10px 0 10px;
 }
+
+/* -------------TodoItemCreator---------------- */
 
 /* add item elements */
 .itemCreator button {
   padding: 0px;
-  height: 60px;
 }
 
 input::placeholder {
@@ -67,14 +69,11 @@ input::placeholder {
   height: 60px;
 }
 
-.itemCreator input, button {
-  border-radius: 4px 4px 0px 0px;
- }
-
- #radioDiv svg {
+ #radioContainer svg {
   margin-top: 11px;
   opacity: .70;
  }
+/* -------------TodoItem---------------- */
 
 /* dynamic checkbox color */
 .itemContainer, .lowPriority, .mediumPriority, .highPriority {
@@ -101,7 +100,8 @@ input::placeholder {
 #todoItem button {
   margin-left: 7px;
 }
-/* row of filter/sort options  */
+
+/* -------------TodoListFilter---------------- */
 ul {
   display: inline-flex;
   margin: 0;
@@ -112,14 +112,19 @@ ul .filter-button {
   width: 30%;
   border-radius: 0px 0px 4px 4px;
 }
-
+.filter-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-right: 1px solid rgba(143, 143, 143, 0.26);
+  padding: 10px 20px;
+}
 #sortedWhite svg {
   color: whitesmoke;
 }
+
 #unsortedGray svg {
   color: rgba(245, 245, 245, 0.336);
 }
-
 
 /* filter stats (number) */
 button span {

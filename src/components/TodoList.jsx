@@ -10,13 +10,13 @@ const TodoList = () => {
   const todoList = useRecoilValue(sortedTodoListState);
 
   return (
-    <div className="listContainer">
+    <div className="mainContainer">
       <div className="row" />
       {/* <TodoListStats /> */}
-      <div className="row listRow">
+      <div className="row todosDisplayRow">
         <h1>Totally Todos!</h1>
     
-        <div className="itemsContainer">
+        <div className="todosContainer">
         <TodoItemCreator />
         {todoList.map((todoItem) => (
           <TodoItem key={todoItem.id} item={todoItem} />

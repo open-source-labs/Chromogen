@@ -10,23 +10,20 @@ const TodoListFilters = () => {
   const { totalNum, totalCompletedNum, totalUncompletedNum } = useRecoilValue(
     todoListStatsState,
   );
-  const updateFilter = ({ target: { value } }) => {
-    console.log(value);
-    setFilter(value);
-  };
-
-  const changeSort = () => {
-    console.log(sort);
-    setSort(!sort);
-  };
+  const updateFilter = ({ target: { value } }) => setFilter(value);
+  
+  const toggleSort = () => setSort(!sort);
+  
   const sortIconColor = {
     true: 'sortedWhite',
     false: 'unsortedGray'
-  }
+  };
+
   return (
     <ul>
       <button
         className="filter-button"
+        id="filterBtn1"
         style={{ color: filter === 'Show All' ? '#af6358' : 'whitesmoke' }}
         type="submit"
         value="Show All"
@@ -37,12 +34,13 @@ const TodoListFilters = () => {
 
       <button
         className="filter-button"
+        id="filterBtn2"
         style={{ color: filter === 'Show Uncompleted' ? '#af6358' : 'whitesmoke' }}
         type="submit"
         value="Show Uncompleted"
         onClick={updateFilter}
       >
-        Uncompleted <span>{totalUncompletedNum || ''}</span>
+        Active <span>{totalUncompletedNum || ''}</span>
       </button>
 
       <button
@@ -52,9 +50,9 @@ const TodoListFilters = () => {
         value="Show Completed"
         onClick={updateFilter}
       >
-        Completed <span>{totalCompletedNum || ''}</span>
+        Complete <span>{totalCompletedNum || ''}</span>
       </button>
-      <button id={sortIconColor[sort]} type="submit" onClick={changeSort}>
+      <button id={sortIconColor[sort]} type="submit" onClick={toggleSort}>
         <SortIcon/>
       </button>
     </ul>
