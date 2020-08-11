@@ -5,6 +5,7 @@ html {
   color: whitesmoke;
   font-family: 'Palanquin', sans-serif;
 }
+
 h1 {
   text-align: center;
   font-size: 2.3rem;
@@ -30,6 +31,8 @@ button:focus {
 input:focus {
   outline: none;
 }
+/* ------------TodoList------------- */
+
 /* topmost container */
 .mainContainer {
   display: grid;
@@ -48,12 +51,11 @@ input:focus {
   background-color: rgb(63, 63, 63);
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
-  padding: 5px 10px 0 10px;
+  padding: 5px 12px 0 12px;
 }
 
 /* -------------TodoItemCreator---------------- */
 
-/* add item elements */
 .itemCreator button {
   padding: 0px;
 }
@@ -73,15 +75,16 @@ input::placeholder {
   margin-top: 11px;
   opacity: .70;
  }
+
 /* -------------TodoItem---------------- */
 
-/* dynamic checkbox color */
+
 .itemContainer, .lowPriority, .mediumPriority, .highPriority {
   display: grid;
   grid-template-columns: 79fr 14fr 7fr;
   border-bottom: 1px solid rgba(245, 245, 245, 0.336);
 }
-
+/* dynamic checkbox color */
 .highPriority svg {
   color: #ef5350;
   opacity: .70;
@@ -118,14 +121,13 @@ ul .filter-button {
   border-right: 1px solid rgba(143, 143, 143, 0.26);
   padding: 10px 20px;
 }
+/* dynamic sort icon color */
 #sortedWhite svg {
   color: whitesmoke;
 }
-
 #unsortedGray svg {
   color: rgba(245, 245, 245, 0.336);
 }
-
 /* filter stats (number) */
 button span {
   opacity: .60;
