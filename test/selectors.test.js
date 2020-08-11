@@ -1,9 +1,9 @@
 import { renderRecoilHook } from 'react-recoil-hooks-testing-library';
 import { todoListState, todoListFilterState, filteredTodoListState } from '../src/store/store';
 
-
+// using react testing library alone might make more sense
 test('filteredTodoListState should correctly derive state', () => {
-  // first arg is callback function (the hook to be tested)
+  // first arg needs to be custom hook
   const { result } = renderRecoilHook(() => filteredTodoListState, {
     states: [
       {
@@ -17,5 +17,5 @@ test('filteredTodoListState should correctly derive state', () => {
     ],
   });
 
-  expect([result.current]).toBe(0);
+  expect(result.current).toBe(0);
 });

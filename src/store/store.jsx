@@ -1,15 +1,16 @@
 import { atom, selector } from 'recoil';
 
+/* unsorted, unfiltered todo list */
 const todoListState = atom({
   key: 'todoListState',
-  default: [],
+  default: [], // array of objects - each object has id, text, isComplete, and priority props
 });
-
+/* filter select */
 const todoListFilterState = atom({
   key: 'todoListFilterState',
   default: 'Show All',
 });
-
+/* toggle sort */
 const todoListSortState = atom({
   key: 'todoListSortState',
   default: false,
@@ -17,7 +18,7 @@ const todoListSortState = atom({
 
 /* ----- SELECTORS ---- */
 
-/* selector that gets two atoms */
+/* filtered todo list */
 const filteredTodoListState = selector({
   key: 'filteredTodoListState',
   get: ({ get }) => {
@@ -34,7 +35,7 @@ const filteredTodoListState = selector({
     }
   },
 });
-/* selector that gets another selector */
+/* sorted todo list */
 const sortedTodoListState = selector({
   key: 'sortedTodoListState',
   get: ({ get }) => {
@@ -46,18 +47,18 @@ const sortedTodoListState = selector({
     return sort === false ? list : [...high, ...medium, ...low];
   },
 });
-/* selector that gets another selector */
+/* priority stats */
 const todoListSortedStats = selector({
   key: 'todoListSortedStats',
   get: ({ get }) => {
-    const list = get(sortedTodoListState);
+    const list = get(sortedTodoListState); 
     return list.reduce((acc, cv) => {
       acc[cv.priority] = cv.priority in acc ? acc[cv.priority] + 1 : 1;
       return acc;
     }, {});
   },
 });
-/* selector that gets an atom */
+/* completion (filter) stats */
 const todoListStatsState = selector({
   key: 'todoListStatsState',
   get: ({ get }) => {
