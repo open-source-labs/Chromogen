@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SortIcon from '@material-ui/icons/Sort';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { todoListFilterState, todoListStatsState, todoListSortState } from '../store/store';
+import {
+  todoListFilterState,
+  todoListStatsState,
+  todoListSortState,
+  todoListSortedStats,
+} from '../store/store';
 
 const TodoListFilters = () => {
   const [filter, setFilter] = useRecoilState(todoListFilterState);
-  const [sort, setSort] = useRecoilState(todoListSortState); // need to ddefine this
-
-  const { totalNum, totalCompletedNum, totalUncompletedNum } = useRecoilValue(
-    todoListStatsState,
-  );
+  const { high, medium, low } = useRecoilValue(todoListSortedStats);
+  const [sort, setSort] = useRecoilState(todoListSortState);
+  const [displayStats, setDisplayStats] = useState(false);
+  const { totalNum, totalCompletedNum, totalUncompletedNum } = useRecoilValue(todoListStatsState);
   const updateFilter = ({ target: { value } }) => setFilter(value);
-  
+
   const toggleSort = () => setSort(!sort);
-  
+  const toggleDisplayStats = () => setDisplayStats(!displayStats);
+
   const sortIconColor = {
     true: 'sortedWhite',
-    false: 'unsortedGray'
+    false: 'unsortedGray',
   };
 
   return (
@@ -31,7 +37,6 @@ const TodoListFilters = () => {
       >
         All <span> {totalNum || ''}</span>
       </button>
-
       <button
         className="filter-button"
         id="filterBtn2"
@@ -42,7 +47,6 @@ const TodoListFilters = () => {
       >
         Active <span>{totalUncompletedNum || ''}</span>
       </button>
-
       <button
         className="filter-button"
         style={{ color: filter === 'Show Completed' ? '#af6358' : 'whitesmoke' }}
@@ -53,7 +57,19 @@ const TodoListFilters = () => {
         Complete <span>{totalCompletedNum || ''}</span>
       </button>
       <button id={sortIconColor[sort]} type="submit" onClick={toggleSort}>
-        <SortIcon/>
+        <SortIcon />
+      </button>
+
+      <button id="unsortedGray" type="submit" onClick={toggleDisplayStats}>
+        {displayStats && totalNum ? (
+          <span id="statsSpan">
+            <span id="highSpan">{high || 0}</span>
+            <span id="mediumSpan">{medium || 0}</span>
+            <span id="lowSpan">{low || 0}</span>
+          </span>
+        ) : (
+          <EqualizerIcon />
+        )}
       </button>
     </ul>
   );

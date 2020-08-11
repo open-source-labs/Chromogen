@@ -15,6 +15,9 @@ const todoListSortState = atom({
   default: false,
 });
 
+/* ----- SELECTORS ---- */
+
+/* selector that gets two atoms */
 const filteredTodoListState = selector({
   key: 'filteredTodoListState',
   get: ({ get }) => {
@@ -31,7 +34,7 @@ const filteredTodoListState = selector({
     }
   },
 });
-
+/* selector that gets another selector */
 const sortedTodoListState = selector({
   key: 'sortedTodoListState',
   get: ({ get }) => {
@@ -44,6 +47,17 @@ const sortedTodoListState = selector({
   },
 });
 
+const todoListSortedStats = selector({
+  key: 'todoListSortedStats',
+  get: ({ get }) => {
+    const list = get(sortedTodoListState);
+    return list.reduce((acc, cv) => {
+      acc[cv.priority] = cv.priority in acc ? acc[cv.priority] + 1 : 1;
+      return acc;
+    }, {});
+  },
+});
+/* selector that gets an atom */
 const todoListStatsState = selector({
   key: 'todoListStatsState',
   get: ({ get }) => {
@@ -67,4 +81,5 @@ export {
   todoListStatsState,
   todoListSortState,
   sortedTodoListState,
+  todoListSortedStats,
 };

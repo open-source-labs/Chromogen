@@ -106,27 +106,44 @@ input::placeholder {
 
 /* -------------TodoListFilter---------------- */
 ul {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 25fr 25fr 25fr 12fr 12fr;
   margin: 0;
   padding: 0px;
   width: 100%;
-}
-ul .filter-button {
-  width: 30%;
-  border-radius: 0px 0px 4px 4px;
 }
 .filter-button {
   margin-top: 10px;
   margin-bottom: 10px;
   border-right: 1px solid rgba(143, 143, 143, 0.26);
   padding: 10px 20px;
+  border-radius: 0px 0px 4px 4px;
 }
 /* dynamic sort icon color */
 #sortedWhite svg {
   color: whitesmoke;
 }
-#unsortedGray svg {
+#unsortedGray svg, #statsSpan {
   color: rgba(245, 245, 245, 0.336);
+}
+#statsSpan {
+  display: grid;
+  grid-template-columns: 30fr 30fr 30fr;
+  align-items: center;
+}
+#highSpan {
+  color: #ef5350;
+  opacity: .70;
+  margin-right: 3px;
+}
+#mediumSpan {
+  color: #ffee58;
+  opacity: .70;
+  margin-right: 3px;
+}
+#lowSpan {
+  color: #66bb6a;
+  opacity: .70;
 }
 /* filter stats (number) */
 button span {
