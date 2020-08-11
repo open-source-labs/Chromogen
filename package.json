@@ -23,7 +23,6 @@
     "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
     "recoil": "0.0.10"
   },
   "devDependencies": {
@@ -40,9 +39,6 @@
     "mini-css-extract-plugin": "^0.10.0",
     "react-test-renderer": "^16.13.1",
     "source-map-loader": "^1.0.1",
-    "typescript": "^3.9.7",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "typescript": "^3.9.7"
   }
 }
