@@ -46,7 +46,7 @@ const sortedTodoListState = selector({
     return sort === false ? list : [...high, ...medium, ...low];
   },
 });
-
+/* selector that gets another selector */
 const todoListSortedStats = selector({
   key: 'todoListSortedStats',
   get: ({ get }) => {

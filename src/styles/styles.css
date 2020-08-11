@@ -78,7 +78,6 @@ input::placeholder {
 
 /* -------------TodoItem---------------- */
 
-
 .itemContainer, .lowPriority, .mediumPriority, .highPriority {
   display: grid;
   grid-template-columns: 79fr 14fr 7fr;
