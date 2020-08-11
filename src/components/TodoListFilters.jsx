@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SortIcon from '@material-ui/icons/Sort';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   todoListFilterState,
@@ -70,6 +71,9 @@ const TodoListFilters = () => {
         ) : (
           <EqualizerIcon />
         )}
+      </button>
+      <button id='unsortedGray' type="submit">
+        <RefreshIcon />
       </button>
     </ul>
   );

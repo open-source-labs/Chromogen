@@ -75,6 +75,15 @@ const todoListStatsState = selector({
     };
   },
 });
+
+const refreshStatsState = selector({
+  key: 'refreshStatsState',
+  get: ({}) => {
+
+  }
+  set: ({set})
+})
+
 export {
   todoListState,
   todoListFilterState,
