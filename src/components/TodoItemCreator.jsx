@@ -25,7 +25,7 @@ const TodoItemCreator = () => {
       },
     ]);
     setInputValue('');
-    setPriorityValue('low')
+    setPriorityValue('low');
   };
 
   const onChange = ({ target: { value } }) => {

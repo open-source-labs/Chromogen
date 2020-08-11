@@ -12,7 +12,7 @@ const TodoList = () => {
   return (
     <div className="mainContainer">
       <div className="row" />
-      {/* <TodoListStats /> */}
+     
       <div className="row todosDisplayRow">
         <h1>Totally Todos!</h1>
     

@@ -12,7 +12,7 @@ test('filteredTodoListState should correctly derive state', () => {
       },
       {
         recoilState: todoListState,
-        initialValue: [{id: 0, test: 'make hamburgers', priority: 'high', isComplete: true}],
+        initialValue: [{ id: 0, test: 'make hamburgers', priority: 'high', isComplete: true }],
       },
     ],
   });
