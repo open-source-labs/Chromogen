@@ -1,11 +1,11 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { Provider } from '../../mock-package/Provider';
+import { ChromogenObserver } from '../../mock-package/index';
 import TodoList from './TodoList';
 
 const App = () => (
   <RecoilRoot>
-    <Provider />
+    <ChromogenObserver />
     <TodoList />
   </RecoilRoot>
 );

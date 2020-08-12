@@ -1,4 +1,4 @@
-import { atom, selector } from '../../mock-package/wrapper';
+import { atom, selector } from '../../mock-package/index';
 
 /* unsorted, unfiltered todo list */
 const todoListState = atom({
@@ -78,7 +78,7 @@ const todoListStatsState = selector({
 /* undo sort + filter */
 const refreshFilterState = selector({
   key: 'refreshFilterState',
-  get: ({ get }) => get(todoListState), // this line doesn't do anything but is required by selector syntax
+  get: null,
   set: ({ reset }) => {
     reset(todoListSortState);
     reset(todoListFilterState);
