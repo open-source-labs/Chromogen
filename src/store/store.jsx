@@ -51,7 +51,7 @@ const sortedTodoListState = selector({
 const todoListSortedStats = selector({
   key: 'todoListSortedStats',
   get: ({ get }) => {
-    const list = get(sortedTodoListState); 
+    const list = get(sortedTodoListState);
     return list.reduce((acc, cv) => {
       acc[cv.priority] = cv.priority in acc ? acc[cv.priority] + 1 : 1;
       return acc;
