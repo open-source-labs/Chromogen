@@ -106,7 +106,7 @@ input::placeholder {
 /* -------------TodoListFilter---------------- */
 ul {
   display: grid;
-  grid-template-columns: 25fr 25fr 25fr 12fr 12fr;
+  grid-template-columns: 27fr 27fr 27fr 6fr 6fr 6fr;
   margin: 0;
   padding: 0px;
   width: 100%;
@@ -122,9 +122,13 @@ ul {
 #sortedWhite svg {
   color: whitesmoke;
 }
-#unsortedGray svg, #statsSpan {
+#unsortedGray svg {
   color: rgba(245, 245, 245, 0.336);
 }
+#unsortedGray {
+  width: 64px;
+}
+
 #statsSpan {
   display: grid;
   grid-template-columns: 30fr 30fr 30fr;
@@ -133,12 +137,12 @@ ul {
 #highSpan {
   color: #ef5350;
   opacity: .70;
-  margin-right: 3px;
+  margin-right: 4px;
 }
 #mediumSpan {
   color: #ffee58;
   opacity: .70;
-  margin-right: 3px;
+  margin-right: 4px;
 }
 #lowSpan {
   color: #66bb6a;
