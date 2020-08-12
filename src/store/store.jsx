@@ -75,6 +75,16 @@ const todoListStatsState = selector({
     };
   },
 });
+/* undo sort + filter */
+const refreshFilterState = selector({
+  key: 'refreshFilterState',
+  get: ({ get }) => get(todoListState), // this line doesn't do anything but is required by selector syntax
+  set: ({ reset }) => {
+    reset(todoListSortState);
+    reset(todoListFilterState);
+  },
+});
+
 export {
   todoListState,
   todoListFilterState,
@@ -83,4 +93,5 @@ export {
   todoListSortState,
   sortedTodoListState,
   todoListSortedStats,
+  refreshFilterState,
 };
