@@ -1,7 +1,7 @@
 {
-  "name": "catalyst",
+  "name": "chromogen",
   "version": "1.0.0",
-  "description": "npm package used to test on Recoiljs by keeping track of activities made by selectors.",
+  "description": "simple, interaction-driven test generator for Recoil apps",
   "main": "index.js",
   "scripts": {
     "start": "echo \"Error: no test specified\" && exit 1",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chenchingk/Catalyst.git"
+    "url": "https://github.com/oslabs-beta/Chromogen.git"
   },
-  "author": "csmith production team 7",
-  "license": "MIT",
+  "author": "chromogen team",
+  "license": "",
   "bugs": {
-    "url": "https://github.com/chenchingk/Catalyst/issues"
+    "url": "https://github.com/oslabs-beta/Chromogenissues"
   },
-  "homepage": "https://github.com/chenchingk/Catalyst#readme",
+  "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
   "dependencies": {
     "@types/jest": "^26.0.9",
     "@types/node": "^14.0.27",
@@ -26,6 +26,7 @@
     "recoil": "0.0.10"
   },
   "devDependencies": {
+    "@btmills/prettier": "^2.0.5",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -33,6 +34,14 @@
     "@types/react-dom": "^16.9.8",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^4.2.1",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.5",
+    "eslint-plugin-react-hooks": "^4.0.0",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^26.3.0",
     "jest-expo": "^38.0.2",
