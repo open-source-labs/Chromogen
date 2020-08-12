@@ -7,6 +7,7 @@ import {
   sortedTodoListState,
   todoListSortedStats,
   todoListStatsState,
+  refreshFilterState,
 } from '../src/store/store';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 
@@ -48,6 +49,7 @@ const useStoreHook = () => {
   const sortedTodoList = useRecoilValue(sortedTodoListState);
   const todoListSortStats = useRecoilValue(todoListSortedStats);
   const todoListStats = useRecoilValue(todoListStatsState);
+  const [refreshFilter, setRefreshFilter] = useRecoilValue(refreshFilterState);
 
   return {
     todoList,
@@ -60,6 +62,8 @@ const useStoreHook = () => {
     sortedTodoList,
     todoListSortStats,
     todoListStats,
+    refreshFilter,
+    setRefreshFilter,
   };
 };
 
