@@ -18,6 +18,7 @@
     "@testing-library/react-hooks": "^3.4.1",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.2.1",
+    "identity-obj-proxy": "^3.0.0",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
@@ -37,5 +38,10 @@
     "react-recoil-hooks-testing-library": "0.0.8",
     "react-test-renderer": "^16.13.1",
     "recoil": "0.0.10"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
   }
 }

@@ -45,11 +45,12 @@ const useStoreHook = () => {
     todoListFilterState
   );
   const [todoListSort, setTodoListSort] = useRecoilState(todoListSortState);
+
   const filteredTodoList = useRecoilValue(filteredTodoListState);
   const sortedTodoList = useRecoilValue(sortedTodoListState);
   const todoListSortStats = useRecoilValue(todoListSortedStats);
   const todoListStats = useRecoilValue(todoListStatsState);
-  const [refreshFilter, setRefreshFilter] = useRecoilValue(refreshFilterState);
+  const [refreshFilter, setRefreshFilter] = useRecoilState(refreshFilterState);
 
   return {
     todoList,
