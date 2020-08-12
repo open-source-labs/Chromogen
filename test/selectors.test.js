@@ -35,7 +35,6 @@ import {
 //   expect(result.current).toBe(0);
 // });
 
-
 /* Hook to return atom/selector values and/or modifiers 
 for react-recoil-hooks-testing-library */
 
@@ -74,7 +73,6 @@ const useStoreHook = () => {
   };
 };
 
-
 /* Initial state tests require:  
   1. name/key of atom (used in string passed as first arg to 'test()')
   2. label for read state value (prop on result.current, passed as arg to expect())
@@ -111,7 +109,8 @@ test('todoListState should update correctly', () => {
     ]);
   });
 
-  expect(result.current.todoList).toStrictEqual([ // also need to spread out initial state here
+  expect(result.current.todoList).toStrictEqual([
+    // also need to spread out initial state here
     {
       id: 0,
       test: 'make hamburgers',
@@ -120,8 +119,21 @@ test('todoListState should update correctly', () => {
     },
   ]);
 });
-/* Selector tests require:  
+
+/* Selector tests flow:
+    1. render the custom store hook
+    2. for every get() atom or selector referenced by the selector being tested, 
+        set that atom/selector state to the PRIOR state we captured via our wrapper fn/shadower methods
+        *this may be the default value – 
+        ... if it is, we don't need to call the setter on that piece of state
+        ... but it can't hurt
+    3. mock the state change that triggered the selector
+         i.e. call setter function on the get() atom/selector
+
+   requires:  
   1. name/key of selector (used in string passed as first arg to 'test()')
+  2. names/keys of atoms and selectors returned by selector's get() method
+  3. label for state setter fn for each get() atom/selector (used in act())
   ...
 */
 test('filteredTodoState should update correctly', () => {
@@ -129,6 +141,7 @@ test('filteredTodoState should update correctly', () => {
 
   act(() => {
     result.current.setTodoList([
+      // sets state of atom returned by selector's get() with prior stata
       ...result.current.todoList,
       {
         id: 0,
@@ -138,15 +151,15 @@ test('filteredTodoState should update correctly', () => {
       },
     ]);
   });
-
+  /* setting todoListFilterState to PRIOR value is unneccessary in this example bc it's value === default value */
   act(() => {
-    result.current.setTodoListFilter('Show Uncompleted');
+    result.current.setTodoListFilter('Show Uncompleted'); // mock the state change that triggered the selector
   });
 
   expect(result.current.filteredTodoList).toStrictEqual([]);
 
   act(() => {
-    result.current.setTodoListFilter('Show Completed');
+    result.current.setTodoListFilter('Show Completed'); // sets state of atom returned by selector's get()
   });
 
   expect(result.current.filteredTodoList).toStrictEqual([
@@ -158,5 +171,3 @@ test('filteredTodoState should update correctly', () => {
     },
   ]);
 });
-
-
