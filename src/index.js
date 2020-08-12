@@ -1,3 +1,3 @@
-export default {
+exports.testObj = {
   bestModule: 'chromogen',
 };

@@ -1,8 +1,8 @@
 {
   "name": "chromogen",
-  "version": "1.0.1",
+  "version": "1.0.12",
   "description": "simple, interaction-driven test generator for Recoil apps",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "echo \"Error: no test specified\" && exit 1",
     "test": "jest"
