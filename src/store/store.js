@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom, selector } from '../../mock-package/wrapper';
 
 /* unsorted, unfiltered todo list */
 const todoListState = atom({
