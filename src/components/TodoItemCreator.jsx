@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { green, yellow, red } from '@material-ui/core/colors';
@@ -8,6 +9,13 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import { useSetRecoilState } from 'recoil';
 import { todoListState } from '../store/store';
+
+// utility for creating unique Id
+let id = 0;
+const getId = () => {
+  id += 1;
+  return id;
+};
 
 const TodoItemCreator = () => {
   const [inputValue, setInputValue] = useState('');
@@ -101,7 +109,3 @@ const TodoItemCreator = () => {
 };
 
 export default TodoItemCreator;
-
-// utility for creating unique Id
-let id = 0;
-const getId = () => id++;

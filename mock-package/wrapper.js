@@ -27,7 +27,7 @@ export const selector = (config) => {
   const newSelector = recoilSelector({ key, get: getter, set: setter });
 
   // Add tracking data for created selector to selectors array
-  selectors.push({calls, key, newSelector});
+  selectors.push({ calls, key, newSelector });
 
   // Return the normal selector out to the app
   return newSelector;

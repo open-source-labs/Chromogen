@@ -1,4 +1,5 @@
 import { renderRecoilHook, act } from 'react-recoil-hooks-testing-library';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import {
   todoListState,
   todoListFilterState,
@@ -9,7 +10,6 @@ import {
   todoListStatsState,
   refreshFilterState,
 } from '../src/store/store';
-import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 
 // using react testing library alone might make more sense
 // test('filteredTodoListState should correctly derive state', () => {
@@ -41,9 +41,7 @@ for react-recoil-hooks-testing-library */
 
 const useStoreHook = () => {
   const [todoList, setTodoList] = useRecoilState(todoListState);
-  const [todoListFilter, setTodoListFilter] = useRecoilState(
-    todoListFilterState
-  );
+  const [todoListFilter, setTodoListFilter] = useRecoilState(todoListFilterState);
   const [todoListSort, setTodoListSort] = useRecoilState(todoListSortState);
 
   const filteredTodoList = useRecoilValue(filteredTodoListState);

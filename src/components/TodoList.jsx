@@ -12,18 +12,17 @@ const TodoList = () => {
   return (
     <div className="mainContainer">
       <div className="row" />
-     
+
       <div className="row todosDisplayRow">
         <h1>Totally Todos!</h1>
-    
-        <div className="todosContainer">
-        <TodoItemCreator />
-        {todoList.map((todoItem) => (
-          <TodoItem key={todoItem.id} item={todoItem} />
-        ))}
-           <TodoListFilters />
-        </div>
 
+        <div className="todosContainer">
+          <TodoItemCreator />
+          {todoList.map((todoItem) => (
+            <TodoItem key={todoItem.id} item={todoItem} />
+          ))}
+          <TodoListFilters />
+        </div>
       </div>
       <div className="row" />
     </div>

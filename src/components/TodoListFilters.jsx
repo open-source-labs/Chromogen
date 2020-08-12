@@ -30,8 +30,8 @@ const TodoListFilters = () => {
   const reset = () => {
     setDisplayStats(false); // displayStats is local state
     resetFilters();
-  }
-  
+  };
+
   const sortIconColor = {
     true: 'sortedWhite',
     false: 'unsortedGray',
