@@ -3,6 +3,10 @@ import {
   todoListState,
   todoListFilterState,
   filteredTodoListState,
+  todoListSortState,
+  sortedTodoListState,
+  todoListSortedStats,
+  todoListStatsState,
 } from '../src/store/store';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 
@@ -31,51 +35,52 @@ import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 //   expect(result.current).toBe(0);
 // });
 
-/* Hooks to return atom/selector values and/or modifiers 
+/* Hook to return atom/selector values and/or modifiers 
 for react-recoil-hooks-testing-library */
 
-const getTodoListAtom = () => useRecoilState(todoListState);
-
-const getTodoListFilterStateAtom = () => useRecoilState(todoListFilterState);
-
-const getFilteredTodoListStateSelector = () =>
-  useRecoilValue(filteredTodoListState);
-
-const useFilteredTodoListState = () => {
+const useStoreHook = () => {
   const [todoList, setTodoList] = useRecoilState(todoListState);
   const [todoListFilter, setTodoListFilter] = useRecoilState(
     todoListFilterState
   );
+  const [todoListSort, setTodoListSort] = useRecoilState(todoListSortState);
   const filteredTodoList = useRecoilValue(filteredTodoListState);
+  const sortedTodoList = useRecoilValue(sortedTodoListState);
+  const todoListSortStats = useRecoilValue(todoListSortedStats);
+  const todoListStats = useRecoilValue(todoListStatsState);
 
   return {
     todoList,
     setTodoList,
     todoListFilter,
     setTodoListFilter,
+    todoListSort,
+    setTodoListSort,
     filteredTodoList,
+    sortedTodoList,
+    todoListSortStats,
+    todoListStats,
   };
 };
 
 /* ----------- Tests ----------- */
 
 test('todoListState should initialize correctly', () => {
-  const { result } = renderRecoilHook(getTodoListAtom);
-  expect(result.current[0]).toStrictEqual([]);
+  const { result } = renderRecoilHook(useStoreHook);
+  expect(result.current.todoList).toStrictEqual([]);
 });
 
 test('filteredToDoListState should initialize correctly', () => {
-  const { result } = renderRecoilHook(getFilteredTodoListStateSelector);
-  expect(result.current).toStrictEqual([]);
+  const { result } = renderRecoilHook(useStoreHook);
+  expect(result.current.filteredTodoList).toStrictEqual([]);
 });
 
 test('todoListState should update correctly', () => {
-  const { result } = renderRecoilHook(getTodoListAtom);
-  let [todoList, setTodoList] = result.current;
+  const { result } = renderRecoilHook(useStoreHook);
 
   act(() => {
-    setTodoList([
-      ...todoList,
+    result.current.setTodoList([
+      ...result.current.todoList,
       {
         id: 0,
         test: 'make hamburgers',
@@ -84,9 +89,8 @@ test('todoListState should update correctly', () => {
       },
     ]);
   });
-  [todoList, setTodoList] = result.current;
 
-  expect(todoList).toStrictEqual([
+  expect(result.current.todoList).toStrictEqual([
     {
       id: 0,
       test: 'make hamburgers',
@@ -97,52 +101,7 @@ test('todoListState should update correctly', () => {
 });
 
 test('filteredTodoState should update correctly', () => {
-  const todoListAtomResult = renderRecoilHook(getTodoListAtom).result;
-  const [todoList, setTodoList] = todoListAtomResult.current;
-
-  const todoListFilterStateResult = renderRecoilHook(getTodoListFilterStateAtom)
-    .result;
-  const [
-    todoListFilterState,
-    setTodoListFilterState,
-  ] = todoListFilterStateResult.current;
-
-  const filteredTodoListStateResult = renderRecoilHook(
-    getFilteredToDoListStateSelector
-  ).result;
-
-  act(() => {
-    setTodoList([
-      ...todoList,
-      {
-        id: 0,
-        test: 'make hamburgers',
-        priority: 'high',
-        isComplete: true,
-      },
-    ]);
-  });
-
-  act(() => {
-    setTodoListFilterState('Show Uncompleted');
-  });
-  expect(filteredTodoListStateResult.current).toStrictEqual([]);
-
-  act(() => {
-    setTodoListFilterState('Show Completed');
-  });
-  expect(filteredTodoListStateResult.current).toStrictEqual([
-    {
-      id: 0,
-      test: 'make hamburgers',
-      priority: 'high',
-      isComplete: true,
-    },
-  ]);
-});
-
-test('filteredTodoState should update correctly w/inclusive hook', () => {
-  const { result } = renderRecoilHook(useFilteredTodoListState);
+  const { result } = renderRecoilHook(useStoreHook);
 
   act(() => {
     result.current.setTodoList([
