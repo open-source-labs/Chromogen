@@ -1,52 +1,51 @@
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react';
 import {
   selector as recoilSelector,
   atom as recoilAtom,
   // eslint-disable-next-line camelcase
   useRecoilTransactionObserver_UNSTABLE,
 } from 'recoil';
+import output from './testString';
 
-// Snapshot arrays: updated by ChromogenObserver each transaction & accessed by injected getters
-let state = null;
+// ----- TESTING -----
+// Arrays used to compose test string
+const writeables = [];
+const readables = [];
+const snapshots = [];
+const initialRender = [];
 
-// ----- TESTING EXPORTS -----
-// Arrays of read/write or read-only atoms & selectors
-export const writeables = [];
-export const readables = [];
-
-// ----- SHADOW SELECTOR / ATOM CONSTRUCTORS -----
-// selector wrapper to be imported by app / store
+// ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 export const selector = (config) => {
-  // Extract properties from config object passed to in-app selector call
   const { key, get, set } = config;
 
   // Inject code to "get" method of selector
   const getter = get
     ? (...args) => {
         const newValue = get(...args);
-        console.log(
-          `${key} selector returned:`,
-          newValue,
-          '\n\nwhen run with the following state:\n',
-          state,
-        );
+        const len = snapshots.length;
+        if (len === 0) {
+          initialRender.push({ key, newValue });
+        } else {
+          snapshots[len - 1].selectors.push({ key, newValue });
+        }
         return newValue;
       }
     : null;
 
+  // Create new config object with inject getter
+  const newConfig = { key, get: getter };
+
   // Inject code to "set" method of selector (if defined)
-  const setter = set
-    ? (...args) => {
-        const message = `SET SELECTOR: ${key}`;
-        console.log(message);
-        return set(...args);
-      }
-    : null;
+  if (set) {
+    newConfig.set = (...args) => set(...args);
+  }
 
   // Create Recoil selector with injected properties
-  const newSelector = recoilSelector({ key, get: getter, set: setter });
+  const newSelector = recoilSelector(newConfig);
 
   // Add selector object to appropriate exportable array
-  if (setter !== null) {
+  if (set) {
     writeables.push(newSelector);
   } else {
     readables.push(newSelector);
@@ -56,7 +55,6 @@ export const selector = (config) => {
   return newSelector;
 };
 
-// atom wrapper to be imported by app / store
 export const atom = (config) => {
   const newAtom = recoilAtom(config);
   writeables.push(newAtom);
@@ -64,17 +62,37 @@ export const atom = (config) => {
 };
 
 // ----- TRANSACTION PROVIDER -----
+const style = {
+  display: 'block',
+  position: 'absolute',
+  top: '10px',
+  left: '10px',
+  margin: '0px',
+  padding: '0px',
+  height: '10px',
+  width: '10px',
+  backgroundColor: 'red',
+};
+
 // Provider component used to access state snapshots
 export const ChromogenObserver = () => {
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
-    console.log('\nTRANSACTION OCCURRED\n');
-    state = writeables.map((item) => {
+    // console.log('\nTRANSACTION OCCURRED\n');
+    const state = writeables.map((item) => {
       const { key } = item;
       const value = snapshot.getLoadable(item).contents;
       return { key, value };
     });
+    snapshots.push({ state, selectors: [] });
   });
 
-  // Nothing renders to DOM
-  return null;
+  // Renders test output button to DOM
+  return (
+    <button
+      aria-label="output test"
+      style={style}
+      type="button"
+      onClick={() => output(writeables, readables, snapshots, initialRender)}
+    />
+  );
 };
