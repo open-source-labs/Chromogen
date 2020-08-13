@@ -45,11 +45,7 @@ export const selector = (config) => {
   const newSelector = recoilSelector(newConfig);
 
   // Add selector object to appropriate exportable array
-  if (set) {
-    writeables.push(newSelector);
-  } else {
-    readables.push(newSelector);
-  }
+  readables.push(newSelector);
 
   // Return the normal selector out to the app
   return newSelector;
