@@ -1,0 +1,9 @@
+{
+
+  "name" : "Chromogen DevTool",
+  "version" : "0.1",
+  "manifest_version" : 2,
+  "description" : "DevTool panel for Chromogen, a UX-driven test generator for Recoil apps.",
+  "author" : "Chromgoen Team",
+  "devtools_page" : "devtools.html"
+}

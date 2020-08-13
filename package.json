@@ -4,6 +4,8 @@
   "description": "simple, interaction-driven test generator for Recoil apps",
   "scripts": {
     "start": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch",
     "test": "jest"
   },
   "repository": {
@@ -22,9 +24,18 @@
     "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "recoil": "0.0.10"
+    "recoil": "0.0.10",
+    "react-hot-loader": "^4.12.21"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
     "@btmills/prettier": "^2.0.5",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
