@@ -78,7 +78,7 @@ const todoListStatsState = selector({
 /* undo sort + filter */
 const refreshFilterState = selector({
   key: 'refreshFilterState',
-  get: null,
+  get: () => null,
   set: ({ reset }) => {
     reset(todoListSortState);
     reset(todoListFilterState);
