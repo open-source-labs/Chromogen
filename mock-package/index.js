@@ -6,8 +6,7 @@ import {
 } from 'recoil';
 
 // Snapshot arrays: updated by ChromogenObserver each transaction & accessed by injected getters
-let previousState = null;
-// let currentState = null;
+let state = null;
 
 // ----- TESTING EXPORTS -----
 // Arrays of read/write or read-only atoms & selectors
@@ -23,16 +22,21 @@ export const selector = (config) => {
   // Inject code to "get" method of selector
   const getter = get
     ? (...args) => {
-        const message = `GET SELECTOR: ${key}\n\nPrevious state: ${JSON.stringify(previousState)}`;
-        console.log(message);
-        return get(...args);
+        const newValue = get(...args);
+        console.log(
+          `${key} selector returned:`,
+          newValue,
+          '\n\nwhen run with the following state:\n',
+          state,
+        );
+        return newValue;
       }
     : null;
 
   // Inject code to "set" method of selector (if defined)
   const setter = set
     ? (...args) => {
-        const message = `SET SELECTOR: ${key}\n\nPrevious state: ${JSON.stringify(previousState)}`;
+        const message = `SET SELECTOR: ${key}`;
         console.log(message);
         return set(...args);
       }
@@ -60,21 +64,15 @@ export const atom = (config) => {
 };
 
 // ----- TRANSACTION PROVIDER -----
-// Map function for creating transaction state arrays
-const loadState = (snapshotVersion) => (item) => {
-  const { key } = item;
-  const value = snapshotVersion.getLoadable(item).contents;
-  return { key, value };
-};
-
 // Provider component used to access state snapshots
 export const ChromogenObserver = () => {
-  useRecoilTransactionObserver_UNSTABLE(({ snapshot, previousSnapshot }) => {
+  useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
     console.log('\nTRANSACTION OCCURRED\n');
-    const loadPrevious = loadState(previousSnapshot);
-    // const loadCurrent = loadState(snapshot);
-    previousState = writeables.map(loadPrevious).concat(readables.map(loadPrevious));
-    // currentState = writeables.map(loadCurrent).concat(readables.map(loadCurrent));
+    state = writeables.map((item) => {
+      const { key } = item;
+      const value = snapshot.getLoadable(item).contents;
+      return { key, value };
+    });
   });
 
   // Nothing renders to DOM
