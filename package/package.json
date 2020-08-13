@@ -1,9 +1,9 @@
 {
   "name": "chromogen",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "simple, interaction-driven test generator for Recoil apps",
+  "main": "src/index.js",
   "scripts": {
-    "start": "echo \"Error: no test specified\" && exit 1",
     "test": "jest"
   },
   "repository": {
@@ -19,7 +19,6 @@
   "dependencies": {
     "@types/jest": "^26.0.9",
     "@types/node": "^14.0.27",
-    "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "recoil": "0.0.10"
@@ -32,7 +31,6 @@
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
     "awesome-typescript-loader": "^5.2.1",
-    "css-loader": "^4.2.1",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -41,7 +39,6 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.0",
-    "html-webpack-plugin": "^4.3.0",
     "jest": "^26.3.0",
     "jest-expo": "^38.0.2",
     "mini-css-extract-plugin": "^0.10.0",
