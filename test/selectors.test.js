@@ -97,7 +97,8 @@ test('filteredToDoListState should initialize correctly', () => {
   4. argument with which setter fn can be invoked (we'd probably need to capture this w wrapper fn/method shadower)
   5. ? ^ *captured* prior state of atom to be updated 
 */
-test('todoListState should update correctly', () => { // 
+test('todoListState should update correctly', () => {
+  //
   const { result } = renderRecoilHook(useStoreHook);
 
   act(() => {
@@ -142,7 +143,8 @@ test('todoListState should update correctly', () => { //
   5. updated value of selector (arg passed to toStrictEqual())
 */
 
-test('filteredTodoState should update correctly', () => { // filteredTodoState gets todoListState and todoListFilterState (both atoms)
+test('filteredTodoState should update correctly', () => {
+  // filteredTodoState gets todoListState and todoListFilterState (both atoms)
   const { result } = renderRecoilHook(useStoreHook);
 
   act(() => {
@@ -157,7 +159,7 @@ test('filteredTodoState should update correctly', () => { // filteredTodoState g
       },
     ]);
   });
-  // **setting todoListFilterState to PRIOR value is unneccessary in this example bc it's value === default value 
+  // **setting todoListFilterState to PRIOR value is unneccessary in this example bc it's value === default value
   act(() => {
     result.current.setTodoListFilter('Show Uncompleted'); // mock the state change that triggered the selector
   });
@@ -168,7 +170,8 @@ test('filteredTodoState should update correctly', () => { // filteredTodoState g
     result.current.setTodoListFilter('Show Completed'); // mock the state change that triggered the selector
   });
 
-  expect(result.current.filteredTodoList).toStrictEqual([ // expect updated mock selector value to equal value we captured
+  expect(result.current.filteredTodoList).toStrictEqual([
+    // expect updated mock selector value to equal value we captured
     {
       id: 0,
       test: 'make hamburgers',

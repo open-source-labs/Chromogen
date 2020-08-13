@@ -5,7 +5,7 @@
   "main": "index.jsx",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "keywords": [],
   "author": "Michelle Holland",
