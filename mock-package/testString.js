@@ -31,42 +31,51 @@ const useStoreHook = () => {
   2. label for read state value (prop on result.current, passed as arg to expect())
   3. *captured* inital state value (arg passed to toStrictEqual())  
 */
-${initialRender.reduce(
-  (
-    initialTests,
-    { key, newValue },
-  ) => `${initialTests}test('${key} should initialize correctly', () => {
-    const { result } = renderRecoilHook(useStoreHook);
-    expect(result.current.${key}Value).toStrictEqual(${JSON.stringify(newValue)});
-  });\n\n`,
-  '',
-)}
+describe('INITIAL RENDER', () => { 
+  const { result } = renderRecoilHook(useStoreHook); 
+
+  ${initialRender.reduce(
+    (
+      initialTests,
+      { key, newValue },
+    ) => `${initialTests}it('${key} should initialize correctly', () => {
+      expect(result.current.${key}Value).toStrictEqual(${JSON.stringify(newValue)});
+    });\n\n`,
+    '',
+  )}
+});
+
+
 
 
 /* Test that selectors return the correct value for a given state */
-${snapshots.reduce(
-  (tests, { state, selectors }) =>
-    `${tests}test('selectorName should return correct value for a given state', () => {
-    const { result } = renderRecoilHook(useStoreHook);
 
-    act(() => {
-      ${state.reduce(
-        (initializers, { key, value }) =>
-          `${initializers}result.current.set${key}(${JSON.stringify(value)});\n\n`,
+describe('SELECTORS', () => {
+  ${snapshots.reduce(
+    (tests, { state, selectors }, index) =>
+      `${tests}it('State-${index + 1}', () => {
+      const { result } = renderRecoilHook(useStoreHook);
+  
+      act(() => {
+        ${state.reduce(
+          (initializers, { key, value }) =>
+            `${initializers}result.current.set${key}(${JSON.stringify(value)});\n\n`,
+          '',
+        )}
+      });
+  
+      ${selectors.reduce(
+        (assertions, { key, newValue }) =>
+          `${assertions}expect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
+            newValue,
+          )});\n\n`,
         '',
       )}
-    });
+    });\n\n`,
+    '',
+  )}
 
-    ${selectors.reduce(
-      (assertions, { key, newValue }) =>
-        `${assertions}expect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
-          newValue,
-        )});\n\n`,
-      '',
-    )}
-  });\n\n`,
-  '',
-)}
+})
 `);
 
 // PENDING TESTS
