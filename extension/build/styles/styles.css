@@ -1,0 +1,18 @@
+/* General styles */
+
+/* App.jsx */
+.App {
+  display: grid;
+  background-color: red;
+  grid-template-rows: 90fr 10fr;
+}
+
+
+/* Recorder.jsx */
+.recorder-div {
+  border: 5px solid red;
+}
+#recorderBtn {
+  background-color: gray;
+  width: 100%;
+}
