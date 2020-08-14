@@ -1,6 +1,6 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { ChromogenObserver } from '../../mock-package/index';
+import { ChromogenObserver } from 'chromogen';
 import TodoList from './TodoList';
 
 const App = () => (

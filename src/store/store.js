@@ -1,4 +1,4 @@
-import { atom, selector } from '../../mock-package/index';
+import { atom, selector } from 'chromogen';
 
 /* unsorted, unfiltered todo list */
 const todoListState = atom({
