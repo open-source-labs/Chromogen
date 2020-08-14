@@ -11,7 +11,7 @@
     "url": "https://github.com/oslabs-beta/Chromogen.git"
   },
   "author": "chromogen team",
-  "license": "",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/oslabs-beta/Chromogenissues"
   },
