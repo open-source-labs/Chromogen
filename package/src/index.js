@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   selector as recoilSelector,
   atom as recoilAtom,
@@ -82,13 +82,32 @@ export const ChromogenObserver = () => {
     snapshots.push({ state, selectors: [] });
   });
 
+  const [file, setFile] = useState(null);
+  useEffect(() => document.getElementById('chromogen-download').click(), [file]);
+
   // Renders test output button to DOM
   return (
-    <button
-      aria-label="output test"
-      style={style}
-      type="button"
-      onClick={() => output(writeables, readables, snapshots, initialRender)}
-    />
+    <div>
+      <button
+        aria-label="capture test"
+        style={style}
+        type="button"
+        onClick={() =>
+          setFile(
+            URL.createObjectURL(
+              new Blob([output(writeables, readables, snapshots, initialRender)]),
+            ),
+          )
+        }
+      />
+      <a
+        download="chromogen.test.js"
+        href={file}
+        id="chromogen-download"
+        style={{ display: 'none' }}
+      >
+        Download Test
+      </a>
+    </div>
   );
 };
