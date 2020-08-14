@@ -1,6 +1,6 @@
 {
-  "name": "chromogen",
-  "version": "1.0.15",
+  "name": "chromogen"npm p,
+  "version": "1.1.1",
   "description": "simple, interaction-driven test generator for Recoil apps",
   "main": "build/index.js",
   "scripts": {
