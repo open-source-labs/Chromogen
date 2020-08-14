@@ -63,6 +63,8 @@ describe('SELECTORS', () => {
   )}
 })`;
 
+export default output;
+
 // PENDING TESTS
 
 // /* * A little confused on this test - not sure if we are just testing our own setter fn?
@@ -153,5 +155,3 @@ describe('SELECTORS', () => {
 //     },
 //   ]);
 // });
-
-export default output;

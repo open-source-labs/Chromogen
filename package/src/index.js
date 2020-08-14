@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect } from 'react';
 import {
   selector as recoilSelector,
@@ -33,7 +32,7 @@ export const selector = (config) => {
       }
     : null;
 
-  // Create new config object with inject getter
+  // Create new config object with injected getter
   const newConfig = { key, get: getter };
 
   // Inject code to "set" method of selector (if defined)
@@ -44,7 +43,7 @@ export const selector = (config) => {
   // Create Recoil selector with injected properties
   const newSelector = recoilSelector(newConfig);
 
-  // Add selector object to appropriate exportable array
+  // Add selector object to "readables" array
   readables.push(newSelector);
 
   // Return the normal selector out to the app
@@ -73,19 +72,24 @@ const style = {
 // Provider component used to access state snapshots
 export const ChromogenObserver = () => {
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
-    // console.log('\nTRANSACTION OCCURRED\n');
+    // Map current snapshot to array of atom states
     const state = writeables.map((item) => {
       const { key } = item;
       const value = snapshot.getLoadable(item).contents;
       return { key, value };
     });
+
+    // Add current transaction snapshot to snapshots array
     snapshots.push({ state, selectors: [] });
   });
 
+  // File stores URL for generated test file Blob containing output() string
   const [file, setFile] = useState(null);
+
+  // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-download').click(), [file]);
 
-  // Renders test output button to DOM
+  // Render button to DOM for capturing test output, and creates invisible download link for test file
   return (
     <div>
       <button

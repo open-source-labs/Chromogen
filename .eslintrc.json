@@ -35,6 +35,7 @@
               "allowTemplateLiterals": false
           }
       ],
+      "react/jsx-filename-extension": ["off"],
       "react/function-component-definition": [
           "error",
           {
