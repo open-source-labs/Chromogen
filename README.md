@@ -1,5 +1,3 @@
 # Chromogen
 
-Test-generation tool for Recoil selectors
-
-A test npm for Recoil developers through monitoring the activities among the selectors.
+A UI-driven test-generation [package](https://www.npmjs.com/package/chromogen) for Recoil selectors.

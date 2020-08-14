@@ -1,9 +1,10 @@
 {
   "name": "chromogen",
-  "version": "1.0.13",
+  "version": "1.0.15",
   "description": "simple, interaction-driven test generator for Recoil apps",
-  "main": "src/index.js",
+  "main": "build/index.js",
   "scripts": {
+    "build": "webpack",
     "test": "jest"
   },
   "repository": {
@@ -11,7 +12,7 @@
     "url": "https://github.com/oslabs-beta/Chromogen.git"
   },
   "author": "chromogen team",
-  "license": "",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/oslabs-beta/Chromogenissues"
   },
@@ -24,26 +25,22 @@
     "recoil": "0.0.10"
   },
   "devDependencies": {
-    "@btmills/prettier": "^2.0.5",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
     "awesome-typescript-loader": "^5.2.1",
-    "eslint": "^7.2.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.20.5",
-    "eslint-plugin-react-hooks": "^4.0.0",
+    "babel-loader": "^8.1.0",
     "jest": "^26.3.0",
     "jest-expo": "^38.0.2",
-    "mini-css-extract-plugin": "^0.10.0",
     "react-test-renderer": "^16.13.1",
     "source-map-loader": "^1.0.1",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }
