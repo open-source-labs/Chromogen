@@ -3,8 +3,8 @@ const path = require('path');
 module.exports = {
   entry: {
     app: path.resolve(__dirname, './extension/app/index.jsx'),
-    // background: path.resolve(__dirname, './extension/background.js'),
-    // content: path.resolve(__dirname, './extension/contentScript.js'),
+    background: path.resolve(__dirname, './extension/background.js'),
+    content: path.resolve(__dirname, './extension/content.js'),
   },
   output: {
     path: path.join(__dirname, './extension/build/bundles'),

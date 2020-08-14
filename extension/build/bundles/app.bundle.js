@@ -97,17 +97,55 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Recorder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Recorder */ "./extension/app/Components/Recorder.jsx");
+
 
 
 var App = function App() {
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    // Create a connection to the background page
+    var backgroundPageConnection = chrome.runtime.connect({
+      name: 'panel'
+    }); // send tab ID to background page
+
+    backgroundPageConnection.postMessage({
+      name: 'init',
+      tabId: chrome.devtools.inspectedWindow.tabId
+    });
+  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     style: {
       color: 'white'
     }
-  }, "Hi from App.jsx!");
+  }, "Hi from App.jsx!", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Recorder__WEBPACK_IMPORTED_MODULE_1__["default"], null));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
+
+/***/ }),
+
+/***/ "./extension/app/Components/Recorder.jsx":
+/*!***********************************************!*\
+  !*** ./extension/app/Components/Recorder.jsx ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Recorder = function Recorder() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "recorderDiv"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "submit"
+  }, "Start recording!"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Recorder);
 
 /***/ }),
 
