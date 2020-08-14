@@ -97,7 +97,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Recorder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Recorder */ "./extension/app/Components/Recorder.jsx");
+/* harmony import */ var _Recorder_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Recorder.jsx */ "./extension/app/Components/Recorder.jsx");
 
 
 
@@ -113,11 +113,7 @@ var App = function App() {
       tabId: chrome.devtools.inspectedWindow.tabId
     });
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    style: {
-      color: 'white'
-    }
-  }, "Hi from App.jsx!", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Recorder__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Recorder_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], null));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -139,8 +135,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var Recorder = function Recorder() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "recorderDiv"
+    className: "recorder-div"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    id: "recorderBtn",
     type: "submit"
   }, "Start recording!"));
 };

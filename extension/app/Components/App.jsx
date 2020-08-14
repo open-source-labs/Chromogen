@@ -14,7 +14,8 @@ const App = () => {
     });
   }, []);
   return (
-    <div>
+    <div className="App">
+      <div className="row"> </div>
       <Recorder />
     </div>
   );

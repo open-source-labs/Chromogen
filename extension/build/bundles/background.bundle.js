@@ -94,7 +94,7 @@
 /***/ (function(module, exports) {
 
 /* 1. listens for events emitted by inspected page (including Chromogen module) 
-    2. communicates w contentScript.js
+    2. communicates w content.js
      3. communicates w devtools page (app)
       */
 var connections = {};
@@ -116,24 +116,23 @@ chrome.runtime.onConnect.addListener(function (port) {
 
     for (var key in connections) {
       if (connections[key] === port) {
-        delete conenctions[key];
+        delete connections[key];
         break;
       }
     }
   });
 }); // Listen for messages from Chromogen module (sent via contentscript)
-
-chrome.runtime.onMessage.addListener(function (msg, sender) {
-  // error handling
-  if (!sender.tab) return; // relay message to devTool instance
-
-  if (connections[tabId]) {
-    connections[tabId].postMessage({
-      action: 'hi',
-      payload: 'hey'
-    });
-  }
-});
+// chrome.runtime.onMessage.addListener((msg, sender) => {
+//   // error handling
+//   if (!sender.tab) return;
+//   // relay message to devTool instance
+//   if (connections[tabId]) {
+//     connections[tabId].postMessage({
+//       action: 'hi',
+//       payload: 'hey',
+//     });
+//   }
+// });
 
 /***/ })
 
