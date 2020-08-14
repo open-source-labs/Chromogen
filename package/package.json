@@ -1,9 +1,10 @@
 {
   "name": "chromogen",
-  "version": "1.0.13",
+  "version": "1.0.15",
   "description": "simple, interaction-driven test generator for Recoil apps",
-  "main": "src/index.js",
+  "main": "build/index.js",
   "scripts": {
+    "build": "webpack",
     "test": "jest"
   },
   "repository": {
@@ -11,7 +12,7 @@
     "url": "https://github.com/oslabs-beta/Chromogen.git"
   },
   "author": "chromogen team",
-  "license": "",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/oslabs-beta/Chromogenissues"
   },
