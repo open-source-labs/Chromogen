@@ -13,11 +13,9 @@
 
 <h3>A UI-driven test-generation package for <a href="</a>">Recoil</a> selectors.</h3>
 
-</div>
-
-<hr />
-
 # [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen) [![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen) [![Github starts](https://img.shields.io/github/stars/oslabs-beta/chromogen?style=social)](https://github.com/oslabs-beta/Chromogen)
+
+</div>
 
 ## Table of Contents
 
@@ -43,7 +41,7 @@ Testing for pre-composed, synchronous, read-only selectors is now fully function
 ## Installation
 
 To run Chromogen, you'll need to make two changes to your application:
-  1. Import the `<CromogenObserver />` component as a child of `<RecoilRoot />`
+  1. Import the `<ChromogenObserver />` component as a child of `<RecoilRoot />`
   2. Import all atoms and selectors from Chromogen instead of Recoil
 
 These changes do have a small performance cost, so they should be reverted before deploying to production.
@@ -130,7 +128,7 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Please note:** You may see `console.error` messages about updating a `Batcher` component. This is a [known issue](https://github.com/facebookexperimental/Recoil/issues/12) due to conflicts between the current releases of React and Recoil. Pending a Recoil update, we are working on a way to suppress this warning within the test suite.
 
 ## Contributing
-We welcome community contributions, including new developers who've never [made an open source Pull Request before](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github). If you'd like to start a new PR, we recommend [creating an issue](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue) for discussion first. This lets us open a conversation, ensuring work is not duplicated necessarily & that the proposed PR is a fix or feature we're actively looking to add.
+We welcome community contributions, including new developers who've never [made an open source Pull Request before](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github). If you'd like to start a new PR, we recommend [creating an issue](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue) for discussion first. This lets us open a conversation, ensuring work is not duplicated unnecessarily and that the proposed PR is a fix or feature we're actively looking to add.
 
 ### Bugs
 
@@ -148,13 +146,13 @@ For questions related to using the package, you may either file an issue or _gma
 ## Core Team
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/michellebholland"><img src="https://avatars3.githubusercontent.com/u/64747593" width="100px;" alt=""/><br /><sub><b>Michelle Holland</b></sub></a></td>
+    <td align="center"><a href="https://github.com/michellebholland"><img src="https://avatars3.githubusercontent.com/u/64747593" width="150px;" alt=""/><br /><sub><b>Michelle Holland</b></sub></a></td>
     <!-- SPACE -->
-    <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="100px;" alt=""/><br /><sub><b>Jim Chen</b></sub></a></td>
+    <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Jim Chen</b></sub></a></td>
     <!-- SPACE -->
-    <td align="center"><a href="https://github.com/andywang23"><img src="https://avatars1.githubusercontent.com/u/64433815" width="100px;" alt=""/><br /><sub><b>Andy Wang</b></sub></a></td>
+    <td align="center"><a href="https://github.com/andywang23"><img src="https://avatars1.githubusercontent.com/u/64433815" width="150px;" alt=""/><br /><sub><b>Andy Wang</b></sub></a></td>
     <!-- SPACE -->
-    <td align="center"><a href="https://github.com/connorrose"><img src="https://avatars1.githubusercontent.com/u/42079810" width="100px;" alt=""/><br /><sub><b>Connor Rose Delisle</b></sub></a></td>
+    <td align="center"><a href="https://github.com/connorrose"><img src="https://avatars1.githubusercontent.com/u/42079810" width="150px;" alt=""/><br /><sub><b>Connor Rose Delisle</b></sub></a></td>
   </tr>
   </table>
 
