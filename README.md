@@ -92,7 +92,7 @@ export const barState = selector({
 ```
 
 ## Usage
-After following the installation steps above, launch you app as you normally would. You should see two small dots in the top left corner.
+After following the installation steps above, launch your app as you normally would. You should see two small dots in the top left corner.
 
 ![Buttons](./assets/screenshots/README-buttons.png)
 
