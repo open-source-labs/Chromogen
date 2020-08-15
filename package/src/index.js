@@ -57,6 +57,7 @@ export const selector = (config) => {
 
 export const atom = (config) => {
   const newAtom = recoilAtom(config);
+  newAtom.default = config.default; // can't destructure default from config?
   writeables.push(newAtom);
   return newAtom;
 };
@@ -93,11 +94,19 @@ export const ChromogenObserver = () => {
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
     // Map current snapshot to array of atom states
-    if (recording) {
+    if (snapshot.getLoadable(recordingState).contents) {
       const state = writeables.map((item) => {
         const { key } = item;
         const value = snapshot.getLoadable(item).contents;
-        return { key, value };
+        const len = snapshots.length;
+        let updated = true;
+        // Check whether value is updated from last snapshot
+        if (len > 0) {
+          updated = snapshots[len - 1].state.find((el) => el.key === key).value !== value;
+        } else if (len === 0) {
+          updated = item.default !== value;
+        }
+        return { key, value, updated };
       });
 
       // Add current transaction snapshot to snapshots array

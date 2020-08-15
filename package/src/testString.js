@@ -38,9 +38,14 @@ describe('INITIAL RENDER', () => {
 });
 
 describe('SELECTORS', () => {
-  ${snapshots.reduce(
-    (tests, { state, selectors }, index) =>
-      `${tests}it('State-${index + 1}', () => {
+  ${snapshots.reduce((tests, { state, selectors }, index) => {
+    const updated = state.filter(({ updated }) => updated === true);
+    const len = updated.length;
+    return len
+      ? `${tests}it('Selectors should properly derive state when
+       ${updated.slice(0, -1).reduce((list, { key, updated }) => `${list}${key}, `, '')} ${
+          len === 1 ? `${updated[len - 1].key} updates` : `and ${updated[len - 1].key} update`
+        }', () => {
       const { result } = renderRecoilHook(useStoreHook);
   
       act(() => {
@@ -58,9 +63,9 @@ describe('SELECTORS', () => {
           )});\n\n`,
         '',
       )}
-    });\n\n`,
-    '',
-  )}
+    });\n\n`
+      : tests;
+  }, '')}
 })`;
 
 export default output;
