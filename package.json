@@ -3,7 +3,6 @@
   "version": "1.0.12",
   "description": "simple, interaction-driven test generator for Recoil apps",
   "scripts": {
-    "start": "echo \"Error: no test specified\" && exit 1",
     "test": "jest"
   },
   "repository": {
@@ -13,13 +12,12 @@
   "author": "chromogen team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/Chromogenissues"
+    "url": "https://github.com/oslabs-beta/Chromogen/issues"
   },
   "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
   "dependencies": {
     "@types/jest": "^26.0.9",
     "@types/node": "^14.0.27",
-    "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "recoil": "0.0.10"
@@ -47,6 +45,10 @@
     "mini-css-extract-plugin": "^0.10.0",
     "react-test-renderer": "^16.13.1",
     "source-map-loader": "^1.0.1",
-    "typescript": "^3.9.7"
+    "style-loader": "^1.2.1",
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   }
 }
