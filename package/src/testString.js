@@ -40,7 +40,8 @@ describe('INITIAL RENDER', () => {
 describe('SELECTORS', () => {
   ${snapshots.reduce(
     (tests, { state, selectors }, index) =>
-      `${tests}it('State-${index + 1}', () => {
+      selectors.length > 0
+        ? `${tests}it('State-${index + 1}', () => {
       const { result } = renderRecoilHook(useStoreHook);
   
       act(() => {
@@ -58,7 +59,8 @@ describe('SELECTORS', () => {
           )});\n\n`,
         '',
       )}
-    });\n\n`,
+    });\n\n`
+        : '',
     '',
   )}
 })`;

@@ -11,45 +11,68 @@ import output from './testString';
 // ----- TESTING -----
 // Arrays used to compose test string
 const writeables = [];
-const readables = [];
 const snapshots = [];
 const initialRender = [];
+let readables = [];
 
 const recordingState = recoilAtom({ key: 'recordingState', default: true });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 export const selector = (config) => {
   const { key, get, set } = config;
+  let newSelector;
+  let returnedPromise = false;
 
-  // Inject code to "get" method of selector
-  const getter = get
-    ? (arg) => {
-        const newValue = get(arg);
-        if (arg.get(recordingState)) {
-          const len = snapshots.length;
-          if (len === 0) {
-            initialRender.push({ key, newValue });
+  if (
+    get &&
+    // If get function is native Async or transpiled to generator-based async by Babel, don't track
+    !(
+      get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
+      || get.constructor.name === 'AsyncFunction'
+    )
+  ) {
+    // Inject code to "get" method of selector
+    const getter = (arg) => {
+      const newValue = get(arg);
+      // Only capute selector data if currently recording
+      if (arg.get(recordingState)) {
+        const len = snapshots.length;
+        if (len === 0) {
+          if (
+            typeof newValue === 'object'
+            && newValue !== null
+            && Object.prototype.toString.call(newValue) === '[object Promise]'
+          ) {
+            // If selector returns a promise, remove from readables & stop tracking
+            const idx = readables.findIndex((el) => el.key === key);
+            readables = readables.slice(0, idx).concat(readables.slice(idx + 1));
+            returnedPromise = true;
           } else {
-            snapshots[len - 1].selectors.push({ key, newValue });
+            initialRender.push({ key, newValue });
           }
+        } else if (!returnedPromise) {
+          snapshots[len - 1].selectors.push({ key, newValue });
         }
-        return newValue;
       }
-    : null;
+      return newValue;
+    };
 
-  // Create new config object with injected getter
-  const newConfig = { key, get: getter };
+    // Create new config object with injected getter
+    const newConfig = { key, get: getter };
 
-  // Inject code to "set" method of selector (if defined)
-  if (set) {
-    newConfig.set = (...args) => set(...args);
+    // Inject code to "set" method of selector (if defined)
+    if (set) {
+      newConfig.set = (...args) => set(...args);
+    }
+
+    // Create Recoil selector with injected properties
+    newSelector = recoilSelector(newConfig);
+
+    // Add selector object to "readables" array
+    readables.push(newSelector);
+  } else {
+    newSelector = recoilSelector(config);
   }
-
-  // Create Recoil selector with injected properties
-  const newSelector = recoilSelector(newConfig);
-
-  // Add selector object to "readables" array
-  readables.push(newSelector);
 
   // Return the normal selector out to the app
   return newSelector;
@@ -93,7 +116,7 @@ export const ChromogenObserver = () => {
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
     // Map current snapshot to array of atom states
-    if (recording) {
+    if (snapshot.getLoadable(recordingState).contents) {
       const state = writeables.map((item) => {
         const { key } = item;
         const value = snapshot.getLoadable(item).contents;
