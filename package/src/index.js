@@ -93,26 +93,25 @@ export const ChromogenObserver = () => {
   useEffect(() => document.getElementById('chromogen-download').click(), [file]);
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
+    let addToHistory = false;
     // Map current snapshot to array of atom states
-    if (snapshot.getLoadable(recordingState).contents) {
-      const state = writeables.map((item) => {
+    if (snapshot.getLoadable(recordingState).contents && recording) { // Snapshot fires before with updated state BEFORE updating atom state
+      const state = writeables.map((item, i) => {
         const { key } = item;
         const value = snapshot.getLoadable(item).contents;
-        const len = snapshots.length;
-        let updated = true;
+        const history = snapshots.length;
         // Check whether value is updated from last snapshot
-        if (len > 0) {
-          updated = snapshots[len - 1].state.find((el) => el.key === key).value !== value;
-        } else if (len === 0) {
-          updated = item.default !== value;
-        }
+        const updated = (history === 0) ? item.default !== value : snapshots[history - 1].state.find((el) => el.key === key).value !== value;
+        if (updated) addToHistory = true;
         return { key, value, updated };
       });
 
       // Add current transaction snapshot to snapshots array
-      snapshots.push({ state, selectors: [] });
+      if (addToHistory) snapshots.push({ state, selectors: [] });
+
     }
   });
+
 
   // Render button to DOM for capturing test output, and creates invisible download link for test file
   return (
