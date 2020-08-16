@@ -3,15 +3,20 @@ import { useRecoilValue } from 'recoil';
 import { sortedTodoListState } from '../store/store';
 import TodoItem from './TodoItem';
 import TodoItemCreator from './TodoItemCreator';
-import '../styles/styles.css';
 import TodoListFilters from './TodoListFilters';
+import Quotes from './Quotes';
+import '../styles/styles.css';
 
 const TodoList = () => {
   const todoList = useRecoilValue(sortedTodoListState);
 
   return (
     <div className="mainContainer">
-      <div className="row" />
+      <div className="row quoteBox">
+        <React.Suspense fallback={<small>Loading...</small>}>
+          <Quotes />
+        </React.Suspense>
+      </div>
 
       <div className="row todosDisplayRow">
         <h1>Totally Todos!</h1>
