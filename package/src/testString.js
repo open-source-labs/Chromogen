@@ -60,7 +60,7 @@ describe('SELECTORS', () => {
         '',
       )}
     });\n\n`
-        : '',
+        : tests,
     '',
   )}
 })`;

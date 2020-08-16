@@ -9,75 +9,80 @@ import {
 import output from './testString';
 
 // ----- TESTING -----
-// Arrays used to compose test string
+// Arrays used to compose test strings
 const writeables = [];
 const snapshots = [];
 const initialRender = [];
 let readables = [];
 
+// State for recording toggle
 const recordingState = recoilAtom({ key: 'recordingState', default: true });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 export const selector = (config) => {
   const { key, get, set } = config;
-  let newSelector;
   let returnedPromise = false;
 
+  /**
+   * If the get method is defined, we attempt to wrap it with a custom getter that logs
+   * the return value on each update to the corresponding snapshot in the snapshots array.
+   *
+   * If get is native Async or transpiled, generator-based async from Babel (id'd via RegEx),
+   * we don't do any injecting or tracking. It just gets created & returned back out.
+   *
+   * If get returns a promise on page load, we delete it from the readables array
+   * and do not track it on subsequent calls (via "returnedPromise" flag).
+   */
   if (
-    get &&
-    // If get function is native Async or transpiled to generator-based async by Babel, don't track
-    !(
-      get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
-      || get.constructor.name === 'AsyncFunction'
+    get
+    && !(
+      get.constructor.name === 'AsyncFunction'
+      || get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
     )
   ) {
-    // Inject code to "get" method of selector
     const getter = (arg) => {
+      // Run user-defined get method & capture its return value
       const newValue = get(arg);
-      // Only capute selector data if currently recording
+
+      // Only capture selector data if currently recording
       if (arg.get(recordingState)) {
-        const len = snapshots.length;
-        if (len === 0) {
+        if (snapshots.length === 0) {
+          // Promise-validation is slightly expensive, so we only want to do it on first render
           if (
             typeof newValue === 'object'
             && newValue !== null
             && Object.prototype.toString.call(newValue) === '[object Promise]'
           ) {
-            // If selector returns a promise, remove from readables & stop tracking
-            const idx = readables.findIndex((el) => el.key === key);
-            readables = readables.slice(0, idx).concat(readables.slice(idx + 1));
+            readables = readables.filter((el) => el.key !== key);
             returnedPromise = true;
           } else {
             initialRender.push({ key, newValue });
           }
         } else if (!returnedPromise) {
-          snapshots[len - 1].selectors.push({ key, newValue });
+          snapshots[snapshots.length - 1].selectors.push({ key, newValue });
         }
       }
+
       return newValue;
     };
 
-    // Create new config object with injected getter
+    // Create a new config object with updated properties
     const newConfig = { key, get: getter };
-
-    // Inject code to "set" method of selector (if defined)
     if (set) {
       newConfig.set = (...args) => set(...args);
     }
 
-    // Create Recoil selector with injected properties
-    newSelector = recoilSelector(newConfig);
-
-    // Add selector object to "readables" array
-    readables.push(newSelector);
-  } else {
-    newSelector = recoilSelector(config);
+    // Create selector & add to readables for test setup
+    const trackedSelector = recoilSelector(newConfig);
+    readables.push(trackedSelector);
+    return trackedSelector;
   }
 
-  // Return the normal selector out to the app
-  return newSelector;
+  // If selector was async, create selector without injecting or tracking
+  return recoilSelector(config);
 };
 
+// Track atoms for test setup via writeables array
 export const atom = (config) => {
   const newAtom = recoilAtom(config);
   writeables.push(newAtom);
@@ -86,36 +91,36 @@ export const atom = (config) => {
 
 // ----- TRANSACTION PROVIDER -----
 const buttonStyle = {
-  display: 'block',
-  position: 'absolute',
-  top: '10px',
-  left: '10px',
-  margin: '0px',
+  display: 'inline-block',
+  margin: '10px',
   padding: '0px',
   height: '10px',
   width: '10px',
 };
 
-// TODO: size div correctly to content
 // Used to ensure appropriate button contrast for varying page backgrounds
 const divStyle = {
   display: 'inline-block',
   position: 'absolute',
+  top: '10px',
+  left: '10px',
   backgroundColor: 'grey',
   margin: 0,
+  padding: 0,
+  zIndex: 999999,
 };
 
-// Provider component used to access state snapshots
 export const ChromogenObserver = () => {
   // File stores URL for generated test file Blob containing output() string
   const [file, setFile] = useState(null);
   const [recording, setRecording] = useRecoilState(recordingState);
 
-  // Auto-click download link when a new file is generated (via button click)
+  // Auto-click download link when a new file is generated
   useEffect(() => document.getElementById('chromogen-download').click(), [file]);
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
-    // Map current snapshot to array of atom states
+    // Map current snapshot to array of atom states (if recording)
+    // Can't directly check recording hook b/c TransactionObserver runs before state update
     if (snapshot.getLoadable(recordingState).contents) {
       const state = writeables.map((item) => {
         const { key } = item;
@@ -128,12 +133,12 @@ export const ChromogenObserver = () => {
     }
   });
 
-  // Render button to DOM for capturing test output, and creates invisible download link for test file
+  // Invisible anchor tag needed for file download
   return (
     <div style={divStyle}>
       <button
         aria-label="capture test"
-        style={{ ...buttonStyle, backgroundColor: 'green' }}
+        style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
         type="button"
         onClick={() =>
           setFile(
@@ -145,7 +150,7 @@ export const ChromogenObserver = () => {
       />
       <button
         aria-label={recording ? 'pause' : 'record'}
-        style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow', left: '30px' }}
+        style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow' }}
         type="button"
         onClick={() => {
           setRecording(!recording);
