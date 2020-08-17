@@ -38,11 +38,29 @@ describe('INITIAL RENDER', () => {
 });
 
 describe('SELECTORS', () => {
-  ${snapshots.reduce(
-    (tests, { state, selectors }, index) =>
-      `${tests}it('State-${index + 1}', () => {
+  ${snapshots.reduce((tests, { state, selectors }, index) => {
+    const updated = state.filter(({ updated }) => updated);
+    const len = updated.length;
+    return len && selectors.length
+      ? `${tests}it('${selectors
+          .slice(0, -1)
+          .reduce(
+            (list, { key }, i) => `${list}${key}${i === selectors.length - 2 ? ' ' : ', '}`,
+            '',
+          )}${
+          selectors.length === 1
+            ? `${selectors[selectors.length - 1].key}`
+            : `and ${selectors[selectors.length - 1].key}`
+        } should properly derive state when${updated
+          .slice(0, -1)
+          .reduce(
+            (list, { key, updated }, i) => `${list} ${key}${i === len - 2 ? '' : ','}`,
+            '',
+          )} ${
+          len === 1 ? `${updated[len - 1].key} updates` : `and ${updated[len - 1].key} update`
+        }', () => {
       const { result } = renderRecoilHook(useStoreHook);
-  
+
       act(() => {
         ${state.reduce(
           (initializers, { key, value }) =>
@@ -58,9 +76,9 @@ describe('SELECTORS', () => {
           )});\n\n`,
         '',
       )}
-    });\n\n`,
-    '',
-  )}
+    });\n\n`
+      : tests;
+  }, '')}
 })`;
 
 export default output;
