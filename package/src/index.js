@@ -24,62 +24,62 @@ export const selector = (config) => {
   let returnedPromise = false;
 
   /**
-   * If the get method is defined, we attempt to wrap it with a custom getter that logs
-   * the return value on each update to the corresponding snapshot in the snapshots array.
-   *
-   * If get is native Async or transpiled, generator-based async from Babel (id'd via RegEx),
+   * If get is undefined, native Async, or transpiled generator-based async from Babel (id'd via RegEx),
    * we don't do any injecting or tracking. It just gets created & returned back out.
+   *
+   * Otherwise, we attempt to wrap it with a custom getter that logs the return
+   * value on each update to the corresponding snapshot in the snapshots array.
    *
    * If get returns a promise on page load, we delete it from the readables array
    * and do not track it on subsequent calls (via "returnedPromise" flag).
    */
+
   if (
-    get
-    && !(
-      get.constructor.name === 'AsyncFunction'
-      || get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
-    )
+    !get
+    || get.constructor.name === 'AsyncFunction'
+    || get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
   ) {
-    const getter = (arg) => {
-      // Run user-defined get method & capture its return value
-      const newValue = get(arg);
-
-      // Only capture selector data if currently recording
-      if (arg.get(recordingState)) {
-        if (snapshots.length === 0) {
-          // Promise-validation is slightly expensive, so we only want to do it on first render
-          if (
-            typeof newValue === 'object'
-            && newValue !== null
-            && Object.prototype.toString.call(newValue) === '[object Promise]'
-          ) {
-            readables = readables.filter((el) => el.key !== key);
-            returnedPromise = true;
-          } else {
-            initialRender.push({ key, newValue });
-          }
-        } else if (!returnedPromise) {
-          snapshots[snapshots.length - 1].selectors.push({ key, newValue });
-        }
-      }
-
-      return newValue;
-    };
-
-    // Create a new config object with updated properties
-    const newConfig = { key, get: getter };
-    if (set) {
-      newConfig.set = (...args) => set(...args);
-    }
-
-    // Create selector & add to readables for test setup
-    const trackedSelector = recoilSelector(newConfig);
-    readables.push(trackedSelector);
-    return trackedSelector;
+    return recoilSelector(config);
   }
 
-  // If selector was async, create selector without injecting or tracking
-  return recoilSelector(config);
+  // Wrap get method with tracking logic
+  const getter = (arg) => {
+    // Run user-defined get method & capture its return value
+    const newValue = get(arg);
+
+    // Only capture selector data if currently recording
+    if (arg.get(recordingState)) {
+      if (snapshots.length === 0) {
+        // Promise-validation is expensive, so we only do it once, on initial load
+        if (
+          typeof newValue === 'object'
+          && newValue !== null
+          && Object.prototype.toString.call(newValue) === '[object Promise]'
+        ) {
+          readables = readables.filter((el) => el.key !== key);
+          returnedPromise = true;
+        } else {
+          initialRender.push({ key, newValue });
+        }
+      } else if (!returnedPromise) {
+        snapshots[snapshots.length - 1].selectors.push({ key, newValue });
+      }
+    }
+
+    // Return out value from original get method
+    return newValue;
+  };
+
+  // Create a new config object with updated properties
+  const newConfig = { key, get: getter };
+  if (set) {
+    newConfig.set = (...args) => set(...args);
+  }
+
+  // Create selector & add to readables for test setup
+  const trackedSelector = recoilSelector(newConfig);
+  readables.push(trackedSelector);
+  return trackedSelector;
 };
 
 // Track atoms for test setup via writeables array

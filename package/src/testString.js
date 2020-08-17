@@ -8,6 +8,9 @@ import {
   }
 } from '<ADD STORE FILEPATH>';
 
+// Suppress 'Batcher' warnings from React / Recoil conflict
+console.error = jest.fn();
+
 // Hook to return atom/selector values and/or modifiers for react-recoil-hooks-testing-library
 const useStoreHook = () => {
   ${writeables.reduce(
