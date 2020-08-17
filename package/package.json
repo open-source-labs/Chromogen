@@ -1,10 +1,10 @@
 {
   "name": "chromogen",
   "version": "1.1.1",
-  "description": "simple, interaction-driven test generator for Recoil apps",
+  "description": "simple, interaction-driven Jest test generator for Recoil apps",
   "main": "build/index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production",
     "test": "jest"
   },
   "repository": {
@@ -14,7 +14,7 @@
   "author": "chromogen team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/Chromogenissues"
+    "url": "https://github.com/oslabs-beta/Chromogen/issues"
   },
   "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
   "dependencies": {
