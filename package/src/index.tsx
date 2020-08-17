@@ -12,20 +12,20 @@ import {
 } from 'recoil';
 import output from './testString';
 import {
-  writeables,
-  readables,
-  selectorsArr,
-  snapshots,
-  selectorConfig,
-  chromogenAtomState,
+  Writeables,
+  Readables,
+  SelectorsArr,
+  Snapshots,
+  SelectorConfig,
+  ChromogenAtomState,
 } from './types/types';
 
 // ----- TESTING -----
 // Arrays used to compose test string
-const writeables: writeables<any> = [];
-const readables: readables<any> = [];
-const snapshots: snapshots = [];
-const initialRender: selectorsArr = [];
+const writeables: Writeables<any> = [];
+const readables: Readables<any> = [];
+const snapshots: Snapshots = [];
+const initialRender: SelectorsArr = [];
 const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
@@ -33,7 +33,7 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 //switching to function declaration for TS (workaround for <T> generic tag being recognized as JSX)
-export function selector<T>(config: selectorConfig<T>): RecoilValueReadOnly<T> | RecoilState<T> {
+export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> | RecoilState<T> {
   const { key, get, set } = config;
 
   // Inject code to "get" method of selector
@@ -51,7 +51,7 @@ export function selector<T>(config: selectorConfig<T>): RecoilValueReadOnly<T> |
   };
 
   // Create new config object with inject getter
-  const newConfig: selectorConfig<any> = {
+  const newConfig: SelectorConfig<any> = {
     key,
     get: getter,
   };
@@ -72,9 +72,9 @@ export function selector<T>(config: selectorConfig<T>): RecoilValueReadOnly<T> |
 }
 
 //switching to function declaration
-export function atom<T>(config: AtomOptions<T>): chromogenAtomState<T> {
+export function atom<T>(config: AtomOptions<T>): ChromogenAtomState<T> {
   //initializing newAtom with default paramater for typing purposes
-  const newAtom: chromogenAtomState<any> = Object.assign(recoilAtom(config), { default: null });
+  const newAtom: ChromogenAtomState<any> = { ...recoilAtom(config), default: null };
   newAtom.default = config.default;
   writeables.push(newAtom);
   return newAtom;
@@ -104,13 +104,13 @@ const divStyle: CSSProperties = {
 export const ChromogenObserver: React.FC = () => {
   // File stores URL for generated test file Blob containing output() string
   const [file, setFile] = useState<undefined | string>(undefined); //swapping to undefined from null in order to match native React typing for AnchorHTML attributes
-  const [recording, setRecording] = useRecoilState(recordingState);
+  const [recording, setRecording] = useRecoilState<boolean>(recordingState);
 
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]); //! to get around strict null check in tsconfig
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }: { snapshot: Snapshot }): void => {
-    let addToHistory = false;
+    let addToHistory: boolean = false;
     // Map current snapshot to array of atom states
     if (snapshot.getLoadable(recordingState).contents && recording) {
       // Snapshot fires before with updated state BEFORE updating atom state
