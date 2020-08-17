@@ -1,24 +1,34 @@
 import { atom, selector } from 'chromogen';
 
-/* unsorted, unfiltered todo list */
+/* ----- ATOMS ----- */
+
+// unsorted, unfiltered todo list
 const todoListState = atom({
   key: 'todoListState',
   default: [], // array of objects - each object has id, text, isComplete, and priority props
 });
-/* filter select */
+
+// filter select
 const todoListFilterState = atom({
   key: 'todoListFilterState',
   default: 'Show All',
 });
-/* toggle sort */
+
+// toggle sort
 const todoListSortState = atom({
   key: 'todoListSortState',
   default: false,
 });
 
+// random number for fetching quote & comic
+const quoteNumberState = atom({
+  key: 'quoteNumberState',
+  default: Math.floor(Math.random() * 1643),
+});
+
 /* ----- SELECTORS ---- */
 
-/* filtered todo list */
+// filtered todo list
 const filteredTodoListState = selector({
   key: 'filteredTodoListState',
   get: ({ get }) => {
@@ -35,7 +45,8 @@ const filteredTodoListState = selector({
     }
   },
 });
-/* sorted todo list */
+
+// sorted todo list
 const sortedTodoListState = selector({
   key: 'sortedTodoListState',
   get: ({ get }) => {
@@ -47,7 +58,8 @@ const sortedTodoListState = selector({
     return sort === false ? list : [...high, ...medium, ...low];
   },
 });
-/* priority stats */
+
+// priority stats
 const todoListSortedStats = selector({
   key: 'todoListSortedStats',
   get: ({ get }) => {
@@ -58,7 +70,8 @@ const todoListSortedStats = selector({
     }, {});
   },
 });
-/* completion (filter) stats */
+
+// completion (filter) stats
 const todoListStatsState = selector({
   key: 'todoListStatsState',
   get: ({ get }) => {
@@ -75,7 +88,8 @@ const todoListStatsState = selector({
     };
   },
 });
-/* undo sort + filter */
+
+// WRITEABLE SELECTOR - undo sort + filter
 const refreshFilterState = selector({
   key: 'refreshFilterState',
   get: () => null,
@@ -85,13 +99,51 @@ const refreshFilterState = selector({
   },
 });
 
+// PROMISE-BASED SELECTOR - fetch quote text
+const quoteTextState = selector({
+  key: 'quoteTextState',
+  get: ({ get }) => {
+    const quoteNumber = get(quoteNumberState);
+    return fetch('https://type.fit/api/quotes')
+      .then((response) => response.json())
+      .then((data) => {
+        const quote = data[quoteNumber];
+        return `"${quote.text}"\n\t- ${quote.author || 'unknown'}`;
+      })
+      .catch((err) => {
+        console.log(err);
+        return 'No quote available';
+      });
+  },
+});
+
+// ASYNC SELECTOR - fetch comic img
+const xkcdState = selector({
+  key: 'xkcdState',
+  get: async ({ get }) => {
+    const quoteNumber = get(quoteNumberState);
+    try {
+      // Fetch currently fails in localhost for unknown reasons
+      const response = await fetch(`http://xkcd.com/${quoteNumber}/info.0.json`);
+      const { img } = await response.json();
+      return img;
+    } catch (err) {
+      // Fallback comic
+      return 'https://imgs.xkcd.com/comics/api.png';
+    }
+  },
+});
+
 export {
   todoListState,
   todoListFilterState,
   filteredTodoListState,
   todoListStatsState,
   todoListSortState,
+  quoteNumberState,
   sortedTodoListState,
   todoListSortedStats,
   refreshFilterState,
+  quoteTextState,
+  xkcdState,
 };
