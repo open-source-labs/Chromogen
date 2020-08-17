@@ -118,14 +118,16 @@ export const ChromogenObserver = () => {
   // Auto-click download link when a new file is generated
   useEffect(() => document.getElementById('chromogen-download').click(), [file]);
 
-  useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
-    // Map current snapshot to array of atom states (if recording)
+  useRecoilTransactionObserver_UNSTABLE(({ previousSnapshot, snapshot }) => {
+    // Map current snapshot to array of atom states
     // Can't directly check recording hook b/c TransactionObserver runs before state update
     if (snapshot.getLoadable(recordingState).contents) {
       const state = writeables.map((item) => {
         const { key } = item;
         const value = snapshot.getLoadable(item).contents;
-        return { key, value };
+        const previous = previousSnapshot.getLoadable(item).contents;
+        const updated = value !== previous;
+        return { key, value, updated };
       });
 
       // Add current transaction snapshot to snapshots array
