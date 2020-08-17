@@ -9,11 +9,14 @@ type SetRecoilState = <T>(
 type ResetRecoilState = (recoilVal: RecoilState<any>) => void;
 
 // ----- EXPORTING TYPES TO BE USED IN INDEX.TSX AND TESTSTRING.TS -----
-export type writeables<T> = Array<RecoilState<T>>;
+export class chromogenAtomState<T> extends RecoilState<T> {
+  default: any;
+}
+export type writeables<T> = Array<chromogenAtomState<T>>;
 export type readables<T> = Array<RecoilValueReadOnly<T>>;
 export type selectorsArr = Array<{ key: string; newValue: any }>;
 export type snapshots = Array<{
-  state: { key: string; value: any }[];
+  state: { key: string; value: any; updated: boolean }[];
   selectors: selectorsArr;
 }>;
 export interface selectorConfig<T> {

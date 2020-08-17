@@ -11,7 +11,14 @@ import {
   Snapshot,
 } from 'recoil';
 import output from './testString';
-import { writeables, readables, selectorsArr, snapshots, selectorConfig } from './types/types';
+import {
+  writeables,
+  readables,
+  selectorsArr,
+  snapshots,
+  selectorConfig,
+  chromogenAtomState,
+} from './types/types';
 
 // ----- TESTING -----
 // Arrays used to compose test string
@@ -65,8 +72,10 @@ export function selector<T>(config: selectorConfig<T>): RecoilValueReadOnly<T> |
 }
 
 //switching to function declaration
-export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
-  const newAtom = recoilAtom(config);
+export function atom<T>(config: AtomOptions<T>): chromogenAtomState<T> {
+  //initializing newAtom with default paramater for typing purposes
+  const newAtom: chromogenAtomState<any> = Object.assign(recoilAtom(config), { default: null });
+  newAtom.default = config.default;
   writeables.push(newAtom);
   return newAtom;
 }
@@ -101,16 +110,25 @@ export const ChromogenObserver: React.FC = () => {
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]); //! to get around strict null check in tsconfig
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }: { snapshot: Snapshot }): void => {
+    let addToHistory = false;
     // Map current snapshot to array of atom states
-    if (recording) {
+    if (snapshot.getLoadable(recordingState).contents && recording) {
+      // Snapshot fires before with updated state BEFORE updating atom state
       const state = writeables.map((item) => {
         const { key } = item;
         const value = snapshot.getLoadable(item).contents;
-        return { key, value };
+        const history = snapshots.length;
+        // Check whether value is updated from last snapshot
+        const updated =
+          history === 0
+            ? item.default !== value
+            : snapshots[history - 1].state.find((el) => el.key === key)!.value !== value;
+        if (updated) addToHistory = true;
+        return { key, value, updated };
       });
 
       // Add current transaction snapshot to snapshots array
-      snapshots.push({ state, selectors: [] });
+      if (addToHistory) snapshots.push({ state, selectors: [] });
     }
   });
 
