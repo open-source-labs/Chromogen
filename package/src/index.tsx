@@ -9,29 +9,9 @@ import {
   RecoilValueReadOnly,
   AtomOptions,
   Snapshot,
-  RecoilValue,
-  DefaultValue,
 } from 'recoil';
 import output from './testString';
-
-// ----- INITIALIZING NON-IMPORTED TYPES -----
-type writeables<T> = Array<RecoilState<T>>;
-type readables<T> = Array<RecoilValueReadOnly<T>>;
-type selectorsArr = Array<{ key: string; newValue: any }>;
-type snapshots = Array<{
-  state: { key: string; value: any }[];
-  selectors: selectorsArr;
-}>;
-
-type selectorConfig<T> = {
-  key: string;
-  get: ({ get: GetRecoilValue }) => T | Promise<T> | RecoilValue<T>;
-  set?: (
-    { get: GetRecoilValue, set: SetRecoilState, reset: ResetRecoilState },
-    newValue: T | DefaultValue,
-  ) => void;
-  dangerouslyAllowMutability?: boolean;
-};
+import { writeables, readables, selectorsArr, snapshots, selectorConfig } from './types/types';
 
 // ----- TESTING -----
 // Arrays used to compose test string
@@ -39,14 +19,13 @@ const writeables: writeables<any> = [];
 const readables: readables<any> = [];
 const snapshots: snapshots = [];
 const initialRender: selectorsArr = [];
-const recordingState: RecoilState<any> = recoilAtom({
-  //why won't RecoilState<boolean> work?
+const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
 });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
-//switching to function declaration
+//switching to function declaration for TS (workaround for <T> generic tag being recognized as JSX)
 export function selector<T>(config: selectorConfig<T>): RecoilValueReadOnly<T> | RecoilState<T> {
   const { key, get, set } = config;
 
@@ -119,7 +98,7 @@ export const ChromogenObserver: React.FC = () => {
   const [recording, setRecording] = useRecoilState(recordingState);
 
   // Auto-click download link when a new file is generated (via button click)
-  useEffect(() => document.getElementById('chromogen-download').click(), [file]);
+  useEffect(() => document.getElementById('chromogen-download')!.click(), [file]); //! to get around strict null check in tsconfig
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }: { snapshot: Snapshot }): void => {
     // Map current snapshot to array of atom states
