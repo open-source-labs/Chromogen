@@ -57,7 +57,6 @@ export const selector = (config) => {
 
 export const atom = (config) => {
   const newAtom = recoilAtom(config);
-  newAtom.default = config.default; // can't destructure default from config?
   writeables.push(newAtom);
   return newAtom;
 };
@@ -92,26 +91,20 @@ export const ChromogenObserver = () => {
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-download').click(), [file]);
 
-  useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
-    let addToHistory = false;
+  useRecoilTransactionObserver_UNSTABLE(({ previousSnapshot, snapshot }) => {
     // Map current snapshot to array of atom states
-    if (snapshot.getLoadable(recordingState).contents && recording) {
-      // Snapshot fires before with updated state BEFORE updating atom state
-      const state = writeables.map((item, i) => {
+    // Can't directly check recording hook b/c TransactionObserver runs before state update
+    if (snapshot.getLoadable(recordingState).contents) {
+      const state = writeables.map((item) => {
         const { key } = item;
         const value = snapshot.getLoadable(item).contents;
-        const history = snapshots.length;
-        // Check whether value is updated from last snapshot
-        const updated =
-          history === 0
-            ? item.default !== value
-            : snapshots[history - 1].state.find((el) => el.key === key).value !== value;
-        if (updated) addToHistory = true;
+        const previous = previousSnapshot.getLoadable(item).contents;
+        const updated = value !== previous;
         return { key, value, updated };
       });
 
       // Add current transaction snapshot to snapshots array
-      if (addToHistory) snapshots.push({ state, selectors: [] });
+      snapshots.push({ state, selectors: [] });
     }
   });
 
