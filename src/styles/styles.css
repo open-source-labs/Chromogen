@@ -190,3 +190,13 @@ button span {
   border: 1px solid whitesmoke;
   cursor: pointer;
 }
+
+/* ---------- TodoQuickCheck ---------- */
+
+#quickCheck {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#quickCheck svg {
+  color: #af6358;
+}

@@ -89,7 +89,34 @@ const todoListStatsState = selector({
   },
 });
 
-// WRITEABLE SELECTOR - undo sort + filter
+// filtered list non-empty? (determines whether check-all displays)
+const filteredListContentState = selector({
+  key: 'filteredListContentState',
+  get: ({ get }) => !!get(filteredTodoListState).length,
+});
+
+// WRITEABLE GET/SET SELECTOR - (un)check all filtered items
+const allCompleteState = selector({
+  key: 'allCompleteState',
+  // if any item in filteredList is not complete, allComplete is false
+  get: ({ get }) => !get(filteredTodoListState).some(({ isComplete }) => !isComplete),
+  set: ({ get, set }, newValue) => {
+    // Update only items from filtered list in O(n)
+    const lookupTable = {};
+    get(todoListState).forEach((item) => {
+      lookupTable[item.id] = item;
+    });
+    get(filteredTodoListState).forEach((item) => {
+      lookupTable[item.id] = {
+        ...item,
+        isComplete: newValue,
+      };
+    });
+    set(todoListState, Object.values(lookupTable));
+  },
+});
+
+// WRITEABLE RESET SELECTOR - undo sort + filter
 const refreshFilterState = selector({
   key: 'refreshFilterState',
   get: () => null,
@@ -123,8 +150,10 @@ const xkcdState = selector({
   get: async ({ get }) => {
     const quoteNumber = get(quoteNumberState);
     try {
-      // Fetch currently fails in localhost for unknown reasons
-      const response = await fetch(`http://xkcd.com/${quoteNumber}/info.0.json`);
+      // Fetch much be proxied through cors-anywhere to test on localhost
+      const response = await fetch(
+        `https://cors-anywhere.herokuapp.com/http://xkcd.com/${quoteNumber}/info.0.json`,
+      );
       const { img } = await response.json();
       return img;
     } catch (err) {
@@ -138,9 +167,11 @@ export {
   todoListState,
   todoListFilterState,
   filteredTodoListState,
+  filteredListContentState,
   todoListStatsState,
   todoListSortState,
   quoteNumberState,
+  allCompleteState,
   sortedTodoListState,
   todoListSortedStats,
   refreshFilterState,

@@ -4,6 +4,7 @@ import { sortedTodoListState } from '../store/store';
 import TodoItem from './TodoItem';
 import TodoItemCreator from './TodoItemCreator';
 import TodoListFilters from './TodoListFilters';
+import TodoQuickCheck from './TodoQuickCheck';
 import Quotes from './Quotes';
 import '../styles/styles.css';
 
@@ -22,6 +23,7 @@ const TodoList = () => {
         <h1>Totally Todos!</h1>
 
         <div className="todosContainer">
+          <TodoQuickCheck />
           <TodoItemCreator />
           {todoList.map((todoItem) => (
             <TodoItem key={todoItem.id} item={todoItem} />

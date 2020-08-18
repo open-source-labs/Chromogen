@@ -11,6 +11,8 @@ import {
   refreshFilterState,
 } from '../src/store/store';
 
+console.error = jest.fn();
+
 // using react testing library alone might make more sense
 // test('filteredTodoListState should correctly derive state', () => {
 //   // first arg needs to be custom hook
