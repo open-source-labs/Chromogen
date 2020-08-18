@@ -11,21 +11,16 @@ import {
   Snapshot,
 } from 'recoil';
 import output from './testString';
-import {
-  Writeables,
-  Readables,
-  SelectorsArr,
-  Snapshots,
-  SelectorConfig,
-  ChromogenAtomState,
-} from './types/types';
+import { Writeables, Readables, SelectorsArr, Snapshots, SelectorConfig } from './types/types';
 
 // ----- TESTING -----
 // Arrays used to compose test string
 const writeables: Writeables<any> = [];
-const readables: Readables<any> = [];
 const snapshots: Snapshots = [];
 const initialRender: SelectorsArr = [];
+let readables: Readables<any> = [];
+
+// State for recording toggle
 const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
@@ -35,70 +30,90 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
 //switching to function declaration for TS (workaround for <T> generic tag being recognized as JSX)
 export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> | RecoilState<T> {
   const { key, get, set } = config;
+  let returnedPromise = false;
 
-  // Inject code to "get" method of selector
+  /**
+   * If get is undefined, native Async, or transpiled generator-based async from Babel (id'd via RegEx),
+   * we don't do any injecting or tracking. It just gets created & returned back out.
+   *
+   * Otherwise, we attempt to wrap it with a custom getter that logs the return
+   * value on each update to the corresponding snapshot in the snapshots array.
+   *
+   * If get returns a promise on page load, we delete it from the readables array
+   * and do not track it on subsequent calls (via "returnedPromise" flag).
+   */
+
+  if (
+    get.constructor.name === 'AsyncFunction' ||
+    get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
+  ) {
+    return recoilSelector(config);
+  }
+  // Wrap get method with tracking logic
   const getter = (arg: any) => {
+    // Run user-defined get method & capture its return value
     const newValue = get(arg);
+    // Only capture selector data if currently recording
     if (arg.get(recordingState)) {
-      const len = snapshots.length;
-      if (len === 0) {
-        initialRender.push({ key, newValue });
-      } else {
-        snapshots[len - 1].selectors.push({ key, newValue });
+      if (snapshots.length === 0) {
+        // Promise-validation is expensive, so we only do it once, on initial load
+        if (
+          typeof newValue === 'object' &&
+          newValue !== null &&
+          Object.prototype.toString.call(newValue) === '[object Promise]'
+        ) {
+          readables = readables.filter((el) => el.key !== key);
+          returnedPromise = true;
+        } else {
+          initialRender.push({ key, newValue });
+        }
+      } else if (!returnedPromise) {
+        snapshots[snapshots.length - 1].selectors.push({ key, newValue });
       }
     }
+
+    // Return out value from original get method
     return newValue;
   };
 
-  // Create new config object with inject getter
-  const newConfig: SelectorConfig<any> = {
-    key,
-    get: getter,
-  };
-
-  // Inject code to "set" method of selector (if defined)
+  // Create a new config object with updated properties
+  const newConfig: SelectorConfig<any> = { key, get: getter };
   if (set) {
     newConfig.set = (...args) => set(...args);
   }
 
-  // Create Recoil selector with injected properties
-  const newSelector = recoilSelector(newConfig);
-
-  // Add selector object to appropriate exportable array
-  readables.push(newSelector);
-
-  // Return the normal selector out to the app
-  return newSelector;
+  // Create selector & add to readables for test setup
+  const trackedSelector = recoilSelector(newConfig);
+  readables.push(trackedSelector);
+  return trackedSelector;
 }
 
 //switching to function declaration
-export function atom<T>(config: AtomOptions<T>): ChromogenAtomState<T> {
-  //initializing newAtom with default paramater for typing purposes
-  const newAtom: ChromogenAtomState<any> = { ...recoilAtom(config), default: null };
-  newAtom.default = config.default;
+export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
+  const newAtom = recoilAtom<any>(config);
   writeables.push(newAtom);
   return newAtom;
 }
 
 // ----- TRANSACTION PROVIDER -----
 const buttonStyle: CSSProperties = {
-  display: 'block',
-  position: 'absolute',
-  top: '10px',
-  left: '10px',
-  margin: '0px',
+  display: 'inline-block',
+  margin: '10px',
   padding: '0px',
   height: '10px',
   width: '10px',
 };
 
-// TODO: size div correctly to content
 // Used to ensure appropriate button contrast for varying page backgrounds
 const divStyle: CSSProperties = {
   display: 'inline-block',
   position: 'absolute',
+  top: '10px',
+  left: '10px',
   backgroundColor: 'grey',
   margin: 0,
+  padding: 0,
+  zIndex: 999999,
 };
 
 export const ChromogenObserver: React.FC = () => {
@@ -109,28 +124,24 @@ export const ChromogenObserver: React.FC = () => {
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]); //! to get around strict null check in tsconfig
 
-  useRecoilTransactionObserver_UNSTABLE(({ snapshot }: { snapshot: Snapshot }): void => {
-    let addToHistory: boolean = false;
-    // Map current snapshot to array of atom states
-    if (snapshot.getLoadable(recordingState).contents && recording) {
-      // Snapshot fires before with updated state BEFORE updating atom state
-      const state = writeables.map((item) => {
-        const { key } = item;
-        const value = snapshot.getLoadable(item).contents;
-        const history = snapshots.length;
-        // Check whether value is updated from last snapshot
-        const updated =
-          history === 0
-            ? item.default !== value
-            : snapshots[history - 1].state.find((el) => el.key === key)!.value !== value;
-        if (updated) addToHistory = true;
-        return { key, value, updated };
-      });
+  useRecoilTransactionObserver_UNSTABLE(
+    ({ previousSnapshot, snapshot }: { previousSnapshot: Snapshot; snapshot: Snapshot }): void => {
+      // Map current snapshot to array of atom states
+      // Can't directly check recording hook b/c TransactionObserver runs before state update
+      if (snapshot.getLoadable(recordingState).contents) {
+        const state = writeables.map((item) => {
+          const { key } = item;
+          const value = snapshot.getLoadable(item).contents;
+          const previous = previousSnapshot.getLoadable(item).contents;
+          const updated = value !== previous;
+          return { key, value, updated };
+        });
 
-      // Add current transaction snapshot to snapshots array
-      if (addToHistory) snapshots.push({ state, selectors: [] });
-    }
-  });
+        // Add current transaction snapshot to snapshots array
+        snapshots.push({ state, selectors: [] });
+      }
+    },
+  );
 
   // Render button to DOM for capturing test output, and creates invisible download link for test file
   return (

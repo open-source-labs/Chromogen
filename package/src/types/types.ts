@@ -9,10 +9,7 @@ type SetRecoilState = <T>(
 type ResetRecoilState = (recoilVal: RecoilState<any>) => void;
 
 // ----- EXPORTING TYPES TO BE USED IN SRC/.TSX FILES -----
-export interface ChromogenAtomState<T> extends RecoilState<T> {
-  default: any;
-}
-export type Writeables<T> = Array<ChromogenAtomState<T>>;
+export type Writeables<T> = Array<RecoilState<T>>;
 export type Readables<T> = Array<RecoilValueReadOnly<T>>;
 export type SelectorsArr = Array<{ key: string; newValue: any }>;
 export type Snapshots = Array<{
