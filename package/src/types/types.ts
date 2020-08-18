@@ -1,6 +1,6 @@
 import { RecoilState, RecoilValueReadOnly, RecoilValue, DefaultValue } from 'recoil';
 
-// ----- INITIALIZING NON-IMPORTABLE TYPES -----
+// ----- INITIALIZING NON-IMPORTABLE RECOIL TYPES -----
 type GetRecoilValue = <T>(recoilVal: RecoilValue<T>) => T;
 type SetRecoilState = <T>(
   recoilVal: RecoilState<T>,

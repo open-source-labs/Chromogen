@@ -27,7 +27,7 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
 });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
-//switching to function declaration for TS (workaround for <T> generic tag being recognized as JSX)
+//switching to function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
 export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> | RecoilState<T> {
   const { key, get, set } = config;
   let returnedPromise = false;
@@ -68,7 +68,7 @@ export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> |
           initialRender.push({ key, newValue });
         }
       } else if (!returnedPromise) {
-        snapshots[snapshots.length - 1].selectors.push({ key, newValue });
+        setTimeout(() => snapshots[snapshots.length - 1].selectors.push({ key, newValue }), 0);
       }
     }
 
@@ -83,7 +83,7 @@ export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> |
   }
 
   // Create selector & add to readables for test setup
-  const trackedSelector = recoilSelector(newConfig);
+  const trackedSelector: RecoilValueReadOnly<any> | RecoilState<any> = recoilSelector(newConfig);
   readables.push(trackedSelector);
   return trackedSelector;
 }
@@ -118,7 +118,7 @@ const divStyle: CSSProperties = {
 
 export const ChromogenObserver: React.FC = () => {
   // File stores URL for generated test file Blob containing output() string
-  const [file, setFile] = useState<undefined | string>(undefined); //swapping to undefined from null in order to match native React typing for AnchorHTML attributes
+  const [file, setFile] = useState<undefined | string>(undefined); //initializing as undefined over null to match typing for AnchorHTML attributes from React
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
 
   // Auto-click download link when a new file is generated (via button click)
