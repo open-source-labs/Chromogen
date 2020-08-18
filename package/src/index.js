@@ -62,7 +62,7 @@ export const selector = (config) => {
           initialRender.push({ key, newValue });
         }
       } else if (!returnedPromise) {
-        snapshots[snapshots.length - 1].selectors.push({ key, newValue });
+        setTimeout(() => snapshots[snapshots.length - 1].selectors.push({ key, newValue }), 0);
       }
     }
 
