@@ -10,7 +10,7 @@ type ResetRecoilState = (recoilVal: RecoilState<any>) => void;
 
 // ----- EXPORTING TYPES TO BE USED IN SRC/.TSX FILES -----
 export type Writeables<T> = Array<RecoilState<T>>;
-export type Readables<T> = Array<RecoilValueReadOnly<T>>;
+export type Readables<T> = Array<RecoilValueReadOnly<T> | RecoilState<T>>;
 export type SelectorsArr = Array<{ key: string; newValue: any }>;
 export type Snapshots = Array<{
   state: { key: string; value: any; updated: boolean }[];
