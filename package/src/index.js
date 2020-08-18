@@ -62,7 +62,11 @@ export const selector = (config) => {
           initialRender.push({ key, newValue });
         }
       } else if (!returnedPromise) {
-        setTimeout(() => snapshots[snapshots.length - 1].selectors.push({ key, newValue }), 0);
+        setTimeout(() => {
+          snapshots[snapshots.length - 1].selectors.push({ key, newValue });
+          console.log(snapshots)
+        }
+          , 0);
       }
     }
 
@@ -72,9 +76,29 @@ export const selector = (config) => {
 
   // Create a new config object with updated properties
   const newConfig = { key, get: getter };
+
+  // Wrap set method with tracking logic
   if (set) {
-    newConfig.set = (...args) => set(...args);
-  }
+    const setter = (...args) => {
+      const value = args[args.length - 1]
+      console.log('args', args)
+      setTimeout(() => {
+        const writer = snapshots[snapshots.length - 1].state.find(writeable => writeable.key === key);
+      // Overwrite snapshot's 'get' value with user-provided newValue
+        writer.value = value;
+        // flag writeable selector so we know to amend test string
+        writer.set = true;
+        console.log(snapshots)
+      }
+        , 0);
+      return set(...args)
+    }
+      newConfig.set = setter;
+    // Add to writeables so we can create setter hook in test string
+     writeables.push(recoilSelector(newConfig)); 
+   }
+
+
 
   // Create selector & add to readables for test setup
   const trackedSelector = recoilSelector(newConfig);
@@ -122,6 +146,7 @@ export const ChromogenObserver = () => {
     // Map current snapshot to array of atom states
     // Can't directly check recording hook b/c TransactionObserver runs before state update
     if (snapshot.getLoadable(recordingState).contents) {
+      // Exclude selectors – they are added in shadow set method above
       const state = writeables.map((item) => {
         const { key } = item;
         const value = snapshot.getLoadable(item).contents;

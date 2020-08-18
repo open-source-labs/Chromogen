@@ -1,10 +1,13 @@
+const imports = {};
 const output = (writeables, readables, snapshots, initialRender) =>
   `import { renderRecoilHook, act } from 'react-recoil-hooks-testing-library';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {
-${
-  writeables.reduce((importStr, { key }) => `${importStr}\t${key},\n`, '')
-  + readables.reduce((importStr, { key }) => `${importStr}\t${key},\n`, '')
+${  writeables.reduce((importStr, { key }) => {
+      if (!imports[key]) imports[key] = true;
+         return `${importStr}\t${key},\n`}, '')
+  + readables.reduce((importStr, { key }) =>  key in imports ? importStr : `${importStr}\t${key},\n`
+      , '')
 }
 } from '<ADD STORE FILEPATH>';
 
@@ -17,11 +20,13 @@ ${writeables.reduce(
   (str, { key }) => `${str}\tconst [${key}Value, set${key}] = useRecoilState(${key});\n`,
   '',
 )}
-${readables.reduce((str, { key }) => `${str}\tconst ${key}Value = useRecoilValue(${key});\n`, '')}
+${readables.reduce((str, { key }) => 
+    key in imports ? str :
+  `${str}\tconst ${key}Value = useRecoilValue(${key});\n`, '')}
   return {
   ${
     writeables.reduce((value, { key }) => `${value}\t${key}Value,\n\tset${key},\n`, '')
-    + readables.reduce((value, { key }) => `${value}\t${key}Value,\n`, '')
+    + readables.reduce((value, { key }) => key in imports ? value :`${value}\t${key}Value,\n`, '')
   }
   };
 };
