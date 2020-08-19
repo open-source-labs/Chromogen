@@ -9,6 +9,9 @@ import {
   RecoilValueReadOnly,
   AtomOptions,
   Snapshot,
+  ReadWriteSelectorOptions,
+  ReadOnlySelectorOptions,
+  RecoilValue,
 } from 'recoil';
 import output from './testString';
 import { Writeables, Readables, SelectorsArr, Snapshots, SelectorConfig } from './types/types';
@@ -28,8 +31,11 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 //switching to function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
-export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> | RecoilState<T> {
+// export function selector<T>(options: ReadWriteSelectorOptions<T>): RecoilState<T>;
+// export function selector<T>(options: ReadOnlySelectorOptions<T>): RecoilValueReadOnly<T>;
+export function selector(config: ReadWriteSelectorOptions<any>) {
   const { key, get, set } = config;
+
   let returnedPromise = false;
 
   /**
@@ -45,7 +51,8 @@ export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> |
 
   if (
     get.constructor.name === 'AsyncFunction' ||
-    get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
+    get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m) ||
+    snapshots.length > 0
   ) {
     return recoilSelector(config);
   }
