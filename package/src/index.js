@@ -61,11 +61,12 @@ export const selector = (config) => {
           returnedPromise = true;
         } else {
           initialRender.push({ key, newValue });
-          console.log('initial render:', initialRender, 'snapshots.length:')
+          // console.log('initial render:', initialRender, 'snapshots.length:')
         }
       } else if (!returnedPromise) {
         // setTimeout(() => {
           snapshots[snapshots.length - 1].selectors.push({ key, newValue });
+          console.log('snapshots:', snapshots)
         }
       }, 0)
           // , 0);
@@ -82,22 +83,24 @@ export const selector = (config) => {
   // Wrap set method with tracking logic
   if (set) {
     const setter = (...args) => {
-      const value = args[args.length - 1]
-      if (snapshots.length > 0) {
-        setTimeout(() => {
-          const writer = snapshots[snapshots.length - 1].state.find(writeable => writeable.key === key);
+      // Grab user-defined newValue
+      const value = args[args.length - 1];
+
+      if (recordingState && snapshots.length > 0) {
+
+        // setTimeout(() => {
         // Overwrite snapshot's 'get' value with user-provided newValue
+          const writer = snapshots[snapshots.length - 1].state.find(writeable => writeable.key === key);
           writer.value = value;
-          // flag writeable selector so we know to amend test string
+          // flag writeable selector so we know to amend test string - ?
           writer.set = true;
-          console.log('set fired', snapshots)
-        }
-          , 0);
-      }
-      return set(...args)
+        // }   , 0);
+      
     }
-      newConfig.set = setter;
-    // Add to writeables so we can create setter hook in test string
+      return set(...args);
+    }
+     newConfig.set = setter;
+      // Add to writeables so we can create setter hook in test string
      writeables.push(recoilSelector(newConfig)); 
    }
 
