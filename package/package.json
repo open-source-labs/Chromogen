@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "scripts": {
     "build": "webpack --mode=production",
-    "test": "jest"
+    "test": "jest --verbose",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -35,7 +36,7 @@
     "@types/react-dom": "^16.9.8",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.1.0",
-    "jest": "^26.3.0",
+    "jest": "^26.4.0",
     "jest-expo": "^38.0.2",
     "react-test-renderer": "^16.13.1",
     "source-map-loader": "^1.0.1",

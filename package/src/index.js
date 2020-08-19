@@ -10,10 +10,10 @@ import output from './testString';
 
 // ----- TESTING -----
 // Arrays used to compose test strings
-const writeables = [];
-const snapshots = [];
-const initialRender = [];
-let readables = [];
+export const writeables = [];
+export const snapshots = [];
+export const initialRender = [];
+export let readables = [];
 
 // State for recording toggle
 const recordingState = recoilAtom({ key: 'recordingState', default: true });
@@ -140,6 +140,7 @@ export const ChromogenObserver = () => {
     <div style={divStyle}>
       <button
         aria-label="capture test"
+        className="buttons"
         style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
         type="button"
         onClick={() =>
@@ -152,6 +153,7 @@ export const ChromogenObserver = () => {
       />
       <button
         aria-label={recording ? 'pause' : 'record'}
+        className="buttons"
         style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow' }}
         type="button"
         onClick={() => {
