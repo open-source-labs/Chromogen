@@ -50,6 +50,7 @@ export function selector(config: ReadWriteSelectorOptions<any>) {
    */
 
   if (
+    !get ||
     get.constructor.name === 'AsyncFunction' ||
     get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m) ||
     snapshots.length > 0
