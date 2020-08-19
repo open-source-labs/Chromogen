@@ -63,9 +63,9 @@ ${snapshots.reduce((tests, { state, selectors }) => {
         atomLen > 1
           ? updatedAtoms.reduce((list, { key }, i) => {
               const last = i === atomLen - 1;
-              return `${list}${last ? 'and ' : ''}${key}${last ? 'update' : ', '}`;
+              return `${list}${last ? 'and ' : ''}${key}${last ? ' update' : ' '}`;
             }, '')
-          : `${updatedAtoms[0].key} updates`
+          : ` ${updatedAtoms[0].key} updates`
       }', () => {
 \t\tconst { result } = renderRecoilHook(useStoreHook);
 
@@ -90,6 +90,7 @@ ${selectors.reduce(
 })`;
 
 export default output;
+
 
 // PENDING TESTS
 
