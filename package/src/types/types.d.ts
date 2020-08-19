@@ -1,11 +1,4 @@
-import {
-  RecoilState,
-  RecoilValueReadOnly,
-  RecoilValue,
-  DefaultValue,
-  ReadWriteSelectorOptions,
-  ReadOnlySelectorOptions,
-} from 'recoil';
+import { RecoilState, RecoilValueReadOnly, RecoilValue, DefaultValue } from 'recoil';
 
 // ----- INITIALIZING NON-IMPORTABLE RECOIL TYPES -----
 type GetRecoilValue = <T>(recoilVal: RecoilValue<T>) => T;
@@ -32,6 +25,3 @@ export interface SelectorConfig<T> {
   ) => void;
   dangerouslyAllowMutability?: boolean;
 }
-
-export function selector<T>(options: ReadWriteSelectorOptions<T>): RecoilState<T>;
-export function selector<T>(options: ReadOnlySelectorOptions<T>): RecoilValueReadOnly<T>;
