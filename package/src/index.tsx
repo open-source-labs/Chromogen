@@ -9,6 +9,8 @@ import {
   RecoilValueReadOnly,
   AtomOptions,
   Snapshot,
+  ReadWriteSelectorOptions,
+  ReadOnlySelectorOptions,
 } from 'recoil';
 import output from './testString';
 import { Writeables, Readables, SelectorsArr, Snapshots, SelectorConfig } from './types/types';
@@ -27,26 +29,37 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
 });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
-//switching to function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
-export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> | RecoilState<T> {
-  const { key, get, set } = config;
+//Wwitching to function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
+//Hardcoding function overloads as correct function types were not being recognized on import
+export function selector<T>(options: ReadWriteSelectorOptions<T>): RecoilState<T>;
+export function selector<T>(options: ReadOnlySelectorOptions<T>): RecoilValueReadOnly<T>;
+export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelectorOptions<any>) {
+  const { key, get } = config;
+
   let returnedPromise = false;
 
   /**
    * If get is undefined, native Async, or transpiled generator-based async from Babel (id'd via RegEx),
    * we don't do any injecting or tracking. It just gets created & returned back out.
+   
+   * If snapshots.length is greater than 1, the selector is being created following the initial render
+   * (i.e. a dynamically generated selector) and will not be tracked - otherwise 
+   * will break the imports within test file output. Same logic is being applied to 
+   * new atoms as well.
    *
    * Otherwise, we attempt to wrap it with a custom getter that logs the return
    * value on each update to the corresponding snapshot in the snapshots array.
    *
    * If get returns a promise on page load, we delete it from the readables array
    * and do not track it on subsequent calls (via "returnedPromise" flag).
+   * 
    */
 
   if (
     !get ||
     get.constructor.name === 'AsyncFunction' ||
-    get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
+    get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m) ||
+    snapshots.length > 0
   ) {
     return recoilSelector(config);
   }
@@ -79,12 +92,12 @@ export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> |
 
   // Create a new config object with updated properties
   const newConfig: SelectorConfig<any> = { key, get: getter };
-  if (set) {
-    newConfig.set = (...args) => set(...args);
+  if ('set' in config) {
+    newConfig.set = (...args) => config.set(...args);
   }
 
   // Create selector & add to readables for test setup
-  const trackedSelector: RecoilValueReadOnly<any> | RecoilState<any> = recoilSelector(newConfig);
+  const trackedSelector = recoilSelector(newConfig);
   readables.push(trackedSelector);
   return trackedSelector;
 }
@@ -92,6 +105,8 @@ export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> |
 //switching to function declaration
 export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
   const newAtom = recoilAtom<any>(config);
+
+  if (snapshots.length > 0) return newAtom;
   writeables.push(newAtom);
   return newAtom;
 }
@@ -119,11 +134,13 @@ const divStyle: CSSProperties = {
 
 export const ChromogenObserver: React.FC = () => {
   // File stores URL for generated test file Blob containing output() string
-  const [file, setFile] = useState<undefined | string>(undefined); //initializing as undefined over null to match typing for AnchorHTML attributes from React
+  //Initializing file as undefined over null to match typing for AnchorHTML attributes from React
+  const [file, setFile] = useState<undefined | string>(undefined);
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
 
   // Auto-click download link when a new file is generated (via button click)
-  useEffect(() => document.getElementById('chromogen-download')!.click(), [file]); //! to get around strict null check in tsconfig
+  //! to get around strict null check in tsconfig
+  useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
 
   useRecoilTransactionObserver_UNSTABLE(
     ({ previousSnapshot, snapshot }: { previousSnapshot: Snapshot; snapshot: Snapshot }): void => {
