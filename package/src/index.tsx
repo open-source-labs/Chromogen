@@ -1,10 +1,11 @@
+/* eslint-disable */
 import React, { useState, useEffect, CSSProperties } from 'react';
 import {
   selector as recoilSelector,
   atom as recoilAtom,
-  useRecoilState,
   // eslint-disable-next-line camelcase
   useRecoilTransactionObserver_UNSTABLE,
+  useRecoilState,
   RecoilState,
   RecoilValueReadOnly,
   AtomOptions,
@@ -13,13 +14,23 @@ import {
   ReadOnlySelectorOptions,
 } from 'recoil';
 import output from './testString';
-import { Writeables, Readables, SelectorsArr, Snapshots, SelectorConfig } from './types/types';
+import {
+  Writeables,
+  Readables,
+  SelectorsArr,
+  Snapshots,
+  Setters,
+  SelectorConfig,
+} from './types/types';
+/* eslint-enable */
 
 // ----- TESTING -----
 // Arrays used to compose test string
 const writeables: Writeables<any> = [];
+const settables: Array<string> = [];
 const snapshots: Snapshots = [];
 const initialRender: SelectorsArr = [];
+const setters: Setters = [];
 let readables: Readables<any> = [];
 
 // State for recording toggle
@@ -29,8 +40,8 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
 });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
-//Wwitching to function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
-//Hardcoding function overloads as correct function types were not being recognized on import
+// Wwitching to function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
+// Hardcoding function overloads as correct function types were not being recognized on import
 export function selector<T>(options: ReadWriteSelectorOptions<T>): RecoilState<T>;
 export function selector<T>(options: ReadOnlySelectorOptions<T>): RecoilValueReadOnly<T>;
 export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelectorOptions<any>) {
@@ -56,10 +67,10 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
    */
 
   if (
-    !get ||
-    get.constructor.name === 'AsyncFunction' ||
-    get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m) ||
-    snapshots.length > 0
+    !get
+    || get.constructor.name === 'AsyncFunction'
+    || get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
+    || snapshots.length > 0
   ) {
     return recoilSelector(config);
   }
@@ -72,9 +83,9 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
       if (snapshots.length === 0) {
         // Promise-validation is expensive, so we only do it once, on initial load
         if (
-          typeof newValue === 'object' &&
-          newValue !== null &&
-          Object.prototype.toString.call(newValue) === '[object Promise]'
+          typeof newValue === 'object'
+          && newValue !== null
+          && newValue.constructor.name === 'Promise'
         ) {
           readables = readables.filter((el) => el.key !== key);
           returnedPromise = true;
@@ -93,7 +104,22 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
   // Create a new config object with updated properties
   const newConfig: SelectorConfig<any> = { key, get: getter };
   if ('set' in config) {
-    newConfig.set = (...args) => config.set(...args);
+    const { set } = config;
+    const setter = (...args: any[]) => {
+      // TYPESCRIPT HACK => should be refactored
+      const [utils, setValue] = args;
+      if (utils.get(recordingState) && setters.length > 0) {
+        const newValue = args[1];
+        // setTimeout is required to attribute setter to correct state
+        setTimeout(() => {
+          setters[setters.length - 1].setter = { key, newValue };
+        }, 0);
+      }
+      // TYPESCRIPT HACK pt. 2
+      return set(utils, setValue);
+    };
+    newConfig.set = setter;
+    settables.push(key);
   }
 
   // Create selector & add to readables for test setup
@@ -102,7 +128,7 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
   return trackedSelector;
 }
 
-//switching to function declaration
+// switching to function declaration
 export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
   const newAtom = recoilAtom<any>(config);
 
@@ -134,7 +160,7 @@ const divStyle: CSSProperties = {
 
 export const ChromogenObserver: React.FC = () => {
   // File stores URL for generated test file Blob containing output() string
-  //Initializing file as undefined over null to match typing for AnchorHTML attributes from React
+  // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
 
@@ -152,11 +178,12 @@ export const ChromogenObserver: React.FC = () => {
           const value = snapshot.getLoadable(item).contents;
           const previous = previousSnapshot.getLoadable(item).contents;
           const updated = value !== previous;
-          return { key, value, updated };
+          return { key, value, previous, updated };
         });
 
         // Add current transaction snapshot to snapshots array
         snapshots.push({ state, selectors: [] });
+        setters.push({ state, setter: null });
       }
     },
   );
@@ -166,19 +193,21 @@ export const ChromogenObserver: React.FC = () => {
     <div style={divStyle}>
       <button
         aria-label="capture test"
-        style={{ ...buttonStyle, backgroundColor: 'green' }}
+        style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
         type="button"
         onClick={() =>
           setFile(
             URL.createObjectURL(
-              new Blob([output(writeables, readables, snapshots, initialRender)]),
+              new Blob([
+                output(writeables, readables, snapshots, initialRender, setters, settables),
+              ]),
             ),
           )
         }
       />
       <button
         aria-label={recording ? 'pause' : 'record'}
-        style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow', left: '30px' }}
+        style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow' }}
         type="button"
         onClick={() => {
           setRecording(!recording);
