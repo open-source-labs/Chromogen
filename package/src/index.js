@@ -64,10 +64,9 @@ export const selector = (config) => {
         }
       } else if (!returnedPromise) {
         setTimeout(() => {
-          snapshots[snapshots.length - 1].selectors.push({ key, newValue })
-          console.log('snapshots:', snapshots)
-        }
-        , 0);
+          snapshots[snapshots.length - 1].selectors.push({ key, newValue });
+          console.log('snapshots:', snapshots);
+        }, 0);
       }
     }
 
@@ -78,22 +77,21 @@ export const selector = (config) => {
   // Create a new config object with updated properties
   const newConfig = { key, get: getter };
   if (set) {
-    // Shadow method to track writeable selector invocations 
+    // Shadow method to track writeable selector invocations
     const setter = (...args) => {
-      if (args[0].get(recordingState)  && setters.length > 0) {
+      if (args[0].get(recordingState) && setters.length > 0) {
         const newValue = args[1];
         // setTimeout is required to attribute setter to correct state
-        setTimeout( () =>
-        {
-        setters[setters.length - 1].setter = {key, newValue} 
-        }, 1)
-        console.log('setters:', setters)
+        setTimeout(() => {
+          setters[setters.length - 1].setter = { key, newValue };
+        }, 1);
+        console.log('setters:', setters);
         return set(...args);
       }
-    }
+    };
     newConfig.set = setter;
   }
- 
+
   // Create selector & add to readables for test setup
   const trackedSelector = recoilSelector(newConfig);
   readables.push(trackedSelector);
@@ -150,7 +148,7 @@ export const ChromogenObserver = () => {
 
       // Add current transaction snapshot to snapshots array
       snapshots.push({ state, selectors: [] });
-      setters.push({state, setter: null});
+      setters.push({ state, setter: null });
     }
   });
 

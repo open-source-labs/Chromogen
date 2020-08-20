@@ -115,10 +115,6 @@ ${setters.reduce(
   \t\tact(() => { 
 \t\t\tresult.current.set${setter.key}(${JSON.stringify(setter.newValue)});\n\n
   \t\t});
-
-
-    ${setter.key} was set with ${JSON.stringify(setter.newValue)}\n
-    
  ${updatedAtoms.reduce(
    (setterAssertions, { key, value }) =>
      `${setterAssertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
