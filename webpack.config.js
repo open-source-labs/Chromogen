@@ -10,7 +10,6 @@ module.exports = {
     path: path.join(__dirname, './extension/build/bundles'),
     filename: '[name].bundle.js', // full name will be extension/build/bundles/[name].bundle.js
   },
-  mode: process.env.NODE_ENV,
   module: {
     rules: [
       {
