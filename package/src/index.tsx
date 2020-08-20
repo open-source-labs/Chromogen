@@ -58,7 +58,7 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
   if (
     !get ||
     get.constructor.name === 'AsyncFunction' ||
-    get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m) ||
+    get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m) ||
     snapshots.length > 0
   ) {
     return recoilSelector(config);
