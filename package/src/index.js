@@ -37,7 +37,7 @@ export const selector = (config) => {
   if (
     !get
     || get.constructor.name === 'AsyncFunction'
-    || get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
+    || get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
   ) {
     return recoilSelector(config);
   }
@@ -140,7 +140,6 @@ export const ChromogenObserver = () => {
     <div style={divStyle}>
       <button
         aria-label="capture test"
-        className="buttons"
         style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
         type="button"
         onClick={() =>
@@ -153,7 +152,6 @@ export const ChromogenObserver = () => {
       />
       <button
         aria-label={recording ? 'pause' : 'record'}
-        className="buttons"
         style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow' }}
         type="button"
         onClick={() => {
