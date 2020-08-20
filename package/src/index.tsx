@@ -3,7 +3,6 @@ import React, { useState, useEffect, CSSProperties } from 'react';
 import {
   selector as recoilSelector,
   atom as recoilAtom,
-  // eslint-disable-next-line camelcase
   useRecoilTransactionObserver_UNSTABLE,
   useRecoilState,
   RecoilState,
