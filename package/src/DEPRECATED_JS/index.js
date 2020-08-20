@@ -10,9 +10,11 @@ import output from './testString';
 
 // ----- TESTING -----
 // Arrays used to compose test strings
+// Exported for package test suite only
 export const writeables = [];
 export const snapshots = [];
 export const initialRender = [];
+export const setters = [];
 export let readables = [];
 
 // State for recording toggle
@@ -62,7 +64,9 @@ export const selector = (config) => {
           initialRender.push({ key, newValue });
         }
       } else if (!returnedPromise) {
-        setTimeout(() => snapshots[snapshots.length - 1].selectors.push({ key, newValue }), 0);
+        setTimeout(() => {
+          snapshots[snapshots.length - 1].selectors.push({ key, newValue });
+        }, 0);
       }
     }
 
@@ -73,7 +77,18 @@ export const selector = (config) => {
   // Create a new config object with updated properties
   const newConfig = { key, get: getter };
   if (set) {
-    newConfig.set = (...args) => set(...args);
+    // Shadow method to track writeable selector invocations
+    const setter = (...args) => {
+      if (args[0].get(recordingState) && setters.length > 0) {
+        const newValue = args[1];
+        // setTimeout is required to attribute setter to correct state
+        setTimeout(() => {
+          setters[setters.length - 1].setter = { key, newValue };
+        }, 1);
+      }
+      return set(...args);
+    };
+    newConfig.set = setter;
   }
 
   // Create selector & add to readables for test setup
@@ -127,11 +142,12 @@ export const ChromogenObserver = () => {
         const value = snapshot.getLoadable(item).contents;
         const previous = previousSnapshot.getLoadable(item).contents;
         const updated = value !== previous;
-        return { key, value, updated };
+        return { key, value, previous, updated };
       });
 
       // Add current transaction snapshot to snapshots array
       snapshots.push({ state, selectors: [] });
+      setters.push({ state, setter: null });
     }
   });
 
@@ -145,7 +161,7 @@ export const ChromogenObserver = () => {
         onClick={() =>
           setFile(
             URL.createObjectURL(
-              new Blob([output(writeables, readables, snapshots, initialRender)]),
+              new Blob([output(writeables, readables, snapshots, initialRender, setters)]),
             ),
           )
         }
