@@ -10,10 +10,10 @@ import output from './testString';
 
 // ----- TESTING -----
 // Arrays used to compose test strings
-const writeables = [];
-const snapshots = [];
-const initialRender = [];
-let readables = [];
+export const writeables = [];
+export const snapshots = [];
+export const initialRender = [];
+export let readables = [];
 
 // State for recording toggle
 const recordingState = recoilAtom({ key: 'recordingState', default: true });
@@ -37,7 +37,7 @@ export const selector = (config) => {
   if (
     !get
     || get.constructor.name === 'AsyncFunction'
-    || get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
+    || get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
   ) {
     return recoilSelector(config);
   }

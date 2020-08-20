@@ -46,7 +46,7 @@ export function selector<T>(config: SelectorConfig<T>): RecoilValueReadOnly<T> |
   if (
     !get ||
     get.constructor.name === 'AsyncFunction' ||
-    get.toString().match(/^\s*return\s*_get.*\.apply\(this, arguments\);$/m)
+    get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
   ) {
     return recoilSelector(config);
   }
