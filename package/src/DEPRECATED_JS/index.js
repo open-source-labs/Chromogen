@@ -10,6 +10,7 @@ import output from './testString';
 
 // ----- TESTING -----
 // Arrays used to compose test strings
+// Exported for package test suite only
 export const writeables = [];
 export const snapshots = [];
 export const initialRender = [];
@@ -65,7 +66,6 @@ export const selector = (config) => {
       } else if (!returnedPromise) {
         setTimeout(() => {
           snapshots[snapshots.length - 1].selectors.push({ key, newValue });
-          console.log('snapshots:', snapshots);
         }, 0);
       }
     }
@@ -85,9 +85,8 @@ export const selector = (config) => {
         setTimeout(() => {
           setters[setters.length - 1].setter = { key, newValue };
         }, 1);
-        console.log('setters:', setters);
-        return set(...args);
       }
+      return set(...args);
     };
     newConfig.set = setter;
   }

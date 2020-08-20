@@ -1,48 +1,53 @@
 {
   "name": "chromogen",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "simple, interaction-driven Jest test generator for Recoil apps",
   "main": "build/index.js",
   "scripts": {
-    "build": "webpack --mode=production",
-    "test": "jest --verbose",
-    "tsc": "tsc"
+    "build": "tsc",
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/oslabs-beta/Chromogen.git"
   },
-  "author": "chromogen team",
+  "contributors": [
+    {
+      "name": "Michelle Holland",
+      "url": "https://github.com/michellebholland/"
+    },
+    {
+      "name": "Jim Chen",
+      "url": "https://github.com/chenchingk"
+    },
+    {
+      "name": "Andy Wang",
+      "url": "https://github.com/andywang23"
+    },
+    {
+      "name": "Connor Rose Delisle",
+      "url": "https://github.com/connorrose"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/oslabs-beta/Chromogen/issues"
   },
   "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
+  "peerDependencies": {
+    "jest": "26.x"
+  },
   "dependencies": {
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
+    "@types/recoil": "0.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-recoil-hooks-testing-library": "0.0.8",
     "recoil": "0.0.10"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.9",
     "@types/node": "^14.0.27",
-    "@babel/core": "^7.11.1",
-    "@babel/preset-env": "^7.11.0",
-    "@babel/preset-react": "^7.10.4",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-loader": "^8.1.0",
-    "jest": "^26.4.0",
-    "jest-expo": "^38.0.2",
-    "react-test-renderer": "^16.13.1",
-    "source-map-loader": "^1.0.1",
-    "typescript": "^3.9.7",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "typescript": "^3.9.7"
   }
 }
