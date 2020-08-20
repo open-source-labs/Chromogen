@@ -81,12 +81,12 @@ const useStoreHook = () => {
   2. label for read state value (prop on result.current, passed as arg to expect())
   3. *captured* inital state value (arg passed to toStrictEqual())  
 */
-test('todoListState should initialize correctly', () => {
+xtest('todoListState should initialize correctly', () => {
   const { result } = renderRecoilHook(useStoreHook);
   expect(result.current.todoList).toStrictEqual([]);
 });
 
-test('filteredToDoListState should initialize correctly', () => {
+xtest('filteredToDoListState should initialize correctly', () => {
   const { result } = renderRecoilHook(useStoreHook);
   expect(result.current.filteredTodoList).toStrictEqual([]);
 });
@@ -99,7 +99,7 @@ test('filteredToDoListState should initialize correctly', () => {
   4. argument with which setter fn can be invoked (we'd probably need to capture this w wrapper fn/method shadower)
   5. ? ^ *captured* prior state of atom to be updated 
 */
-test('todoListState should update correctly', () => {
+xtest('todoListState should update correctly', () => {
   //
   const { result } = renderRecoilHook(useStoreHook);
 
@@ -145,7 +145,7 @@ test('todoListState should update correctly', () => {
   5. updated value of selector (arg passed to toStrictEqual())
 */
 
-test('filteredTodoState should update correctly', () => {
+xtest('filteredTodoState should update correctly', () => {
   // filteredTodoState gets todoListState and todoListFilterState (both atoms)
   const { result } = renderRecoilHook(useStoreHook);
 
