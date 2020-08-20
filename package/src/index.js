@@ -13,6 +13,7 @@ import output from './testString';
 const writeables = [];
 const snapshots = [];
 const initialRender = [];
+const setters = [];
 let readables = [];
 
 // State for recording toggle
@@ -49,8 +50,7 @@ export const selector = (config) => {
 
     // Only capture selector data if currently recording
     if (arg.get(recordingState)) {
-      setTimeout( () => { 
-        if (snapshots.length === 0) {
+      if (snapshots.length === 0) {
         // Promise-validation is expensive, so we only do it once, on initial load
         if (
           typeof newValue === 'object'
@@ -61,16 +61,14 @@ export const selector = (config) => {
           returnedPromise = true;
         } else {
           initialRender.push({ key, newValue });
-          // console.log('initial render:', initialRender, 'snapshots.length:')
         }
       } else if (!returnedPromise) {
-        // setTimeout(() => {
-          snapshots[snapshots.length - 1].selectors.push({ key, newValue });
+        setTimeout(() => {
+          snapshots[snapshots.length - 1].selectors.push({ key, newValue })
           console.log('snapshots:', snapshots)
         }
-      }, 0)
-          // , 0);
-      // }
+        , 0);
+      }
     }
 
     // Return out value from original get method
@@ -79,32 +77,23 @@ export const selector = (config) => {
 
   // Create a new config object with updated properties
   const newConfig = { key, get: getter };
-
-  // Wrap set method with tracking logic
   if (set) {
+    // Shadow method to track writeable selector invocations 
     const setter = (...args) => {
-      // Grab user-defined newValue
-      const value = args[args.length - 1];
-
-      if (recordingState && snapshots.length > 0) {
-
-        // setTimeout(() => {
-        // Overwrite snapshot's 'get' value with user-provided newValue
-          const writer = snapshots[snapshots.length - 1].state.find(writeable => writeable.key === key);
-          writer.value = value;
-          // flag writeable selector so we know to amend test string - ?
-          writer.set = true;
-        // }   , 0);
-      
+      if (args[0].get(recordingState)  && setters.length > 0) {
+        const newValue = args[1];
+        // setTimeout is required to attribute setter to correct state
+        setTimeout( () =>
+        {
+        setters[setters.length - 1].setter = {key, newValue} 
+        }, 1)
+        console.log('setters:', setters)
+        return set(...args);
+      }
     }
-      return set(...args);
-    }
-     newConfig.set = setter;
-      // Add to writeables so we can create setter hook in test string
-     writeables.push(recoilSelector(newConfig)); 
-   }
-
-
+    newConfig.set = setter;
+  }
+ 
   // Create selector & add to readables for test setup
   const trackedSelector = recoilSelector(newConfig);
   readables.push(trackedSelector);
@@ -151,17 +140,17 @@ export const ChromogenObserver = () => {
     // Map current snapshot to array of atom states
     // Can't directly check recording hook b/c TransactionObserver runs before state update
     if (snapshot.getLoadable(recordingState).contents) {
-
       const state = writeables.map((item) => {
         const { key } = item;
         const value = snapshot.getLoadable(item).contents;
         const previous = previousSnapshot.getLoadable(item).contents;
         const updated = value !== previous;
-        return { key, value, updated };
+        return { key, value, previous, updated };
       });
 
       // Add current transaction snapshot to snapshots array
       snapshots.push({ state, selectors: [] });
+      setters.push({state, setter: null});
     }
   });
 
@@ -175,7 +164,7 @@ export const ChromogenObserver = () => {
         onClick={() =>
           setFile(
             URL.createObjectURL(
-              new Blob([output(writeables, readables, snapshots, initialRender)]),
+              new Blob([output(writeables, readables, snapshots, initialRender, setters)]),
             ),
           )
         }

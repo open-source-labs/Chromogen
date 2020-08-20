@@ -1,39 +1,51 @@
-const imports = {};
-const output = (writeables, readables, snapshots, initialRender) =>
+const setterImports = {};
+const output = (writeables, readables, snapshots, initialRender, setters) =>
   `import { renderRecoilHook, act } from 'react-recoil-hooks-testing-library';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {
-${  writeables.reduce((importStr, { key }) => {
-      if (!imports[key]) imports[key] = true;
-         return `${importStr}\t${key},\n`}, '')
-  + readables.reduce((importStr, { key }) =>  key in imports ? importStr : `${importStr}\t${key},\n`
-      , '')
+${
+  writeables.reduce((importStr, { key }) => `${importStr}\t${key},\n`, '')
+  + readables.reduce((importStr, { key }) => `${importStr}\t${key},\n`, '')
 }
 } from '<ADD STORE FILEPATH>';
-
 // Suppress 'Batcher' warnings from React / Recoil conflict
 console.error = jest.fn();
-
 // Hook to return atom/selector values and/or modifiers for react-recoil-hooks-testing-library
 const useStoreHook = () => {
-${writeables.reduce(
-  (str, { key }) => `${str}\tconst [${key}Value, set${key}] = useRecoilState(${key});\n`,
+${
+  writeables.reduce(
+    (str, { key }) => `${str}\tconst [${key}Value, set${key}] = useRecoilState(${key});\n`,
+    '',
+  )
+  + setters.reduce((str, { setter }) => {
+    if (setter === null) return str;
+    const { key } = setter;
+    if (!setterImports[key]) {
+      setterImports[key] = true;
+      return `${str}\tconst [${key}Value, set${key}] = useRecoilState(${key});\n`;
+    }
+    return str;
+  }, '')
+}
+
+${readables.reduce(
+  (str, { key }) =>
+    key in setterImports ? str : `${str}\tconst ${key}Value = useRecoilValue(${key});\n`,
   '',
 )}
-${readables.reduce((str, { key }) => 
-    key in imports ? str :
-  `${str}\tconst ${key}Value = useRecoilValue(${key});\n`, '')}
-  return {
-  ${
-    writeables.reduce((value, { key }) => `${value}\t${key}Value,\n\tset${key},\n`, '')
-    + readables.reduce((value, { key }) => key in imports ? value :`${value}\t${key}Value,\n`, '')
-  }
-  };
+return {
+${
+  writeables.reduce((value, { key }) => `${value}\t${key}Value,\n\tset${key},\n`, '')
+  + Object.keys(setterImports).reduce((value, key) => `${value}\t${key}Value,\n\tset${key},\n`, '')
+  + readables.reduce(
+    (value, { key }) => (key in setterImports ? value : `${value}\t${key}Value,\n`),
+    '',
+  )
+}
 };
-
+};
 describe('INITIAL RENDER', () => { 
-  const { result } = renderRecoilHook(useStoreHook); 
-
+const { result } = renderRecoilHook(useStoreHook); 
 ${initialRender.reduce(
   (
     initialTests,
@@ -44,13 +56,11 @@ ${initialRender.reduce(
   '',
 )}
 });
-
 describe('SELECTORS', () => {
 ${snapshots.reduce((tests, { state, selectors }) => {
   const updatedAtoms = state.filter(({ updated }) => updated);
   const atomLen = updatedAtoms.length;
   const selectorLen = selectors.length;
-
   return atomLen !== 0 && selectorLen !== 0
     ? `${tests}\tit('${
         selectorLen > 1
@@ -63,20 +73,18 @@ ${snapshots.reduce((tests, { state, selectors }) => {
         atomLen > 1
           ? updatedAtoms.reduce((list, { key }, i) => {
               const last = i === atomLen - 1;
-              return `${list}${last ? 'and ' : ''}${key}${last ? ' update' : ' '}`;
+              return `${list}${last ? 'and ' : ''}${key}${last ? 'update' : ', '}`;
             }, '')
-          : ` ${updatedAtoms[0].key} updates`
+          : `${updatedAtoms[0].key} updates`
       }', () => {
 \t\tconst { result } = renderRecoilHook(useStoreHook);
-
 \t\tact(() => {
-  ${state.reduce(
-    (initializers, { key, value }) =>
-      `${initializers}\t\t\tresult.current.set${key}(${JSON.stringify(value)});\n\n`,
-    '',
-  )}
+${state.reduce(
+  (initializers, { key, value }) =>
+    `${initializers}\t\t\tresult.current.set${key}(${JSON.stringify(value)});\n\n`,
+  '',
+)}
 \t\t});
-
 ${selectors.reduce(
   (assertions, { key, newValue }) =>
     `${assertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
@@ -87,7 +95,45 @@ ${selectors.reduce(
 \t});\n\n`
     : tests;
 }, '')}
-})`;
+
+
+SETTERS:
+${setters.reduce(
+  (setterTests, { state, setter }) => {
+    const updatedAtoms = state.filter(({ updated }) => updated);
+    // any other logic here
+    return setter
+      ? `${setterTests}\tit('${setter.key} should properly set state', () => {
+  \t\tconst { result } = renderRecoilHook(useStoreHook);
+  \t\tact(() => {
+ ${state.reduce(
+   (setterInitializers, { key, previous }) =>
+     `${setterInitializers}\t\t\tresult.current.set${key}(${JSON.stringify(previous)});\n\n`,
+   '',
+ )}
+    \t\t});
+  \t\tact(() => { 
+\t\t\tresult.current.set${setter.key}(${JSON.stringify(setter.newValue)});\n\n
+  \t\t});
+
+
+    ${setter.key} was set with ${JSON.stringify(setter.newValue)}\n
+    
+ ${updatedAtoms.reduce(
+   (setterAssertions, { key, value }) =>
+     `${setterAssertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
+       value,
+     )});\n\n`,
+   '',
+ )}
+
+      \t});\n\n`
+      : `${setterTests}`;
+  },
+  // closing backtick ^
+  '',
+)} 
+});`;
 
 export default output;
 
