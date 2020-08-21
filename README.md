@@ -11,7 +11,7 @@
   />
 </a>
 
-<h3>A UI-driven test-generation package for <a href="</a>">Recoil</a> selectors.</h3>
+<h3>A UI-driven test-generation package for <a href="https://github.com/facebookexperimental/Recoil">Recoil</a> selectors.</h3>
 
 # [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen) [![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen) [![Github starts](https://img.shields.io/github/stars/oslabs-beta/chromogen?style=social)](https://github.com/oslabs-beta/Chromogen)
 
@@ -28,21 +28,35 @@
 
 ## Overview
 
-You're an independent developer or part of a lean team. You want reliable tests for your new React-Recoil app, but you need to move fast and time is major constraint. Additionally, you want your tests to reflect how your users interact with the app, rather than testing implementation details.
+You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil app, but you need to move fast and time is major constraint. More importantly, you want your tests to reflect how your users interact with the app, rather than testing implementation details.
 
-Enter [Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest test-generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test files for your selectors. Simply launch your app after following the installation instructions below, interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
+Enter [Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your app after following the installation instructions below, interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
 
-#### Chromogen is currently in active beta
-Testing for pre-composed, synchronous, read-only selectors is now fully functional. However, support for the following features is still in development:
-  1. Writeable selectors
-  1. Asyncronous selectors
-  1. Dynamically generated selectors
+### Don't have a Recoil app handy?
+Chromogen's [official demo app](https://github.com/michellebholland/recoil-demo-todo) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against.
+
+### Chromogen is in active Beta
+Chromogen currently supports three main types of test:
+  1. **Initial selector value** on page load
+  2. **Selector derived value** for a give state, using state snapshots captured after each Transaction.
+  3. **Selector _set_ logic** for a given starting state and `newValue` argument.
+
+These test suites will be captured for _synchronous, pre-composed_ selectors only. However, the presence of asyncronous and/or dynamically-created selectors in your app should not cause any issues with the captured tests. Chromogen can identify such selectors at run-time and exclude them from capture.
+
+**Note:** Chromogen uses selector keys to populate the import & hook statements in the test file. If your source code does _not_ match variable names to keys, you will need to manually update the import statement and useStoreHook to match your actual variable names. The actual test variables are pre-generated in the useStoreHook and so will be unaffected. (Although test names may be long and meaningless if your app implements UUID keys.) We are currently working on an update that will allow Chromogen to grab variable names from source code instead of relying on keys.
+
+In addition to the smart-import mentioned above, the following features are also in active development:
+  1. selectorFamily testing
+  1. DevTool panel to move download & stop/start buttons out of the rendered app
+  1. Testing transaction updates in series, rather than as discrete states
+
+At this time, we have no plans to introduce tests for async selectors; the mocking requirements are too opaque and fragile. However, we are always open to suggestions to meet the needs of our userbase. Want to see this or any other feature added to the package? [Let us know!](#contributing)
 
 ## Installation
 
-To run Chromogen, you'll need to make two changes to your application:
+Before running Chromogen, you'll need to make two changes to your application:
   1. Import the `<ChromogenObserver />` component as a child of `<RecoilRoot />`
-  2. Import all atoms and selectors from Chromogen instead of Recoil
+  1. Import all atoms and selectors from Chromogen instead of Recoil
 
 These changes do have a small performance cost, so they should be reverted before deploying to production.
 
@@ -71,7 +85,7 @@ const App = (props) => (
 export default App;
 ```
 
-### Import atoms & selectors from Chromogen
+### Import atom & selector functions from Chromogen
 Wherever you import `atom` and/or `selector` from Recoil (typically in your `store` file), import them from Chromogen instead. The arguments passed in do **not** need to change in any away, and the return value will still be a normal RecoilAtom or RecoilSelector.  Chromogen wraps the native Recoil functions to track which pieces of Recoil state have been created, as well as when various selectors are running and what values they return.
 
 ```js
@@ -116,16 +130,15 @@ Before running the test file, you'll need to specify the import path for your st
 ### AFTER:
 ![Filepath Updated](./assets/screenshots/README-filepath-updated.png)
 
-You're now ready to run your tests! Upon running your normal Jest test command, you should see two suites for `chromogen.test.js`:
+You're now ready to run your tests! Upon running your normal Jest test command, you should see three suites for `chromogen.test.js`:
 
 ![Test Output](./assets/screenshots/README-test-output.png)
 
 **Initial Render** tests whether each selector returns the correct value at launch. There is one test per selector.
 
-**Selectors** tests the return value of various selectors for a given state. Each test (`State-#`) represents the app state after a transaction has occured, generally triggered by some user interaction. For each selector that ran after that transaction, the test asserts on the selector's return value for the given state.
-###### An update to make the test names more descriptive is currently in the works.
+**Selectors** tests the return value of various selectors for a given state. Each test represents the app state after a transaction has occured, generally triggered by some user interaction. For each selector that ran after that transaction, the test asserts on the selector's return value for the given state.
 
-**Please note:** You may see `console.error` messages about updating a `Batcher` component. This is a [known issue](https://github.com/facebookexperimental/Recoil/issues/12) due to conflicts between the current releases of React and Recoil. Pending a Recoil update, we are working on a way to suppress this warning within the test suite.
+**Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 
 ## Contributing
 We welcome community contributions, including new developers who've never [made an open source Pull Request before](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github). If you'd like to start a new PR, we recommend [creating an issue](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue) for discussion first. This lets us open a conversation, ensuring work is not duplicated unnecessarily and that the proposed PR is a fix or feature we're actively looking to add.
@@ -159,6 +172,8 @@ For questions related to using the package, you may either file an issue or _gma
 ## LICENSE
 Logo remixed from [ReactJS](https://github.com/reactjs/reactjs.org) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and [Smashicons](https://www.flaticon.com/authors/smashicons) via [www.flaticon.com](https://www.flaticon.com/)
 
-README format inspired by [react-testing-library](https://github.com/testing-library/react-testing-library/blob/master/README.md) under [MIT license](https://github.com/testing-library/react-testing-library/blob/master/LICENSE).
+README format adapted from [react-testing-library](https://github.com/testing-library/react-testing-library/blob/master/README.md) under [MIT license](https://github.com/testing-library/react-testing-library/blob/master/LICENSE).
 
 All Chromogen source code is [MIT](./LICENSE) licensed.
+
+Lastly, shoutout to [this repo](https://github.com/conorhastings/redux-test-recorder) for the original inspiration.
