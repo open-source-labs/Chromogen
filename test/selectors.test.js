@@ -11,41 +11,12 @@ import {
   refreshFilterState,
 } from '../src/store/store';
 
+// Prevent Recoil 'Batcher' warning from logging on every test run
 console.error = jest.fn();
-
-// using react testing library alone might make more sense
-// test('filteredTodoListState should correctly derive state', () => {
-//   // first arg needs to be custom hook
-//   const { result } = renderRecoilHook(() => filteredTodoListState, {
-//     states: [
-//       {
-//         recoilState: todoListFilterState,
-//         initialValue: 'Show Completed',
-//       },
-//       {
-//         recoilState: todoListState,
-//         initialValue: [
-//           {
-//             id: 0,
-//             test: 'make hamburgers',
-//             priority: 'high',
-//             isComplete: true,
-//           },
-//         ],
-//       },
-//     ],
-//   });
-//   expect(result.current).toBe(0);
-// });
-
-/* Hook to return atom/selector values and/or modifiers 
-for react-recoil-hooks-testing-library */
 
 /* Setup requires:
   1. *name or key* of every atom and selector, and whether each is read + write or readonly
   2. labels for value + setter functions – these are user-defined within a component 
-       *** we can either grab those from the app (how?) OR
-       assume them on the basis of convention (e.g. we infer [todoList, setTodoList] from 'todoListState' )
 */
 const useStoreHook = () => {
   // atoms - read + write
@@ -81,17 +52,17 @@ const useStoreHook = () => {
   2. label for read state value (prop on result.current, passed as arg to expect())
   3. *captured* inital state value (arg passed to toStrictEqual())  
 */
-test('todoListState should initialize correctly', () => {
+xtest('todoListState should initialize correctly', () => {
   const { result } = renderRecoilHook(useStoreHook);
   expect(result.current.todoList).toStrictEqual([]);
 });
 
-test('filteredToDoListState should initialize correctly', () => {
+xtest('filteredToDoListState should initialize correctly', () => {
   const { result } = renderRecoilHook(useStoreHook);
   expect(result.current.filteredTodoList).toStrictEqual([]);
 });
 
-/* * A little confused on this test - not sure if we are just testing our own setter fn?
+/*
   Atom update tests require:  
   1. name/key of atom (used in string passed as first arg to 'test()')
   2. label for read state value(prop on result.current, passed as arg to expect() AND spread into setter fn)
@@ -99,13 +70,13 @@ test('filteredToDoListState should initialize correctly', () => {
   4. argument with which setter fn can be invoked (we'd probably need to capture this w wrapper fn/method shadower)
   5. ? ^ *captured* prior state of atom to be updated 
 */
-test('todoListState should update correctly', () => {
+xtest('todoListState should update correctly', () => {
   //
   const { result } = renderRecoilHook(useStoreHook);
 
   act(() => {
     result.current.setTodoList([
-      ...result.current.todoList, // should this be prior state?
+      ...result.current.todoList,
       {
         id: 0,
         test: 'make hamburgers',
@@ -145,7 +116,7 @@ test('todoListState should update correctly', () => {
   5. updated value of selector (arg passed to toStrictEqual())
 */
 
-test('filteredTodoState should update correctly', () => {
+xtest('filteredTodoState should update correctly', () => {
   // filteredTodoState gets todoListState and todoListFilterState (both atoms)
   const { result } = renderRecoilHook(useStoreHook);
 
