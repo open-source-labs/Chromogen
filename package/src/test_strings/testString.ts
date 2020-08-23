@@ -1,21 +1,21 @@
 /* eslint-disable */
-import { Writeables, Readables, SelectorsArr, Snapshots, Setters } from './types/types';
+import { Ledger } from '../types/types';
 /* eslint-enable */
 
-const output = (
-  writeables: Writeables<any>,
-  readables: Readables<any>,
-  snapshots: Snapshots,
-  initialRender: SelectorsArr,
-  setters: Setters,
-  settables: Array<string>,
-): string =>
+const output = ({
+  atoms,
+  selectors,
+  setters,
+  initialRender,
+  snapshots,
+  setTransactions,
+}: Ledger): string =>
   `import { renderRecoilHook, act } from 'react-recoil-hooks-testing-library';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {
 ${
-  writeables.reduce((importStr, { key }) => `${importStr}\t${key},\n`, '')
-  + readables.reduce((importStr, { key }) => `${importStr}\t${key},\n`, '')
+  atoms.reduce((importStr, { key }) => `${importStr}\t${key},\n`, '')
+  + selectors.reduce((importStr, key) => `${importStr}\t${key},\n`, '')
 }
 } from '<ADD STORE FILEPATH>';
 
@@ -25,26 +25,26 @@ console.error = jest.fn();
 // Hook to return atom/selector values and/or modifiers for react-recoil-hooks-testing-library
 const useStoreHook = () => {
   // atoms
-${writeables.reduce(
+${atoms.reduce(
   (str, { key }) => `${str}\tconst [${key}Value, set${key}] = useRecoilState(${key});\n`,
   '',
 )}
   // writeable selectors
-${settables.reduce(
+${setters.reduce(
   (str, key) => `${str}\tconst [${key}Value, set${key}] = useRecoilState(${key});\n`,
   '',
 )}
   // read-only selectors
-${readables
-  .filter(({ key }) => !settables.includes(key))
-  .reduce((str, { key }) => `${str}\tconst ${key}Value = useRecoilValue(${key});\n`, '')}
+${selectors
+  .filter((key) => !setters.includes(key))
+  .reduce((str, key) => `${str}\tconst ${key}Value = useRecoilValue(${key});\n`, '')}
   return {
 ${
-  writeables.reduce((value, { key }) => `${value}\t\t${key}Value,\n\t\tset${key},\n`, '')
-  + settables.reduce((value, key) => `${value}\t\t${key}Value,\n\t\tset${key},\n`, '')
-  + readables
-    .filter(({ key }) => !settables.includes(key))
-    .reduce((value, { key }) => `${value}\t\t${key}Value,\n`, '')
+  atoms.reduce((value, { key }) => `${value}\t\t${key}Value,\n\t\tset${key},\n`, '')
+  + setters.reduce((value, key) => `${value}\t\t${key}Value,\n\t\tset${key},\n`, '')
+  + selectors
+    .filter((key) => !setters.includes(key))
+    .reduce((value, key) => `${value}\t\t${key}Value,\n`, '')
 }\t};
 };
 
@@ -62,20 +62,12 @@ ${initialRender.reduce(
 )}});
 
 describe('SELECTORS', () => {
-${snapshots.reduce((tests, { state, selectors }) => {
+${snapshots.reduce((tests, { state, updates }) => {
   const updatedAtoms = state.filter(({ updated }) => updated);
   const atomLen = updatedAtoms.length;
-  const selectorLen = selectors.length;
 
-  return atomLen !== 0 && selectorLen !== 0
-    ? `${tests}\tit('${
-        selectorLen > 1
-          ? selectors.reduce((list, { key }, i) => {
-              const last = i === selectorLen - 1;
-              return `${list}${last ? 'and ' : ''}${key}${last ? '' : ', '}`;
-            }, '')
-          : `${selectors[0].key}`
-      } should properly derive state when${
+  return atomLen !== 0 && updates.length !== 0
+    ? `${tests}\tit('properly derive state when ${
         atomLen > 1
           ? updatedAtoms.reduce((list, { key }, i) => {
               const last = i === atomLen - 1;
@@ -92,7 +84,7 @@ ${state.reduce(
   '',
 )}\t\t});
 
-${selectors.reduce(
+${updates.reduce(
   (assertions, { key, newValue }) =>
     `${assertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
       newValue,
@@ -103,7 +95,7 @@ ${selectors.reduce(
 }, '')}});
 
 describe('SETTERS', () => {
-${setters.reduce((setterTests, { state, setter }) => {
+${setTransactions.reduce((setterTests, { state, setter }) => {
   const updatedAtoms = state.filter(({ updated }) => updated);
 
   return setter
