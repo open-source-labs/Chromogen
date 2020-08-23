@@ -7,7 +7,7 @@ const output = ({
   selectors,
   setters,
   initialRender,
-  snapshots,
+  transactions,
   setTransactions,
 }: Ledger): string =>
   `import { renderRecoilHook, act } from 'react-recoil-hooks-testing-library';
@@ -62,7 +62,7 @@ ${initialRender.reduce(
 )}});
 
 describe('SELECTORS', () => {
-${snapshots.reduce((tests, { state, updates }) => {
+${transactions.reduce((tests, { state, updates }) => {
   const updatedAtoms = state.filter(({ updated }) => updated);
   const atomLen = updatedAtoms.length;
 

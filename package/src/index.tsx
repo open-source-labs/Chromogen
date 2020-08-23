@@ -16,14 +16,14 @@ import { Ledger, SelectorConfig } from './types/types';
 import output from './test_strings/testString';
 /* eslint-enable */
 
-// ----- TESTING -----
+// ----- SETUP -----
 // Arrays used to compose test string
 export const ledger: Ledger = {
   atoms: [],
   selectors: [],
   setters: [],
   initialRender: [],
-  snapshots: [],
+  transactions: [],
   setTransactions: [],
 };
 
@@ -34,35 +34,33 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
 });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
-// Wwitching to function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
+// Using function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
 // Hardcoding function overloads as correct function types were not being recognized on import
 export function selector<T>(options: ReadWriteSelectorOptions<T>): RecoilState<T>;
 export function selector<T>(options: ReadOnlySelectorOptions<T>): RecoilValueReadOnly<T>;
 export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelectorOptions<any>) {
   const { key, get } = config;
-  const { snapshots, initialRender, selectors } = ledger;
+  const { transactions, initialRender, selectors } = ledger;
 
   let returnedPromise: boolean = false;
 
   /**
-   * If get is undefined, native Async, or transpiled generator-based async from Babel (id'd via RegEx),
-   * we don't do any injecting or tracking. It just gets created & returned back out.
-   
-   * If snapshots.length is greater than 1, the selector is being created following the initial render
-   * (i.e. a dynamically generated selector) and will not be tracked - otherwise 
-   * will break the imports within test file output. Same logic is being applied to 
-   * new atoms as well.
+   * If transactions.length is greater than 1, the selector is being created after the initial render
+   * (i.e. a dynamically generated selector) and will not be tracked. Doing so would break the imports
+   * and assertions within the output test file. Same logic is applied to new atoms.
    *
-   * Otherwise, we attempt to wrap it with a custom getter that logs the return
-   * value on each update to the corresponding snapshot in the snapshots array.
+   * If get is undefined, native Async, or Babel-transpiled generator-based async (id'd via RegEx),
+   * we don't do any injecting or tracking. Selector just gets created & returned back out.
    *
-   * If get returns a promise on page load, we delete it from the selectors array
-   * and do not track it on subsequent calls (via "returnedPromise" flag).
-   * 
+   * Otherwise, we attempt to wrap get & set methods with custom functions that log the return
+   * value on each transaction to the corresponding ledger array.
+   *
+   * If get returns a promise on page load, we delete selector from the selectors array
+   * and do not track it on subsequent calls (using "returnedPromise" flag, since we can't "un-inject").
    */
 
   if (
-    snapshots.length > 0
+    transactions.length > 0
     || !get
     || get.constructor.name === 'AsyncFunction'
     || get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
@@ -71,12 +69,12 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
   }
 
   // Wrap get method with tracking logic
-  const getter = (arg: any) => {
+  const getter = (utils: any) => {
     // Run user-defined get method & capture its return value
-    const newValue = get(arg);
+    const newValue = get(utils);
     // Only capture selector data if currently recording
-    if (arg.get(recordingState)) {
-      if (snapshots.length === 0) {
+    if (utils.get(recordingState)) {
+      if (transactions.length === 0) {
         // Promise-validation is expensive, so we only do it once, on initial load
         if (
           typeof newValue === 'object'
@@ -89,7 +87,9 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
           initialRender.push({ key, newValue });
         }
       } else if (!returnedPromise) {
-        setTimeout(() => snapshots[snapshots.length - 1].updates.push({ key, newValue }), 0);
+        // allow TransactionObserver to push to array first
+        // Length must be computed after timeout to correctly find last transaction
+        setTimeout(() => transactions[transactions.length - 1].updates.push({ key, newValue }), 0);
       }
     }
 
@@ -106,9 +106,9 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
 
     const setter = (utils: any, newValue: any) => {
       if (utils.get(recordingState) && setTransactions.length > 0) {
-        // setTimeout is required to allow TransactionObserver to run first
+        // allow TransactionObserver to push to array first
+        // Length must be computed after timeout to correctly find last transaction
         setTimeout(() => {
-          // Length must be computed after timeout to correctly find last transaction
           setTransactions[setTransactions.length - 1].setter = { key, newValue };
         }, 0);
       }
@@ -125,14 +125,13 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
   return trackedSelector;
 }
 
-// switching to function declaration
 export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
-  const { snapshots, atoms } = ledger;
+  const { transactions, atoms } = ledger;
   const newAtom = recoilAtom(config);
 
-  if (snapshots.length > 0) return newAtom;
+  if (transactions.length > 0) return newAtom;
 
-  // Can't use key b/c snapshots needs to pass atoms getLoadable during transaction iteration
+  // Can't use key b/c transactions needs to pass atoms getLoadable during transaction iteration
   atoms.push(newAtom);
   return newAtom;
 }
@@ -173,7 +172,7 @@ export const ChromogenObserver: React.FC = () => {
       // Map current snapshot to array of atom states
       // Can't directly check recording hook b/c TransactionObserver runs before state update
       if (snapshot.getLoadable(recordingState).contents) {
-        const { snapshots, setTransactions, atoms } = ledger;
+        const { transactions, setTransactions, atoms } = ledger;
 
         const state = atoms.map((item) => {
           const { key } = item;
@@ -183,8 +182,8 @@ export const ChromogenObserver: React.FC = () => {
           return { key, value, previous, updated };
         });
 
-        // Add current transaction snapshot to snapshots array
-        snapshots.push({ state, updates: [] });
+        // Add current transaction snapshot to transactions array
+        transactions.push({ state, updates: [] });
         setTransactions.push({ state, setter: null });
       }
     },
