@@ -13,7 +13,7 @@ import {
   ReadOnlySelectorOptions,
 } from 'recoil';
 import { Ledger, SelectorConfig } from './types/types';
-import output from './test_strings/testString';
+import { output } from './test_string/testString';
 /* eslint-enable */
 
 // ----- SETUP -----
