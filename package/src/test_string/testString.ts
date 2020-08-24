@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { RecoilValue } from 'recoil'
 import { Ledger } from '../types/types';
 import {
   importRecoilState,
@@ -14,8 +13,6 @@ import {
 /* eslint-enable */
 
 /* ----- HELPERS ----- */
-const keys = (recoilArray: RecoilValue<any>[]): string[] => recoilArray.map(({ key }) => key);
-
 const setFilter = (selectors: string[], setters: string[]): string[] =>
   selectors.filter((key) => !setters.includes(key));
 
@@ -28,11 +25,11 @@ export const output = ({
   initialRender,
   transactions,
   setTransactions,
-}: Ledger): string =>
+}: Ledger<string>): string =>
   `import { renderRecoilHook, act } from 'react-recoil-hooks-testing-library';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {
-${importRecoilState(keys(atoms)) + importRecoilState(selectors)}
+${importRecoilState(atoms) + importRecoilState(selectors)}
 } from '<ADD STORE FILEPATH>';
 
 // Suppress 'Batcher' warnings from React / Recoil conflict
@@ -41,13 +38,13 @@ console.error = jest.fn();
 // Hook to return atom/selector values and/or modifiers for react-recoil-hooks-testing-library
 const useStoreHook = () => {
   // atoms
-${stateHook(keys(atoms))}
+${stateHook(atoms)}
   // writeable selectors
 ${stateHook(setters)}
   // read-only selectors
 ${valueHook(setFilter(selectors, setters))}
   return {
-${returnState(keys(atoms)) + returnState(setters) + returnValue(setFilter(selectors, setters))}\t};
+${returnState(atoms) + returnState(setters) + returnValue(setFilter(selectors, setters))}\t};
 };
 
 describe('INITIAL RENDER', () => { 

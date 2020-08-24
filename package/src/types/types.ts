@@ -32,8 +32,9 @@ export interface SetTransaction {
   setter: null | SelectorUpdate;
 }
 
-export interface Ledger {
-  atoms: RecoilState<any>[];
+// RecoilState<any>[] | string[]
+export interface Ledger<T> {
+  atoms: T[];
   selectors: string[];
   setters: string[];
   initialRender: SelectorUpdate[];

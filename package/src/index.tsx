@@ -18,7 +18,7 @@ import { output } from './test_string/testString';
 
 // ----- SETUP -----
 // Arrays used to compose test string
-export const ledger: Ledger = {
+export const ledger: Ledger<RecoilState<any>> = {
   atoms: [],
   selectors: [],
   setters: [],
@@ -31,6 +31,12 @@ export const ledger: Ledger = {
 const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
+});
+
+// { keyString: variableName, }
+const mapStateNames: RecoilState<Map<string, string>> = recoilAtom<Map<string, string>>({
+  key: 'mapStateNames',
+  default: new Map(),
 });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
@@ -157,11 +163,76 @@ const divStyle: CSSProperties = {
   zIndex: 999999,
 };
 
-export const ChromogenObserver: React.FC = () => {
+export const ChromogenObserver: React.FC<{ store?: object }> = ({ store }) => {
   // File stores URL for generated test file Blob containing output() string
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
+  const [storeMap, setStoreMap] = useRecoilState<Map<string, string>>(mapStateNames);
+
+  // Update Recoil atom that maps keys to variable names if store was provided as prop
+  // TODO: convert to work with arrays of subStores
+  useEffect(() => {
+    if (store !== undefined) {
+      const newStore = Object.entries(store).reduce((updateMap, [variable, { key }]) => {
+        updateMap.set(key, variable);
+        return updateMap;
+      }, new Map());
+      setStoreMap(newStore);
+    }
+  }, []);
+
+  /**
+   * onclick function that generates test file & sets download URL
+   *
+   * Key-to-Variable name mapping is applied if storeMap has any contents
+   * (meaning atom / selector nodes were passed as props)
+   * Applying only at point-of-download keeps performance cost low for users who
+   * don't need to pass nodes, while creating a moderate performance hit for others
+   * only while downloading; never while interacting with their app.
+   */
+  const generateFile = (): void => {
+    const { atoms, selectors, setters, initialRender, transactions, setTransactions } = ledger;
+    const finalLedger: Ledger<string> =
+      storeMap.size > 0
+        ? {
+            atoms: atoms.map(({ key }) => storeMap.get(key) || key),
+            selectors: selectors.map((key) => storeMap.get(key) || key),
+            setters: setters.map((key) => storeMap.get(key) || key),
+            initialRender: initialRender.map(({ key, newValue }) => {
+              const newKey = storeMap.get(key) || key;
+              return { key: newKey, newValue };
+            }),
+            // TODO: remap transaction names
+            transactions: transactions.map(({ state, updates }) => {
+              const newState = state.map((eachAtom) => {
+                const key = storeMap.get(eachAtom.key) || eachAtom.key;
+                return { ...eachAtom, key };
+              });
+              const newUpdates = updates.map((eachSelector) => {
+                const key = storeMap.get(eachSelector.key) || eachSelector.key;
+                const { newValue } = eachSelector;
+                return { key, newValue };
+              });
+              return { state: newState, updates: newUpdates };
+            }),
+            setTransactions: setTransactions.map(({ state, setter }) => {
+              const newState = state.map((eachAtom) => {
+                const key = storeMap.get(eachAtom.key) || eachAtom.key;
+                return { ...eachAtom, key };
+              });
+              const newSetter = setter;
+              if (newSetter) {
+                const { key } = newSetter;
+                newSetter.key = storeMap.get(key) || key;
+              }
+              return { state: newState, setter: newSetter };
+            }),
+          }
+        : { ...ledger, atoms: atoms.map(({ key }) => key) };
+
+    return setFile(URL.createObjectURL(new Blob([output(finalLedger)])));
+  };
 
   // Auto-click download link when a new file is generated (via button click)
   // ! to get around strict null check in tsconfig
@@ -196,7 +267,7 @@ export const ChromogenObserver: React.FC = () => {
         aria-label="capture test"
         style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
         type="button"
-        onClick={() => setFile(URL.createObjectURL(new Blob([output(ledger)])))}
+        onClick={generateFile}
       />
       <button
         aria-label={recording ? 'pause' : 'record'}
