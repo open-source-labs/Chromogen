@@ -163,19 +163,22 @@ const divStyle: CSSProperties = {
   zIndex: 999999,
 };
 
-export const ChromogenObserver: React.FC<{ store?: object }> = ({ store }) => {
+export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
   // File stores URL for generated test file Blob containing output() string
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
   const [storeMap, setStoreMap] = useRecoilState<Map<string, string>>(mapStateNames);
 
-  // Update Recoil atom that maps keys to variable names if store was provided as prop
-  // TODO: convert to work with arrays of subStores
+  // Update Recoil atom that maps keys to variable names if store was provided as prop on page load
   useEffect(() => {
     if (store !== undefined) {
-      const newStore = Object.entries(store).reduce((updateMap, [variable, { key }]) => {
-        updateMap.set(key, variable);
+      // If single store was passed, convert to array
+      const storeArr = Array.isArray(store) ? store : [store];
+      const newStore = storeArr.reduce((updateMap: Map<string, string>, storeModule) => {
+        Object.entries(storeModule).forEach(([variable, { key }]) => {
+          updateMap.set(key, variable);
+        });
         return updateMap;
       }, new Map());
       setStoreMap(newStore);
@@ -203,7 +206,6 @@ export const ChromogenObserver: React.FC<{ store?: object }> = ({ store }) => {
               const newKey = storeMap.get(key) || key;
               return { key: newKey, newValue };
             }),
-            // TODO: remap transaction names
             transactions: transactions.map(({ state, updates }) => {
               const newState = state.map((eachAtom) => {
                 const key = storeMap.get(eachAtom.key) || eachAtom.key;
