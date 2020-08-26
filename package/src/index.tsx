@@ -33,7 +33,7 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   default: true,
 });
 
-// { keyString: variableName, }
+// ['key', 'variable name']
 const mapStateNames: RecoilState<Map<string, string>> = recoilAtom<Map<string, string>>({
   key: 'mapStateNames',
   default: new Map(),
@@ -137,7 +137,7 @@ export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
 
   if (transactions.length > 0) return newAtom;
 
-  // Can't use key b/c transactions needs to pass atoms getLoadable during transaction iteration
+  // Can't use key b/c transactions needs to pass atoms to getLoadable during transaction iteration
   atoms.push(newAtom);
   return newAtom;
 }
@@ -191,8 +191,8 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
    * Key-to-Variable name mapping is applied if storeMap has any contents
    * (meaning atom / selector nodes were passed as props)
    * Applying only at point-of-download keeps performance cost low for users who
-   * don't need to pass nodes, while creating a moderate performance hit for others
-   * only while downloading; never while interacting with their app.
+   * don't need to pass nodes while creating a moderate performance hit for others
+   * only while downloading, never while interacting with their app.
    */
   const generateFile = (): void => {
     const { atoms, selectors, setters, initialRender, transactions, setTransactions } = ledger;

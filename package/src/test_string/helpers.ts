@@ -25,7 +25,7 @@ function assertAtoms(updates: AtomUpdate[]): string {
 }
 
 // For the sake of easy reasoning, maintaining a distinction b/w selector "newValue" & atom "value"
-// SelectorUpdate's "newValue" is already psuedo-polymorphic in set + get shadow methods
+// SelectorUpdate's "newValue" is already psuedo-polymorphic in set vs. get shadow methods
 function assertSelectors(updates: SelectorUpdate[]): string {
   return updates.reduce(
     (assertions, { key, newValue }) =>
@@ -75,7 +75,7 @@ export function testInitialize(initialRender: SelectorUpdate[]): string {
   );
 }
 
-/* ----- SELECTOS TEST ----- */
+/* ----- SELECTORS TEST ----- */
 
 export function testSelectors(transactionArray: Transaction[]): string {
   return transactionArray.reduce((selectorTests, { state, updates }) => {
@@ -108,7 +108,7 @@ export function testSetters(setTransactionArray: SetTransaction[]): string {
   return setTransactionArray.reduce((setterTests, { state, setter }) => {
     const updatedAtoms = state.filter(({ updated }) => updated);
 
-    // ternary filters out transactions where no writeable selector fired
+    // ternary check filters out transactions where no writeable selector fired
     return setter
       ? `${setterTests}\tit('${setter.key} should properly set state', () => {
 \t\tconst { result } = renderRecoilHook(useStoreHook);
