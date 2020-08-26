@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "simple, interaction-driven test generator for Recoil apps",
   "scripts": {
-    "build": "webpack --mode=production"
+    "build": "echo \">>> building DevTool...\n\" && webpack --mode=production"
   },
   "repository": {
     "type": "git",

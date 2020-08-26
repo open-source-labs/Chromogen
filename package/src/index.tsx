@@ -175,12 +175,12 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
     if (store !== undefined) {
       // If single store was passed, convert to array
       const storeArr = Array.isArray(store) ? store : [store];
-      const newStore = storeArr.reduce((updateMap: Map<string, string>, storeModule) => {
+      const newStore: Map<string, string> = new Map();
+      storeArr.forEach((storeModule) => {
         Object.entries(storeModule).forEach(([variable, { key }]) => {
-          updateMap.set(key, variable);
+          newStore.set(key, variable);
         });
-        return updateMap;
-      }, new Map());
+      });
       setStoreMap(newStore);
     }
   }, []);
