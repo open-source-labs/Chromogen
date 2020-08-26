@@ -3,11 +3,11 @@
 // */
 
 // // send message to window/module when content script is connected
-// window.postMessage({ name: 'contentScript' }, '*');
+window.postMessage({ action: 'contentScript' }, '*');
 
-// // listen for messages from Chromogen package; relay to background.js
+// // listen for messages from Chromogen module; relay to background.js
 // // (background.js will relay to devtool)
-// window.addEventListener('message', (message) => chrome.runtime.sendMessage(message));
+window.addEventListener('message', (message) => chrome.runtime.sendMessage(message));
 
 // // listen for messages from background.js to relay to module
-// chrome.runtime.onMessage.addListener((message) => window.postMessage(message, '*'));
+chrome.runtime.onMessage.addListener((message) => window.postMessage(message, '*'));

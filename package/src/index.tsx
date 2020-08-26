@@ -167,6 +167,31 @@ export const ChromogenObserver: React.FC = () => {
   //! to get around strict null check in tsconfig
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
 
+
+  // Add/remove event listeners for communication with content script
+  useEffect(() => {
+    // Listen for messages from panel, background.js and content.js
+    window.addEventListener('message', receiveMessage);
+
+    // Remove event listener on dismount
+    return () => window.removeEventListener('message', receiveMessage);
+  }, []);
+
+  // Handle incoming messages
+  // const receiveMessage = (message: any) {
+  //   switch (message.data.action) {
+  //     case  'contentScript':
+  //       // Send message to background script
+  //       window.postMessage({action: 'contentMsgReceived'}, *);
+  //     break;
+  //     default:
+  //       break;
+  //   }
+
+
+  // }
+
+
   useRecoilTransactionObserver_UNSTABLE(
     ({ previousSnapshot, snapshot }: { previousSnapshot: Snapshot; snapshot: Snapshot }): void => {
       // Map current snapshot to array of atom states
