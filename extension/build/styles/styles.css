@@ -1,18 +1,28 @@
 /* General styles */
-
+html {
+  height: 100vh;
+}
 /* App.jsx */
 .App {
   display: grid;
-  background-color: red;
-  grid-template-rows: 90fr 10fr;
+  border-color: cyan;
+  grid-template-rows: 33fr 33fr 33fr;
+  font-family: 'Palanquin', sans-serif;
+  height: 100vh;
 }
-
 
 /* Recorder.jsx */
-.recorder-div {
-  border: 5px solid red;
-}
+.recorder-div { 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+} 
 #recorderBtn {
-  background-color: gray;
-  width: 100%;
+  border: 1px solid rgba(245, 245, 245, 0.74);
+  border-radius: 13px;
+  background-color: rgb(71, 71, 71);
+  color: rgb(162, 194, 175);
+  width: 200px;
+  height: 50px;
+  font-size: 18px;
 }

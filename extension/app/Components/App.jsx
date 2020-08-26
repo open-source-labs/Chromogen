@@ -4,9 +4,9 @@ import Recorder from './Recorder.jsx';
 const App = () => {
   useEffect(() => {
     // Create a connection to the background page
-    const backgroundPageConnection = chrome.runtime.connect();
+    const backgroundConnection = chrome.runtime.connect();
     // send tab ID to background page
-    backgroundPageConnection.postMessage({
+    backgroundConnection.postMessage({
       action: 'init',
       tabId: chrome.devtools.inspectedWindow.tabId,
     });

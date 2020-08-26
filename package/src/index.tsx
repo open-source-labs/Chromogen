@@ -161,13 +161,11 @@ export const ChromogenObserver: React.FC = () => {
   // File stores URL for generated test file Blob containing output() string
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
-  const [devButtonClicked, setDevButtonClicked] = useState<boolean>(false);
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
 
   // Auto-click download link when a new file is generated (via button click)
   //! to get around strict null check in tsconfig
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
-
 
   // Add/remove event listeners for communication with content script
   useEffect(() => {
@@ -181,26 +179,25 @@ export const ChromogenObserver: React.FC = () => {
   // Handle incoming messages
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
-      case  'contentScript':
-        // Send message to background script - doesn't do anything yet
-        window.postMessage({action: 'contentMsgReceived'}, '*');
-      break;
-      case 'downloadFile': 
-          console.log('received downloadFile message from content.js');
-          setFile(
-            URL.createObjectURL(
-              new Blob([
-                output(writeables, readables, snapshots, initialRender, setters, settables),
-              ]),
-            ),
-          )
-          setDevButtonClicked(true);
-          break;
+      case 'contentScript':
+        /* Here, we can send along any inital info (e.g. confirmation msg that
+          the inspected app has Chromogen installed) to the background page */
+        // window.postMessage({action: 'moduleConnected'}, '*');
+        break;
+      case 'downloadFile':
+        setFile(
+          URL.createObjectURL(
+            new Blob([output(writeables, readables, snapshots, initialRender, setters, settables)]),
+          ),
+        );
+        break;
+      case 'toggleRecord':
+        setRecording(!recording);
+        break;
       default:
         break;
     }
-  }
-
+  };
 
   useRecoilTransactionObserver_UNSTABLE(
     ({ previousSnapshot, snapshot }: { previousSnapshot: Snapshot; snapshot: Snapshot }): void => {
@@ -227,7 +224,7 @@ export const ChromogenObserver: React.FC = () => {
     <div style={divStyle}>
       <button
         aria-label="capture test"
-        style={{ ...buttonStyle, backgroundColor: devButtonClicked ? 'cyan' : 'green' }}
+        style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
         type="button"
         onClick={() =>
           setFile(
