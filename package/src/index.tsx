@@ -161,6 +161,7 @@ export const ChromogenObserver: React.FC = () => {
   // File stores URL for generated test file Blob containing output() string
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
+  const [devButtonClicked, setDevButtonClicked] = useState<boolean>(false);
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
 
   // Auto-click download link when a new file is generated (via button click)
@@ -175,21 +176,30 @@ export const ChromogenObserver: React.FC = () => {
 
     // Remove event listener on dismount
     return () => window.removeEventListener('message', receiveMessage);
-  }, []);
+  });
 
   // Handle incoming messages
-  // const receiveMessage = (message: any) {
-  //   switch (message.data.action) {
-  //     case  'contentScript':
-  //       // Send message to background script
-  //       window.postMessage({action: 'contentMsgReceived'}, *);
-  //     break;
-  //     default:
-  //       break;
-  //   }
-
-
-  // }
+  const receiveMessage = (message: any) => {
+    switch (message.data.action) {
+      case  'contentScript':
+        // Send message to background script - doesn't do anything yet
+        window.postMessage({action: 'contentMsgReceived'}, '*');
+      break;
+      case 'downloadFile': 
+          console.log('received downloadFile message from content.js');
+          setFile(
+            URL.createObjectURL(
+              new Blob([
+                output(writeables, readables, snapshots, initialRender, setters, settables),
+              ]),
+            ),
+          )
+          setDevButtonClicked(true);
+          break;
+      default:
+        break;
+    }
+  }
 
 
   useRecoilTransactionObserver_UNSTABLE(
@@ -217,7 +227,7 @@ export const ChromogenObserver: React.FC = () => {
     <div style={divStyle}>
       <button
         aria-label="capture test"
-        style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
+        style={{ ...buttonStyle, backgroundColor: devButtonClicked ? 'cyan' : 'green' }}
         type="button"
         onClick={() =>
           setFile(
