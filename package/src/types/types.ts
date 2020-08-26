@@ -13,14 +13,20 @@ type SetRecoilState = <T>(
 ) => void;
 
 // ----- EXPORTING TYPES TO BE USED IN SRC/.TSX FILES -----
-export type SelectorUpdate = { key: string; newValue: any };
+export interface SetterUpdate {
+  key: string;
+  newValue: any;
+}
 
-export type AtomUpdate = {
+export interface SelectorUpdate {
   key: string;
   value: any;
+}
+
+export interface AtomUpdate extends SelectorUpdate {
   previous: any;
   updated: boolean;
-};
+}
 
 export interface Transaction {
   state: AtomUpdate[];
@@ -29,7 +35,7 @@ export interface Transaction {
 
 export interface SetTransaction {
   state: AtomUpdate[];
-  setter: null | SelectorUpdate;
+  setter: null | SetterUpdate;
 }
 
 // atoms should take RecoilState<any>[] | string[]

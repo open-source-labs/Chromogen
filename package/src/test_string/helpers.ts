@@ -14,23 +14,11 @@ function initializeAtoms(state: AtomUpdate[], current: boolean): string {
   );
 }
 
-function assertAtoms(updates: AtomUpdate[]): string {
+function assertState(updates: SelectorUpdate[]): string {
   return updates.reduce(
     (assertions, { key, value }) =>
       `${assertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
         value,
-      )});\n\n`,
-    '',
-  );
-}
-
-// For the sake of easy reasoning, maintaining a distinction b/w selector "newValue" & atom "value"
-// SelectorUpdate's "newValue" is already psuedo-polymorphic in set vs. get shadow methods
-function assertSelectors(updates: SelectorUpdate[]): string {
-  return updates.reduce(
-    (assertions, { key, newValue }) =>
-      `${assertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
-        newValue,
       )});\n\n`,
     '',
   );
@@ -68,8 +56,8 @@ export function returnValue(keyArray: string[]): string {
 
 export function testInitialize(initialRender: SelectorUpdate[]): string {
   return initialRender.reduce(
-    (fullStr, { key, newValue }) => `${fullStr}\tit('${key} should initialize correctly', () => {
-\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(newValue)});
+    (fullStr, { key, value }) => `${fullStr}\tit('${key} should initialize correctly', () => {
+\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(value)});
 \t});\n\n`,
     '',
   );
@@ -97,7 +85,7 @@ export function testSelectors(transactionArray: Transaction[]): string {
 \t\tact(() => {
 ${initializeAtoms(state, true)}\t\t});
   
-${assertSelectors(updates)}\t});\n\n`
+${assertState(updates)}\t});\n\n`
       : selectorTests;
   }, '');
 }
@@ -120,7 +108,7 @@ ${initializeAtoms(state, false)}\t\t});
 \t\t\tresult.current.set${setter.key}(${JSON.stringify(setter.newValue)});
 \t\t});
   
-${assertAtoms(updatedAtoms)}\t});\n\n`
+${assertState(updatedAtoms)}\t});\n\n`
       : `${setterTests}`;
   }, '');
 }

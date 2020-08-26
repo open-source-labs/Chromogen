@@ -17,7 +17,7 @@ import { output } from './test_string/testString';
 /* eslint-enable */
 
 // ----- SETUP -----
-// Arrays used to compose test string
+// Used to compose test string
 export const ledger: Ledger<RecoilState<any>> = {
   atoms: [],
   selectors: [],
@@ -31,12 +31,6 @@ export const ledger: Ledger<RecoilState<any>> = {
 const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
-});
-
-// ['key', 'variable name']
-const mapStateNames: RecoilState<Map<string, string>> = recoilAtom<Map<string, string>>({
-  key: 'mapStateNames',
-  default: new Map(),
 });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
@@ -77,30 +71,26 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
   // Wrap get method with tracking logic
   const getter = (utils: any) => {
     // Run user-defined get method & capture its return value
-    const newValue = get(utils);
+    const value = get(utils);
     // Only capture selector data if currently recording
     if (utils.get(recordingState)) {
       if (transactions.length === 0) {
         // Promise-validation is expensive, so we only do it once, on initial load
-        if (
-          typeof newValue === 'object'
-          && newValue !== null
-          && newValue.constructor.name === 'Promise'
-        ) {
+        if (typeof value === 'object' && value !== null && value.constructor.name === 'Promise') {
           ledger.selectors = selectors.filter((current) => current !== key);
           returnedPromise = true;
         } else {
-          initialRender.push({ key, newValue });
+          initialRender.push({ key, value });
         }
       } else if (!returnedPromise) {
         // allow TransactionObserver to push to array first
         // Length must be computed after timeout to correctly find last transaction
-        setTimeout(() => transactions[transactions.length - 1].updates.push({ key, newValue }), 0);
+        setTimeout(() => transactions[transactions.length - 1].updates.push({ key, value }), 0);
       }
     }
 
     // Return out value from original get method
-    return newValue;
+    return value;
   };
 
   // Create a new config object with updated properties
@@ -167,8 +157,11 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   // File stores URL for generated test file Blob containing output() string
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
+
+  // ['key', 'variable name']
+  const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
+
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
-  const [storeMap, setStoreMap] = useRecoilState<Map<string, string>>(mapStateNames);
 
   // Update Recoil atom that maps keys to variable names if store was provided as prop on page load
   useEffect(() => {
@@ -202,9 +195,9 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
             atoms: atoms.map(({ key }) => storeMap.get(key) || key),
             selectors: selectors.map((key) => storeMap.get(key) || key),
             setters: setters.map((key) => storeMap.get(key) || key),
-            initialRender: initialRender.map(({ key, newValue }) => {
+            initialRender: initialRender.map(({ key, value }) => {
               const newKey = storeMap.get(key) || key;
-              return { key: newKey, newValue };
+              return { key: newKey, value };
             }),
             transactions: transactions.map(({ state, updates }) => {
               const newState = state.map((eachAtom) => {
@@ -213,8 +206,8 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
               });
               const newUpdates = updates.map((eachSelector) => {
                 const key = storeMap.get(eachSelector.key) || eachSelector.key;
-                const { newValue } = eachSelector;
-                return { key, newValue };
+                const { value } = eachSelector;
+                return { key, value };
               });
               return { state: newState, updates: newUpdates };
             }),
