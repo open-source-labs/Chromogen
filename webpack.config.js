@@ -1,6 +1,7 @@
 const path = require('path');
+const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
 
-module.exports = {
+const config = {
   entry: {
     app: path.resolve(__dirname, './extension/app/index.tsx'),
     background: path.resolve(__dirname, './extension/background.js'),
@@ -45,5 +46,20 @@ module.exports = {
     // changed from extensions: [".js", ".jsx"]
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
-  devtool: 'source-map', // changes style of source mapping to avoid using eval
+  devtool: 'source-map',
+  plugins: []
+};
+
+module.exports = (env, argv) => {
+  if (argv.mode === 'development') {
+    config.plugins.push(
+      new ChromeExtensionReloader({
+        entries: {
+          contentScript: ['app', 'content'],
+          background: ['background'],
+        },
+      }),
+    );
+  }
+  return config;
 };

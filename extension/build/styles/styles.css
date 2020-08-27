@@ -1,7 +1,8 @@
 /* General styles */
 html {
   height: 100vh;
-  color: rgba(228, 228, 228, 0.836);
+  /* color: rgba(228, 228, 228, 0.836); */
+  color: red;
 }
 /* App.jsx */
 .App {
