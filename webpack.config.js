@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, './extension/app/index.jsx'),
+    app: path.resolve(__dirname, './extension/app/index.tsx'),
     background: path.resolve(__dirname, './extension/background.js'),
     content: path.resolve(__dirname, './extension/content.js'),
   },
@@ -12,14 +12,18 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'],
-        },
-      },
+      { test: /\.(t|j)sx?$/, use: { loader: 'ts-loader' }, exclude: /node_modules/ },
+
+      // addition - add source-map support
+      { enforce: 'pre', test: /\.js$/, exclude: /node_modules/, loader: 'source-map-loader' },
+      // {
+      //   test: /\.(js|jsx)$/,
+      //   exclude: /node_modules/,
+      //   loader: 'babel-loader',
+      //   options: {
+      //     presets: ['@babel/preset-env', '@babel/preset-react'],
+      //   },
+      // },
       {
         test: /\.css$/,
         use: [
@@ -33,8 +37,13 @@ module.exports = {
       },
     ],
   },
+  // externals: {
+  //   react: 'React',
+  //   'react-dom': 'ReactDOM',
+  // },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    // changed from extensions: [".js", ".jsx"]
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
-  devtool: 'cheap-module-source-map', // changes style of source mapping to avoid using eval
+  devtool: 'source-map', // changes style of source mapping to avoid using eval
 };

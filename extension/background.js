@@ -5,7 +5,7 @@
 const connections = {};
 
 chrome.runtime.onConnect.addListener((port) => {
-  const extensionListener = (message, sender, sendResponse) => {
+  const extensionListener = (message, port) => {
     const { action, tabId } = message;
     // Initial connection – store current instance of DevTools page
     if (action === 'init') {

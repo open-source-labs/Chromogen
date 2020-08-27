@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Recorder from './Recorder.jsx';
+import Recorder from './Recorder';
 
-const App = () => {
+const App: React.FC = () => {
   useEffect(() => {
     // Create a connection to the background page
     const backgroundConnection = chrome.runtime.connect();
@@ -13,7 +13,7 @@ const App = () => {
   }, []);
   return (
     <div className="App">
-      <div className="row"> </div>
+      <div className="row">chromogen</div>
       <Recorder />
     </div>
   );

@@ -1,16 +1,20 @@
 /* General styles */
 html {
   height: 100vh;
+  color: rgba(228, 228, 228, 0.836);
 }
 /* App.jsx */
 .App {
   display: grid;
-  border-color: cyan;
   grid-template-rows: 33fr 33fr 33fr;
   font-family: 'Palanquin', sans-serif;
   height: 100vh;
 }
-
+.App div {
+  text-align: center;
+  font-size: 3rem;
+  letter-spacing: 4px;
+}
 /* Recorder.jsx */
 .recorder-div { 
   display: flex;
@@ -25,4 +29,7 @@ html {
   width: 200px;
   height: 50px;
   font-size: 18px;
+}
+#recorderBtn:focus {
+  outline: none;
 }
