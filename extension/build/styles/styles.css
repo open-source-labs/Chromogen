@@ -38,12 +38,12 @@ body {
   box-shadow: 0px 0px 9px 0px rgba(165, 165, 165, 0.123);
   border-radius: 11px;
   background-color: rgb(30, 30, 31);
-  /* color: rgb(162, 194, 175); */
-  color: #83beb1;
+  color: #8ccabd;
   width: 200px;
   height: 50px;
   font-size: 18px;
 }
 #recorderBtn:focus {
   outline: none;
+  color: #5f817a98;
 }

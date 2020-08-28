@@ -44,7 +44,6 @@ chrome.runtime.onConnect.addListener((port) => {
 // Listen for messages from Chromogen module (sent via content.js)
 chrome.runtime.onMessage.addListener((message: Message, sender) => {
   const { tab } = sender;
-  console.log('tab and sender:', tab, sender)
   // error handling
   if (tab) {
     const tabId = `${tab.id}`;

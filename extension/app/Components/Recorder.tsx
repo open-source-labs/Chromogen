@@ -26,19 +26,14 @@ const Recorder: React.FC<RecorderProps> = ({ status }) => {
       tabId: chrome.devtools.inspectedWindow.tabId,
     });
   };
-  const styles = {
-    largeIcon: {
-      height: 20,
-      width: 20,
-    },
-  };
+
   return (
     <div className="recorder-div">
       <button id="recorderBtn" type="submit" onClick={toggleRecord}>
         {status ? (
-          <StopIcon style={{ color: '#FCE3A3', fontSize: '40px' }} />
+          <StopIcon style={{ color: '#D44B5A', fontSize: '40px' }} />
         ) : (
-          <PlayArrowIcon style={{ color: '#C74B5A', fontSize: '40px' }} />
+          <PlayArrowIcon style={{ color: '#FCE3A3',fontSize: '40px' }} />
         )}
       </button>
       <button id="recorderBtn" type="submit" onClick={downloadFile}>
