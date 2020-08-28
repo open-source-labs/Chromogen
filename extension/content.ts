@@ -2,11 +2,11 @@
      and background.js.  (background.js can communicate with DevTools page)
  */
 
-// Send message to package when content script is connected - doesn't do anything yet
+// Send message to package when content.js is connected - doesn't do anything yet
 window.postMessage({ action: 'contentScript' }, '*');
 
-// Relay messages from package to background.js
-window.addEventListener('message', (message) => chrome.runtime.sendMessage(message));
+// Relay messages from package to background.js (-> DevTools panel)
+window.addEventListener('message', (message) => chrome.runtime.sendMessage(message.data));
 
-// Relay messages from background.js to module
+// Relay messages from background.js (DevTools panel listener) to package
 chrome.runtime.onMessage.addListener((message) => window.postMessage(message, '*'));

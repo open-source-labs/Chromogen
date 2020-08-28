@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Recorder: React.FC = () => {
-  // send Message to content.js to teel Chromogen to download file
+  // Connect to background.js
   const backgroundConnection = chrome.runtime.connect();
-  // REFACTOR?: generalize to a 'sendmessage' function
+  // REFACTOR: generalize to a 'sendmessage' function
   const downloadFile = () => {
-    // send message to background.js
+    // Send message to background.js
     backgroundConnection.postMessage({
       action: 'downloadFile',
       tabId: chrome.devtools.inspectedWindow.tabId,
@@ -13,6 +13,7 @@ const Recorder: React.FC = () => {
   };
 
   const toggleRecord = () => {
+    // Send message to background.js
     backgroundConnection.postMessage({
       action: 'toggleRecord',
       tabId: chrome.devtools.inspectedWindow.tabId,

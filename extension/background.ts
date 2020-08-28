@@ -1,8 +1,7 @@
-/* Listens for events from content.js and DevTools panel
-      Communicates with package via content.js
-      */
+/* Listens for events from DevTools panel and content.js (package intermediary)
+ */
 interface Connections {
-  [tabId: string]: object;
+  [tabId: string]: any;
 }
 
 interface Message {
@@ -13,22 +12,22 @@ interface Message {
 const connections: Connections = {};
 
 chrome.runtime.onConnect.addListener((port) => {
-  const extensionListener = (message: Message) => {
-    const { action, tabId } = message;
+  // Listen for messages from DevTools panel
+  const extensionListener = (message: Message, port) => {
+    const { tabId, action } = message;
     // Initial connection – store current instance of DevTools page
     if (action === 'init') {
       connections[tabId] = port;
-      // Handle click of download button
     } else {
-      // relay message to content.js
+      // Relay message to content.ts -> package
       chrome.tabs.sendMessage(Number(tabId), message);
     }
   };
 
-  // Add event listener defined above to DevTools panel
+  // Add event listener defined above to current DevTools panel instance
   port.onMessage.addListener(extensionListener);
 
-  // handle disconnect
+  // Handle disconnect
   port.onDisconnect.addListener((port) => {
     port.onMessage.removeListener(extensionListener);
     // remove current DevTool instance from connections
@@ -42,16 +41,18 @@ chrome.runtime.onConnect.addListener((port) => {
   });
 });
 
-// NOT IN USE: Listener for messages from Chromogen module (sent via content.js)
-// chrome.runtime.onMessage.addListener((msg, sender) => {
-//   // error handling
-//   if (!sender.tab) return;
-
-//   // relay message to devTool instance
-//   if (connections[tabId]) {
-//     connections[tabId].postMessage({
-//       action: 'hi',
-//       payload: 'hey',
-//     });
-//   }
-// });
+// Listen for messages from Chromogen module (sent via content.js)
+chrome.runtime.onMessage.addListener((message: Message, sender) => {
+  const { tab } = sender;
+  console.log('tab and sender:', tab, sender)
+  // error handling
+  if (tab) {
+    const tabId = `${tab.id}`;
+    // relay message to devTool instance
+    if (connections[tabId]) {
+      connections[tabId].postMessage({
+        action: message.action,
+      });
+    }
+  }
+});
