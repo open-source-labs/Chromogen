@@ -3,12 +3,12 @@ const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
 
 const config = {
   entry: {
-    app: path.resolve(__dirname, './extension/app/index.tsx'),
-    background: path.resolve(__dirname, './extension/background.ts'),
-    content: path.resolve(__dirname, './extension/content.ts'),
+    app: path.resolve(__dirname, './app/index.tsx'),
+    background: path.resolve(__dirname, './background.ts'),
+    content: path.resolve(__dirname, './content.ts'),
   },
   output: {
-    path: path.join(__dirname, './extension/build/bundles'),
+    path: path.join(__dirname, './build/bundles'),
     filename: '[name].bundle.js',
   },
   module: {
