@@ -1,6 +1,13 @@
 import React from 'react';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@material-ui/icons/Stop';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
-const Recorder: React.FC = () => {
+interface RecorderProps {
+  status: boolean;
+}
+
+const Recorder: React.FC<RecorderProps> = ({ status }) => {
   // Connect to background.js
   const backgroundConnection = chrome.runtime.connect();
   // REFACTOR: generalize to a 'sendmessage' function
@@ -19,14 +26,23 @@ const Recorder: React.FC = () => {
       tabId: chrome.devtools.inspectedWindow.tabId,
     });
   };
-
+  const styles = {
+    largeIcon: {
+      height: 20,
+      width: 20,
+    },
+  };
   return (
     <div className="recorder-div">
       <button id="recorderBtn" type="submit" onClick={toggleRecord}>
-        Start Recording!
+        {status ? (
+          <StopIcon style={{ color: '#FCE3A3', fontSize: '40px' }} />
+        ) : (
+          <PlayArrowIcon style={{ color: '#C74B5A', fontSize: '40px' }} />
+        )}
       </button>
       <button id="recorderBtn" type="submit" onClick={downloadFile}>
-        Download!
+        <GetAppIcon style={{ fontSize: '38px' }}/>
       </button>
     </div>
   );

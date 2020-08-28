@@ -1,7 +1,12 @@
 /* General styles */
 html {
   height: 100vh;
-  color: rgba(228, 228, 228, 0.836);
+  color: #d4d4d8;
+  background-color: rgb(30, 30, 31);
+}
+body {
+  margin: 0;
+  padding: 0;
 }
 /* App.jsx */
 .App {
@@ -12,20 +17,29 @@ html {
 }
 .App div {
   text-align: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
   letter-spacing: 4px;
+  width: 100%;
+  /* text-shadow: 2px 2px 2px #83beb1c2; */
+  text-shadow: #83beb1c2 1px 2px 0;
 }
 /* Recorder.jsx */
 .recorder-div { 
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
+  border-top: 2px solid #83beb1;
+  border-bottom: 2px solid #83beb1;
+  background-color: rgb(48, 48, 49);
 } 
 #recorderBtn {
-  border: 1px solid rgba(245, 245, 245, 0.74);
-  border-radius: 13px;
-  background-color: rgb(71, 71, 71);
-  color: rgb(162, 194, 175);
+  border: none;
+  box-shadow: 0px 0px 9px 0px rgba(165, 165, 165, 0.123);
+  border-radius: 11px;
+  background-color: rgb(30, 30, 31);
+  /* color: rgb(162, 194, 175); */
+  color: #83beb1;
   width: 200px;
   height: 50px;
   font-size: 18px;

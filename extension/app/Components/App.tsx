@@ -23,8 +23,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <div className="row">chromogen</div>
-      {status ? 'recording' : 'not recording'}
-      <Recorder />
+      <Recorder status={status} />
     </div>
   );
 };
