@@ -169,7 +169,6 @@ export const ChromogenObserver: React.FC = () => {
 
   // Add/remove event listeners for communication with content.ts
   useEffect(() => {
-    // Listen for messages content.ts
     window.addEventListener('message', receiveMessage);
 
     // Remove event listener on dismount
@@ -180,8 +179,6 @@ export const ChromogenObserver: React.FC = () => {
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
       case 'init':
-        /* Here, we can send along any inital info (e.g. confirmation msg that
-          the inspected app has Chromogen installed) to the background page */
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':

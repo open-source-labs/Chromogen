@@ -47,6 +47,9 @@ body {
   outline: none;
   color: #5f817a98;
 }
+#recorderBtn:hover {
+  border: 2px solid rgb(48, 48, 49);
+}
 
 /* Install Chromogen render */
 
@@ -69,6 +72,11 @@ span {
   font-size: 1rem;
   margin-top: 5px;
 }
-svg {
-  margin-top: 8px;
+
+/* Media queries */
+
+@media (max-width: 450px) {
+  .recorder-div {
+    flex-direction: column; /*can add a media query for smaller screens/responsivity*/
+  }
 }

@@ -33,7 +33,7 @@ const Recorder: React.FC<RecorderProps> = ({ status }) => {
         {status ? (
           <StopIcon style={{ color: '#D44B5A', fontSize: '40px' }} />
         ) : (
-          <PlayArrowIcon style={{ color: '#FCE3A3',fontSize: '40px' }} />
+          <PlayArrowIcon style={{ color: '#FCE3A3', fontSize: '40px' }} />
         )}
       </button>
       <button id="recorderBtn" type="submit" onClick={downloadFile}>

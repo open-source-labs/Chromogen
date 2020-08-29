@@ -23,26 +23,28 @@ const App: React.FC = () => {
         setStatus(!status);
       }
     });
-  }, [connected]);
+  }, [connected, status]);
 
   return connected ? (
+    // Render extension if Chromogen is installed
     <div className="App">
       <div className="row">chromogen</div>
       <Recorder status={status} />
-    </div>
+    </div>   
   ) : (
+    // Otherwise, render 'please install' message 
     <div id="installContainer">
       <div />
+
       <div id="installMessage">
         <div>Please </div>
-        {/* <a href="https://www.npmjs.com/package/chromogen">npm install chromogen </a> */}
         <code>npm install chromogen </code>
-
         <div>in your app before using this extension. </div>
         <div>
           <GitHubIcon /> <span>github.com/oslabs-beta/Chromogen</span>
         </div>
       </div>
+
       <div />
     </div>
   );

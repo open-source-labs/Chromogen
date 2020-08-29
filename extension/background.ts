@@ -1,5 +1,3 @@
-import { Children } from './build/bundles/app.bundle';
-
 /* Listens for events from DevTools panel and content.js (package intermediary)
  */
 interface Connections {
@@ -42,13 +40,13 @@ chrome.runtime.onConnect.addListener((port) => {
   });
 });
 
-// Listen for messages from Chromogen module (sent via content.js)
+// Listen for messages from Chromogen package (sent via content.js)
 chrome.runtime.onMessage.addListener((message: Message, sender) => {
   const { tab } = sender;
-  // error handling
+
   if (tab) {
     const tabId = `${tab.id}`;
-    // relay message to devTool instance
+    // Relay message to devTool instance
     if (connections[tabId]) {
       connections[tabId].postMessage({
         action: message.action,
