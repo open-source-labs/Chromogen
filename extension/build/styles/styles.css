@@ -61,6 +61,7 @@ body {
 }
 #installMessage div, code, span {
   height: 40px;
+  margin-top: 15px;
   font-size: 1.7rem;
   text-decoration: none;
   vertical-align: middle;
@@ -77,6 +78,6 @@ span {
 
 @media (max-width: 450px) {
   .recorder-div {
-    flex-direction: column; /*can add a media query for smaller screens/responsivity*/
+    flex-direction: column; 
   }
 }
