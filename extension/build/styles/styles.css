@@ -1,18 +1,83 @@
 /* General styles */
-
+html {
+  height: 100vh;
+  color: #d4d4d8;
+  background-color: rgb(30, 30, 31);
+}
+body {
+  margin: 0;
+  padding: 0;
+}
 /* App.jsx */
 .App {
   display: grid;
-  background-color: red;
-  grid-template-rows: 90fr 10fr;
+  grid-template-rows: 33fr 33fr 33fr;
+  font-family: 'Palanquin', sans-serif;
+  height: 100vh;
 }
-
-
-/* Recorder.jsx */
-.recorder-div {
-  border: 5px solid red;
-}
-#recorderBtn {
-  background-color: gray;
+.App div {
+  text-align: center;
+  font-size: 2.5rem;
+  letter-spacing: 4px;
   width: 100%;
+  /* text-shadow: 2px 2px 2px #83beb1c2; */
+  text-shadow: #83beb1c2 1px 2px 0;
+}
+/* Recorder.jsx */
+.recorder-div { 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  border-top: 2px solid #83beb1;
+  border-bottom: 2px solid #83beb1;
+  background-color: rgb(48, 48, 49);
+} 
+#recorderBtn {
+  border: none;
+  box-shadow: 0px 0px 9px 0px rgba(165, 165, 165, 0.123);
+  border-radius: 11px;
+  background-color: rgb(30, 30, 31);
+  color: #8ccabd;
+  width: 200px;
+  height: 50px;
+  font-size: 18px;
+}
+#recorderBtn:focus {
+  outline: none;
+  color: #5f817a98;
+}
+#recorderBtn:hover {
+  border: 2px solid rgb(48, 48, 49);
+}
+
+/* Install Chromogen render */
+
+#installContainer {
+  display: grid;
+  grid-template-rows: 33fr 33fr 33fr;
+  height: 100vh;
+  text-align: center;
+}
+#installMessage div, code, span {
+  height: 40px;
+  margin-top: 15px;
+  font-size: 1.7rem;
+  text-decoration: none;
+  vertical-align: middle;
+}
+code {
+  color: #8ccabd;
+}
+span {
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+/* Media queries */
+
+@media (max-width: 450px) {
+  .recorder-div {
+    flex-direction: column; 
+  }
 }
