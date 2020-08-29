@@ -167,22 +167,22 @@ export const ChromogenObserver: React.FC = () => {
   //! to get around strict null check in tsconfig
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
 
-  // Add/remove event listeners for communication with content script
+  // Add/remove event listeners for communication with content.ts
   useEffect(() => {
-    // Listen for messages from panel, background.js and content.js
+    // Listen for messages content.ts
     window.addEventListener('message', receiveMessage);
 
     // Remove event listener on dismount
     return () => window.removeEventListener('message', receiveMessage);
   });
 
-  // Handle incoming messages
+  // Handle incoming messages from content.ts
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
-      case 'contentScript':
+      case 'init':
         /* Here, we can send along any inital info (e.g. confirmation msg that
           the inspected app has Chromogen installed) to the background page */
-        // window.postMessage({action: 'moduleConnected'}, '*');
+        window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':
         setFile(
@@ -193,6 +193,7 @@ export const ChromogenObserver: React.FC = () => {
         break;
       case 'toggleRecord':
         setRecording(!recording);
+        window.postMessage({ action: 'setStatus' }, '*');
         break;
       default:
         break;
