@@ -1,3 +1,5 @@
+import { Children } from './build/bundles/app.bundle';
+
 /* Listens for events from DevTools panel and content.js (package intermediary)
  */
 interface Connections {
@@ -18,10 +20,9 @@ chrome.runtime.onConnect.addListener((port) => {
     // Initial connection – store current instance of DevTools page
     if (action === 'init') {
       connections[tabId] = port;
-    } else {
-      // Relay message to content.ts -> package
-      chrome.tabs.sendMessage(Number(tabId), message);
     }
+    // Relay message to content.ts -> package
+    chrome.tabs.sendMessage(Number(tabId), message);
   };
 
   // Add event listener defined above to current DevTools panel instance

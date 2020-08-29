@@ -47,3 +47,28 @@ body {
   outline: none;
   color: #5f817a98;
 }
+
+/* Install Chromogen render */
+
+#installContainer {
+  display: grid;
+  grid-template-rows: 33fr 33fr 33fr;
+  height: 100vh;
+  text-align: center;
+}
+#installMessage div, code, span {
+  height: 40px;
+  font-size: 1.7rem;
+  text-decoration: none;
+  vertical-align: middle;
+}
+code {
+  color: #8ccabd;
+}
+span {
+  font-size: 1rem;
+  margin-top: 5px;
+}
+svg {
+  margin-top: 8px;
+}

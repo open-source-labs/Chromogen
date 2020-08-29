@@ -3,7 +3,7 @@
  */
 
 // Send message to package when content.js is connected - doesn't do anything yet
-window.postMessage({ action: 'contentScript' }, '*');
+// window.postMessage({ action: 'contentScript' }, '*');
 
 // Relay messages from package to background.js (-> DevTools panel)
 window.addEventListener('message', (message) => chrome.runtime.sendMessage(message.data));
