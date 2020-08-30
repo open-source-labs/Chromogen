@@ -135,19 +135,20 @@ export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
 // ----- TRANSACTION PROVIDER -----
 const buttonStyle: CSSProperties = {
   display: 'inline-block',
-  margin: '10px',
+  margin: '8px',
   padding: '0px',
-  height: '10px',
-  width: '10px',
+  height: '16px',
+  width: '16px',
 };
 
 // Used to ensure appropriate button contrast for varying page backgrounds
 const divStyle: CSSProperties = {
   display: 'inline-block',
   position: 'absolute',
-  top: '10px',
-  left: '10px',
+  top: '12px',
+  left: '12px',
   backgroundColor: 'grey',
+  borderRadius: '4px',
   margin: 0,
   padding: 0,
   zIndex: 999999,
@@ -158,10 +159,10 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
 
-  // ['key', 'variable name']
+  // storeMap.set('key', 'variable name')
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
-
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
+  const [devtool, setDevtool] = useState<boolean>(false);
 
   // Update Recoil atom that maps keys to variable names if store was provided as prop on page load
   useEffect(() => {
@@ -237,6 +238,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
       case 'init':
+        setDevtool(true);
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':
@@ -257,7 +259,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
 
     // Remove event listener on dismount
     return () => window.removeEventListener('message', receiveMessage);
-  });
+  }, []);
 
   useRecoilTransactionObserver_UNSTABLE(
     ({ previousSnapshot, snapshot }: { previousSnapshot: Snapshot; snapshot: Snapshot }): void => {
@@ -283,21 +285,28 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
 
   // Render button to DOM for capturing test output, and creates invisible download link for test file
   return (
-    <div style={divStyle}>
-      <button
-        aria-label="capture test"
-        style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
-        type="button"
-        onClick={generateFile}
-      />
-      <button
-        aria-label={recording ? 'pause' : 'record'}
-        style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow' }}
-        type="button"
-        onClick={() => {
-          setRecording(!recording);
-        }}
-      />
+    <>
+      {
+        // Render button div only if DevTool not connected
+        !devtool && (
+          <div style={divStyle}>
+            <button
+              aria-label="capture test"
+              style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
+              type="button"
+              onClick={generateFile}
+            />
+            <button
+              aria-label={recording ? 'pause' : 'record'}
+              style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow' }}
+              type="button"
+              onClick={() => {
+                setRecording(!recording);
+              }}
+            />
+          </div>
+        )
+      }
       <a
         download="chromogen.test.js"
         href={file}
@@ -306,6 +315,6 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       >
         Download Test
       </a>
-    </div>
+    </>
   );
 };
