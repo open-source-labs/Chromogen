@@ -242,7 +242,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   // Handle incoming messages from content.ts
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
-      case 'init':
+      case 'connectChromogen':
         setDevtool(true);
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;

@@ -10,25 +10,9 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
   // Connect to background.js
   const backgroundConnection = chrome.runtime.connect();
-  // REFACTOR: generalize to a 'sendmessage' function
-  // const downloadFile = () => {
-  //   // Send message to background.js
-  //   backgroundConnection.postMessage({
-  //     action: 'downloadFile',
-  //     tabId: chrome.devtools.inspectedWindow.tabId,
-  //   });
-  // };
 
-  // const toggleRecord = () => {
-  //   // Send message to background.js
-  //   backgroundConnection.postMessage({
-  //     action: 'toggleRecord',
-  //     tabId: chrome.devtools.inspectedWindow.tabId,
-  //   });
-  // };
-
+  // Send message to background.js
   const sendMessage = (action: string) => {
-    // Send message to background.js
     backgroundConnection.postMessage({
       action,
       tabId: chrome.devtools.inspectedWindow.tabId,

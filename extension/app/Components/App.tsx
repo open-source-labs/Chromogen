@@ -13,7 +13,7 @@ const App: React.FC = () => {
     const backgroundConnection = chrome.runtime.connect();
     // Send tab ID to background.js
     backgroundConnection.postMessage({
-      action: 'init',
+      action: 'connectChromogen',
       tabId: chrome.devtools.inspectedWindow.tabId,
     });
     // Listen for messages from background.js
