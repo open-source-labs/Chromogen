@@ -1,11 +1,11 @@
 /* eslint-disable */
-import { Ledger } from '../types/types';
+import type { Ledger } from '../types/types';
 import {
   importRecoilState,
-  stateHook,
-  valueHook,
-  returnState,
-  returnValue,
+  writeableHook,
+  readableHook,
+  returnWriteable,
+  returnReadable,
   testInitialize,
   testSelectors,
   testSetters,
@@ -37,13 +37,15 @@ console.error = jest.fn();
 // Hook to return atom/selector values and/or modifiers for react-recoil-hooks-testing-library
 const useStoreHook = () => {
   // atoms
-${stateHook(atoms)}
+${writeableHook(atoms)}
   // writeable selectors
-${stateHook(setters)}
+${writeableHook(setters)}
   // read-only selectors
-${valueHook(setFilter(selectors, setters))}
+${readableHook(setFilter(selectors, setters))}
   return {
-${returnState(atoms) + returnState(setters) + returnValue(setFilter(selectors, setters))}\t};
+${
+  returnWriteable(atoms) + returnWriteable(setters) + returnReadable(setFilter(selectors, setters))
+}\t};
 };
 
 describe('INITIAL RENDER', () => { 

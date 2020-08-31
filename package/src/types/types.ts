@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { RecoilState, RecoilValue, DefaultValue } from 'recoil';
+import type { RecoilState, RecoilValue, DefaultValue } from 'recoil';
 /* eslint-enable */
 
 // ----- INITIALIZING NON-IMPORTABLE RECOIL TYPES -----

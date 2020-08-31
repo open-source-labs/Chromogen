@@ -1,10 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect, CSSProperties } from 'react';
-import {
-  selector as recoilSelector,
-  atom as recoilAtom,
-  useRecoilTransactionObserver_UNSTABLE,
-  useRecoilState,
+import type {
   RecoilState,
   RecoilValueReadOnly,
   AtomOptions,
@@ -12,7 +7,17 @@ import {
   ReadWriteSelectorOptions,
   ReadOnlySelectorOptions,
 } from 'recoil';
-import { Ledger, SelectorConfig } from './types/types';
+import type { CSSProperties } from 'react';
+import type { Ledger, SelectorConfig } from './types/types';
+
+import {
+  selector as recoilSelector,
+  atom as recoilAtom,
+  useRecoilTransactionObserver_UNSTABLE,
+  useRecoilState,
+} from 'recoil';
+import React, { useState, useEffect } from 'react';
+
 import { output } from './test_string/testString';
 /* eslint-enable */
 
@@ -147,7 +152,7 @@ const divStyle: CSSProperties = {
   position: 'absolute',
   top: '12px',
   left: '12px',
-  backgroundColor: 'grey',
+  backgroundColor: '#c0c0c0',
   borderRadius: '4px',
   margin: 0,
   padding: 0,
@@ -259,7 +264,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
 
     // Remove event listener on dismount
     return () => window.removeEventListener('message', receiveMessage);
-  }, []);
+  });
 
   useRecoilTransactionObserver_UNSTABLE(
     ({ previousSnapshot, snapshot }: { previousSnapshot: Snapshot; snapshot: Snapshot }): void => {
@@ -292,13 +297,13 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
           <div style={divStyle}>
             <button
               aria-label="capture test"
-              style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
+              style={{ ...buttonStyle, backgroundColor: '#8ccabd' }}
               type="button"
               onClick={generateFile}
             />
             <button
               aria-label={recording ? 'pause' : 'record'}
-              style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow' }}
+              style={{ ...buttonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
               type="button"
               onClick={() => {
                 setRecording(!recording);

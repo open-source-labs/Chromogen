@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { SelectorUpdate, Transaction, AtomUpdate, SetTransaction } from '../types/types';
+import type { SelectorUpdate, Transaction, AtomUpdate, SetTransaction } from '../types/types';
 /* eslint-enable */
 
 /* ----- HELPER FUNCTIONS ----- */
@@ -30,25 +30,25 @@ export function importRecoilState(keyArray: string[]): string {
   return keyArray.reduce((fullStr, key) => `${fullStr}\t${key},\n`, '');
 }
 
-export function stateHook(keyArray: string[]): string {
+export function writeableHook(keyArray: string[]): string {
   return keyArray.reduce(
     (fullStr, key) => `${fullStr}\tconst [${key}Value, set${key}] = useRecoilState(${key});\n`,
     '',
   );
 }
 
-export function valueHook(keyArray: string[]): string {
+export function readableHook(keyArray: string[]): string {
   return keyArray.reduce(
     (fullStr, key) => `${fullStr}\tconst ${key}Value = useRecoilValue(${key});\n`,
     '',
   );
 }
 
-export function returnState(keyArray: string[]): string {
+export function returnWriteable(keyArray: string[]): string {
   return keyArray.reduce((fullStr, key) => `${fullStr}\t\t${key}Value,\n\t\tset${key},\n`, '');
 }
 
-export function returnValue(keyArray: string[]): string {
+export function returnReadable(keyArray: string[]): string {
   return keyArray.reduce((fullStr, key) => `${fullStr}\t\t${key}Value,\n`, '');
 }
 
