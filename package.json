@@ -2,6 +2,10 @@
   "name": "chromogen",
   "version": "1.0.0",
   "description": "simple, interaction-driven test generator for Recoil apps",
+  "scripts": {
+    "postinstall": "sed -i '' s#require\\(\\'prettier\\'\\)#require\\(\\'@btmills/prettier\\'\\)#g ./node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js",
+    "build": "echo \"ERROR! Nothing to build in root directory.\n\""
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/oslabs-beta/Chromogen.git"
@@ -39,6 +43,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.5",
-    "eslint-plugin-react-hooks": "^4.0.0"
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "typescript": "^4.0.2"
   }
 }
