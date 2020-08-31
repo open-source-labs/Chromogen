@@ -1,10 +1,10 @@
 {
-
-  "name" : "Chromogen Extension",
-  "version" : "0.1",
+  "name" : "Chromogen",
+  "version" : "0.1.0",
   "manifest_version" : 2,
   "description" : "DevTool panel for Chromogen, a UX-driven test generator for Recoil apps.",
   "author" : "Chromogen Team",
+  "icons": { "128": "./imgs/chromogen-logo.png"},
   "devtools_page" : "devtools.html",
   "background": {
     "persistent": false,

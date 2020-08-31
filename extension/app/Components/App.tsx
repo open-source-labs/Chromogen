@@ -1,6 +1,8 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Recorder from './Recorder';
+/* eslint-enable */
 
 const App: React.FC = () => {
   const [status, setStatus] = useState(true);
@@ -30,9 +32,9 @@ const App: React.FC = () => {
     <div className="App">
       <div className="row">chromogen</div>
       <Recorder status={status} />
-    </div>   
+    </div>
   ) : (
-    // Otherwise, render 'please install' message 
+    // Otherwise, render 'please install' message
     <div id="installContainer">
       <div />
 

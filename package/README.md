@@ -10,7 +10,7 @@
   />
 </a>
 
-<h3>A UI-driven test-generation package for <a href="https://www.npmjs.com/package/recoil">Recoil</a> selectors.</h3>
+<h3>A UI-driven Jest test-generation package for <a href="https://www.npmjs.com/package/recoil">Recoil</a> selectors.</h3>
 
 <br />
 

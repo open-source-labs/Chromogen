@@ -6,6 +6,9 @@
       "es2020": true,
       "jest": true
   },
+  "globals": {
+    "chrome": "readonly"
+  },
   "extends": [
       "airbnb",
       "prettier",

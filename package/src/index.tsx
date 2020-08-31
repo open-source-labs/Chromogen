@@ -150,9 +150,9 @@ const buttonStyle: CSSProperties = {
 const divStyle: CSSProperties = {
   display: 'inline-block',
   position: 'absolute',
-  top: '12px',
-  left: '12px',
-  backgroundColor: '#c0c0c0',
+  bottom: '16px',
+  left: '16px',
+  backgroundColor: '#aaa',
   borderRadius: '4px',
   margin: 0,
   padding: 0,
@@ -297,7 +297,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
           <div style={divStyle}>
             <button
               aria-label="capture test"
-              style={{ ...buttonStyle, backgroundColor: '#8ccabd' }}
+              style={{ ...buttonStyle, backgroundColor: '#12967a' }}
               type="button"
               onClick={generateFile}
             />
