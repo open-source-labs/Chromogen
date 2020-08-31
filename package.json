@@ -55,7 +55,7 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.0.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^26.4.1",
+    "jest": "^26.4.2",
     "prettier": "^2.0.5",
     "react-hot-loader": "^4.12.21",
     "react-recoil-hooks-testing-library": "0.0.8",

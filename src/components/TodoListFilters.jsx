@@ -3,13 +3,8 @@ import SortIcon from '@material-ui/icons/Sort';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import {
-  todoListFilterState,
-  todoListStatsState,
-  todoListSortState,
-  todoListSortedStats,
-  refreshFilterState,
-} from '../store/store';
+import { todoListStatsState, todoListSortedStats, refreshFilterState } from '../store/store';
+import { todoListFilterState, todoListSortState } from '../store/atoms';
 
 const TodoListFilters = () => {
   const [filter, setFilter] = useRecoilState(todoListFilterState);
