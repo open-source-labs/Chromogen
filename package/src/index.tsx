@@ -1,10 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect, CSSProperties } from 'react';
-import {
-  selector as recoilSelector,
-  atom as recoilAtom,
-  useRecoilTransactionObserver_UNSTABLE,
-  useRecoilState,
+import type {
   RecoilState,
   RecoilValueReadOnly,
   AtomOptions,
@@ -12,25 +7,30 @@ import {
   ReadWriteSelectorOptions,
   ReadOnlySelectorOptions,
 } from 'recoil';
-import output from './testString';
+import type { CSSProperties } from 'react';
+import type { Ledger, SelectorConfig } from './types/types';
+
 import {
-  Writeables,
-  Readables,
-  SelectorsArr,
-  Snapshots,
-  Setters,
-  SelectorConfig,
-} from './types/types';
+  selector as recoilSelector,
+  atom as recoilAtom,
+  useRecoilTransactionObserver_UNSTABLE,
+  useRecoilState,
+} from 'recoil';
+import React, { useState, useEffect } from 'react';
+
+import { output } from './test_string/testString';
 /* eslint-enable */
 
-// ----- TESTING -----
-// Arrays used to compose test string
-const writeables: Writeables<any> = [];
-const settables: Array<string> = [];
-const snapshots: Snapshots = [];
-const initialRender: SelectorsArr = [];
-const setters: Setters = [];
-let readables: Readables<any> = [];
+// ----- SETUP -----
+// Used to compose test string
+export const ledger: Ledger<RecoilState<any>> = {
+  atoms: [],
+  selectors: [],
+  setters: [],
+  initialRender: [],
+  transactions: [],
+  setTransactions: [],
+};
 
 // State for recording toggle
 const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
@@ -39,133 +39,224 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
 });
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
-// Wwitching to function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
+// Using function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
 // Hardcoding function overloads as correct function types were not being recognized on import
 export function selector<T>(options: ReadWriteSelectorOptions<T>): RecoilState<T>;
 export function selector<T>(options: ReadOnlySelectorOptions<T>): RecoilValueReadOnly<T>;
 export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelectorOptions<any>) {
   const { key, get } = config;
+  const { transactions, initialRender, selectors } = ledger;
 
-  let returnedPromise = false;
+  let returnedPromise: boolean = false;
 
   /**
-   * If get is undefined, native Async, or transpiled generator-based async from Babel (id'd via RegEx),
-   * we don't do any injecting or tracking. It just gets created & returned back out.
-   
-   * If snapshots.length is greater than 1, the selector is being created following the initial render
-   * (i.e. a dynamically generated selector) and will not be tracked - otherwise 
-   * will break the imports within test file output. Same logic is being applied to 
-   * new atoms as well.
+   * If transactions.length is greater than 1, the selector is being created after the initial render
+   * (i.e. a dynamically generated selector) and will not be tracked. Doing so would break the imports
+   * and assertions within the output test file. Same logic is applied to new atoms.
    *
-   * Otherwise, we attempt to wrap it with a custom getter that logs the return
-   * value on each update to the corresponding snapshot in the snapshots array.
+   * If get is undefined, native Async, or Babel-transpiled generator-based async (id'd via RegEx),
+   * we don't do any injecting or tracking. Selector just gets created & returned back out.
    *
-   * If get returns a promise on page load, we delete it from the readables array
-   * and do not track it on subsequent calls (via "returnedPromise" flag).
-   * 
+   * Otherwise, we attempt to wrap get & set methods with custom functions that log the return
+   * value on each transaction to the corresponding ledger array.
+   *
+   * If get returns a promise on page load, we delete selector from the selectors array
+   * and do not track it on subsequent calls (using "returnedPromise" flag, since we can't "un-inject").
    */
 
   if (
-    !get
+    transactions.length > 0
+    || !get
     || get.constructor.name === 'AsyncFunction'
     || get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
-    || snapshots.length > 0
   ) {
     return recoilSelector(config);
   }
+
   // Wrap get method with tracking logic
-  const getter = (arg: any) => {
+  const getter = (utils: any) => {
     // Run user-defined get method & capture its return value
-    const newValue = get(arg);
+    const value = get(utils);
     // Only capture selector data if currently recording
-    if (arg.get(recordingState)) {
-      if (snapshots.length === 0) {
+    if (utils.get(recordingState)) {
+      if (transactions.length === 0) {
         // Promise-validation is expensive, so we only do it once, on initial load
-        if (
-          typeof newValue === 'object'
-          && newValue !== null
-          && newValue.constructor.name === 'Promise'
-        ) {
-          readables = readables.filter((el) => el.key !== key);
+        if (typeof value === 'object' && value !== null && value.constructor.name === 'Promise') {
+          ledger.selectors = selectors.filter((current) => current !== key);
           returnedPromise = true;
         } else {
-          initialRender.push({ key, newValue });
+          initialRender.push({ key, value });
         }
       } else if (!returnedPromise) {
-        setTimeout(() => snapshots[snapshots.length - 1].selectors.push({ key, newValue }), 0);
+        // allow TransactionObserver to push to array first
+        // Length must be computed after timeout to correctly find last transaction
+        setTimeout(() => transactions[transactions.length - 1].updates.push({ key, value }), 0);
       }
     }
 
     // Return out value from original get method
-    return newValue;
+    return value;
   };
 
   // Create a new config object with updated properties
   const newConfig: SelectorConfig<any> = { key, get: getter };
+
   if ('set' in config) {
     const { set } = config;
-    const setter = (...args: any[]) => {
-      // TYPESCRIPT HACK => should be refactored
-      const [utils, setValue] = args;
-      if (utils.get(recordingState) && setters.length > 0) {
-        const newValue = args[1];
-        // setTimeout is required to attribute setter to correct state
+    const { setTransactions, setters } = ledger;
+
+    const setter = (utils: any, newValue: any) => {
+      if (utils.get(recordingState) && setTransactions.length > 0) {
+        // allow TransactionObserver to push to array first
+        // Length must be computed after timeout to correctly find last transaction
         setTimeout(() => {
-          setters[setters.length - 1].setter = { key, newValue };
+          setTransactions[setTransactions.length - 1].setter = { key, newValue };
         }, 0);
       }
-      // TYPESCRIPT HACK pt. 2
-      return set(utils, setValue);
+      return set(utils, newValue);
     };
+
     newConfig.set = setter;
-    settables.push(key);
+    setters.push(key);
   }
 
-  // Create selector & add to readables for test setup
+  // Create selector & add to selectors for test setup
   const trackedSelector = recoilSelector(newConfig);
-  readables.push(trackedSelector);
+  selectors.push(trackedSelector.key);
   return trackedSelector;
 }
 
-// switching to function declaration
 export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
-  const newAtom = recoilAtom<any>(config);
+  const { transactions, atoms } = ledger;
+  const newAtom = recoilAtom(config);
 
-  if (snapshots.length > 0) return newAtom;
-  writeables.push(newAtom);
+  if (transactions.length > 0) return newAtom;
+
+  // Can't use key b/c transactions needs to pass atoms to getLoadable during transaction iteration
+  atoms.push(newAtom);
   return newAtom;
 }
 
 // ----- TRANSACTION PROVIDER -----
 const buttonStyle: CSSProperties = {
   display: 'inline-block',
-  margin: '10px',
+  margin: '8px',
   padding: '0px',
-  height: '10px',
-  width: '10px',
+  height: '16px',
+  width: '16px',
 };
 
 // Used to ensure appropriate button contrast for varying page backgrounds
 const divStyle: CSSProperties = {
   display: 'inline-block',
   position: 'absolute',
-  top: '10px',
-  left: '10px',
-  backgroundColor: 'grey',
+  bottom: '16px',
+  left: '16px',
+  backgroundColor: '#aaa',
+  borderRadius: '4px',
   margin: 0,
   padding: 0,
   zIndex: 999999,
 };
 
-export const ChromogenObserver: React.FC = () => {
+export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
   // File stores URL for generated test file Blob containing output() string
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
+
+  // storeMap.set('key', 'variable name')
+  const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
+  const [devtool, setDevtool] = useState<boolean>(false);
+
+  // Update Recoil atom that maps keys to variable names if store was provided as prop on page load
+  useEffect(() => {
+    if (store !== undefined) {
+      // If single store was passed, convert to array
+      const storeArr = Array.isArray(store) ? store : [store];
+      const newStore: Map<string, string> = new Map();
+      storeArr.forEach((storeModule) => {
+        Object.entries(storeModule).forEach(([variable, { key }]) => {
+          newStore.set(key, variable);
+        });
+      });
+      setStoreMap(newStore);
+    }
+  }, []);
+
+  /**
+   * onclick function that generates test file & sets download URL
+   *
+   * Key-to-Variable name mapping is applied if storeMap has any contents
+   * (meaning atom / selector nodes were passed as props)
+   * Applying only at point-of-download keeps performance cost low for users who
+   * don't need to pass nodes while creating a moderate performance hit for others
+   * only while downloading, never while interacting with their app.
+   */
+  const generateFile = (): void => {
+    const { atoms, selectors, setters, initialRender, transactions, setTransactions } = ledger;
+    const finalLedger: Ledger<string> =
+      storeMap.size > 0
+        ? {
+            atoms: atoms.map(({ key }) => storeMap.get(key) || key),
+            selectors: selectors.map((key) => storeMap.get(key) || key),
+            setters: setters.map((key) => storeMap.get(key) || key),
+            initialRender: initialRender.map(({ key, value }) => {
+              const newKey = storeMap.get(key) || key;
+              return { key: newKey, value };
+            }),
+            transactions: transactions.map(({ state, updates }) => {
+              const newState = state.map((eachAtom) => {
+                const key = storeMap.get(eachAtom.key) || eachAtom.key;
+                return { ...eachAtom, key };
+              });
+              const newUpdates = updates.map((eachSelector) => {
+                const key = storeMap.get(eachSelector.key) || eachSelector.key;
+                const { value } = eachSelector;
+                return { key, value };
+              });
+              return { state: newState, updates: newUpdates };
+            }),
+            setTransactions: setTransactions.map(({ state, setter }) => {
+              const newState = state.map((eachAtom) => {
+                const key = storeMap.get(eachAtom.key) || eachAtom.key;
+                return { ...eachAtom, key };
+              });
+              const newSetter = setter;
+              if (newSetter) {
+                const { key } = newSetter;
+                newSetter.key = storeMap.get(key) || key;
+              }
+              return { state: newState, setter: newSetter };
+            }),
+          }
+        : { ...ledger, atoms: atoms.map(({ key }) => key) };
+
+    return setFile(URL.createObjectURL(new Blob([output(finalLedger)])));
+  };
 
   // Auto-click download link when a new file is generated (via button click)
-  //! to get around strict null check in tsconfig
+  // ! to get around strict null check in tsconfig
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
+
+  // Handle incoming messages from content.ts
+  const receiveMessage = (message: any) => {
+    switch (message.data.action) {
+      case 'connectChromogen':
+        setDevtool(true);
+        window.postMessage({ action: 'moduleConnected' }, '*');
+        break;
+      case 'downloadFile':
+        generateFile();
+        break;
+      case 'toggleRecord':
+        setRecording(!recording);
+        window.postMessage({ action: 'setStatus' }, '*');
+        break;
+      default:
+      // Do nothing
+    }
+  };
 
   // Add/remove event listeners for communication with content.ts
   useEffect(() => {
@@ -175,34 +266,14 @@ export const ChromogenObserver: React.FC = () => {
     return () => window.removeEventListener('message', receiveMessage);
   });
 
-  // Handle incoming messages from content.ts
-  const receiveMessage = (message: any) => {
-    switch (message.data.action) {
-      case 'init':
-        window.postMessage({ action: 'moduleConnected' }, '*');
-        break;
-      case 'downloadFile':
-        setFile(
-          URL.createObjectURL(
-            new Blob([output(writeables, readables, snapshots, initialRender, setters, settables)]),
-          ),
-        );
-        break;
-      case 'toggleRecord':
-        setRecording(!recording);
-        window.postMessage({ action: 'setStatus' }, '*');
-        break;
-      default:
-        break;
-    }
-  };
-
   useRecoilTransactionObserver_UNSTABLE(
     ({ previousSnapshot, snapshot }: { previousSnapshot: Snapshot; snapshot: Snapshot }): void => {
       // Map current snapshot to array of atom states
       // Can't directly check recording hook b/c TransactionObserver runs before state update
       if (snapshot.getLoadable(recordingState).contents) {
-        const state = writeables.map((item) => {
+        const { transactions, setTransactions, atoms } = ledger;
+
+        const state = atoms.map((item) => {
           const { key } = item;
           const value = snapshot.getLoadable(item).contents;
           const previous = previousSnapshot.getLoadable(item).contents;
@@ -210,38 +281,37 @@ export const ChromogenObserver: React.FC = () => {
           return { key, value, previous, updated };
         });
 
-        // Add current transaction snapshot to snapshots array
-        snapshots.push({ state, selectors: [] });
-        setters.push({ state, setter: null });
+        // Add current transaction snapshot to transactions array
+        transactions.push({ state, updates: [] });
+        setTransactions.push({ state, setter: null });
       }
     },
   );
 
   // Render button to DOM for capturing test output, and creates invisible download link for test file
   return (
-    <div style={divStyle}>
-      <button
-        aria-label="capture test"
-        style={{ ...buttonStyle, backgroundColor: 'limegreen' }}
-        type="button"
-        onClick={() =>
-          setFile(
-            URL.createObjectURL(
-              new Blob([
-                output(writeables, readables, snapshots, initialRender, setters, settables),
-              ]),
-            ),
-          )
-        }
-      />
-      <button
-        aria-label={recording ? 'pause' : 'record'}
-        style={{ ...buttonStyle, backgroundColor: recording ? 'red' : 'yellow' }}
-        type="button"
-        onClick={() => {
-          setRecording(!recording);
-        }}
-      />
+    <>
+      {
+        // Render button div only if DevTool not connected
+        !devtool && (
+          <div style={divStyle}>
+            <button
+              aria-label="capture test"
+              style={{ ...buttonStyle, backgroundColor: '#12967a' }}
+              type="button"
+              onClick={generateFile}
+            />
+            <button
+              aria-label={recording ? 'pause' : 'record'}
+              style={{ ...buttonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
+              type="button"
+              onClick={() => {
+                setRecording(!recording);
+              }}
+            />
+          </div>
+        )
+      }
       <a
         download="chromogen.test.js"
         href={file}
@@ -250,6 +320,6 @@ export const ChromogenObserver: React.FC = () => {
       >
         Download Test
       </a>
-    </div>
+    </>
   );
 };

@@ -6,6 +6,9 @@
       "es2020": true,
       "jest": true
   },
+  "globals": {
+    "chrome": "readonly"
+  },
   "extends": [
       "airbnb",
       "prettier",
@@ -37,6 +40,7 @@
               "allowTemplateLiterals": false
           }
       ],
+      "import/prefer-default-export": "off",
       "react/jsx-filename-extension": ["off"],
       "react/function-component-definition": [
           "error",

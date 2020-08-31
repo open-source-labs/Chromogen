@@ -8,6 +8,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
 /* App.jsx */
 .App {
   display: grid;
@@ -20,9 +21,9 @@ body {
   font-size: 2.5rem;
   letter-spacing: 4px;
   width: 100%;
-  /* text-shadow: 2px 2px 2px #83beb1c2; */
   text-shadow: #83beb1c2 1px 2px 0;
 }
+
 /* Recorder.jsx */
 .recorder-div { 
   display: flex;
@@ -52,7 +53,6 @@ body {
 }
 
 /* Install Chromogen render */
-
 #installContainer {
   display: grid;
   grid-template-rows: 33fr 33fr 33fr;

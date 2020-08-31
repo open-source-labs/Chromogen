@@ -16,7 +16,7 @@ chrome.runtime.onConnect.addListener((port) => {
   const extensionListener = (message: Message, port) => {
     const { tabId, action } = message;
     // Initial connection – store current instance of DevTools page
-    if (action === 'init') {
+    if (action === 'connectChromogen') {
       connections[tabId] = port;
     }
     // Relay message to content.ts -> package

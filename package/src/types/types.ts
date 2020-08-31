@@ -1,27 +1,53 @@
 /* eslint-disable */
-import { RecoilState, RecoilValueReadOnly, RecoilValue, DefaultValue } from 'recoil';
+import type { RecoilState, RecoilValue, DefaultValue } from 'recoil';
 /* eslint-enable */
 
 // ----- INITIALIZING NON-IMPORTABLE RECOIL TYPES -----
+type ResetRecoilState = (recoilVal: RecoilState<any>) => void;
+
 type GetRecoilValue = <T>(recoilVal: RecoilValue<T>) => T;
+
 type SetRecoilState = <T>(
   recoilVal: RecoilState<T>,
   newVal: T | DefaultValue | ((prevValue: T) => T | DefaultValue),
 ) => void;
-type ResetRecoilState = (recoilVal: RecoilState<any>) => void;
 
 // ----- EXPORTING TYPES TO BE USED IN SRC/.TSX FILES -----
-export type Writeables<T> = Array<RecoilState<T>>;
-export type Readables<T> = Array<RecoilValueReadOnly<T> | RecoilState<T>>;
-export type SelectorsArr = Array<{ key: string; newValue: any }>;
-export type Snapshots = Array<{
-  state: { key: string; value: any; previous: any; updated: boolean }[];
-  selectors: SelectorsArr;
-}>;
-export type Setters = Array<{
-  state: { key: string; value: any; previous: any; updated: boolean }[];
-  setter: null | { key: string; newValue: any };
-}>;
+export interface SetterUpdate {
+  key: string;
+  newValue: any;
+}
+
+export interface SelectorUpdate {
+  key: string;
+  value: any;
+}
+
+export interface AtomUpdate extends SelectorUpdate {
+  previous: any;
+  updated: boolean;
+}
+
+export interface Transaction {
+  state: AtomUpdate[];
+  updates: SelectorUpdate[];
+}
+
+export interface SetTransaction {
+  state: AtomUpdate[];
+  setter: null | SetterUpdate;
+}
+
+// atoms should take RecoilState<any>[] | string[]
+export interface Ledger<T> {
+  atoms: T[];
+  selectors: string[];
+  setters: string[];
+  initialRender: SelectorUpdate[];
+  transactions: Transaction[];
+  setTransactions: SetTransaction[];
+}
+
 export interface SelectorConfig<T> {
   key: string;
   get: (opts: { get: GetRecoilValue }) => T | Promise<T> | RecoilValue<T>;
