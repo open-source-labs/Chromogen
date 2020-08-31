@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { quoteTextState, quoteNumberState, xkcdState } from '../store/store';
+import { quoteTextState, xkcdState } from '../store/store';
+import { quoteNumberState } from '../store/atoms';
 
 const Quotes = () => {
   const setQuoteNumber = useSetRecoilState(quoteNumberState);

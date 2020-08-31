@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import { useSetRecoilState } from 'recoil';
-import { todoListState } from '../store/store';
+import { todoListState } from '../store/atoms';
 
 // utility for creating unique Id
 let id = 0;

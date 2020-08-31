@@ -1,30 +1,5 @@
-import { atom, selector } from 'chromogen';
-
-/* ----- ATOMS ----- */
-
-// unsorted, unfiltered todo list
-const todoListState = atom({
-  key: 'todoListState',
-  default: [], // array of objects - each object has id, text, isComplete, and priority props
-});
-
-// filter select
-const todoListFilterState = atom({
-  key: 'todoListFilterState',
-  default: 'Show All',
-});
-
-// toggle sort
-const todoListSortState = atom({
-  key: 'todoListSortState',
-  default: false,
-});
-
-// random number for fetching quote & comic
-const quoteNumberState = atom({
-  key: 'quoteNumberState',
-  default: Math.floor(Math.random() * 1643),
-});
+import { selector } from 'chromogen';
+import { todoListState, todoListFilterState, todoListSortState, quoteNumberState } from './atoms';
 
 /* ----- SELECTORS ---- */
 
@@ -48,7 +23,7 @@ const filteredTodoListState = selector({
 
 // sorted todo list
 const sortedTodoListState = selector({
-  key: 'sortedTodoListState',
+  key: 'mismatchSortedTodoList',
   get: ({ get }) => {
     const sort = get(todoListSortState);
     const list = get(filteredTodoListState);
@@ -97,7 +72,7 @@ const filteredListContentState = selector({
 
 // WRITEABLE GET/SET SELECTOR - (un)check all filtered items
 const allCompleteState = selector({
-  key: 'allCompleteState',
+  key: 'mismatchAllComplete',
   // if any item in filteredList is not complete, allComplete is false
   get: ({ get }) => !get(filteredTodoListState).some(({ isComplete }) => !isComplete),
   set: ({ get, set }, newValue) => {
@@ -164,13 +139,9 @@ const xkcdState = selector({
 });
 
 export {
-  todoListState,
-  todoListFilterState,
   filteredTodoListState,
   filteredListContentState,
   todoListStatsState,
-  todoListSortState,
-  quoteNumberState,
   allCompleteState,
   sortedTodoListState,
   todoListSortedStats,

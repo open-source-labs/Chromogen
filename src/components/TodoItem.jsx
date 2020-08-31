@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import Checkbox from '@material-ui/core/Checkbox';
-import { todoListState } from '../store/store';
+import { todoListState } from '../store/atoms';
 import '../styles/styles.css';
 
 function replaceItemAtIndex(arr, index, newValue) {
