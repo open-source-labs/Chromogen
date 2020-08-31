@@ -2,6 +2,9 @@
   "name": "chromogen",
   "version": "1.0.0",
   "description": "simple, interaction-driven test generator for Recoil apps",
+  "scripts": {
+    "postinstall": "sed -i '' s#require\\(\\'prettier\\'\\)#require\\(\\'@btmills/prettier\\'\\)#g ./node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/oslabs-beta/Chromogen.git"
