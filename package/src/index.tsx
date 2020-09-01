@@ -12,14 +12,7 @@ import type {
   ReadOnlySelectorFamilyOptions,
 } from 'recoil';
 import type { CSSProperties } from 'react';
-import type {
-  Ledger,
-  SelectorConfig,
-  SelectorFamilyConfig,
-  SelectorFamilies,
-  AtomFamilies,
-  AtomFamilyState,
-} from './types/types';
+import type { Ledger, SelectorConfig, SelectorFamilyConfig, AtomFamilyState } from './types/types';
 
 import {
   selector as recoilSelector,
@@ -32,6 +25,8 @@ import {
 import React, { useState, useEffect } from 'react';
 
 import { output } from './test_string/testString';
+
+import { debounce, convertFamilyTrackerKeys } from './utils/utils';
 /* eslint-enable */
 
 // ----- SETUP -----
@@ -54,20 +49,16 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   default: true,
 });
 
-//Debounce function for selector transaction updates (should move to separate utils file)
-const debounce = (func: (...args: any[]) => any, wait: number) => {
-  let timeout: any;
+//For selector get call debouncing
+const DEBOUNCE_MS = 500;
 
-  return function (...args: any[]) {
-    const timeoutCallback = () => {
-      timeout = null;
-      func(...args);
-    };
-
-    clearTimeout(timeout);
-    timeout = setTimeout(timeoutCallback, wait);
-  };
-};
+const debouncedAddToTransactions = debounce(
+  (key, value, currentTransactionIdx, params) =>
+    params !== undefined
+      ? ledger.transactions[currentTransactionIdx].updates.push({ key, value })
+      : ledger.transactions[currentTransactionIdx].familyUpdates.push({ key, value, params }),
+  DEBOUNCE_MS,
+);
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 // Using function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
@@ -108,6 +99,7 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
   const getter = (utils: any) => {
     // Run user-defined get method & capture its return value
     const value = get(utils);
+
     // Only capture selector data if currently recording
     if (utils.get(recordingState)) {
       if (transactions.length === 0) {
@@ -119,11 +111,10 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
           initialRender.push({ key, value });
         }
       } else if (!returnedPromise) {
-        // allows TransactionObserver to push to array first
+        // Debouncing allows TransactionObserver to push to array first
         // Length must be computed before debounce to correctly find last transaction
         const currentTransactionIdx = transactions.length - 1;
-
-        debounce(() => transactions[currentTransactionIdx].updates.push({ key, value }), 600)();
+        debouncedAddToTransactions(key, value, currentTransactionIdx);
       }
     }
 
@@ -227,6 +218,7 @@ export function selectorFamily<T>(
     // Run user-defined get method & capture its return value
     const { get } = arg;
     const value = configGet(params)(arg);
+
     // Only capture selector data if currently recording
     if (get(recordingState)) {
       if (transactions.length === 0) {
@@ -242,15 +234,14 @@ export function selectorFamily<T>(
           initialRenderFamilies.push({ key, params, value });
         }
       } else if (!returnedPromise) {
+        //Track every new params
         if (!selectorFamilies[key].prevParams.has(params)) {
           selectorFamilies[key].prevParams.add(params);
         }
-        const currentTransactionIdx = transactions.length - 1;
-
-        debounce(
-          () => transactions[currentTransactionIdx].familyUpdates.push({ key, params, value }),
-          600,
-        )();
+        // Debouncing allows TransactionObserver to push to array first
+        // Length must be computed before debounce to correctly find last transaction
+        const currentTransactionIdx = ledger.transactions.length - 1;
+        debouncedAddToTransactions(key, value, currentTransactionIdx, params);
       }
     }
     // Return value from original get method
@@ -356,30 +347,13 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       setTransactions,
     } = ledger;
 
-    function convertFamilyTrackerKeys(familyTracker: AtomFamilies): AtomFamilies;
-    function convertFamilyTrackerKeys<T, P extends SerializableParam>(
-      familyTracker: SelectorFamilies<T, P>,
-    ): SelectorFamilies<T, P>;
-
-    function convertFamilyTrackerKeys(
-      familyTracker: AtomFamilies | SelectorFamilies<any, SerializableParam>,
-    ) {
-      const refactoredTracker: AtomFamilies | SelectorFamilies<any, SerializableParam> = {};
-
-      for (const familyName in familyTracker) {
-        const newKey: string = storeMap.get(familyName) || familyName;
-        refactoredTracker[newKey] = familyTracker[familyName];
-      }
-      return refactoredTracker;
-    }
-
     const finalLedger: Ledger<string, any, SerializableParam> =
       storeMap.size > 0
         ? {
             atoms: atoms.map(({ key }) => storeMap.get(key) || key),
             selectors: selectors.map((key) => storeMap.get(key) || key),
-            atomFamilies: convertFamilyTrackerKeys(atomFamilies),
-            selectorFamilies: convertFamilyTrackerKeys(selectorFamilies),
+            atomFamilies: convertFamilyTrackerKeys(atomFamilies, storeMap),
+            selectorFamilies: convertFamilyTrackerKeys(selectorFamilies, storeMap),
             setters: setters.map((key) => storeMap.get(key) || key),
             initialRender: initialRender.map(({ key, value }) => {
               const newKey = storeMap.get(key) || key;
