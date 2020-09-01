@@ -235,19 +235,36 @@ export function testSetters(setTransactionArray: SetTransaction[]): string {
   return setTransactionArray.reduce((setterTests, { state, setter }) => {
     const updatedAtoms = state.filter(({ updated }) => updated);
 
-    // ternary check filters out transactions where no writeable selector fired
-    return setter
-      ? `${setterTests}\tit('${setter.key} should properly set state', () => {
-\t\tconst { result } = renderRecoilHook(useStoreHook);
-  
-\t\tact(() => {
-${initializeAtoms(state, false)}\t\t});
-  
-\t\tact(() => { 
-\t\t\tresult.current.set${setter.key}(${JSON.stringify(setter.newValue)});
-\t\t});
-  
-${assertState(updatedAtoms)}\t});\n\n`
-      : `${setterTests}`;
+    if (setter) {
+      const { params } = setter;
+
+      return params !== undefined
+        ? `${setterTests}\tit('${setter.key}__${JSON.stringify(
+            params,
+          )} should properly set state', () => {
+        \t\tconst { result } = renderRecoilHook(useStoreHook);
+        
+        \t\tact(() => {
+        ${initializeAtoms(state, false)}\t\t});
+        
+        \t\tact(() => { 
+        \t\t\tresult.current.set${setter.key}__${JSON.stringify(params)}(${JSON.stringify(
+            setter.newValue,
+          )});
+        \t\t});
+        
+        ${assertState(updatedAtoms)}\t});\n\n`
+        : `${setterTests}\tit('${setter.key} should properly set state', () => {
+          \t\tconst { result } = renderRecoilHook(useStoreHook);
+          
+          \t\tact(() => {
+          ${initializeAtoms(state, false)}\t\t});
+          
+          \t\tact(() => { 
+          \t\t\tresult.current.set${setter.key}(${JSON.stringify(setter.newValue)});
+          \t\t});
+          
+          ${assertState(updatedAtoms)}\t});\n\n`;
+    } else return setterTests;
   }, '');
 }

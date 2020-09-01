@@ -181,7 +181,7 @@ export function atomFamily<T, P extends SerializableParam>(
 
   return (params: P): RecoilState<T> => {
     const strParams = JSON.stringify(params);
-    //If the atom hasalready  been created, return from cache, otherwise we'll be creating a new
+    //If the atom has already been created, return from cache, otherwise we'll be creating a new
     //instance of an atom every time we invoke this func (which can lead to infinite re-render loop)
     const cachedAtom = atomCache.get(strParams);
     if (cachedAtom !== undefined) return cachedAtom;
