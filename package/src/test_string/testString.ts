@@ -15,6 +15,7 @@ import {
   returnSelectorFamily,
   initializeSelectors,
   initializeSelectorFamilies,
+  returnAtomFamily,
 } from './helpers';
 /* eslint-enable */
 
@@ -58,9 +59,9 @@ ${writeableHook(setters)}
 ${readableHook(setFilter(selectors, setters))}
   // atom families
 ${atomFamilyHook(transactions)}
-//writeable selector families
+  //writeable selector families
 ${selectorFamilyHook(selectorFamilies, true)}
-//read-only selector families
+  //read-only selector families
 ${selectorFamilyHook(selectorFamilies, false)}
 
 
@@ -70,6 +71,7 @@ ${
   returnWriteable(atoms) +
   returnWriteable(setters) +
   returnReadable(setFilter(selectors, setters)) +
+  returnAtomFamily(transactions) +
   returnSelectorFamily(selectorFamilies, true) +
   returnSelectorFamily(selectorFamilies, false)
 }\t};

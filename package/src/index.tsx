@@ -117,7 +117,6 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
         debouncedAddToTransactions(key, value, currentTransactionIdx);
       }
     }
-
     // Return out value from original get method
     return value;
   };
@@ -160,6 +159,8 @@ export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
   atoms.push(newAtom);
   return newAtom;
 }
+
+// ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM FAMILIES -----
 export function atomFamily<T, P extends SerializableParam>(
   config: AtomFamilyOptions<T, P>,
 ): (params: P) => RecoilState<T> {
@@ -202,7 +203,7 @@ export function selectorFamily<T>(
   const { transactions, selectorFamilies, initialRenderFamilies } = ledger;
   let returnedPromise = false;
 
-  //testing wheter returned function from configGet is async
+  //Testing whether returned function from configGet is async
   if (
     !configGet ||
     configGet('dummyParam').constructor.name === 'AsyncFunction' ||

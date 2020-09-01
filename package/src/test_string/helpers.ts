@@ -102,6 +102,19 @@ export function returnReadable(keyArray: string[]): string {
   return keyArray.reduce((fullStr, key) => `${fullStr}\t\t${key}Value,\n`, '');
 }
 
+export function returnAtomFamily(transactionArray: Transaction[]): string {
+  return transactionArray[transactionArray.length - 1].atomFamilyState.reduce(
+    (value, atomState) => {
+      const { family, key } = atomState;
+      //key will be "[familyname]__[params]"
+      const params = key.substring(family.length + 2);
+      return `${value}\t\t${family + '__' + params + '__Value'},
+        \t\t${'set' + family + '__' + params},\n`;
+    },
+    '',
+  );
+}
+
 export function returnSelectorFamily(
   selectorFamilyTracker: SelectorFamilies<any, SerializableParam>,
   isSettable: boolean,
