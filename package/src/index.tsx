@@ -169,7 +169,9 @@ export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
   atoms.push(newAtom);
   return newAtom;
 }
-export function atomFamily<T, P extends SerializableParam>(config: AtomFamilyOptions<T, P>) {
+export function atomFamily<T, P extends SerializableParam>(
+  config: AtomFamilyOptions<T, P>,
+): (params: P) => RecoilState<T> {
   const { atomFamilies } = ledger;
   const { key } = config;
   //Initialize new family in atomFamilies tracker

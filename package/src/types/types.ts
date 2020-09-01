@@ -78,8 +78,8 @@ export interface SelectorFamilyConfig<T, P extends SerializableParam> {
 }
 export interface SelectorFamilyMembers<T, P> {
   trackedSelectorFamily: (param: P) => RecoilState<T> | RecoilValueReadOnly<T>;
-  prevParams: Set<any>;
   isSettable: boolean;
+  prevParams: Set<any>;
 }
 export interface SelectorFamilies<T, P> {
   [familyName: string]: SelectorFamilyMembers<T, P>;

@@ -81,7 +81,6 @@ describe('INITIAL RENDER', () => {
 ${initializeSelectors(initialRender)}
   //Selector Families
 ${initializeSelectorFamilies(initialRenderFamilies)}
-
 });
 
 describe('SELECTORS', () => {

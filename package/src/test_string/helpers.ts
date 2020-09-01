@@ -7,6 +7,7 @@ import type {
   AtomFamilies,
   SelectorFamilies,
   SelectorFamilyUpdate,
+  SelectorFamilyMembers,
 } from '../types/types';
 import { SerializableParam } from 'recoil';
 /* eslint-enable */
@@ -82,9 +83,13 @@ export function selectorFamilyHook(
       const [familyName, { prevParams }] = familyArr;
       //converting prevParams from set to array
       return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
-        return `${innerStr}\tconst [${familyName + '__' + param + '__Value'}, ${
-          'set' + familyName + '__' + param
-        }] = useRecoilState(${familyName}(${param}));\n`;
+        return isSettable
+          ? `${innerStr}\tconst [${familyName + '__' + param + '__Value'}, ${
+              'set' + familyName + '__' + param
+            }] = useRecoilState(${familyName}(${param}));\n`
+          : `${innerStr}\tconst ${
+              familyName + '__' + param + '__Value'
+            } = useRecoilValue(${familyName}(${param}));\n`;
       }, '')}`;
     }, '');
 }
@@ -101,15 +106,24 @@ export function returnSelectorFamily(
   selectorFamilyTracker: SelectorFamilies<any, SerializableParam>,
   isSettable: boolean,
 ) {
-  Object.entries(selectorFamilyTracker)
+  return Object.entries(selectorFamilyTracker)
     .filter((familyArr) => familyArr[1].isSettable === isSettable)
-    .reduce((str: string, familyArr: any): string => {
-      const [familyName, { prevParams }] = familyArr;
-      return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
-        return `${innerStr}\t\t${familyName + '__' + param + '__Value'},
+    .reduce(
+      (str: string, familyArr: [string, SelectorFamilyMembers<any, SerializableParam>]): string => {
+        const [familyName, { prevParams }] = familyArr;
+        if (isSettable) {
+          return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
+            return `${innerStr}\t\t${familyName + '__' + param + '__Value'},
     \t\t${'set' + familyName + '__' + param},\n`;
-      }, '')}`;
-    }, '');
+          }, '')}`;
+        } else {
+          return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
+            return `${innerStr}\t\t${familyName + '__' + param + '__Value'},\n`;
+          }, '')}`;
+        }
+      },
+      '',
+    );
 }
 
 /* ----- INITIAL RENDER ----- */
@@ -144,26 +158,71 @@ export function testSelectors(transactionArray: Transaction[]): string {
         ...state.filter(({ updated }) => updated),
         ...atomFamilyState.filter(({ updated }) => updated),
       ];
-      const allUpdatedSelectors = [...updates, ...familyUpdates];
+      const allUpdatedSelectors: any[] = [...updates, ...familyUpdates];
       const atomLen = allUpdatedAtoms.length;
       const selectorLen = allUpdatedSelectors.length;
 
-      return atomLen !== 0 && updates.length !== 0
-        ? `${selectorTests}\tit('derive correct values when ${
+      return atomLen !== 0 && selectorLen !== 0
+        ? `${selectorTests}\tit('${
+            selectorLen > 1
+              ? allUpdatedSelectors.reduce((list, selectorState, i) => {
+                  const { key } = selectorState;
+                  const isLastElement = i === selectorLen - 1;
+                  //if params exist, then we are looking at a selectorFamily
+                  if ('params' in selectorState)
+                    return `${list}${isLastElement ? 'and ' : ''}${key}__${JSON.stringify(
+                      selectorState.params,
+                    )}${isLastElement ? '' : ', '}`;
+                  else
+                    return `${list}${isLastElement ? 'and ' : ''}${key}${
+                      isLastElement ? '' : ', '
+                    }`;
+                }, '')
+              : `${
+                  allUpdatedSelectors[0].params !== undefined
+                    ? `${allUpdatedSelectors[0].key}__${allUpdatedSelectors[0].params}`
+                    : allUpdatedSelectors[0].key
+                }`
+          } should properly derive state when ${
             atomLen > 1
-              ? updatedAtoms.reduce(
-                  (list, { key }, i) =>
-                    `${list}${i === atomLen - 1 ? `and ${key} update` : `${key}, `}`,
-                  '',
-                )
-              : `${updatedAtoms[0].key} updates`
+              ? allUpdatedAtoms.reduce((list, { key }, i) => {
+                  const isLastElement = i === atomLen - 1;
+                  return `${list}${isLastElement ? 'and ' : ''}${key}${
+                    isLastElement ? ' update' : ', '
+                  }`;
+                }, '')
+              : `${allUpdatedAtoms[0].key} updates`
           }', () => {
 \t\tconst { result } = renderRecoilHook(useStoreHook);
-  
+
 \t\tact(() => {
-${initializeAtoms(state, true)}\t\t});
-  
-${assertState(updates)}\t});\n\n`
+  ${state.reduce(
+    (initializers, { key, value }) =>
+      `${initializers}\t\t\tresult.current.set${key}(${JSON.stringify(value)});\n\n`,
+    '',
+  )}
+  ${atomFamilyState.reduce(
+    (initializers, { key, value }) =>
+      `${initializers}\t\t\tresult.current.set${key}(${JSON.stringify(value)});\n\n`,
+    '',
+  )}
+\t\t});
+${
+  selectorLen !== 0
+    ? allUpdatedSelectors.reduce((assertions, selectorState) => {
+        const { key, value } = selectorState;
+
+        if (selectorState.params !== undefined)
+          return `${assertions}\t\texpect(result.current.${key}__${
+            selectorState.params
+          }__Value).toStrictEqual(${JSON.stringify(value)});\n\n`;
+        else
+          return `${assertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
+            value,
+          )});\n\n`;
+      }, '')
+    : ''
+}\t});\n\n`
         : selectorTests;
     },
     '',
