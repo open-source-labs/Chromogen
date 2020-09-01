@@ -1,15 +1,21 @@
 /* eslint-disable */
 import type { Ledger } from '../types/types';
+import type { SerializableParam } from 'recoil';
 import {
   importRecoilState,
   writeableHook,
   readableHook,
   returnWriteable,
   returnReadable,
-  testInitialize,
   testSelectors,
   testSetters,
-} from './helpers'
+  importRecoilFamily,
+  atomFamilyHook,
+  selectorFamilyHook,
+  returnSelectorFamily,
+  initializeSelectors,
+  initializeSelectorFamilies,
+} from './helpers';
 /* eslint-enable */
 
 /* ----- HELPERS ----- */
@@ -21,14 +27,22 @@ export const output = ({
   atoms,
   selectors,
   setters,
+  atomFamilies,
+  selectorFamilies,
   initialRender,
+  initialRenderFamilies,
   transactions,
   setTransactions,
-}: Ledger<string>): string =>
+}: Ledger<string, any, SerializableParam>): string =>
   `import { renderRecoilHook, act } from 'react-recoil-hooks-testing-library';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {
-${importRecoilState(atoms) + importRecoilState(selectors)}
+${
+  importRecoilState(atoms) +
+  importRecoilState(selectors) +
+  importRecoilFamily(atomFamilies) +
+  importRecoilFamily(selectorFamilies)
+}
 } from '<ADD STORE FILEPATH>';
 
 // Suppress 'Batcher' warnings from React / Recoil conflict
@@ -42,16 +56,33 @@ ${writeableHook(atoms)}
 ${writeableHook(setters)}
   // read-only selectors
 ${readableHook(setFilter(selectors, setters))}
+  // atom families
+${atomFamilyHook(transactions)}
+//writeable selector families
+${selectorFamilyHook(selectorFamilies, true)}
+//read-only selector families
+${selectorFamilyHook(selectorFamilies, false)}
+
+
+
   return {
 ${
-  returnWriteable(atoms) + returnWriteable(setters) + returnReadable(setFilter(selectors, setters))
+  returnWriteable(atoms) +
+  returnWriteable(setters) +
+  returnReadable(setFilter(selectors, setters)) +
+  returnSelectorFamily(selectorFamilies, true) +
+  returnSelectorFamily(selectorFamilies, false)
 }\t};
 };
 
 describe('INITIAL RENDER', () => { 
   const { result } = renderRecoilHook(useStoreHook); 
+  //Selectors
+${initializeSelectors(initialRender)}
+  //Selector Families
+${initializeSelectorFamilies(initialRenderFamilies)}
 
-${testInitialize(initialRender)}});
+});
 
 describe('SELECTORS', () => {
 ${testSelectors(transactions)}});

@@ -6,13 +6,26 @@ import type {
   Snapshot,
   ReadWriteSelectorOptions,
   ReadOnlySelectorOptions,
+  SerializableParam,
+  AtomFamilyOptions,
+  ReadWriteSelectorFamilyOptions,
+  ReadOnlySelectorFamilyOptions,
 } from 'recoil';
 import type { CSSProperties } from 'react';
-import type { Ledger, SelectorConfig } from './types/types';
+import type {
+  Ledger,
+  SelectorConfig,
+  SelectorFamilyConfig,
+  SelectorFamilies,
+  AtomFamilies,
+  AtomFamilyState,
+} from './types/types';
 
 import {
   selector as recoilSelector,
   atom as recoilAtom,
+  atomFamily as recoilAtomFamily,
+  selectorFamily as recoilSelectorFamily,
   useRecoilTransactionObserver_UNSTABLE,
   useRecoilState,
 } from 'recoil';
@@ -23,11 +36,14 @@ import { output } from './test_string/testString';
 
 // ----- SETUP -----
 // Used to compose test string
-export const ledger: Ledger<RecoilState<any>> = {
+export const ledger: Ledger<RecoilState<any>, any, SerializableParam> = {
   atoms: [],
   selectors: [],
+  atomFamilies: {},
+  selectorFamilies: {},
   setters: [],
   initialRender: [],
+  initialRenderFamilies: [],
   transactions: [],
   setTransactions: [],
 };
@@ -37,6 +53,21 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
 });
+
+//Debounce function for selector transaction updates (should move to separate utils file)
+const debounce = (func: (...args: any[]) => any, wait: number) => {
+  let timeout: any;
+
+  return function (...args: any[]) {
+    const timeoutCallback = () => {
+      timeout = null;
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(timeoutCallback, wait);
+  };
+};
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 // Using function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
@@ -65,10 +96,10 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
    */
 
   if (
-    transactions.length > 0
-    || !get
-    || get.constructor.name === 'AsyncFunction'
-    || get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
+    transactions.length > 0 ||
+    !get ||
+    get.constructor.name === 'AsyncFunction' ||
+    get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
   ) {
     return recoilSelector(config);
   }
@@ -88,9 +119,11 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
           initialRender.push({ key, value });
         }
       } else if (!returnedPromise) {
-        // allow TransactionObserver to push to array first
-        // Length must be computed after timeout to correctly find last transaction
-        setTimeout(() => transactions[transactions.length - 1].updates.push({ key, value }), 0);
+        // allows TransactionObserver to push to array first
+        // Length must be computed before debounce to correctly find last transaction
+        const currentTransactionIdx = transactions.length - 1;
+
+        debounce(() => transactions[currentTransactionIdx].updates.push({ key, value }), 600)();
       }
     }
 
@@ -135,6 +168,121 @@ export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
   // Can't use key b/c transactions needs to pass atoms to getLoadable during transaction iteration
   atoms.push(newAtom);
   return newAtom;
+}
+export function atomFamily<T, P extends SerializableParam>(config: AtomFamilyOptions<T, P>) {
+  const { atomFamilies } = ledger;
+  const { key } = config;
+  //Initialize new family in atomFamilies tracker
+  atomFamilies[key] = {};
+  //Create internal cache in closure for all created atoms of this family
+  const atomCache = new Map<string, RecoilState<T>>();
+
+  return (params: P): RecoilState<T> => {
+    const strParams = JSON.stringify(params);
+    //If the atom hasalready  been created, return from cache, otherwise we'll be creating a new
+    //instance of an atom every time we invoke this func (which can lead to infinite re-render loop)
+    const cachedAtom = atomCache.get(strParams);
+    if (cachedAtom !== undefined) return cachedAtom;
+
+    const newAtomFamilyMember = recoilAtomFamily(config)(params);
+    atomCache.set(strParams, newAtomFamilyMember);
+    atomFamilies[key][strParams] = newAtomFamilyMember;
+    return newAtomFamilyMember;
+  };
+}
+
+export function selectorFamily<T, P extends SerializableParam>(
+  options: ReadWriteSelectorFamilyOptions<T, P>,
+): (param: P) => RecoilState<T>;
+
+export function selectorFamily<T, P extends SerializableParam>(
+  options: ReadOnlySelectorFamilyOptions<T, P>,
+): (param: P) => RecoilValueReadOnly<T>;
+
+export function selectorFamily<T>(
+  config:
+    | ReadWriteSelectorFamilyOptions<T, SerializableParam>
+    | ReadOnlySelectorFamilyOptions<T, SerializableParam>,
+) {
+  const { key } = config;
+  const configGet = config.get;
+  const { transactions, selectorFamilies, initialRenderFamilies } = ledger;
+  let returnedPromise = false;
+
+  //testing wheter returned function from configGet is async
+  if (
+    !configGet ||
+    configGet('dummyParam').constructor.name === 'AsyncFunction' ||
+    configGet('dummyParam')
+      .toString()
+      .match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m) ||
+    transactions.length > 0
+  ) {
+    return recoilSelectorFamily(config);
+  }
+
+  const getter = (params: SerializableParam) => (arg: any) => {
+    // Run user-defined get method & capture its return value
+    const { get } = arg;
+    const value = configGet(params)(arg);
+    // Only capture selector data if currently recording
+    if (get(recordingState)) {
+      if (transactions.length === 0) {
+        // Promise-validation is expensive, so we only do it once, on initial load
+        if (
+          typeof value === 'object' &&
+          value !== null &&
+          Object.prototype.toString.call(value) === '[object Promise]'
+        ) {
+          delete selectorFamilies[key];
+          returnedPromise = true;
+        } else {
+          initialRenderFamilies.push({ key, params, value });
+        }
+      } else if (!returnedPromise) {
+        if (!selectorFamilies[key].prevParams.has(params)) {
+          selectorFamilies[key].prevParams.add(params);
+        }
+        const currentTransactionIdx = transactions.length - 1;
+
+        debounce(
+          () => transactions[currentTransactionIdx].familyUpdates.push({ key, params, value }),
+          600,
+        )();
+      }
+    }
+    // Return value from original get method
+    return value;
+  };
+
+  // Create a new config object with updated properties
+  const newConfig: SelectorFamilyConfig<any, SerializableParam> = { key, get: getter };
+
+  let isSettable = false;
+
+  if ('set' in config) {
+    isSettable = true;
+    const { set } = config;
+    const { setTransactions } = ledger;
+
+    const setter = (params: SerializableParam) => (utils: any, newValue: any) => {
+      if (utils.get(recordingState) && setTransactions.length > 0) {
+        // allow TransactionObserver to push to array first
+        // Length must be computed after timeout to correctly find last transaction
+        setTimeout(() => {
+          setTransactions[setTransactions.length - 1].setter = { key, params, newValue };
+        }, 0);
+      }
+      return set(params)(utils, newValue);
+    };
+
+    newConfig.set = setter;
+  }
+
+  // Create selector generator & add to selectorFamily for test setup
+  const trackedSelectorFamily = recoilSelectorFamily(newConfig);
+  selectorFamilies[key] = { trackedSelectorFamily, prevParams: new Set(), isSettable };
+  return trackedSelectorFamily;
 }
 
 // ----- TRANSACTION PROVIDER -----
@@ -194,18 +342,52 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
    * only while downloading, never while interacting with their app.
    */
   const generateFile = (): void => {
-    const { atoms, selectors, setters, initialRender, transactions, setTransactions } = ledger;
-    const finalLedger: Ledger<string> =
+    const {
+      atoms,
+      selectors,
+      setters,
+      atomFamilies,
+      selectorFamilies,
+      initialRender,
+      initialRenderFamilies,
+      transactions,
+      setTransactions,
+    } = ledger;
+
+    function convertFamilyTrackerKeys(familyTracker: AtomFamilies): AtomFamilies;
+    function convertFamilyTrackerKeys<T, P extends SerializableParam>(
+      familyTracker: SelectorFamilies<T, P>,
+    ): SelectorFamilies<T, P>;
+
+    function convertFamilyTrackerKeys(
+      familyTracker: AtomFamilies | SelectorFamilies<any, SerializableParam>,
+    ) {
+      const refactoredTracker: AtomFamilies | SelectorFamilies<any, SerializableParam> = {};
+
+      for (const familyName in familyTracker) {
+        const newKey: string = storeMap.get(familyName) || familyName;
+        refactoredTracker[newKey] = familyTracker[familyName];
+      }
+      return refactoredTracker;
+    }
+
+    const finalLedger: Ledger<string, any, SerializableParam> =
       storeMap.size > 0
         ? {
             atoms: atoms.map(({ key }) => storeMap.get(key) || key),
             selectors: selectors.map((key) => storeMap.get(key) || key),
+            atomFamilies: convertFamilyTrackerKeys(atomFamilies),
+            selectorFamilies: convertFamilyTrackerKeys(selectorFamilies),
             setters: setters.map((key) => storeMap.get(key) || key),
             initialRender: initialRender.map(({ key, value }) => {
               const newKey = storeMap.get(key) || key;
               return { key: newKey, value };
             }),
-            transactions: transactions.map(({ state, updates }) => {
+            initialRenderFamilies: initialRenderFamilies.map(({ key, value, params }) => {
+              const newKey = storeMap.get(key) || key;
+              return { key: newKey, value, params };
+            }),
+            transactions: transactions.map(({ state, updates, atomFamilyState, familyUpdates }) => {
               const newState = state.map((eachAtom) => {
                 const key = storeMap.get(eachAtom.key) || eachAtom.key;
                 return { ...eachAtom, key };
@@ -215,7 +397,20 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 const { value } = eachSelector;
                 return { key, value };
               });
-              return { state: newState, updates: newUpdates };
+              const newAtomFamilyState = atomFamilyState.map((eachAtom) => {
+                const key = storeMap.get(eachAtom.key) || eachAtom.key;
+                return { ...eachAtom, key };
+              });
+              const newFamilyUpdates = familyUpdates.map((eachFamSelector) => {
+                const key = storeMap.get(eachFamSelector.key) || eachFamSelector.key;
+                return { ...eachFamSelector, key };
+              });
+              return {
+                state: newState,
+                updates: newUpdates,
+                atomFamilyState: newAtomFamilyState,
+                familyUpdates: newFamilyUpdates,
+              };
             }),
             setTransactions: setTransactions.map(({ state, setter }) => {
               const newState = state.map((eachAtom) => {
@@ -271,7 +466,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       // Map current snapshot to array of atom states
       // Can't directly check recording hook b/c TransactionObserver runs before state update
       if (snapshot.getLoadable(recordingState).contents) {
-        const { transactions, setTransactions, atoms } = ledger;
+        const { transactions, setTransactions, atoms, atomFamilies } = ledger;
 
         const state = atoms.map((item) => {
           const { key } = item;
@@ -281,8 +476,27 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
           return { key, value, previous, updated };
         });
 
+        const atomFamilyState: AtomFamilyState[] = [];
+
+        for (const family in atomFamilies) {
+          const familyMembers = atomFamilies[family];
+          for (const member in familyMembers) {
+            const memberRecoilState = familyMembers[member];
+            let { key } = memberRecoilState;
+            /* key will be auto-generated by recoil in the format of
+             * [atomFamilyName] + "__" + [params] + "__withFallback"
+             * Removing the "__withFallback" suffix to enhance readability
+             */
+            key = key.substring(0, key.length - 14);
+            const value = snapshot.getLoadable(memberRecoilState).contents;
+            const previous = previousSnapshot.getLoadable(memberRecoilState).contents;
+            const updated = value !== previous;
+            atomFamilyState.push({ family, key, value, updated });
+          }
+        }
+
         // Add current transaction snapshot to transactions array
-        transactions.push({ state, updates: [] });
+        transactions.push({ state, updates: [], atomFamilyState, familyUpdates: [] });
         setTransactions.push({ state, setter: null });
       }
     },
