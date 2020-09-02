@@ -39,4 +39,5 @@ export function convertFamilyTrackerKeys(
   return refactoredTracker;
 }
 
+//Dummy param for use in various checks (most notably the key-to-variable name mapping)
 export const dummyParam = 'chromogenDummyParam';
