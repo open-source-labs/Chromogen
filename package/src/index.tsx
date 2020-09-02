@@ -6,28 +6,39 @@ import type {
   Snapshot,
   ReadWriteSelectorOptions,
   ReadOnlySelectorOptions,
+  SerializableParam,
+  AtomFamilyOptions,
+  ReadWriteSelectorFamilyOptions,
+  ReadOnlySelectorFamilyOptions,
 } from 'recoil';
 import type { CSSProperties } from 'react';
-import type { Ledger, SelectorConfig } from './types/types';
+import type { Ledger, SelectorConfig, SelectorFamilyConfig, AtomFamilyState } from './types/types';
 
 import {
   selector as recoilSelector,
   atom as recoilAtom,
+  atomFamily as recoilAtomFamily,
+  selectorFamily as recoilSelectorFamily,
   useRecoilTransactionObserver_UNSTABLE,
   useRecoilState,
 } from 'recoil';
 import React, { useState, useEffect } from 'react';
 
 import { output } from './test_string/testString';
+
+import { debounce, convertFamilyTrackerKeys, dummyParam } from './utils/utils';
 /* eslint-enable */
 
 // ----- SETUP -----
 // Used to compose test string
-export const ledger: Ledger<RecoilState<any>> = {
+export const ledger: Ledger<RecoilState<any>, any, SerializableParam> = {
   atoms: [],
   selectors: [],
+  atomFamilies: {},
+  selectorFamilies: {},
   setters: [],
   initialRender: [],
+  initialRenderFamilies: [],
   transactions: [],
   setTransactions: [],
 };
@@ -37,6 +48,17 @@ const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
 });
+
+//For selector get call debouncing
+const DEBOUNCE_MS = 250;
+
+const debouncedAddToTransactions = debounce(
+  (key, value, currentTransactionIdx, params) =>
+    params !== undefined
+      ? ledger.transactions[currentTransactionIdx].familyUpdates.push({ key, value, params })
+      : ledger.transactions[currentTransactionIdx].updates.push({ key, value }),
+  DEBOUNCE_MS,
+);
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 // Using function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
@@ -65,10 +87,10 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
    */
 
   if (
-    transactions.length > 0
-    || !get
-    || get.constructor.name === 'AsyncFunction'
-    || get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
+    transactions.length > 0 ||
+    !get ||
+    get.constructor.name === 'AsyncFunction' ||
+    get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
   ) {
     return recoilSelector(config);
   }
@@ -77,6 +99,7 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
   const getter = (utils: any) => {
     // Run user-defined get method & capture its return value
     const value = get(utils);
+
     // Only capture selector data if currently recording
     if (utils.get(recordingState)) {
       if (transactions.length === 0) {
@@ -88,12 +111,12 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
           initialRender.push({ key, value });
         }
       } else if (!returnedPromise) {
-        // allow TransactionObserver to push to array first
-        // Length must be computed after timeout to correctly find last transaction
-        setTimeout(() => transactions[transactions.length - 1].updates.push({ key, value }), 0);
+        // Debouncing allows TransactionObserver to push to array first
+        // Length must be computed before debounce to correctly find last transaction
+        const currentTransactionIdx = transactions.length - 1;
+        debouncedAddToTransactions(key, value, currentTransactionIdx);
       }
     }
-
     // Return out value from original get method
     return value;
   };
@@ -137,6 +160,123 @@ export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
   return newAtom;
 }
 
+// ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM FAMILIES -----
+export function atomFamily<T, P extends SerializableParam>(
+  config: AtomFamilyOptions<T, P>,
+): (params: P) => RecoilState<T> {
+  const { atomFamilies } = ledger;
+  const { key } = config;
+  //Initialize new family in atomFamilies tracker
+  atomFamilies[key] = {};
+
+  return (params: P): RecoilState<T> => {
+    const strParams = JSON.stringify(params);
+    //If the atom has already been created, return from cache, otherwise we'll be creating a new
+    //instance of an atom every time we invoke this func (which can lead to infinite re-render loop)
+    const cachedAtom = atomFamilies[key][strParams];
+    if (cachedAtom !== undefined) return cachedAtom;
+
+    const newAtomFamilyMember = recoilAtomFamily(config)(params);
+    //Storing every atom created except for dummy atom created by ChromogenObserver's onload useEffect hook
+    if (strParams !== dummyParam) atomFamilies[key][strParams] = newAtomFamilyMember;
+    return newAtomFamilyMember;
+  };
+}
+
+export function selectorFamily<T, P extends SerializableParam>(
+  options: ReadWriteSelectorFamilyOptions<T, P>,
+): (param: P) => RecoilState<T>;
+
+export function selectorFamily<T, P extends SerializableParam>(
+  options: ReadOnlySelectorFamilyOptions<T, P>,
+): (param: P) => RecoilValueReadOnly<T>;
+
+export function selectorFamily<T>(
+  config:
+    | ReadWriteSelectorFamilyOptions<T, SerializableParam>
+    | ReadOnlySelectorFamilyOptions<T, SerializableParam>,
+) {
+  const { key } = config;
+  const configGet = config.get;
+  const { transactions, selectorFamilies, initialRenderFamilies } = ledger;
+  let returnedPromise = false;
+
+  //Testing whether returned function from configGet is async
+  if (
+    !configGet ||
+    configGet(dummyParam).constructor.name === 'AsyncFunction' ||
+    configGet(dummyParam)
+      .toString()
+      .match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m) ||
+    transactions.length > 0
+  ) {
+    return recoilSelectorFamily(config);
+  }
+
+  const getter = (params: SerializableParam) => (utils: any) => {
+    // Run user-defined get method & capture its return value
+    const { get } = utils;
+    const value = configGet(params)(utils);
+
+    // Only capture selector data if currently recording
+    if (get(recordingState)) {
+      if (transactions.length === 0) {
+        // Promise-validation is expensive, so we only do it once, on initial load
+        if (
+          typeof value === 'object' &&
+          value !== null &&
+          Object.prototype.toString.call(value) === '[object Promise]'
+        ) {
+          delete selectorFamilies[key];
+          returnedPromise = true;
+        } else {
+          initialRenderFamilies.push({ key, params, value });
+        }
+      } else if (!returnedPromise) {
+        //Track every new params
+        if (!selectorFamilies[key].prevParams.has(params)) {
+          selectorFamilies[key].prevParams.add(params);
+        }
+        // Debouncing allows TransactionObserver to push to array first
+        // Length must be computed before debounce to correctly find last transaction
+        // Excluding dummy selector created by ChromogenObserver's onload useEffect hook
+        const currentTransactionIdx = transactions.length - 1;
+        if (params !== dummyParam)
+          debouncedAddToTransactions(key, value, currentTransactionIdx, params);
+      }
+    }
+    // Return value from original get method
+    return value;
+  };
+
+  // Create a new config object with updated properties
+  const newConfig: SelectorFamilyConfig<any, SerializableParam> = { key, get: getter };
+
+  let isSettable = false;
+
+  if ('set' in config) {
+    isSettable = true;
+    const { set } = config;
+    const { setTransactions } = ledger;
+
+    const setter = (params: SerializableParam) => (utils: any, newValue: any) => {
+      if (utils.get(recordingState) && setTransactions.length > 0) {
+        // allow TransactionObserver to push to array first
+        // Length must be computed after timeout to correctly find last transaction
+        setTimeout(() => {
+          setTransactions[setTransactions.length - 1].setter = { key, params, newValue };
+        }, 0);
+      }
+      return set(params)(utils, newValue);
+    };
+    newConfig.set = setter;
+  }
+  // Create selector generator & add to selectorFamily for test setup
+  const trackedSelectorFamily = recoilSelectorFamily(newConfig);
+  selectorFamilies[key] = { trackedSelectorFamily, prevParams: new Set(), isSettable };
+  return trackedSelectorFamily;
+}
+
 // ----- TRANSACTION PROVIDER -----
 const buttonStyle: CSSProperties = {
   display: 'inline-block',
@@ -163,8 +303,6 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   // File stores URL for generated test file Blob containing output() string
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
-
-  // storeMap.set('key', 'variable name')
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
   const [devtool, setDevtool] = useState<boolean>(false);
@@ -174,9 +312,26 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
     if (store !== undefined) {
       // If single store was passed, convert to array
       const storeArr = Array.isArray(store) ? store : [store];
+
       const newStore: Map<string, string> = new Map();
       storeArr.forEach((storeModule) => {
-        Object.entries(storeModule).forEach(([variable, { key }]) => {
+        Object.entries(storeModule).forEach(([variable, imported]) => {
+          let key;
+          /**Relevant imports will be either an object (for vanilla atoms or selectors)
+           * or functions (for atom or selector families). If we are examining a family function,
+           * we will need to invoke it to create an atom/selector in order to pull the
+           * original family key out from the generated atom or selector's individual key.
+           **/
+          if (typeof imported === 'function') {
+            //Extended atom fam key will follow format of `[key]__"chromogenDummyParam"__withFallback`
+            //Extended selector fam key will follow format of `[key]__selectorFamily/"chromogenDummyParam"/1`
+            const extendedKey = imported(dummyParam).key;
+            key = extendedKey.includes('selectorFamily')
+              ? extendedKey.substring(0, extendedKey.indexOf('selectorFamily') - 2)
+              : extendedKey.substring(0, extendedKey.indexOf(`"${dummyParam}"`) - 2);
+          } else {
+            key = imported.key;
+          }
           newStore.set(key, variable);
         });
       });
@@ -194,18 +349,35 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
    * only while downloading, never while interacting with their app.
    */
   const generateFile = (): void => {
-    const { atoms, selectors, setters, initialRender, transactions, setTransactions } = ledger;
-    const finalLedger: Ledger<string> =
+    const {
+      atoms,
+      selectors,
+      setters,
+      atomFamilies,
+      selectorFamilies,
+      initialRender,
+      initialRenderFamilies,
+      transactions,
+      setTransactions,
+    } = ledger;
+
+    const finalLedger: Ledger<string, any, SerializableParam> =
       storeMap.size > 0
         ? {
             atoms: atoms.map(({ key }) => storeMap.get(key) || key),
             selectors: selectors.map((key) => storeMap.get(key) || key),
+            atomFamilies: convertFamilyTrackerKeys(atomFamilies, storeMap),
+            selectorFamilies: convertFamilyTrackerKeys(selectorFamilies, storeMap),
             setters: setters.map((key) => storeMap.get(key) || key),
             initialRender: initialRender.map(({ key, value }) => {
               const newKey = storeMap.get(key) || key;
               return { key: newKey, value };
             }),
-            transactions: transactions.map(({ state, updates }) => {
+            initialRenderFamilies: initialRenderFamilies.map(({ key, value, params }) => {
+              const newKey = storeMap.get(key) || key;
+              return { key: newKey, value, params };
+            }),
+            transactions: transactions.map(({ state, updates, atomFamilyState, familyUpdates }) => {
               const newState = state.map((eachAtom) => {
                 const key = storeMap.get(eachAtom.key) || eachAtom.key;
                 return { ...eachAtom, key };
@@ -215,7 +387,23 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 const { value } = eachSelector;
                 return { key, value };
               });
-              return { state: newState, updates: newUpdates };
+              const newAtomFamilyState = atomFamilyState.map((eachFamAtom) => {
+                const family = storeMap.get(eachFamAtom.family) || eachFamAtom.family;
+                const oldKey = eachFamAtom.key;
+                const keySuffix = oldKey.substring(eachFamAtom.family.length);
+                const key = family + keySuffix;
+                return { ...eachFamAtom, family, key };
+              });
+              const newFamilyUpdates = familyUpdates.map((eachFamSelector) => {
+                const key = storeMap.get(eachFamSelector.key) || eachFamSelector.key;
+                return { ...eachFamSelector, key };
+              });
+              return {
+                state: newState,
+                updates: newUpdates,
+                atomFamilyState: newAtomFamilyState,
+                familyUpdates: newFamilyUpdates,
+              };
             }),
             setTransactions: setTransactions.map(({ state, setter }) => {
               const newState = state.map((eachAtom) => {
@@ -271,7 +459,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       // Map current snapshot to array of atom states
       // Can't directly check recording hook b/c TransactionObserver runs before state update
       if (snapshot.getLoadable(recordingState).contents) {
-        const { transactions, setTransactions, atoms } = ledger;
+        const { transactions, setTransactions, atoms, atomFamilies } = ledger;
 
         const state = atoms.map((item) => {
           const { key } = item;
@@ -281,8 +469,28 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
           return { key, value, previous, updated };
         });
 
+        const atomFamilyState: AtomFamilyState[] = [];
+
+        for (const family in atomFamilies) {
+          const familyMembers = atomFamilies[family];
+          for (const member in familyMembers) {
+            const memberRecoilState = familyMembers[member];
+            let { key } = memberRecoilState;
+            /* Key will be auto-generated by recoil in the format of
+             * [atomFamilyName] + "__" + [params] + "__withFallback".
+             * Removing the "__withFallback" suffix to enhance readability\
+             */
+            key = key.substring(0, key.length - 14);
+            const value = snapshot.getLoadable(memberRecoilState).contents;
+            const previous = previousSnapshot.getLoadable(memberRecoilState).contents;
+            const updated = value !== previous;
+            //Don't track dummy atom generated by onload useEffect hook
+            if (!key.includes(dummyParam)) atomFamilyState.push({ family, key, value, updated });
+          }
+        }
+
         // Add current transaction snapshot to transactions array
-        transactions.push({ state, updates: [] });
+        transactions.push({ state, updates: [], atomFamilyState, familyUpdates: [] });
         setTransactions.push({ state, setter: null });
       }
     },
