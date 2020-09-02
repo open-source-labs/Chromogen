@@ -72,11 +72,12 @@ export function atomFamilyHook(transactionArray: Transaction[]): string {
      * to the key name if it's a string, so will need to remove those by default
      */
     const params = key.substring(family.length + 2);
-    const paramsForVarName = params.replace(/[^\w\s]/gi, '');
+    const scrubbedParams = params.replace(/[^\w\s]/gi, '');
+
     const parsedParams = JSON.parse(params);
 
-    return `${str}\tconst [${family + '__' + paramsForVarName + '__Value'}, ${
-      'set' + family + '__' + paramsForVarName
+    return `${str}\tconst [${family + '__' + scrubbedParams + '__Value'}, ${
+      'set' + family + '__' + scrubbedParams
     }] = useRecoilState(${family}(${
       typeof parsedParams === 'string' ? `${params}` : `${parsedParams}`
     }));\n`;
@@ -165,7 +166,9 @@ export function returnSelectorFamily(
               (scrubbedParams !== undefined ? scrubbedParams : param) +
               '__Value'
             },
-    ${'set' + familyName + '__' + (scrubbedParams !== undefined ? scrubbedParams : param)},\n`;
+            ${
+              'set' + familyName + '__' + (scrubbedParams !== undefined ? scrubbedParams : param)
+            },\n`;
           }, '')}`;
         } else {
           return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
@@ -196,17 +199,22 @@ export function initializeSelectors(initialRender: SelectorUpdate[]): string {
     '',
   );
 }
-//FIX ME
+
 export function initializeSelectorFamilies(initialRenderFamilies: SelectorFamilyUpdate[]) {
-  return initialRenderFamilies.reduce(
-    (initialTests, { key, params, value }) =>
-      `${initialTests}\tit('${key}__${JSON.stringify(params)} should initialize correctly', () => {
-    \t\texpect(result.current.${key}__${JSON.stringify(
-        params,
-      )}__Value).toStrictEqual(${JSON.stringify(value)});
-    \t});\n`,
-    '',
-  );
+  return initialRenderFamilies.reduce((initialTests, { key, params, value }) => {
+    let scrubbedParams;
+    if (typeof params === 'string') {
+      scrubbedParams = params.replace(/[^\w\s]/gi, '');
+    }
+
+    return `${initialTests}\tit('${key}__${
+      scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
+    } should initialize correctly', () => {
+    \t\texpect(result.current.${key}__${
+      scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
+    }__Value).toStrictEqual(${JSON.stringify(value)});
+    \t});\n`;
+  }, '');
 }
 
 /* ----- SELECTORS TEST ----- */
@@ -256,7 +264,6 @@ export function testSelectors(transactionArray: Transaction[]): string {
             atomLen > 1
               ? allUpdatedAtoms.reduce((list, { key }, i) => {
                   const isLastElement = i === atomLen - 1;
-
                   const scrubbedKey = key.replace(/[^\w\s]/gi, '');
                   return `${list}${isLastElement ? 'and ' : ''}${scrubbedKey}${
                     isLastElement ? ' update' : ', '
@@ -274,7 +281,6 @@ export function testSelectors(transactionArray: Transaction[]): string {
   )}
   ${atomFamilyState.reduce((initializers, { key, value }) => {
     const scrubbedKey = key.replace(/[^\w\s]/gi, '');
-
     return `${initializers}\t\t\tresult.current.set${scrubbedKey}(${JSON.stringify(value)});\n\n`;
   }, '')}
 \t\t});

@@ -16,7 +16,7 @@ export const debounce = (func: (...args: any[]) => any, wait: number) => {
   };
 };
 
-//Used in key-to-variable name mapping
+//Used in key-to-variable name mapping in generateFile
 export function convertFamilyTrackerKeys(
   familyTracker: AtomFamilies,
   storeMap: Map<string, string>,
@@ -25,6 +25,7 @@ export function convertFamilyTrackerKeys<T, P extends SerializableParam>(
   familyTracker: SelectorFamilies<T, P>,
   storeMap: Map<string, string>,
 ): SelectorFamilies<T, P>;
+
 export function convertFamilyTrackerKeys(
   familyTracker: AtomFamilies | SelectorFamilies<any, SerializableParam>,
   storeMap: Map<string, string>,
@@ -37,3 +38,6 @@ export function convertFamilyTrackerKeys(
   }
   return refactoredTracker;
 }
+
+//Dummy param for use in various checks (most notably the key-to-variable name mapping)
+export const dummyParam = 'chromogenDummyParam';
