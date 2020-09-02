@@ -38,7 +38,8 @@
   },
   "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
   "peerDependencies": {
-    "jest": ">=24.0.0"
+    "jest": ">=24.0.0",
+    "typescript": ">=3.8.0"
   },
   "dependencies": {
     "react": "^16.13.1",
