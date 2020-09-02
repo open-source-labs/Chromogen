@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - stable
+env:
+  - TEST_DIR=package
+before_install:
+  - cd $TEST_DIR
