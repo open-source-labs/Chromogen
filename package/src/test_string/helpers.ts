@@ -268,8 +268,9 @@ export function testSelectors(transactionArray: Transaction[]): string {
             atomLen > 1
               ? allUpdatedAtoms.reduce((list, { key }, i) => {
                   const isLastElement = i === atomLen - 1;
-
                   const scrubbedKey = key.replace(/[^\w\s]/gi, '');
+                  //Do not write any tests for dummy atom(s) potentially instantiated by ChromogenObserver's onload useEffect hook
+                  if (scrubbedKey.includes(dummyParam)) return '';
                   return `${list}${isLastElement ? 'and ' : ''}${scrubbedKey}${
                     isLastElement ? ' update' : ', '
                   }`;
