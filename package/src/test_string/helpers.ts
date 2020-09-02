@@ -10,6 +10,7 @@ import type {
   SelectorFamilyMembers,
 } from '../types/types';
 import { SerializableParam } from 'recoil';
+import { dummyParam } from '../utils/utils';
 /* eslint-enable */
 
 /* ----- HELPER FUNCTIONS ----- */
@@ -72,11 +73,13 @@ export function atomFamilyHook(transactionArray: Transaction[]): string {
      * to the key name if it's a string, so will need to remove those by default
      */
     const params = key.substring(family.length + 2);
-    const paramsForVarName = params.replace(/[^\w\s]/gi, '');
+    const scrubbedParams = params.replace(/[^\w\s]/gi, '');
+    //Do not write any tests for dummy atom(s) potentially instantiated by ChromogenObserver's onload useEffect hook
+    if (scrubbedParams === dummyParam) return '';
     const parsedParams = JSON.parse(params);
 
-    return `${str}\tconst [${family + '__' + paramsForVarName + '__Value'}, ${
-      'set' + family + '__' + paramsForVarName
+    return `${str}\tconst [${family + '__' + scrubbedParams + '__Value'}, ${
+      'set' + family + '__' + scrubbedParams
     }] = useRecoilState(${family}(${
       typeof parsedParams === 'string' ? `${params}` : `${parsedParams}`
     }));\n`;
@@ -136,6 +139,8 @@ export function returnAtomFamily(transactionArray: Transaction[]): string {
       //key will be "[familyname]__[params]"
       const params = key.substring(family.length + 2);
       const scrubbedParams = params.replace(/[^\w\s]/gi, '');
+      //Do not write any tests for dummy atom(s) potentially instantiated by ChromogenObserver's onload useEffect hook
+      if (scrubbedParams === dummyParam) return '';
       return `${value}\t\t${family + '__' + scrubbedParams + '__Value'},
       \t\t${'set' + family + '__' + scrubbedParams},\n`;
     },
@@ -281,6 +286,8 @@ export function testSelectors(transactionArray: Transaction[]): string {
   )}
   ${atomFamilyState.reduce((initializers, { key, value }) => {
     const scrubbedKey = key.replace(/[^\w\s]/gi, '');
+    //Do not write any tests for dummy atom(s) potentially instantiated by ChromogenObserver's onload useEffect hook
+    if (scrubbedKey.includes(dummyParam)) return '';
 
     return `${initializers}\t\t\tresult.current.set${scrubbedKey}(${JSON.stringify(value)});\n\n`;
   }, '')}

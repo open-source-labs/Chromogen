@@ -177,7 +177,8 @@ export function atomFamily<T, P extends SerializableParam>(
     if (cachedAtom !== undefined) return cachedAtom;
 
     const newAtomFamilyMember = recoilAtomFamily(config)(params);
-    atomFamilies[key][strParams] = newAtomFamilyMember;
+    //Storing every atom created except for dummy atom created by ChromogenObserver's onload useEffect hook
+    if (strParams !== dummyParam) atomFamilies[key][strParams] = newAtomFamilyMember;
     return newAtomFamilyMember;
   };
 }
@@ -212,10 +213,10 @@ export function selectorFamily<T>(
     return recoilSelectorFamily(config);
   }
 
-  const getter = (params: SerializableParam) => (arg: any) => {
+  const getter = (params: SerializableParam) => (utils: any) => {
     // Run user-defined get method & capture its return value
-    const { get } = arg;
-    const value = configGet(params)(arg);
+    const { get } = utils;
+    const value = configGet(params)(utils);
 
     // Only capture selector data if currently recording
     if (get(recordingState)) {
@@ -238,8 +239,10 @@ export function selectorFamily<T>(
         }
         // Debouncing allows TransactionObserver to push to array first
         // Length must be computed before debounce to correctly find last transaction
+        // Excluding dummy selector created by ChromogenObserver's onload useEffect hook
         const currentTransactionIdx = transactions.length - 1;
-        debouncedAddToTransactions(key, value, currentTransactionIdx, params);
+        if (params !== dummyParam)
+          debouncedAddToTransactions(key, value, currentTransactionIdx, params);
       }
     }
     // Return value from original get method
@@ -320,7 +323,6 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
            * original family key out from the generated atom or selector's individual key
            **/
           if (typeof imported === 'function') {
-            
             //Extended atom fam key will follow format of `[key]__"chromogenDummyParam"__withFallback`
             //Extended selector fam key will follow format of `[key]__selectorFamily/"chromogenDummyParam"/1`
             const extendedKey = imported(dummyParam).key;
