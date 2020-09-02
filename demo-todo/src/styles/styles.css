@@ -214,5 +214,9 @@ button span {
   border-radius: 5px;
   padding: 5px 12px 0 12px;
   display: grid;
-  /* grid-template-rows: 30% 40%; */
+  grid-template-columns: 70% 30%;
+}
+
+.prioritySelect {
+  grid-column-start: 2;
 }

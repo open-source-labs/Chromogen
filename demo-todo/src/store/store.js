@@ -152,16 +152,8 @@ const searchBarSelectorFam = selectorFamily({
   set: (searchFilter) => ({ get, set }, searchTerm) => {
     set(searchResultState, (prevState) => {
       const newResults = get(todoListState).filter((todo) => {
-        if (todo.text.includes(searchTerm)) {
-          switch (searchFilter) {
-            case 'all':
-              return true;
-            case 'complete':
-              return todo.isComplete;
-            case 'incomplete':
-              return !todo.isComplete;
-          }
-        } else return false;
+        if (todo.text.includes(searchTerm))
+          return searchFilter === 'all' ? true : todo.priority === searchFilter;
       });
       return { ...prevState, [searchFilter]: { searchTerm, results: newResults } };
     });

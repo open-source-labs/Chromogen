@@ -33,11 +33,15 @@ const searchResultState = atom({
       searchTerm: '',
       results: [],
     },
-    complete: {
+    high: {
       searchTerm: '',
       results: [],
     },
-    incomplete: {
+    medium: {
+      searchTerm: '',
+      results: [],
+    },
+    low: {
       searchTerm: '',
       results: [],
     },

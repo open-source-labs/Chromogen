@@ -7,10 +7,10 @@ const SearchBar = () => {
   const [searchFilter, setSearchFilter] = useState('all');
   const [searchState, setSearchState] = useRecoilState(searchBarSelectorFam(searchFilter));
 
-  const onChange = (e) => {
-    setSearchState(e.target.value);
-  };
+  const onTextInputChange = (e) => setSearchState(e.target.value);
+  const onSelectChange = (e) => setSearchFilter(e.target.value);
 
+  console.log(searchState);
   return (
     <div className="searchContainer">
       <input
@@ -18,10 +18,10 @@ const SearchBar = () => {
         placeholder="Search for a Todo"
         type="text"
         value={searchState.searchTerm}
-        onChange={onChange}
+        onChange={onTextInputChange}
       />
-      <select>
-        <option value="all">All</option>
+      <select className="prioritySelect" onChange={onSelectChange}>
+        <option value="all">All Priorities</option>
         <option value="high">High Priority</option>
         <option value="medium">Medium Priority</option>
         <option value="low">Low Priority</option>
