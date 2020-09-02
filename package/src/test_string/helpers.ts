@@ -10,7 +10,6 @@ import type {
   SelectorFamilyMembers,
 } from '../types/types';
 import { SerializableParam } from 'recoil';
-import { dummyParam } from '../utils/utils';
 /* eslint-enable */
 
 /* ----- HELPER FUNCTIONS ----- */
@@ -74,8 +73,7 @@ export function atomFamilyHook(transactionArray: Transaction[]): string {
      */
     const params = key.substring(family.length + 2);
     const scrubbedParams = params.replace(/[^\w\s]/gi, '');
-    //Do not write any tests for dummy atom(s) potentially instantiated by ChromogenObserver's onload useEffect hook
-    if (scrubbedParams === dummyParam) return '';
+
     const parsedParams = JSON.parse(params);
 
     return `${str}\tconst [${family + '__' + scrubbedParams + '__Value'}, ${
@@ -139,8 +137,6 @@ export function returnAtomFamily(transactionArray: Transaction[]): string {
       //key will be "[familyname]__[params]"
       const params = key.substring(family.length + 2);
       const scrubbedParams = params.replace(/[^\w\s]/gi, '');
-      //Do not write any tests for dummy atom(s) potentially instantiated by ChromogenObserver's onload useEffect hook
-      if (scrubbedParams === dummyParam) return '';
       return `${value}\t\t${family + '__' + scrubbedParams + '__Value'},
       \t\t${'set' + family + '__' + scrubbedParams},\n`;
     },
@@ -269,8 +265,6 @@ export function testSelectors(transactionArray: Transaction[]): string {
               ? allUpdatedAtoms.reduce((list, { key }, i) => {
                   const isLastElement = i === atomLen - 1;
                   const scrubbedKey = key.replace(/[^\w\s]/gi, '');
-                  //Do not write any tests for dummy atom(s) potentially instantiated by ChromogenObserver's onload useEffect hook
-                  if (scrubbedKey.includes(dummyParam)) return '';
                   return `${list}${isLastElement ? 'and ' : ''}${scrubbedKey}${
                     isLastElement ? ' update' : ', '
                   }`;
@@ -287,9 +281,6 @@ export function testSelectors(transactionArray: Transaction[]): string {
   )}
   ${atomFamilyState.reduce((initializers, { key, value }) => {
     const scrubbedKey = key.replace(/[^\w\s]/gi, '');
-    //Do not write any tests for dummy atom(s) potentially instantiated by ChromogenObserver's onload useEffect hook
-    if (scrubbedKey.includes(dummyParam)) return '';
-
     return `${initializers}\t\t\tresult.current.set${scrubbedKey}(${JSON.stringify(value)});\n\n`;
   }, '')}
 \t\t});

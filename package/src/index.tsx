@@ -484,7 +484,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
             const value = snapshot.getLoadable(memberRecoilState).contents;
             const previous = previousSnapshot.getLoadable(memberRecoilState).contents;
             const updated = value !== previous;
-            atomFamilyState.push({ family, key, value, updated });
+            if (!key.includes(dummyParam)) atomFamilyState.push({ family, key, value, updated });
           }
         }
 
