@@ -31,8 +31,8 @@ const TodoList = () => {
           ))}
           <TodoListFilters />
         </div>
+        <SearchBar />
       </div>
-      <SearchBar/>
       <div className="row" />
     </div>
   );

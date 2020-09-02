@@ -1,5 +1,11 @@
 import { selector, selectorFamily } from 'chromogen';
-import { todoListState, todoListFilterState, todoListSortState, quoteNumberState } from './atoms';
+import {
+  todoListState,
+  todoListFilterState,
+  todoListSortState,
+  quoteNumberState,
+  searchResultState,
+} from './atoms';
 
 /* ----- SELECTORS ---- */
 
@@ -138,6 +144,30 @@ const xkcdState = selector({
   },
 });
 
+const searchBarSelectorFam = selectorFamily({
+  key: 'searchBarSelectorFam',
+  get: (searchFilter) => ({ get }) => {
+    return get(searchResultState)[searchFilter];
+  },
+  set: (searchFilter) => ({ get, set }, searchTerm) => {
+    set(searchResultState, (prevState) => {
+      const newResults = get(todoListState).filter((todo) => {
+        if (todo.text.includes(searchTerm)) {
+          switch (searchFilter) {
+            case 'all':
+              return true;
+            case 'complete':
+              return todo.isComplete;
+            case 'incomplete':
+              return !todo.isComplete;
+          }
+        } else return false;
+      });
+      return { ...prevState, [searchFilter]: { searchTerm, results: newResults } };
+    });
+  },
+});
+
 export {
   filteredTodoListState,
   filteredListContentState,
@@ -148,4 +178,5 @@ export {
   refreshFilterState,
   quoteTextState,
   xkcdState,
+  searchBarSelectorFam,
 };
