@@ -170,7 +170,7 @@ export function returnSelectorFamily(
               (scrubbedParams !== undefined ? scrubbedParams : param) +
               '__Value'
             },
-            \t\t${
+            ${
               'set' + familyName + '__' + (scrubbedParams !== undefined ? scrubbedParams : param)
             },\n`;
           }, '')}`;
