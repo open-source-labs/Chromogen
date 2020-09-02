@@ -213,6 +213,6 @@ button span {
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
   padding: 5px 12px 0 12px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  /* grid-template-rows: 30% 40%; */
 }
