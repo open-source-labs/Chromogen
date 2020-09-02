@@ -6,6 +6,7 @@ import TodoItemCreator from './TodoItemCreator';
 import TodoListFilters from './TodoListFilters';
 import TodoQuickCheck from './TodoQuickCheck';
 import Quotes from './Quotes';
+import SearchBar from './SearchBar';
 import '../styles/styles.css';
 
 const TodoList = () => {
@@ -31,6 +32,7 @@ const TodoList = () => {
           <TodoListFilters />
         </div>
       </div>
+      <SearchBar/>
       <div className="row" />
     </div>
   );

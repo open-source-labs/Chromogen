@@ -26,4 +26,28 @@ const quoteNumberState = atom({
   default: Math.floor(Math.random() * 1643),
 });
 
-export { todoListState, todoListFilterState, todoListSortState, quoteNumberState };
+const searchResultState = atom({
+  key: 'searchResultState',
+  default: {
+    all: {
+      searchTerm: '',
+      results: [],
+    },
+    complete: {
+      searchTerm: '',
+      results: [],
+    },
+    incomplete: {
+      searchTerm: '',
+      results: [],
+    },
+  },
+});
+
+export {
+  todoListState,
+  todoListFilterState,
+  todoListSortState,
+  quoteNumberState,
+  searchResultState,
+};

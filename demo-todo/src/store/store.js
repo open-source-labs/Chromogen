@@ -1,4 +1,4 @@
-import { selector } from 'chromogen';
+import { selector, selectorFamily } from 'chromogen';
 import { todoListState, todoListFilterState, todoListSortState, quoteNumberState } from './atoms';
 
 /* ----- SELECTORS ---- */
