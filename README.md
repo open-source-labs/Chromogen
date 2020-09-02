@@ -13,7 +13,17 @@
 
 <h3>A UI-driven test-generation package for <a href="https://github.com/facebookexperimental/Recoil">Recoil</a> selectors.</h3>
 
-# [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE) [![Build Status](https://travis-ci.org/oslabs-beta/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen) [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen) [![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen) [![Github starts](https://img.shields.io/github/stars/oslabs-beta/chromogen?style=social)](https://github.com/oslabs-beta/Chromogen)
+<br />
+
+[![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
+[![Build Status](https://travis-ci.org/oslabs-beta/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
+[![Coverage Status](https://coveralls.io/repos/github/connorrose/Chromogen/badge.svg?branch=master)](https://coveralls.io/github/connorrose/Chromogen?branch=master)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE)
+
+[![Github stars](https://img.shields.io/github/stars/oslabs-beta/chromogen?style=social)](https://github.com/oslabs-beta/Chromogen)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=CHROMOGEN%20-%20A%20UI-driven%20Jest%20test%20generator%20for%20Recoil%20apps%0A&url=https://www.npmjs.com/package/chromogen&hashtags=React,Recoil,Jest,testing)
 
 </div>
 

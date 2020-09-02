@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
-import { atom, selector, ledger, ChromogenObserver } from './index.tsx';
+import { atom, selector, ledger, ChromogenObserver } from '../src/index.tsx';
 
 describe('selector', () => {
   const { selectors } = ledger;

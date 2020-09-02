@@ -16,7 +16,8 @@ import {
   initializeSelectors,
   initializeSelectorFamilies,
   returnAtomFamily,
-} from './helpers';
+} from './output-utils';
+
 /* eslint-enable */
 
 /* ----- HELPERS ----- */
@@ -39,10 +40,10 @@ export const output = ({
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {
 ${
-  importRecoilState(atoms) +
-  importRecoilState(selectors) +
-  importRecoilFamily(atomFamilies) +
-  importRecoilFamily(selectorFamilies)
+  importRecoilState(atoms)
+  + importRecoilState(selectors)
+  + importRecoilFamily(atomFamilies)
+  + importRecoilFamily(selectorFamilies)
 }
 } from '<ADD STORE FILEPATH>';
 
@@ -68,12 +69,12 @@ ${selectorFamilyHook(selectorFamilies, false)}
 
   return {
 ${
-  returnWriteable(atoms) +
-  returnWriteable(setters) +
-  returnReadable(setFilter(selectors, setters)) +
-  returnAtomFamily(transactions) +
-  returnSelectorFamily(selectorFamilies, true) +
-  returnSelectorFamily(selectorFamilies, false)
+  returnWriteable(atoms)
+  + returnWriteable(setters)
+  + returnReadable(setFilter(selectors, setters))
+  + returnAtomFamily(transactions)
+  + returnSelectorFamily(selectorFamilies, true)
+  + returnSelectorFamily(selectorFamilies, false)
 }\t};
 };
 

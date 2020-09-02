@@ -5,3 +5,8 @@ env:
   - TEST_DIR=package
 before_install:
   - cd $TEST_DIR
+install:
+  - npm install
+script:
+  - npm run test
+  - npm run coveralls

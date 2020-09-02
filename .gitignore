@@ -1,5 +1,19 @@
+# npm
 node_modules
+
+# System files
 .DS_Store
 .vscode
-extension/build/bundles
+
+# Tests
+coverage
+
+# Package
 package/build
+package/coverage
+
+# DevTool
+dev-tool/build/bundles
+
+# Demo App
+chromogen.test.js
