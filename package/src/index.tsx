@@ -26,7 +26,7 @@ import React, { useState, useEffect } from 'react';
 
 import { output } from './test_string/testString';
 
-import { debounce, convertFamilyTrackerKeys } from './utils/utils';
+import { debounce, convertFamilyTrackerKeys, dummyParam } from './utils/utils';
 /* eslint-enable */
 
 // ----- SETUP -----
@@ -55,8 +55,8 @@ const DEBOUNCE_MS = 200;
 const debouncedAddToTransactions = debounce(
   (key, value, currentTransactionIdx, params) =>
     params !== undefined
-      ? ledger.transactions[currentTransactionIdx].updates.push({ key, value })
-      : ledger.transactions[currentTransactionIdx].familyUpdates.push({ key, value, params }),
+      ? ledger.transactions[currentTransactionIdx].familyUpdates.push({ key, value, params })
+      : ledger.transactions[currentTransactionIdx].updates.push({ key, value }),
   DEBOUNCE_MS,
 );
 
@@ -168,18 +168,15 @@ export function atomFamily<T, P extends SerializableParam>(
   const { key } = config;
   //Initialize new family in atomFamilies tracker
   atomFamilies[key] = {};
-  //Create internal cache in closure for all created atoms of this family
-  const atomCache = new Map<string, RecoilState<T>>();
 
   return (params: P): RecoilState<T> => {
     const strParams = JSON.stringify(params);
     //If the atom has already been created, return from cache, otherwise we'll be creating a new
     //instance of an atom every time we invoke this func (which can lead to infinite re-render loop)
-    const cachedAtom = atomCache.get(strParams);
+    const cachedAtom = atomFamilies[key][strParams];
     if (cachedAtom !== undefined) return cachedAtom;
 
     const newAtomFamilyMember = recoilAtomFamily(config)(params);
-    atomCache.set(strParams, newAtomFamilyMember);
     atomFamilies[key][strParams] = newAtomFamilyMember;
     return newAtomFamilyMember;
   };
@@ -206,8 +203,8 @@ export function selectorFamily<T>(
   //Testing whether returned function from configGet is async
   if (
     !configGet ||
-    configGet('dummyParam').constructor.name === 'AsyncFunction' ||
-    configGet('dummyParam')
+    configGet(dummyParam).constructor.name === 'AsyncFunction' ||
+    configGet(dummyParam)
       .toString()
       .match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m) ||
     transactions.length > 0
@@ -241,7 +238,7 @@ export function selectorFamily<T>(
         }
         // Debouncing allows TransactionObserver to push to array first
         // Length must be computed before debounce to correctly find last transaction
-        const currentTransactionIdx = ledger.transactions.length - 1;
+        const currentTransactionIdx = transactions.length - 1;
         debouncedAddToTransactions(key, value, currentTransactionIdx, params);
       }
     }
@@ -269,10 +266,8 @@ export function selectorFamily<T>(
       }
       return set(params)(utils, newValue);
     };
-
     newConfig.set = setter;
   }
-
   // Create selector generator & add to selectorFamily for test setup
   const trackedSelectorFamily = recoilSelectorFamily(newConfig);
   selectorFamilies[key] = { trackedSelectorFamily, prevParams: new Set(), isSettable };
@@ -305,8 +300,6 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   // File stores URL for generated test file Blob containing output() string
   // Initializing file as undefined over null to match typing for AnchorHTML attributes from React
   const [file, setFile] = useState<undefined | string>(undefined);
-
-  // storeMap.set('key', 'variable name')
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
   const [devtool, setDevtool] = useState<boolean>(false);
@@ -316,10 +309,25 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
     if (store !== undefined) {
       // If single store was passed, convert to array
       const storeArr = Array.isArray(store) ? store : [store];
-      console.log(storeArr);
+
       const newStore: Map<string, string> = new Map();
       storeArr.forEach((storeModule) => {
-        Object.entries(storeModule).forEach(([variable, { key }]) => {
+        Object.entries(storeModule).forEach(([variable, imported]) => {
+          let key;
+          /**Relevant imports will be either an object (for vanilla atoms or selectors)
+           * or functions (for atom or selector families). If we are examining a family function,
+           * we will need to invoke it to create an atom/selector in order to pull the
+           * original family key out from the generated atom or selector's individual key
+           **/
+          if (typeof imported === 'function') {
+            
+            //Extended atom fam key will follow format of `[key]__"chromogenDummyParam"__withFallback`
+            //Extended selector fam key will follow format of `[key]__selectorFamily/"chromogenDummyParam"/1`
+            const extendedKey = imported(dummyParam).key;
+            key = extendedKey.split('__')[0];
+          } else {
+            key = imported.key;
+          }
           newStore.set(key, variable);
         });
       });
@@ -375,12 +383,17 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 const { value } = eachSelector;
                 return { key, value };
               });
-              const newAtomFamilyState = atomFamilyState.map((eachAtom) => {
-                const key = storeMap.get(eachAtom.key) || eachAtom.key;
-                return { ...eachAtom, key };
+              const newAtomFamilyState = atomFamilyState.map((eachFamAtom) => {
+                const family = storeMap.get(eachFamAtom.family) || eachFamAtom.family;
+                const oldKeyArr = eachFamAtom.key.split('__');
+                oldKeyArr[0] = family;
+                const key = oldKeyArr.join('__');
+                return { ...eachFamAtom, family, key };
               });
               const newFamilyUpdates = familyUpdates.map((eachFamSelector) => {
-                const key = storeMap.get(eachFamSelector.key) || eachFamSelector.key;
+                const oldKeyArr = eachFamSelector.key.split('__');
+                oldKeyArr[0] = storeMap.get(oldKeyArr[0]) || oldKeyArr[0];
+                const key = oldKeyArr.join('__');
                 return { ...eachFamSelector, key };
               });
               return {

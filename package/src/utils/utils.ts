@@ -16,7 +16,7 @@ export const debounce = (func: (...args: any[]) => any, wait: number) => {
   };
 };
 
-//Used in key-to-variable name mapping
+//Used in key-to-variable name mapping in generateFile
 export function convertFamilyTrackerKeys(
   familyTracker: AtomFamilies,
   storeMap: Map<string, string>,
@@ -37,3 +37,5 @@ export function convertFamilyTrackerKeys(
   }
   return refactoredTracker;
 }
+
+export const dummyParam = 'chromogenDummyParam';

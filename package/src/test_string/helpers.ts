@@ -165,7 +165,9 @@ export function returnSelectorFamily(
               (scrubbedParams !== undefined ? scrubbedParams : param) +
               '__Value'
             },
-    ${'set' + familyName + '__' + (scrubbedParams !== undefined ? scrubbedParams : param)},\n`;
+            \t\t${
+              'set' + familyName + '__' + (scrubbedParams !== undefined ? scrubbedParams : param)
+            },\n`;
           }, '')}`;
         } else {
           return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
@@ -196,17 +198,22 @@ export function initializeSelectors(initialRender: SelectorUpdate[]): string {
     '',
   );
 }
-//FIX ME
+
 export function initializeSelectorFamilies(initialRenderFamilies: SelectorFamilyUpdate[]) {
-  return initialRenderFamilies.reduce(
-    (initialTests, { key, params, value }) =>
-      `${initialTests}\tit('${key}__${JSON.stringify(params)} should initialize correctly', () => {
-    \t\texpect(result.current.${key}__${JSON.stringify(
-        params,
-      )}__Value).toStrictEqual(${JSON.stringify(value)});
-    \t});\n`,
-    '',
-  );
+  return initialRenderFamilies.reduce((initialTests, { key, params, value }) => {
+    let scrubbedParams;
+    if (typeof params === 'string') {
+      scrubbedParams = params.replace(/[^\w\s]/gi, '');
+    }
+
+    return `${initialTests}\tit('${key}__${
+      scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
+    } should initialize correctly', () => {
+    \t\texpect(result.current.${key}__${
+      scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
+    }__Value).toStrictEqual(${JSON.stringify(value)});
+    \t});\n`;
+  }, '');
 }
 
 /* ----- SELECTORS TEST ----- */
