@@ -1,60 +1,55 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
-import { atom, selector, readables, writeables, ChromogenObserver } from './index.tsx';
+import { atom, selector, ledger, ChromogenObserver } from './index.tsx';
 
-describe('selectors', () => {
-  it('the selectors exist', () => {
-    expect(selector).toBeDefined();
-  });
+describe('selector', () => {
+  const { selectors } = ledger;
 
-  it('selector is a function', () => {
+  it('is a function', () => {
     expect(typeof selector).toBe('function');
   });
 
-  it('readable array gets updated from selector invocation', () => {
+  it('should update ledger upon invocation', () => {
     selector({
-      key: 'demoOne',
-      get: ({ get }) => 'hello world',
-      set: ({ get, set }) => 'setmethod',
+      key: 'exampleSelector',
+      get: () => 'getMethod',
+      set: () => 'setMethod',
     });
-    expect(readables).toHaveLength(1);
+    expect(selectors).toHaveLength(1);
   });
 
-  it('selector in readable array has the correct key string', () => {
-    expect(readables[0]).toHaveProperty('key', 'demoOne');
+  it('should capture correct key name', () => {
+    expect(selectors[0]).toEqual('exampleSelector');
   });
 });
 
 describe('atom', () => {
-  it('the atom exist', () => {
-    expect(atom).toBeDefined();
-  });
-
-  it('atom is a function', () => {
+  const { atoms } = ledger;
+  it('is a function', () => {
     expect(typeof atom).toBe('function');
   });
 
-  it('writeable array gets update from atom invocation', () => {
+  it('should update ledger upon invocation', () => {
     atom({
-      key: 'demoTwo',
+      key: 'exampleAtom',
       default: false,
     });
-    expect(writeables).toHaveLength(1);
+    expect(atoms).toHaveLength(1);
   });
 
-  it('atom in writeable array has the correct key string', () => {
-    expect(writeables[0]).toHaveProperty('key', 'demoTwo');
+  it('should create Recoil atom with correct key name', () => {
+    expect(atoms[0]).toHaveProperty('key', 'exampleAtom');
   });
 });
 
 describe('chromogenObserver', () => {
-  it('expect it to render two buttons', () => {
+  it('should render a download link', () => {
     render(
       <RecoilRoot>
         <ChromogenObserver />
       </RecoilRoot>,
     );
-    expect(document.getElementsByTagName('button')).toHaveLength(2);
+    expect(document.getElementsByTagName('a')).toHaveLength(1);
   });
 });
