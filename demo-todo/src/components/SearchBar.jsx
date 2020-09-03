@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { searchBarSelectorFam } from '../store/store';
 import { useRecoilState } from 'recoil';
-import TodoItem from './TodoItem';
+import ReadOnlyTodoItem from './ReadOnlyTodoItem';
 
 const SearchBar = () => {
   const [searchFilter, setSearchFilter] = useState('all');
+  const [searchText, setSearchText] = useState('');
   const [searchState, setSearchState] = useRecoilState(searchBarSelectorFam(searchFilter));
 
-  const onTextInputChange = (e) => setSearchState(e.target.value);
-  const onSelectChange = (e) => setSearchFilter(e.target.value);
+  const onSearchTextChange = (e) => {
+    setSearchText(e.target.value);
+    setSearchState(e.target.value);
+  };
+  const onSelectChange = (e) => {
+    setSearchText('');
+    setSearchFilter(e.target.value);
+  };
 
   return (
     <div className="searchContainer">
@@ -16,8 +23,9 @@ const SearchBar = () => {
         className="searchField"
         placeholder="Search for a Todo"
         type="text"
-        value={searchState.searchTerm}
-        onChange={onTextInputChange}
+        value={searchText || searchState.searchTerm}
+        onLoad={onSearchTextChange}
+        onChange={onSearchTextChange}
       />
       <select className="prioritySelect" onChange={onSelectChange}>
         <option value="all">All Priorities</option>
@@ -27,7 +35,7 @@ const SearchBar = () => {
       </select>
       <div className="searchResults">
         {searchState.results.map((result, idx) => (
-          <TodoItem key={idx} item={result} />
+          <ReadOnlyTodoItem key={idx} item={result} />
         ))}
       </div>
     </div>

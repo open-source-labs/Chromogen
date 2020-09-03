@@ -40,10 +40,10 @@ export const output = ({
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {
 ${
-  importRecoilState(atoms)
-  + importRecoilState(selectors)
-  + importRecoilFamily(atomFamilies)
-  + importRecoilFamily(selectorFamilies)
+  importRecoilState(atoms) +
+  importRecoilState(selectors) +
+  importRecoilFamily(atomFamilies) +
+  importRecoilFamily(selectorFamilies)
 }
 } from '<ADD STORE FILEPATH>';
 
@@ -60,30 +60,28 @@ ${writeableHook(setters)}
 ${readableHook(setFilter(selectors, setters))}
   // atom families
 ${atomFamilyHook(transactions)}
-  //writeable selector families
+  // writeable selector families
 ${selectorFamilyHook(selectorFamilies, true)}
-  //read-only selector families
+  // read-only selector families
 ${selectorFamilyHook(selectorFamilies, false)}
 
 
 
   return {
 ${
-  returnWriteable(atoms)
-  + returnWriteable(setters)
-  + returnReadable(setFilter(selectors, setters))
-  + returnAtomFamily(transactions)
-  + returnSelectorFamily(selectorFamilies, true)
-  + returnSelectorFamily(selectorFamilies, false)
+  returnWriteable(atoms) +
+  returnWriteable(setters) +
+  returnReadable(setFilter(selectors, setters)) +
+  returnAtomFamily(transactions) +
+  returnSelectorFamily(selectorFamilies, true) +
+  returnSelectorFamily(selectorFamilies, false)
 }\t};
 };
 
 describe('INITIAL RENDER', () => { 
   const { result } = renderRecoilHook(useStoreHook); 
-  //Selectors
+  
 ${initializeSelectors(initialRender)}
-  //Selector Families
-${initializeSelectorFamilies(initialRenderFamilies)}
 });
 
 describe('SELECTORS', () => {
