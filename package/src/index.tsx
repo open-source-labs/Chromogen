@@ -24,7 +24,7 @@ import {
 } from 'recoil';
 import React, { useState, useEffect } from 'react';
 
-import { output } from './test_string/testString';
+import { output } from './output/output';
 
 import { debounce, convertFamilyTrackerKeys, dummyParam } from './utils/utils';
 /* eslint-enable */
@@ -44,12 +44,12 @@ export const ledger: Ledger<RecoilState<any>, any, SerializableParam> = {
 };
 
 // State for recording toggle
-const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
+export const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
 });
 
-//For selector get call debouncing
+// For selector get call debouncing
 const DEBOUNCE_MS = 250;
 
 const debouncedAddToTransactions = debounce(
@@ -62,7 +62,6 @@ const debouncedAddToTransactions = debounce(
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 // Using function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
-// Hardcoding function overloads as correct function types were not being recognized on import
 export function selector<T>(options: ReadWriteSelectorOptions<T>): RecoilState<T>;
 export function selector<T>(options: ReadOnlySelectorOptions<T>): RecoilValueReadOnly<T>;
 export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelectorOptions<any>) {
@@ -87,10 +86,10 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
    */
 
   if (
-    transactions.length > 0 ||
-    !get ||
-    get.constructor.name === 'AsyncFunction' ||
-    get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
+    transactions.length > 0
+    || !get
+    || get.constructor.name === 'AsyncFunction'
+    || get.toString().match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
   ) {
     return recoilSelector(config);
   }
@@ -117,7 +116,7 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
         debouncedAddToTransactions(key, value, currentTransactionIdx);
       }
     }
-    // Return out value from original get method
+    // Return value from original get method
     return value;
   };
 
@@ -143,7 +142,7 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
     setters.push(key);
   }
 
-  // Create selector & add to selectors for test setup
+  // Create selector & add to selectors array for test setup
   const trackedSelector = recoilSelector(newConfig);
   selectors.push(trackedSelector.key);
   return trackedSelector;
@@ -155,7 +154,7 @@ export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
 
   if (transactions.length > 0) return newAtom;
 
-  // Can't use key b/c transactions needs to pass atoms to getLoadable during transaction iteration
+  // Can't use key-only b/c atoms must be passed to getLoadable during transaction iteration
   atoms.push(newAtom);
   return newAtom;
 }
@@ -166,18 +165,18 @@ export function atomFamily<T, P extends SerializableParam>(
 ): (params: P) => RecoilState<T> {
   const { atomFamilies } = ledger;
   const { key } = config;
-  //Initialize new family in atomFamilies tracker
+  // Initialize new family in atomFamilies tracker
   atomFamilies[key] = {};
 
   return (params: P): RecoilState<T> => {
     const strParams = JSON.stringify(params);
-    //If the atom has already been created, return from cache, otherwise we'll be creating a new
-    //instance of an atom every time we invoke this func (which can lead to infinite re-render loop)
+    // If the atom has already been created, return from cache, otherwise we'll be creating a new
+    // instance of an atom every time we invoke this func (which can lead to infinite re-render loop)
     const cachedAtom = atomFamilies[key][strParams];
     if (cachedAtom !== undefined) return cachedAtom;
 
     const newAtomFamilyMember = recoilAtomFamily(config)(params);
-    //Storing every atom created except for dummy atom created by ChromogenObserver's onload useEffect hook
+    // Storing every atom created except for dummy atom created by ChromogenObserver's onload useEffect hook
     if (strParams !== dummyParam) atomFamilies[key][strParams] = newAtomFamilyMember;
     return newAtomFamilyMember;
   };
@@ -201,14 +200,14 @@ export function selectorFamily<T>(
   const { transactions, selectorFamilies, initialRenderFamilies } = ledger;
   let returnedPromise = false;
 
-  //Testing whether returned function from configGet is async
+  // Testing whether returned function from configGet is async
   if (
-    !configGet ||
-    configGet(dummyParam).constructor.name === 'AsyncFunction' ||
-    configGet(dummyParam)
+    !configGet
+    || configGet(dummyParam).constructor.name === 'AsyncFunction'
+    || configGet(dummyParam)
       .toString()
-      .match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m) ||
-    transactions.length > 0
+      .match(/^\s*return\s*_.*\.apply\(this, arguments\);$/m)
+    || transactions.length > 0
   ) {
     return recoilSelectorFamily(config);
   }
@@ -223,9 +222,9 @@ export function selectorFamily<T>(
       if (transactions.length === 0) {
         // Promise-validation is expensive, so we only do it once, on initial load
         if (
-          typeof value === 'object' &&
-          value !== null &&
-          Object.prototype.toString.call(value) === '[object Promise]'
+          typeof value === 'object'
+          && value !== null
+          && Object.prototype.toString.call(value) === '[object Promise]'
         ) {
           delete selectorFamilies[key];
           returnedPromise = true;
@@ -233,7 +232,7 @@ export function selectorFamily<T>(
           initialRenderFamilies.push({ key, params, value });
         }
       } else if (!returnedPromise) {
-        //Track every new params
+        // Track every new params
         if (!selectorFamilies[key].prevParams.has(params)) {
           selectorFamilies[key].prevParams.add(params);
         }
@@ -317,14 +316,14 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       storeArr.forEach((storeModule) => {
         Object.entries(storeModule).forEach(([variable, imported]) => {
           let key;
-          /**Relevant imports will be either an object (for vanilla atoms or selectors)
+          /** Relevant imports will be either an object (for vanilla atoms or selectors)
            * or functions (for atom or selector families). If we are examining a family function,
            * we will need to invoke it to create an atom/selector in order to pull the
            * original family key out from the generated atom or selector's individual key.
-           **/
+           * */
           if (typeof imported === 'function') {
-            //Extended atom fam key will follow format of `[key]__"chromogenDummyParam"__withFallback`
-            //Extended selector fam key will follow format of `[key]__selectorFamily/"chromogenDummyParam"/1`
+            // Extended atom fam key will follow format of `[key]__"chromogenDummyParam"__withFallback`
+            // Extended selector fam key will follow format of `[key]__selectorFamily/"chromogenDummyParam"/1`
             const extendedKey = imported(dummyParam).key;
             key = extendedKey.includes('selectorFamily')
               ? extendedKey.substring(0, extendedKey.indexOf('selectorFamily') - 2)
@@ -471,6 +470,8 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
 
         const atomFamilyState: AtomFamilyState[] = [];
 
+        /* eslint-disable */
+        // TODO: refactor out of for-in syntax
         for (const family in atomFamilies) {
           const familyMembers = atomFamilies[family];
           for (const member in familyMembers) {
@@ -484,10 +485,11 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
             const value = snapshot.getLoadable(memberRecoilState).contents;
             const previous = previousSnapshot.getLoadable(memberRecoilState).contents;
             const updated = value !== previous;
-            //Don't track dummy atom generated by onload useEffect hook
+            // Don't track dummy atom generated by onload useEffect hook
             if (!key.includes(dummyParam)) atomFamilyState.push({ family, key, value, updated });
           }
         }
+        /* eslint-enable */
 
         // Add current transaction snapshot to transactions array
         transactions.push({ state, updates: [], atomFamilyState, familyUpdates: [] });
@@ -505,12 +507,14 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
           <div style={divStyle}>
             <button
               aria-label="capture test"
+              id="chromogen-generate-file"
               style={{ ...buttonStyle, backgroundColor: '#12967a' }}
               type="button"
               onClick={generateFile}
             />
             <button
               aria-label={recording ? 'pause' : 'record'}
+              id="chromogen-toggle-record"
               style={{ ...buttonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
               type="button"
               onClick={() => {

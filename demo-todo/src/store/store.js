@@ -70,7 +70,7 @@ const todoListStatsState = selector({
   },
 });
 
-// filtered list non-empty? (determines whether check-all displays)
+// is filtered list non-empty? (determines whether check-all displays)
 const filteredListContentState = selector({
   key: 'filteredListContentState',
   get: ({ get }) => !!get(filteredTodoListState).length,
@@ -82,7 +82,7 @@ const allCompleteState = selector({
   // if any item in filteredList is not complete, allComplete is false
   get: ({ get }) => !get(filteredTodoListState).some(({ isComplete }) => !isComplete),
   set: ({ get, set }, newValue) => {
-    // Update only items from filtered list in O(n)
+    // update ONLY items in filtered list
     const lookupTable = {};
     get(todoListState).forEach((item) => {
       lookupTable[item.id] = item;
@@ -146,15 +146,13 @@ const xkcdState = selector({
 
 const searchBarSelectorFam = selectorFamily({
   key: 'searchBarSelectorFam',
-  get: (searchFilter) => ({ get }) => {
-    return get(searchResultState)[searchFilter];
-  },
+  get: (searchFilter) => ({ get }) => get(searchResultState)[searchFilter],
   set: (searchFilter) => ({ get, set }, searchTerm) => {
     set(searchResultState, (prevState) => {
       const newResults = get(todoListState).filter((todo) => {
-        if (searchTerm === '') return false;
-        if (todo.text.includes(searchTerm))
+        if (searchTerm !== '' && todo.text.includes(searchTerm))
           return searchFilter === 'all' ? true : todo.priority === searchFilter;
+        return false;
       });
       return { ...prevState, [searchFilter]: { searchTerm, results: newResults } };
     });

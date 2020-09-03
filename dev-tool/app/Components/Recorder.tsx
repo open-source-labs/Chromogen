@@ -3,15 +3,11 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
-// interface RecorderProps {
-//   status: boolean;
-// }
-
 const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
   // Connect to background.js
   const backgroundConnection = chrome.runtime.connect();
 
-  // Send message to background.js
+  // Send messages to background.js
   const sendMessage = (action: string) => {
     backgroundConnection.postMessage({
       action,

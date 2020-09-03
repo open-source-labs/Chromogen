@@ -1,7 +1,7 @@
 {
   "name": "chromogen-todo",
   "version": "1.0.0",
-  "description": "example todo app for Chromogen using React + Recoil",
+  "description": "demo todo app for Chromogen using React + Recoil",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
@@ -61,7 +61,7 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "babel-jest": "^26.3.0",
-    "chromogen": "^1.2.0",
+    "chromogen": "^1.3.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "recoil": "0.0.10"
