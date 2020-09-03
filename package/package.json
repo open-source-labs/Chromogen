@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --verbose --coverage",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/bin/coveralls.js"
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
