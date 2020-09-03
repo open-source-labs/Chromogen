@@ -13,7 +13,7 @@ const ReadOnlyTodoItem = ({ item }) => {
 
   const todoList = useRecoilValue(todoListState);
 
-  return (
+  return todoList.find((todo) => todo.id === item.id) ? (
     <div className={checkBoxClasses[item.priority] || 'itemContainer'} id="todoItem">
       <input type="text" value={item.text} readOnly />
       <Checkbox
@@ -24,6 +24,6 @@ const ReadOnlyTodoItem = ({ item }) => {
         style={{ cursor: 'default' }}
       />
     </div>
-  );
+  ) : null;
 };
 export default ReadOnlyTodoItem;
