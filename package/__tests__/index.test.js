@@ -99,6 +99,11 @@ describe('chromogenObserver', () => {
     expect(document.getElementById('chromogen-download')).toBeTruthy();
   });
 
+  it('should render two buttons by default', () => {
+    expect(document.getElementById('chromogen-generate-file')).toBeTruthy();
+    expect(document.getElementById('chromogen-toggle-record')).toBeTruthy();
+  });
+
   it('should create a file URL on button click', () => {
     document.getElementById('chromogen-generate-file').click();
     const downloadLink = document.getElementById('chromogen-download');
