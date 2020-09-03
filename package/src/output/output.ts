@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Ledger } from '../types/types';
+import type { Ledger } from '../types';
 import type { SerializableParam } from 'recoil';
 import {
   importRecoilState,
@@ -14,7 +14,6 @@ import {
   selectorFamilyHook,
   returnSelectorFamily,
   initializeSelectors,
-  // initializeSelectorFamilies,
   returnAtomFamily,
 } from './output-utils';
 
@@ -32,7 +31,6 @@ export const output = ({
   atomFamilies,
   selectorFamilies,
   initialRender,
-  // initialRenderFamilies,
   transactions,
   setTransactions,
 }: Ledger<string, any, SerializableParam>): string =>

@@ -8,7 +8,7 @@ import type {
   SelectorFamilies,
   SelectorFamilyUpdate,
   SelectorFamilyMembers,
-} from '../types/types';
+} from '../types';
 import { SerializableParam } from 'recoil';
 /* eslint-enable */
 
