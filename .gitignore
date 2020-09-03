@@ -10,7 +10,6 @@ coverage
 
 # Package
 package/build
-package/coverage
 
 # DevTool
 dev-tool/build/bundles
