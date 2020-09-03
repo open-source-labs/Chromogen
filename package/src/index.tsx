@@ -62,7 +62,6 @@ const debouncedAddToTransactions = debounce(
 
 // ----- SHADOW CONSTRUCTORS for SELECTOR / ATOM -----
 // Using function declaration for TS (easiest workaround for <T> generic tag being recognized as JSX)
-// Hardcoding function overloads as correct function types were not being recognized on import
 export function selector<T>(options: ReadWriteSelectorOptions<T>): RecoilState<T>;
 export function selector<T>(options: ReadOnlySelectorOptions<T>): RecoilValueReadOnly<T>;
 export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelectorOptions<any>) {
@@ -117,7 +116,7 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
         debouncedAddToTransactions(key, value, currentTransactionIdx);
       }
     }
-    // Return out value from original get method
+    // Return value from original get method
     return value;
   };
 
@@ -143,7 +142,7 @@ export function selector(config: ReadWriteSelectorOptions<any> | ReadOnlySelecto
     setters.push(key);
   }
 
-  // Create selector & add to selectors for test setup
+  // Create selector & add to selectors array for test setup
   const trackedSelector = recoilSelector(newConfig);
   selectors.push(trackedSelector.key);
   return trackedSelector;
@@ -155,7 +154,7 @@ export function atom<T>(config: AtomOptions<T>): RecoilState<T> {
 
   if (transactions.length > 0) return newAtom;
 
-  // Can't use key b/c transactions needs to pass atoms to getLoadable during transaction iteration
+  // Can't use key-only b/c atoms must be passed to getLoadable during transaction iteration
   atoms.push(newAtom);
   return newAtom;
 }
@@ -471,6 +470,8 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
 
         const atomFamilyState: AtomFamilyState[] = [];
 
+        /* eslint-disable */
+        // TODO: refactor out of for-in syntax
         for (const family in atomFamilies) {
           const familyMembers = atomFamilies[family];
           for (const member in familyMembers) {
@@ -488,6 +489,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
             if (!key.includes(dummyParam)) atomFamilyState.push({ family, key, value, updated });
           }
         }
+        /* eslint-enable */
 
         // Add current transaction snapshot to transactions array
         transactions.push({ state, updates: [], atomFamilyState, familyUpdates: [] });
@@ -505,12 +507,14 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
           <div style={divStyle}>
             <button
               aria-label="capture test"
+              id="chromogen-generate-file"
               style={{ ...buttonStyle, backgroundColor: '#12967a' }}
               type="button"
               onClick={generateFile}
             />
             <button
               aria-label={recording ? 'pause' : 'record'}
+              id="chromogen-toggle-record"
               style={{ ...buttonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
               type="button"
               onClick={() => {

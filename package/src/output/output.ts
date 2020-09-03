@@ -21,7 +21,7 @@ import {
 /* eslint-enable */
 
 /* ----- HELPERS ----- */
-const setFilter = (selectors: string[], setters: string[]): string[] =>
+export const setFilter = (selectors: string[], setters: string[]): string[] =>
   selectors.filter((key) => !setters.includes(key));
 
 /* ----- MAIN ----- */

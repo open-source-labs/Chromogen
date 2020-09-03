@@ -1,7 +1,7 @@
 {
   "name": "chromogen-todo",
   "version": "1.0.0",
-  "description": "example todo app for Chromogen using React + Recoil",
+  "description": "demo todo app for Chromogen using React + Recoil",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",

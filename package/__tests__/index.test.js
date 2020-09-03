@@ -1,7 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
-import { atom, selector, ledger, ChromogenObserver } from '../src/index.tsx';
+import {
+  atom,
+  selector,
+  atomFamily,
+  selectorFamily,
+  ledger,
+  ChromogenObserver,
+} from '../src/index.tsx';
 
 describe('selector', () => {
   const { selectors } = ledger;
@@ -43,13 +50,50 @@ describe('atom', () => {
   });
 });
 
+describe('atomFamily', () => {
+  it('should return a function', () => {
+    const familyFactory = atomFamily({ key: 'familyKey', default: (param) => param.toString() });
+
+    expect(typeof familyFactory).toEqual('function');
+  });
+});
+
+describe('selectorFamily', () => {
+  it('should return a function', () => {
+    const familyFactory = selectorFamily({
+      key: 'familyKey',
+      get: () => () => 'some value',
+      set: () => () => undefined,
+      default: (param) => param.toString(),
+    });
+
+    expect(typeof familyFactory).toEqual('function');
+  });
+});
+
 describe('chromogenObserver', () => {
-  it('should render a download link', () => {
+  global.URL = {
+    createObjectURL: () => 'http://mockURL.com',
+  };
+
+  beforeEach(() => {
+    console.error = jest.fn();
+
     render(
       <RecoilRoot>
         <ChromogenObserver />
       </RecoilRoot>,
     );
-    expect(document.getElementsByTagName('a')).toHaveLength(1);
+  });
+
+  it('should render a download link', () => {
+    expect(document.getElementById('chromogen-download')).toBeTruthy();
+  });
+
+  it('should create a file URL on button click', () => {
+    document.getElementById('chromogen-generate-file').click();
+    const downloadLink = document.getElementById('chromogen-download');
+
+    expect(downloadLink.getAttribute('href')).toBeTruthy();
   });
 });

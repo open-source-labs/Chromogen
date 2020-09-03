@@ -32,7 +32,7 @@ const config = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   devtool: 'source-map',
-  plugins: []
+  plugins: [],
 };
 
 module.exports = (env, argv) => {

@@ -1,9 +1,11 @@
 {
-  "name": "chromogen",
+  "name": "chromogen-root",
   "version": "1.0.0",
   "description": "simple, interaction-driven test generator for Recoil apps",
   "scripts": {
-    "postinstall": "sed -i '' s#require\\(\\'prettier\\'\\)#require\\(\\'@btmills/prettier\\'\\)#g ./node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js",
+    "postinstall": "npm run lint-config",
+    "lint-config": "sed -i '' s#require\\(\\'prettier\\'\\)#require\\(\\'@btmills/prettier\\'\\)#g ./node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js",
+    "ci-all": "(npm ci); (cd ./package && npm ci); (cd ./dev-tool && npm ci); (cd ./demo-todo && npm ci);",
     "build": "echo \"ERROR! Nothing to build in root directory.\n\""
   },
   "repository": {

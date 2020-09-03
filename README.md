@@ -17,13 +17,13 @@
 
 [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
 [![Build Status](https://travis-ci.org/oslabs-beta/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
-[![Coverage Status](https://coveralls.io/repos/github/connorrose/Chromogen/badge.svg?branch=master)](https://coveralls.io/github/connorrose/Chromogen?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/oslabs-beta/Chromogen/badge.svg?branch=master)](https://coveralls.io/github/oslabs-beta/Chromogen?branch=master)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE)
 
-[![Github stars](https://img.shields.io/github/stars/oslabs-beta/chromogen?style=social)](https://github.com/oslabs-beta/Chromogen)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=CHROMOGEN%20-%20A%20UI-driven%20Jest%20test%20generator%20for%20Recoil%20apps%0A&url=https://www.npmjs.com/package/chromogen&hashtags=React,Recoil,Jest,testing)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen)
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=CHROMOGEN%20-%20A%20UI-driven%20Jest%20test%20generator%20for%20Recoil%20apps%0A&url=https://www.npmjs.com/package/chromogen&hashtags=React,Recoil,Jest,testing)
+[![Github stars](https://img.shields.io/github/stars/oslabs-beta/chromogen?style=social)](https://github.com/oslabs-beta/Chromogen)
 
 </div>
 
@@ -40,7 +40,7 @@
 
 You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil app, but you need to move fast and time is major constraint. More importantly, you want your tests to reflect how your users interact with the app, rather than testing implementation details.
 
-Enter [Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your app after following the installation instructions below, interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
+[Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your app after following the installation instructions below, interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
 
 ### Don't have a Recoil app handy?
 Chromogen's [official demo app](https://github.com/michellebholland/recoil-demo-todo) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against.
