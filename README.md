@@ -5,7 +5,7 @@
     height="145"
     width="625"
     alt="Chromogen logo"
-    src="./assets/logo/Chromogen-banner.png"
+    src="./assets/logo/chromogen-banner.png"
   />
 </a>
 
@@ -143,9 +143,8 @@ Once you've recorded all the interactions you want to test, click the green butt
 
 <div align="center">
 
-|  |  |
-|:-|-:|
-|![Download](./assets/README-root/download.png)|![File](./assets/README-root/test-directory.png)|
+
+![Download](./assets/README-root/download.png)&nbsp;&nbsp;&nbsp;&nbsp;![File](./assets/README-root/test-directory.png)
 
 </div>
 
