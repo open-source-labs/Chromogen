@@ -1,14 +1,19 @@
 {
   "name": "chromogen",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "simple, interaction-driven Jest test generator for Recoil apps",
   "main": "build/index.js",
-  "keywords": ["react", "react", "jest", "testing"],
+  "keywords": [
+    "react",
+    "recoil",
+    "jest",
+    "testing"
+  ],
   "files": [
     "build"
   ],
   "scripts": {
-    "prepublishOnly": "npm run build", 
+    "prepublishOnly": "npm run build",
     "build": "tsc",
     "test": "jest --verbose --coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"

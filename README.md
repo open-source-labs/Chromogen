@@ -49,7 +49,7 @@ Chromogen supports three main types of test:
   2. **Selector return values** for a given state, using snapshots captured after each state transaction.
   3. **Selector _set_ logic** asserting on resulting atom values for a given `newValue` argument and starting state.
 
-These test suites will be captured for _synchronous_ selectors and selectorFamilies only. However, the presence of asyncronous selectors in your app should not cause any issues with the captured tests. Chromogen can identify such selectors at run-time and exclude them from capture.
+These test suites will be captured for _synchronous_ selectors only (selectorFamily support coming soon). However, the presence of asyncronous selectors in your app should not cause any issues with the captured tests. Chromogen can identify such selectors at run-time and exclude them from capture.
 
 At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime. However, we are always open to suggestions to meet the needs of our userbase. Want to see this or any other feature added to the package? [Let us know!](#contributing)
 
