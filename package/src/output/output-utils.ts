@@ -14,7 +14,7 @@ import { SerializableParam } from 'recoil';
 
 /* ----- HELPER FUNCTIONS ----- */
 
-function initializeAtoms(state: AtomUpdate[], current: boolean): string {
+export function initializeAtoms(state: AtomUpdate[], current: boolean): string {
   return state.reduce(
     (initializers, { key, value, previous }) =>
       `${initializers}\t\t\tresult.current.set${key}(${JSON.stringify(
@@ -24,7 +24,7 @@ function initializeAtoms(state: AtomUpdate[], current: boolean): string {
   );
 }
 
-function assertState(updates: SelectorUpdate[]): string {
+export function assertState(updates: SelectorUpdate[]): string {
   return updates.reduce(
     (assertions, { key, value }) =>
       `${assertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
@@ -64,24 +64,25 @@ export function readableHook(keyArray: string[]): string {
 }
 
 export function atomFamilyHook(transactionArray: Transaction[]): string {
-  return transactionArray[transactionArray.length - 1].atomFamilyState.reduce((str, atomState) => {
-    const { family, key } = atomState;
-    /* Removing all special characters from string: if the params are passed
-     * in as a string, then we need to remove any special characters so they don't
-     * error out variable name generation, also recoil will add escaped quotes
-     * to the key name if it's a string, so will need to remove those by default
-     */
-    const params = key.substring(family.length + 2);
-    const scrubbedParams = params.replace(/[^\w\s]/gi, '');
+  const len = transactionArray.length;
+  return len
+    ? transactionArray[len - 1].atomFamilyState.reduce((str, atomState) => {
+        const { family, key } = atomState;
+        /* Removing all special characters from string: if the params are passed
+         * in as a string, then we need to remove any special characters so they don't
+         * error out variable name generation, also recoil will add escaped quotes
+         * to the key name if it's a string, so will need to remove those by default
+         */
+        const params = key.substring(family.length + 2);
+        const scrubbedParams = params.replace(/[^\w\s]/gi, '');
 
-    const parsedParams = JSON.parse(params);
+        const parsedParams = JSON.parse(params);
 
-    return `${str}\tconst [${family + '__' + scrubbedParams + '__Value'}, ${
-      'set' + family + '__' + scrubbedParams
-    }] = useRecoilState(${family}(${
-      typeof parsedParams === 'string' ? `${params}` : `${parsedParams}`
-    }));\n`;
-  }, '');
+        return `${str}\tconst [${`${family}__${scrubbedParams}__Value`}, ${`set${family}__${scrubbedParams}`}] = useRecoilState(${family}(${
+          typeof parsedParams === 'string' ? `${params}` : `${parsedParams}`
+        }));\n`;
+      }, '')
+    : '';
 }
 
 export function selectorFamilyHook(
@@ -92,7 +93,7 @@ export function selectorFamilyHook(
     .filter((familyArr) => familyArr[1].isSettable === isSettable)
     .reduce((str: string, familyArr: [string, { prevParams: Set<any> }]): string => {
       const [familyName, { prevParams }] = familyArr;
-      //converting prevParams from set to array
+      // converting prevParams from set to array
       return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
         let scrubbedParams;
         if (typeof param === 'string') {
@@ -100,22 +101,16 @@ export function selectorFamilyHook(
         }
 
         return isSettable
-          ? `${innerStr}\tconst [${
-              familyName +
-              '__' +
-              (scrubbedParams !== undefined ? scrubbedParams : param) +
-              '__Value'
-            }, ${
-              'set' + familyName + '__' + (scrubbedParams !== undefined ? scrubbedParams : param)
-            }] = useRecoilState(${familyName}(${
+          ? `${innerStr}\tconst [${`${familyName}__${
+              scrubbedParams !== undefined ? scrubbedParams : param
+            }__Value`}, ${`set${familyName}__${
+              scrubbedParams !== undefined ? scrubbedParams : param
+            }`}] = useRecoilState(${familyName}(${
               typeof param === 'string' ? `"${param}"` : `${JSON.parse(param)}`
             }));\n`
-          : `${innerStr}\tconst ${
-              familyName +
-              '__' +
-              (scrubbedParams !== undefined ? scrubbedParams : param) +
-              '__Value'
-            } = useRecoilValue(${familyName}(${
+          : `${innerStr}\tconst ${`${familyName}__${
+              scrubbedParams !== undefined ? scrubbedParams : param
+            }__Value`} = useRecoilValue(${familyName}(${
               typeof param === 'string' ? `"${param}"` : `${JSON.parse(param)}`
             }));\n`;
       }, '')}`;
@@ -131,17 +126,17 @@ export function returnReadable(keyArray: string[]): string {
 }
 
 export function returnAtomFamily(transactionArray: Transaction[]): string {
-  return transactionArray[transactionArray.length - 1].atomFamilyState.reduce(
-    (value, atomState) => {
-      const { family, key } = atomState;
-      //key will be "[familyname]__[params]"
-      const params = key.substring(family.length + 2);
-      const scrubbedParams = params.replace(/[^\w\s]/gi, '');
-      return `${value}\t\t${family + '__' + scrubbedParams + '__Value'},
-      \t\t${'set' + family + '__' + scrubbedParams},\n`;
-    },
-    '',
-  );
+  const len = transactionArray.length;
+  return len
+    ? transactionArray[len - 1].atomFamilyState.reduce((value, atomState) => {
+        const { family, key } = atomState;
+        // key will be "[familyname]__[params]"
+        const params = key.substring(family.length + 2);
+        const scrubbedParams = params.replace(/[^\w\s]/gi, '');
+        return `${value}\t\t${`${family}__${scrubbedParams}__Value`},
+      \t\t${`set${family}__${scrubbedParams}`},\n`;
+      }, '')
+    : '';
 }
 
 export function returnSelectorFamily(
@@ -160,30 +155,21 @@ export function returnSelectorFamily(
               scrubbedParams = param.replace(/[^\w\s]/gi, '');
             }
 
-            return `${innerStr}\t\t${
-              familyName +
-              '__' +
-              (scrubbedParams !== undefined ? scrubbedParams : param) +
-              '__Value'
-            },
-            ${
-              'set' + familyName + '__' + (scrubbedParams !== undefined ? scrubbedParams : param)
-            },\n`;
-          }, '')}`;
-        } else {
-          return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
-            let scrubbedParams;
-            if (typeof param === 'string') {
-              scrubbedParams = param.replace(/[^\w\s]/gi, '');
-            }
-            return `${innerStr}\t\t${
-              familyName +
-              '__' +
-              (scrubbedParams !== undefined ? scrubbedParams : param) +
-              '__Value'
-            },\n`;
+            return `${innerStr}\t\t${`${familyName}__${
+              scrubbedParams !== undefined ? scrubbedParams : param
+            }__Value`},
+            ${`set${familyName}__${scrubbedParams !== undefined ? scrubbedParams : param}`},\n`;
           }, '')}`;
         }
+        return `${str}${[...prevParams].reduce((innerStr: string, param: any) => {
+          let scrubbedParams;
+          if (typeof param === 'string') {
+            scrubbedParams = param.replace(/[^\w\s]/gi, '');
+          }
+          return `${innerStr}\t\t${`${familyName}__${
+            scrubbedParams !== undefined ? scrubbedParams : param
+          }__Value`},\n`;
+        }, '')}`;
       },
       '',
     );
@@ -236,7 +222,7 @@ export function testSelectors(transactionArray: Transaction[]): string {
               ? allUpdatedSelectors.reduce((list, selectorState, i) => {
                   const { key } = selectorState;
                   const isLastElement = i === selectorLen - 1;
-                  //if params exist, then we are looking at a selectorFamily
+                  // if params exist, then we are looking at a selectorFamily
                   if ('params' in selectorState) {
                     let scrubbedParams;
                     if (typeof selectorState.params === 'string') {
@@ -245,11 +231,8 @@ export function testSelectors(transactionArray: Transaction[]): string {
                     return `${list}${isLastElement ? 'and ' : ''}${key}__${
                       scrubbedParams !== undefined ? scrubbedParams : selectorState.params
                     }${isLastElement ? '' : ', '}`;
-                  } else {
-                    return `${list}${isLastElement ? 'and ' : ''}${key}${
-                      isLastElement ? '' : ', '
-                    }`;
                   }
+                  return `${list}${isLastElement ? 'and ' : ''}${key}${isLastElement ? '' : ', '}`;
                 }, '')
               : `${
                   allUpdatedSelectors[0].params !== undefined
@@ -298,10 +281,9 @@ ${
           return `${assertions}\t\texpect(result.current.${key}__${
             scrubbedParams !== undefined ? scrubbedParams : selectorState.params
           }__Value).toStrictEqual(${JSON.stringify(value)});\n\n`;
-        else
-          return `${assertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
-            value,
-          )});\n\n`;
+        return `${assertions}\t\texpect(result.current.${key}Value).toStrictEqual(${JSON.stringify(
+          value,
+        )});\n\n`;
       }, '')
     : ''
 }\t});\n\n`
@@ -352,6 +334,7 @@ export function testSetters(setTransactionArray: SetTransaction[]): string {
           \t\t});
           
           ${assertState(updatedAtoms)}\t});\n\n`;
-    } else return setterTests;
+    }
+    return setterTests;
   }, '');
 }

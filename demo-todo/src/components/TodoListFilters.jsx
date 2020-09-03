@@ -78,10 +78,6 @@ const TodoListFilters = () => {
           <EqualizerIcon />
         )}
       </button>
-      {/* Reset icon button doesn't change color yet 
-          bc I wanted do keep our code (esp state) 
-          as simple as possible during development 
-       – but I can implement this down the line */}
       <button id="unsortedGray" type="submit" onClick={reset}>
         <RefreshIcon />
       </button>
