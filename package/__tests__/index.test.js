@@ -1,14 +1,33 @@
 import React from 'react';
+import { RecoilRoot, useRecoilState } from 'recoil';
 import { render } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 import {
+  ledger,
   atom,
   selector,
   atomFamily,
   selectorFamily,
-  ledger,
   ChromogenObserver,
 } from '../src/index.tsx';
+
+describe('atom', () => {
+  const { atoms } = ledger;
+  it('is a function', () => {
+    expect(typeof atom).toBe('function');
+  });
+
+  it('should update ledger upon invocation', () => {
+    atom({
+      key: 'exampleAtom',
+      default: false,
+    });
+    expect(atoms).toHaveLength(1);
+  });
+
+  it('should create Recoil atom with correct key name', () => {
+    expect(atoms[0]).toHaveProperty('key', 'exampleAtom');
+  });
+});
 
 describe('selector', () => {
   const { selectors } = ledger;
@@ -28,25 +47,6 @@ describe('selector', () => {
 
   it('should capture correct key name', () => {
     expect(selectors[0]).toEqual('exampleSelector');
-  });
-});
-
-describe('atom', () => {
-  const { atoms } = ledger;
-  it('is a function', () => {
-    expect(typeof atom).toBe('function');
-  });
-
-  it('should update ledger upon invocation', () => {
-    atom({
-      key: 'exampleAtom',
-      default: false,
-    });
-    expect(atoms).toHaveLength(1);
-  });
-
-  it('should create Recoil atom with correct key name', () => {
-    expect(atoms[0]).toHaveProperty('key', 'exampleAtom');
   });
 });
 
@@ -79,9 +79,18 @@ describe('chromogenObserver', () => {
   beforeEach(() => {
     console.error = jest.fn();
 
+    const mockAtom = atom({ key: 'mockAtom', default: true });
+
+    const MockComponent = () => {
+      const [mock, setMock] = useRecoilState(mockAtom);
+
+      return <button id="mock-button" onClick={() => setMock(!mock)} />;
+    };
+
     render(
       <RecoilRoot>
         <ChromogenObserver />
+        <MockComponent />
       </RecoilRoot>,
     );
   });
@@ -95,5 +104,14 @@ describe('chromogenObserver', () => {
     const downloadLink = document.getElementById('chromogen-download');
 
     expect(downloadLink.getAttribute('href')).toBeTruthy();
+  });
+
+  it('should create transactions when state updates', () => {
+    document.getElementById('mock-button').click();
+
+    // Using Promise to get around async nature of Recoil transactions
+    expect(
+      new Promise((resolve) => setTimeout(() => resolve(ledger.transactions), 100)),
+    ).resolves.toHaveLength(1);
   });
 });

@@ -44,7 +44,7 @@ export const ledger: Ledger<RecoilState<any>, any, SerializableParam> = {
 };
 
 // State for recording toggle
-const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
+export const recordingState: RecoilState<boolean> = recoilAtom<boolean>({
   key: 'recordingState',
   default: true,
 });
