@@ -20,7 +20,7 @@ const getId = () => {
 const TodoItemCreator = () => {
   const [inputValue, setInputValue] = useState('');
   const [priorityValue, setPriorityValue] = useState('low');
-  const setTodoList = useSetRecoilState(todoListState); // sets TodoList atom state
+  const setTodoList = useSetRecoilState(todoListState);
 
   const addItem = () => {
     setTodoList((oldTodoList) => [

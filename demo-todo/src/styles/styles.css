@@ -27,6 +27,7 @@ select {
   font-size: 16px;
   letter-spacing: 1px;
 }
+
 /* remove browser defaults */
 button:focus {
   outline: none;
@@ -43,6 +44,7 @@ input:focus {
   width: 100vw;
   grid-template-rows: 15fr 33fr 33fr;
 }
+
 /* overall row container for todo list display */
 .todosDisplayRow {
   margin: 0 auto;
@@ -89,6 +91,7 @@ input::placeholder {
   grid-template-columns: 79fr 14fr 7fr;
   border-bottom: 1px solid rgba(245, 245, 245, 0.336);
 }
+
 /* dynamic checkbox color */
 .highPriority svg {
   color: #ef5350;
@@ -105,11 +108,13 @@ input::placeholder {
   opacity: 0.7;
   margin-right: 28px;
 }
+
 #todoItem button {
   margin-left: 7px;
 }
 
 /* -------------TodoListFilter---------------- */
+
 ul {
   display: grid;
   grid-template-columns: 27fr 27fr 27fr 6fr 6fr 6fr;
@@ -117,6 +122,7 @@ ul {
   padding: 0px;
   width: 100%;
 }
+
 .filter-button {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -124,6 +130,7 @@ ul {
   padding: 10px 20px;
   border-radius: 0px 0px 4px 4px;
 }
+
 /* dynamic sort icon color */
 #sortedWhite svg {
   color: whitesmoke;
@@ -154,12 +161,14 @@ ul {
   color: #66bb6a;
   opacity: 0.7;
 }
+
 /* filter stats (number) */
 button span {
   opacity: 0.6;
 }
 
 /* ----------QuoteBox---------- */
+
 #quoteContainer {
   display: flex;
   flex-direction: column;

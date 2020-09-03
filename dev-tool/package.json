@@ -1,7 +1,7 @@
 {
-  "name": "chromogen",
-  "version": "1.0.0",
-  "description": "simple, interaction-driven test generator for Recoil apps",
+  "name": "chromogen-devtool",
+  "version": "0.1.0",
+  "description": "DevTool panel for use with Chromogen testing package",
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "webpack --mode=development --watch"

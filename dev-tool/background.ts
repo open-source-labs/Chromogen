@@ -1,23 +1,17 @@
-/* Listens for events from DevTools panel and content.js (package intermediary)
- */
-interface Connections {
-  [tabId: string]: any;
-}
+/* eslint-disable */
+import type { Connections, Message } from './types/types';
+/* eslint-enable */
 
-interface Message {
-  tabId: string;
-  action: string;
-}
-
+// Listens for events from DevTools panel and content.js (package intermediary)
 const connections: Connections = {};
 
 chrome.runtime.onConnect.addListener((port) => {
   // Listen for messages from DevTools panel
-  const extensionListener = (message: Message, port) => {
+  const extensionListener = (message: Message, portID) => {
     const { tabId, action } = message;
     // Initial connection – store current instance of DevTools page
     if (action === 'connectChromogen') {
-      connections[tabId] = port;
+      connections[tabId] = portID;
     }
     // Relay message to content.ts -> package
     chrome.tabs.sendMessage(Number(tabId), message);
@@ -27,12 +21,12 @@ chrome.runtime.onConnect.addListener((port) => {
   port.onMessage.addListener(extensionListener);
 
   // Handle disconnect
-  port.onDisconnect.addListener((port) => {
-    port.onMessage.removeListener(extensionListener);
+  port.onDisconnect.addListener((portID) => {
+    portID.onMessage.removeListener(extensionListener);
     // remove current DevTool instance from connections
     // eslint-disable-next-line no-restricted-syntax
     for (const key in connections) {
-      if (connections[key] === port) {
+      if (connections[key] === portID) {
         delete connections[key];
         break;
       }

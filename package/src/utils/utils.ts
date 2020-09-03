@@ -1,11 +1,13 @@
+/* eslint-disable */
 import type { SerializableParam } from 'recoil';
 import type { AtomFamilies, SelectorFamilies } from '../types/types';
+/* eslint-enable */
 
-//Debouncing for selector transaction updates
+// Debouncing for selector transaction updates
 export const debounce = (func: (...args: any[]) => any, wait: number) => {
   let timeout: any;
 
-  return function (...args: any[]) {
+  return (...args: any[]) => {
     const timeoutCallback = () => {
       timeout = null;
       func(...args);
@@ -16,7 +18,7 @@ export const debounce = (func: (...args: any[]) => any, wait: number) => {
   };
 };
 
-//Used in key-to-variable name mapping in generateFile
+// Used in key-to-variable name mapping in generateFile
 export function convertFamilyTrackerKeys(
   familyTracker: AtomFamilies,
   storeMap: Map<string, string>,
@@ -32,12 +34,13 @@ export function convertFamilyTrackerKeys(
 ) {
   const refactoredTracker: AtomFamilies | SelectorFamilies<any, SerializableParam> = {};
 
-  for (const familyName in familyTracker) {
-    const newKey: string = storeMap.get(familyName) || familyName;
-    refactoredTracker[newKey] = familyTracker[familyName];
-  }
+  Object.keys(familyTracker).forEach((key) => {
+    const newKey: string = storeMap.get(key) || key;
+    refactoredTracker[newKey] = familyTracker[key];
+  });
+
   return refactoredTracker;
 }
 
-//Dummy param for use in various checks (most notably the key-to-variable name mapping)
+// Dummy param for use in various checks (most notably the key-to-variable name mapping)
 export const dummyParam = 'chromogenDummyParam';
