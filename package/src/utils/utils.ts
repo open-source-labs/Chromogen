@@ -1,6 +1,6 @@
 /* eslint-disable */
 import type { SerializableParam } from 'recoil';
-import type { AtomFamilies, SelectorFamilies } from '../types/types';
+import type { AtomFamilies, SelectorFamilies } from '../types';
 /* eslint-enable */
 
 // Debouncing for selector transaction updates
