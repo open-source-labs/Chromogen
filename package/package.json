@@ -8,6 +8,7 @@
     "build"
   ],
   "scripts": {
+    "prepublishOnly": "npm run build", 
     "build": "tsc",
     "test": "jest --verbose --coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
