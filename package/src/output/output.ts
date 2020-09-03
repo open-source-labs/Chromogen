@@ -80,10 +80,8 @@ ${
 
 describe('INITIAL RENDER', () => { 
   const { result } = renderRecoilHook(useStoreHook); 
-  // Selectors
+  
 ${initializeSelectors(initialRender)}
-  // Selector Families
-${initializeSelectorFamilies(initialRenderFamilies)}
 });
 
 describe('SELECTORS', () => {
