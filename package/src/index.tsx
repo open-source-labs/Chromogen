@@ -8,11 +8,11 @@ import type {
   ReadOnlySelectorOptions,
   SerializableParam,
   AtomFamilyOptions,
-  ReadWriteSelectorFamilyOptions,
-  ReadOnlySelectorFamilyOptions,
+  // ReadWriteSelectorFamilyOptions,
+  // ReadOnlySelectorFamilyOptions,
 } from 'recoil';
 import type { CSSProperties } from 'react';
-import type { Ledger, SelectorConfig, SelectorFamilyConfig, AtomFamilyState } from './types/types';
+import type { Ledger, SelectorConfig, /*SelectorFamilyConfig,*/ AtomFamilyState } from './types/types';
 
 import {
   selector as recoilSelector,
@@ -182,6 +182,9 @@ export function atomFamily<T, P extends SerializableParam>(
   };
 }
 
+export const selectorFamily = recoilSelectorFamily;
+
+/*
 export function selectorFamily<T, P extends SerializableParam>(
   options: ReadWriteSelectorFamilyOptions<T, P>,
 ): (param: P) => RecoilState<T>;
@@ -275,6 +278,7 @@ export function selectorFamily<T>(
   selectorFamilies[key] = { trackedSelectorFamily, prevParams: new Set(), isSettable };
   return trackedSelectorFamily;
 }
+*/
 
 // ----- TRANSACTION PROVIDER -----
 const buttonStyle: CSSProperties = {
