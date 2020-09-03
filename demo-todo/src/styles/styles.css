@@ -15,7 +15,9 @@ h1 {
   letter-spacing: 3px;
   font-style: italic;
 }
-input, button, select {
+input,
+button,
+select {
   background-color: rgb(63, 63, 63);
   border: 1px solid lightgray;
   border: none;
@@ -72,14 +74,17 @@ input::placeholder {
   height: 60px;
 }
 
- #radioContainer svg {
+#radioContainer svg {
   margin-top: 11px;
-  opacity: .70;
- }
+  opacity: 0.7;
+}
 
 /* -------------TodoItem---------------- */
 
-.itemContainer, .lowPriority, .mediumPriority, .highPriority {
+.itemContainer,
+.lowPriority,
+.mediumPriority,
+.highPriority {
   display: grid;
   grid-template-columns: 79fr 14fr 7fr;
   border-bottom: 1px solid rgba(245, 245, 245, 0.336);
@@ -87,17 +92,17 @@ input::placeholder {
 /* dynamic checkbox color */
 .highPriority svg {
   color: #ef5350;
-  opacity: .70;
+  opacity: 0.7;
   margin-right: 28px;
 }
 .mediumPriority svg {
   color: #ffee58;
-  opacity: .70;
+  opacity: 0.7;
   margin-right: 28px;
 }
 .lowPriority svg {
   color: #66bb6a;
-  opacity: .70;
+  opacity: 0.7;
   margin-right: 28px;
 }
 #todoItem button {
@@ -137,21 +142,21 @@ ul {
 }
 #highSpan {
   color: #ef5350;
-  opacity: .70;
+  opacity: 0.7;
   margin-right: 4px;
 }
 #mediumSpan {
   color: #ffee58;
-  opacity: .70;
+  opacity: 0.7;
   margin-right: 4px;
 }
 #lowSpan {
   color: #66bb6a;
-  opacity: .70;
+  opacity: 0.7;
 }
 /* filter stats (number) */
 button span {
-  opacity: .60;
+  opacity: 0.6;
 }
 
 /* ----------QuoteBox---------- */
@@ -161,7 +166,7 @@ button span {
   justify-content: space-between;
 }
 
-#quoteContainer p{
+#quoteContainer p {
   white-space: pre-wrap;
 }
 
@@ -199,4 +204,30 @@ button span {
 
 #quickCheck svg {
   color: #af6358;
+}
+
+/* ---------- Search ---------- */
+.searchContainer {
+  margin-top: 100px;
+  background-color: rgb(63, 63, 63);
+  box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
+  border-radius: 5px;
+  padding: 5px 12px 12px 12px;
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+
+.searchField {
+  border-bottom: solid 1px whitesmoke;
+  border-radius: 0;
+}
+
+.prioritySelect {
+  grid-column-start: 2;
+  border-bottom: solid 1px whitesmoke;
+  border-radius: 0;
+}
+
+.searchResults {
+  grid-column-start: span 3;
 }
