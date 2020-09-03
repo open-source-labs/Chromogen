@@ -24,6 +24,7 @@ const SearchBar = () => {
         placeholder="Search for a Todo"
         type="text"
         value={searchText || searchState.searchTerm}
+        onLoad={onSearchTextChange}
         onChange={onSearchTextChange}
       />
       <select className="prioritySelect" onChange={onSelectChange}>
