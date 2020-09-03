@@ -152,6 +152,7 @@ const searchBarSelectorFam = selectorFamily({
   set: (searchFilter) => ({ get, set }, searchTerm) => {
     set(searchResultState, (prevState) => {
       const newResults = get(todoListState).filter((todo) => {
+        if (searchTerm === '') return false;
         if (todo.text.includes(searchTerm))
           return searchFilter === 'all' ? true : todo.priority === searchFilter;
       });

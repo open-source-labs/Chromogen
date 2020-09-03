@@ -10,11 +10,10 @@ const SearchBar = () => {
   const onTextInputChange = (e) => setSearchState(e.target.value);
   const onSelectChange = (e) => setSearchFilter(e.target.value);
 
-  console.log(searchState);
   return (
     <div className="searchContainer">
       <input
-        className="inputText"
+        className="searchField"
         placeholder="Search for a Todo"
         type="text"
         value={searchState.searchTerm}
@@ -26,7 +25,7 @@ const SearchBar = () => {
         <option value="medium">Medium Priority</option>
         <option value="low">Low Priority</option>
       </select>
-      <div>
+      <div className="searchResults">
         {searchState.results.map((result, idx) => (
           <TodoItem key={idx} item={result} />
         ))}

@@ -212,11 +212,22 @@ button span {
   background-color: rgb(63, 63, 63);
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
-  padding: 5px 12px 0 12px;
+  padding: 5px 12px 12px 12px;
   display: grid;
   grid-template-columns: 70% 30%;
 }
 
+.searchField {
+  border-bottom: solid 1px whitesmoke;
+  border-radius: 0;
+}
+
 .prioritySelect {
   grid-column-start: 2;
+  border-bottom: solid 1px whitesmoke;
+  border-radius: 0;
+}
+
+.searchResults {
+  grid-column-start: span 3;
 }
