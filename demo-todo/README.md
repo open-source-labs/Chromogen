@@ -18,5 +18,5 @@
     1. quote text
   - Async / Await:
     1. xkcd comic
-  - selectorFamily:
+  - selectorFamily (_in progress_):
     1. search bar

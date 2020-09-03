@@ -82,7 +82,7 @@ export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)}
   4. Before running any tests, you'll need to update the line `<ADD STORE FILEPATH>` with the correct filepath to your Recoil store.
 
 ### Coverage
-  Chromogen produces unit tests for synchronous Recoil selectors, including readonly selectors, writeable selectors, and selectorFamilies. It does _not_ generate tests for any asynchronous selectors due to their unique mocking requirements; it is able to identify and exclude these cases at runtime without issue.
+  Chromogen produces unit tests for synchronous Recoil selectors, including readonly selectors, writeable selectors, and selectorFamilies (_coming soon_). It does _not_ generate tests for any asynchronous selectors due to their unique mocking requirements; it is able to identify and exclude these cases at runtime without issue.
 
 ### DevTool
 If the injected control buttons interfere with your application, you can optionally download Chromogen's DevTool extension (_pending approval by Chrome Web Store_). This will move the control buttons into a DevTool panel with no change in functionality.
