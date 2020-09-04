@@ -10,6 +10,7 @@ export const debounce = (func: (...args: any[]) => any, wait: number) => {
   return (...args: any[]) => {
     const timeoutCallback = () => {
       timeout = null;
+      console.log('in debounced callback, args are', args);
       func(...args);
     };
 

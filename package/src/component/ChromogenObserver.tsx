@@ -116,6 +116,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
         }
         /* eslint-enable */
 
+        console.log('in transaction observer; state is', state);
         transactions.push({ state, updates: [], atomFamilyState, familyUpdates: [] });
         setTransactions.push({ state, setter: null });
       }
