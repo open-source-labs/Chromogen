@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { searchBarSelectorFam } from '../store/store';
 import { useRecoilState } from 'recoil';
+import { searchBarSelectorFam, searchBarVanillaSelector } from '../store/store';
+
 import ReadOnlyTodoItem from './ReadOnlyTodoItem';
 
 const SearchBar = () => {
   const [searchFilter, setSearchFilter] = useState('all');
   const [searchText, setSearchText] = useState('');
   const [searchState, setSearchState] = useRecoilState(searchBarSelectorFam(searchFilter));
+  // const [searchState, setSearchState] = useRecoilState(searchBarVanillaSelector);
 
   const onSearchTextChange = (e) => {
     setSearchText(e.target.value);
@@ -24,8 +26,8 @@ const SearchBar = () => {
         placeholder="Search for a Todo"
         type="text"
         value={searchText || searchState.searchTerm}
-        onLoad={onSearchTextChange}
         onChange={onSearchTextChange}
+        onLoad={onSearchTextChange}
       />
       <select className="prioritySelect" onChange={onSelectChange}>
         <option value="all">All Priorities</option>

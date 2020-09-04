@@ -48,10 +48,16 @@ const searchResultState = atom({
   },
 });
 
+const myNumberState = atom({
+  key: 'myNumberState',
+  default: 2,
+});
+
 export {
   todoListState,
   todoListFilterState,
   todoListSortState,
   quoteNumberState,
   searchResultState,
+  myNumberState,
 };
