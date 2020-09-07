@@ -54,5 +54,4 @@ export {
   todoListSortState,
   quoteNumberState,
   searchResultState,
-  myNumberState,
 };

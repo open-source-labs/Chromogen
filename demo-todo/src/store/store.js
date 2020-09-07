@@ -5,7 +5,6 @@ import {
   todoListSortState,
   quoteNumberState,
   searchResultState,
-  myNumberState,
 } from './atoms';
 
 /* ----- SELECTORS ---- */
