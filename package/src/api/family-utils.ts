@@ -15,8 +15,8 @@ export const wrapFamilyGetter = (key: string, configGet: Function) => {
   return (params: SerializableParam) => (utils: any) => {
     const { get } = utils;
     const value = configGet(params)(utils);
-
     // Only capture selector data if currently recording
+
     if (get(recordingState)) {
       if (transactions.length === 0) {
         // Promise-validation is expensive, so we only do it once, on initial load
@@ -36,13 +36,12 @@ export const wrapFamilyGetter = (key: string, configGet: Function) => {
           selectorFamilies[key].prevParams.add(params);
         }
         // Debouncing allows TransactionObserver to push to array first
-        // Length must be computed before debounce to correctly find last transaction
+        // Length must be computed within debounce to correctly find last transaction
         // Excluding dummy selector created by ChromogenObserver's onload useEffect hook
-        const currentTransactionIdx = transactions.length - 1;
-        if (params !== dummyParam)
-          debouncedAddToTransactions(key, value, currentTransactionIdx, params);
+        if (params !== dummyParam) debouncedAddToTransactions(key, value, params);
       }
     }
+
     // Return value from original get method
     return value;
   };

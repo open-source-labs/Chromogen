@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { searchBarSelectorFam } from '../store/store';
 import { useRecoilState } from 'recoil';
+import { searchBarSelectorFam } from '../store/store';
+
 import ReadOnlyTodoItem from './ReadOnlyTodoItem';
 
 const SearchBar = () => {
@@ -24,8 +25,8 @@ const SearchBar = () => {
         placeholder="Search for a Todo"
         type="text"
         value={searchText || searchState.searchTerm}
-        onLoad={onSearchTextChange}
         onChange={onSearchTextChange}
+        onLoad={onSearchTextChange}
       />
       <select className="prioritySelect" onChange={onSelectChange}>
         <option value="all">All Priorities</option>

@@ -10,10 +10,10 @@ const DEBOUNCE_MS = 250;
 
 // Set timeout for selector get calls
 export const debouncedAddToTransactions = debounce(
-  (key, value, currentTransactionIdx, params) =>
+  (key, value, params) =>
     params !== undefined
-      ? ledger.transactions[currentTransactionIdx].familyUpdates.push({ key, value, params })
-      : ledger.transactions[currentTransactionIdx].updates.push({ key, value }),
+      ? transactions[transactions.length - 1].familyUpdates.push({ key, value, params })
+      : transactions[transactions.length - 1].updates.push({ key, value }),
   DEBOUNCE_MS,
 );
 
@@ -35,9 +35,8 @@ export const wrapGetter = (key: string, get: Function) => {
         }
       } else if (!returnedPromise) {
         // Debouncing allows TransactionObserver to push to array first
-        // Length must be computed before debounce to correctly find last transaction
-        const currentTransactionIdx = transactions.length - 1;
-        debouncedAddToTransactions(key, value, currentTransactionIdx);
+        // Length must be computed within debounce to correctly find last transaction
+        debouncedAddToTransactions(key, value);
       }
     }
 
