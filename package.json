@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "description": "simple, interaction-driven test generator for Recoil apps",
   "scripts": {
-    "postinstall": "npm run lint-config",
-    "lint-config": "sed -i '' s#require\\(\\'prettier\\'\\)#require\\(\\'@btmills/prettier\\'\\)#g ./node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js",
     "ci-all": "(npm ci); (cd ./package && npm ci); (cd ./dev-tool && npm ci); (cd ./demo-todo && npm ci);",
     "build": "echo \"ERROR! Nothing to build in root directory.\n\""
   },
@@ -36,7 +34,6 @@
   },
   "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
   "devDependencies": {
-    "@btmills/prettier": "^2.0.5",
     "@typescript-eslint/parser": "^3.9.1",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -46,6 +43,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.0",
+    "prettier": "npm:@btmills/prettier@^2.1.1",
     "typescript": "^4.0.2"
   }
 }
