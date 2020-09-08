@@ -6,7 +6,7 @@ import { recordingState } from '../utils/store';
 
 const { transactions, initialRender, selectors, setTransactions } = ledger;
 
-const DEBOUNCE_MS = 0;
+const DEBOUNCE_MS = 250;
 
 // Set timeout for selector get calls
 export const debouncedAddToTransactions = debounce(
@@ -22,10 +22,8 @@ export const wrapGetter = (key: string, get: Function) => {
 
   return (utils: any) => {
     const value = get(utils);
-    console.log('in vanilla selector get;\n key is', key, '\n value is', value);
 
     // Only capture selector data if currently recording
-    // setTimeout(() => {
     if (utils.get(recordingState)) {
       if (transactions.length === 0) {
         // Promise-validation is expensive, so we only do it once, on initial load
@@ -37,18 +35,16 @@ export const wrapGetter = (key: string, get: Function) => {
         }
       } else if (!returnedPromise) {
         // Debouncing allows TransactionObserver to push to array first
-        // Length must be computed before debounce to correctly find last transaction
+        // Length must be computed within debounce to correctly find last transaction
         debouncedAddToTransactions(key, value);
       }
     }
-    // }, 0);
 
     return value;
   };
 };
 
 export const wrapSetter = (key: string, set: Function) => (utils: any, newValue: any) => {
-  console.log('in vanilla selector set;\n key is', key, '\n new value is', newValue);
   if (utils.get(recordingState) && setTransactions.length > 0) {
     // allow TransactionObserver to push to array first
     // Length must be computed after timeout to correctly find last transaction

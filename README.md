@@ -38,7 +38,7 @@
 
 You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil app, but you need to move fast and time is major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
 
-[Enter Chromogen](https://www.npmjs.com/package/Chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application (after following the installation instructions below), interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
+[Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application (after following the installation instructions below), interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
 
 ### Don't have a Recoil app handy?
 Chromogen's [official demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
@@ -66,7 +66,7 @@ These changes do have a small performance cost, so they should be reverted befor
 ### Download the Chromogen package from npm.
 
 ```
-npm install Chromogen
+npm install chromogen
 ```
 
 ### Import the ChromogenObserver component

@@ -5,7 +5,6 @@ import {
   todoListSortState,
   quoteNumberState,
   searchResultState,
-  myNumberState,
 } from './atoms';
 
 /* ----- SELECTORS ---- */
@@ -160,28 +159,6 @@ const searchBarSelectorFam = selectorFamily({
   },
 });
 
-const searchBarVanillaSelector = selector({
-  key: 'searchBarVanillaSelector',
-  get: ({ get }) => get(searchResultState).all,
-  set: ({ get, set }, searchTerm) => {
-    set(searchResultState, (prevState) => {
-      const newResults = get(todoListState).filter((todo) => {
-        if (searchTerm !== '' && todo.text.includes(searchTerm)) return true;
-        return false;
-      });
-      return { ...prevState, all: { searchTerm, results: newResults } };
-    });
-  },
-});
-
-const myMultipliedState = selectorFamily({
-  key: 'myMultipliedState',
-  get: (multiplier) => ({ get }) => get(myNumberState) * multiplier,
-
-  // optional set
-  set: (multiplier) => ({ set }, newValue) => set(myNumberState, newValue / multiplier),
-});
-
 export {
   filteredTodoListState,
   filteredListContentState,
@@ -193,6 +170,4 @@ export {
   quoteTextState,
   xkcdState,
   searchBarSelectorFam,
-  searchBarVanillaSelector,
-  myMultipliedState,
 };
