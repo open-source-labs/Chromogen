@@ -13,8 +13,9 @@
 
 <br />
 
+<!--- Update coverage badge to main repo once Coveralls permission is granted --->
 [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
-[![Build Status](https://travis-ci.org/oslabs-beta/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
+[![Build Status](https://travis-ci.com/open-source-labs/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
 [![Coverage Status](https://coveralls.io/repos/github/oslabs-beta/Chromogen/badge.svg?branch=master)](https://coveralls.io/github/oslabs-beta/Chromogen?branch=master)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE)
 
@@ -49,11 +50,13 @@ Chromogen supports three main types of test:
   2. **Selector return values** for a given state, using snapshots captured after each state transaction.
   3. **Selector _set_ logic** asserting on resulting atom values for a given `newValue` argument and starting state.
 
-These test suites will be captured for _synchronous_ selectors only (selectorFamily support coming soon). However, the presence of asyncronous selectors in your app should not cause any issues with the captured tests. Chromogen can identify such selectors at run-time and exclude them from capture.
+These test suites will be captured for _synchronous_ selectors and selectorFamilies only. However, the presence of asyncronous selectors in your app should not cause any issues with the generated tests. Chromogen can identify such selectors at run-time and exclude them from capture.
 
 At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime. However, we are always open to suggestions to meet the needs of our userbase. Want to see this or any other feature added to the package? [Let us know!](#contributing)
 
 By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the ChromogenObserver component as a `store` prop. The installation instructions below contain further details.
+
+_(09/15/20)_ **WARNING:** _Chromogen_ v1.3.x is only compatible with Recoil v0.0.10 currently. We are working on an update to enable compatibility with Recoil's new v0.0.11 release.
 
 ## Installation
 
@@ -88,7 +91,7 @@ const App = (props) => (
 export default App;
 ```
 
-If you are use pseudo-random key names, such as with _UUID_, you will need to pass all of your store exports to the ChromogenObserver componet as a `store` prop. This will allow Chromogen to use source code variable names in the output file, instead of relying on keys. When all atoms and selectors are exported from a single file, you can pass the imported module directly:
+If you are using pseudo-random key names, such as with _UUID_, you'll need to pass all of your store exports to the ChromogenObserver component as a `store` prop. This will allow Chromogen to use source code variable names in the output file, instead of relying on keys. When all atoms and selectors are exported from a single file, you can pass the imported module directly:
 ```jsx
 import * as store from './store';
   // ...
@@ -169,7 +172,7 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 
 ### Chrome DevTool (Optional)
-If the injected buttons interfere with the functioning or layout of your application, you can also control Chromogen through an optional DevTool panel. As soon as Chromogen detects that the panel has been opened and loaded, the inject buttons will disappear from the application view. The recording and download buttons on the panel work exactly the same as outlined above.
+If the injected buttons interfere with the functioning or layout of your application, you can also control Chromogen through an optional DevTool panel. As soon as Chromogen detects that the panel has been opened and loaded, the injected buttons will disappear from the application view. The recording and download buttons on the panel work exactly the same as outlined above.
 
 <div align="center">
 
@@ -177,7 +180,7 @@ If the injected buttons interfere with the functioning or layout of your applica
 
 </div>
 
-_Please Note:_ We are currently waiting on publishing approval from the Chrome Web Store. In the interim, the DevTool can be added as an unpacked extension by running `npm run build` in the `dev-tool` subdirectory and loading the resulting `build` folder.
+_Please Note:_ Chromogen's DevTool is currently under review with the Chrome Web Store. In the interim, the DevTool can be added as an unpacked extension by running `npm install && npm run build` in the `dev-tool` subdirectory and loading the resulting `build` folder.
 
 ## Contributing
 **We expect all contributors to abide by the standards of behavior outlined in the [Code of Conduct](CODE_OF_CONDUCT.md).**
