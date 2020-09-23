@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/oslabs-beta/Chromogen.git"
+    "url": "https://github.com/open-source-labs/Chromogen.git"
   },
   "contributors": [
     {
@@ -42,9 +42,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/Chromogen/issues"
+    "url": "https://github.com/open-source-labs/Chromogen/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
+  "homepage": "https://github.com/open-source-labs/Chromogen#readme",
   "peerDependencies": {
     "jest": ">=24.0.0",
     "typescript": ">=3.8.0"
