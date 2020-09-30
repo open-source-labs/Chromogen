@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
