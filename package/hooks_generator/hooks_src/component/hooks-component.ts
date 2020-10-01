@@ -4,6 +4,8 @@
 
 /*Flow of Chromgen 2.0
 
+- Use regex to determine whether user is using Recoil or React hooks (can only be one or the other, not testing for both, for now)
+
 1. user imports Chromogen useState and useReducer
 2. user performs state changing events
  a)hooks obersver stores every change of state
@@ -18,5 +20,6 @@
 7. User decides whether to keep the file or not
   a) on-click of download button, send the file to the user
   b) on-click of cancel button, close modal
+8. Make sure Chrome dev tool is reading from package correctly as well
 
 Look into React.createContext and useContext for hook obersver logic
