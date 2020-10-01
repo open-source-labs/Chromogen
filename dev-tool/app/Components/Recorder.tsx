@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
@@ -19,8 +20,10 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
     <div className="recorder-div">
       <button id="recorderBtn" type="submit" onClick={() => sendMessage('toggleRecord')}>
         {status ? (
+          // If status is truthy, render Stop Icon (Chromogen is already recording)
           <StopIcon style={{ color: '#D44B5A', fontSize: '40px' }} />
         ) : (
+          // Else render Play Icon (Chromogen has stopped recording)
           <PlayArrowIcon style={{ color: '#FCE3A3', fontSize: '40px' }} />
         )}
       </button>
