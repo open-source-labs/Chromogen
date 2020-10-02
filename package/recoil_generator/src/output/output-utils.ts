@@ -23,7 +23,7 @@ export function initializeAtoms(state: AtomUpdate[], current: boolean): string {
     '',
   );
 }
-
+//chromogen only captures selectors that fire; this pulls value from latest firing
 export function assertState(updates: SelectorUpdate[]): string {
   return updates.reduce(
     (assertions, { key, value }) =>
@@ -208,6 +208,7 @@ export function initializeSelectorFamilies(initialRenderFamilies: SelectorFamily
 export function testSelectors(transactionArray: Transaction[]): string {
   return transactionArray.reduce(
     (selectorTests, { state, updates, atomFamilyState, familyUpdates }) => {
+      //checking to make sure chromogen doesn't look at atoms that haven't changed state
       const allUpdatedAtoms = [
         ...state.filter(({ updated }) => updated),
         ...atomFamilyState.filter(({ updated }) => updated),
@@ -228,6 +229,7 @@ export function testSelectors(transactionArray: Transaction[]): string {
                     if (typeof selectorState.params === 'string') {
                       scrubbedParams = selectorState.params.replace(/[^\w\s]/gi, '');
                     }
+
                     return `${list}${isLastElement ? 'and ' : ''}${key}__${
                       scrubbedParams !== undefined ? scrubbedParams : selectorState.params
                     }${isLastElement ? '' : ', '}`;
