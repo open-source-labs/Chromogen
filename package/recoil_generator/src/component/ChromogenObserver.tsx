@@ -96,7 +96,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
         const atomFamilyState: AtomFamilyState[] = [];
 
         /* eslint-disable */
-        // TODO: refactor out of for-in syntax
+        // TODO: refactor out of for-in syntax b/c for-in tracks up the prototype chain x_x
         for (const family in atomFamilies) {
           const familyMembers = atomFamilies[family];
           for (const member in familyMembers) {
