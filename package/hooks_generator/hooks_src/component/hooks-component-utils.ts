@@ -1,6 +1,7 @@
 //potentially a component to track state changes of user App
 
-
+//define a function that records previous and current state using useEffect and useRef
+//export the function & import into HooksChromogenObserver.ts
 
 /*Flow of Chromgen 2.0
 

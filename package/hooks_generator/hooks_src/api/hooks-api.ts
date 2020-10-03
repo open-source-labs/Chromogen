@@ -1,6 +1,6 @@
 /* eslint-disable */
 //import useState and useReducer from React
-//export usState and useReducer as chromogen components
+//export useState and useReducer as chromogen components
 
 /* useState
 

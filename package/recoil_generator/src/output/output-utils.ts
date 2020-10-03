@@ -204,7 +204,7 @@ export function initializeSelectorFamilies(initialRenderFamilies: SelectorFamily
 }
 
 /* ----- SELECTORS TEST ----- */
-
+//checking get methods
 export function testSelectors(transactionArray: Transaction[]): string {
   return transactionArray.reduce(
     (selectorTests, { state, updates, atomFamilyState, familyUpdates }) => {
