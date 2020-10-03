@@ -1,8 +1,5 @@
 //potentially a component to track state changes of user App
 
-//define a function that records previous and current state using useEffect and useRef
-//export the function & import into HooksChromogenObserver.ts
-
 /*Flow of Chromgen 2.0
 
 - Use regex to determine whether user is using Recoil or React hooks (can only be one or the other, not testing for both, for now)

@@ -5,10 +5,11 @@ import React, { useState, useEffect, useRef } from 'react';
 
 //create similar function like ChromogenObserver's useReactTransactionObserver
 //import function we created using useEffect and useRef in hooks-component-utils
-
+//define a function that records previous and current state using useEffect and useRef
 
 // Export hooksChromogenObserver
     // Initializing as undefined over null to match React typing for AnchorHTML attributes
+    // useState for file, storeMap
 
     // DevTool message handling
         // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app
