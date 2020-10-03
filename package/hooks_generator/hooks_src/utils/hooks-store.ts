@@ -1,0 +1,3 @@
+/* eslint-disable */
+
+// Recording toggle

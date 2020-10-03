@@ -1,6 +1,7 @@
 //potentially a component to track state changes of user App
 
-
+//define a function that records previous and current state using useEffect and useRef
+//export the function & import into HooksChromogenObserver.ts
 
 /*Flow of Chromgen 2.0
 
@@ -22,4 +23,4 @@
   b) on-click of cancel button, close modal
 8. Make sure Chrome dev tool is reading from package correctly as well
 
-Look into React.createContext and useContext for hook obersver logic
+Look into React.createContext and useContext for hook obersver logic */
