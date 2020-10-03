@@ -24,3 +24,11 @@
 8. Make sure Chrome dev tool is reading from package correctly as well
 
 Look into React.createContext and useContext for hook obersver logic */
+
+/* eslint-disable */
+/* eslint-enable */
+
+// Create buttonStyles and divStyles here
+
+// Export generateFile as a function that deconstructs state/transactions and sets to the ledger, along with a finalLedger that will 
+
