@@ -1,7 +1,7 @@
 /* eslint-disable */
 import type { CSSProperties } from 'react';
 import type { SerializableParam } from 'recoil';
-import type { Ledger } from 'src/types';
+import type { Ledger } from '../types';
 
 import { ledger } from '../utils/ledger';
 import { convertFamilyTrackerKeys } from '../utils/utils';

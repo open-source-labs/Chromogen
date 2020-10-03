@@ -22,4 +22,4 @@
   b) on-click of cancel button, close modal
 8. Make sure Chrome dev tool is reading from package correctly as well
 
-Look into React.createContext and useContext for hook obersver logic
+Look into React.createContext and useContext for hook obersver logic */
