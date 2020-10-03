@@ -11,6 +11,6 @@ export const ledger: Ledger<RecoilState<any>, any, SerializableParam> = {
   setters: [],
   initialRender: [],
   initialRenderFamilies: [],
-  transactions: [],
-  setTransactions: [],
+  transactions: [], //get
+  setTransactions: [], //set
 };
