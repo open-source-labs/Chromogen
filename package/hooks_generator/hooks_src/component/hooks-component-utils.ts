@@ -1,8 +1,5 @@
 //potentially a component to track state changes of user App
 
-//define a function that records previous and current state using useEffect and useRef
-//export the function & import into HooksChromogenObserver.ts
-
 /*Flow of Chromgen 2.0
 
 - Use regex to determine whether user is using Recoil or React hooks (can only be one or the other, not testing for both, for now)
@@ -24,3 +21,29 @@
 8. Make sure Chrome dev tool is reading from package correctly as well
 
 Look into React.createContext and useContext for hook obersver logic */
+
+/* eslint-disable */
+import React, { useState, useEffect, useRef } from 'react';
+import { hooksLedger } from '../utils/hooks-ledger';
+import { hooksOutput } from '../output/hooks-output';
+/* eslint-enable */
+
+// Create buttonStyles and divStyles here
+
+// Export generateFile as a function (which takes in a setFile function and a map) that deconstructs state/transactions and sets to the ledger, along with a finalLedger that will check whether the mapped store size > 0, if truthy, return a new ledger with both state and transaction arrays containing the user input ("key"). Else, return ledger.
+
+  // generateFile will return setHooksFile passing in the URL Blob as an argument (downloadable file)
+export const generateHooksFile = (setHooksFile: Function, storeMap: Map<string, string>): void => {
+  const {
+    state,
+    setTransactions,
+  } = ledger;
+
+  const finalLedger: hooksLedger<> =
+    storeMap.size > 0
+    ? {
+
+    } : {};
+
+  return setHooksFile(URL.createObjectURL(new Blob([hooksOutput])));
+}
