@@ -1,9 +1,9 @@
-
+/* eslint-disable */
 
 import { debounce } from '../utils/hooks-utils';
 import { hooksLedger } from '../utils/hooks-ledger';
 import { recordingState } from '../utils/hooks-store';
-
+/* eslint-enable */
 
 const { state } = hooksLedger
 //We set the length of our debounce in ms
