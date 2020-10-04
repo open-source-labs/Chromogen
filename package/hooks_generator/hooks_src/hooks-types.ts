@@ -16,6 +16,3 @@ export all types and interfaces
 export type BasicStateAction<S> = (S => S) | S;
 export type Dispatch<A> = A => void;
 
-export type Dispatcher = {|,
-  useState<S>(initialState: (() => S) | S): [S, Dispatch<BasicStateAction<S>>],
-|}
