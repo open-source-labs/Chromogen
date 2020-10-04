@@ -5,10 +5,10 @@ import { RecoilState, SerializableParam } from 'recoil';
 
 export const ledger: Ledger<RecoilState<any>, any, SerializableParam> = {
   atoms: [],
-  selectors: [],
+  selectors: [], //get
   atomFamilies: {},
   selectorFamilies: {},
-  setters: [],
+  setters: [], //set
   initialRender: [],
   initialRenderFamilies: [],
   transactions: [],//get
