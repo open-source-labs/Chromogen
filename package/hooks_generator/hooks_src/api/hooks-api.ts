@@ -11,10 +11,10 @@
 
 */
 //Used to grab useState from the React APi
-import React, { useState as reactUseState }  from 'react';
+import React, { useReducer }  from 'react';
 
 //A function that takes in useState params and pushes them to our ledger, then returns 
-import { updateTracker } from './hooks-core-utils';
+import { trackStateReducer } from './hooks-core-utils';
 
 //A parameter to test our useState hook
 import { dummyParam } from '../utils/hooks-utils';
@@ -31,8 +31,9 @@ export function useState(initialState){
   //push our the users intial state into our ledger
   state.push(initialState)
 
-  //return out a tuple which holds state as the first element and function to update state as the second element
-  return [initialState, updateTracker]
+  //return out a useReducer function
+  // from react and pass in our trackStateReducer
+  return useReducer(trackStateReducer,(initialState))
  
 
 
