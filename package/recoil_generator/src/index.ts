@@ -4,10 +4,4 @@ import { ChromogenObserver } from './component/ChromogenObserver';
 // CHROMGOEN FAMILY APIs ARE CURRENTLY UNSTABLE
 // import { atomFamily, selectorFamily } from 'recoil';
 
-export {
-  atom,
-  selector,
-  atomFamily,
-  selectorFamily,
-  ChromogenObserver,
-}
+export { atom, selector, atomFamily, selectorFamily, ChromogenObserver };
