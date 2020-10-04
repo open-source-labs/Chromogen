@@ -5,13 +5,13 @@ import { hooksLedger } from '../utils/hooks-ledger';
 import { recordingState } from '../utils/hooks-store';
 
 
-const { state,setTransactions } = hooksLedger
-
+const { state } = hooksLedger
+//We set the length of our debounce in ms
 const DEBOUNCE_MS = 250;
 
-// Set timeout for recording new state
+// Set timeout for recording new state and pushing into our state property on the hooksLedger
 export const debouncedAddToTransactions = debounce(
-  (update) => transactions.push({ update }),
+  (update) => state.push( update ),
   DEBOUNCE_MS,
 );
 
@@ -19,8 +19,8 @@ export const debouncedAddToTransactions = debounce(
 export const trackStateReducer = (state,action) => {
   //We push the new state to our ledger, then return it to useReducer in hooks-api
   const dispatch = typeof action === 'function' ? action(state) : action;
-  //imported from ledger
-  setTransactions.push
+  //call debounce function
+  debouncedAddToTransactions(dispatch)
   //We are done tracking, Chromogen passes dispatch to React
   return dispatch
 }
