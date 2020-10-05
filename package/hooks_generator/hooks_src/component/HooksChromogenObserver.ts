@@ -13,13 +13,13 @@ type store = {
 // Export hooksChromogenObserver
 export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
-    // File will be 
+    // File will be string
   const [file, setFile] = useState<undefined | string>(undefined);
-    //
+    // StoreMap will be an Map (object) with string keys and string values
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
-    //
+    // RecordingState is imported from hooks-store
   const [recording, setRecording] = useState<boolean>(recordingState);
-    //
+    // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = useState<boolean>(false);
 
   // DevTool message handling
@@ -59,7 +59,8 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
 
   // useReactTransactionObserver
   const useReactTransactionObserver = (previousSnapshot, snapshot) => {
-
+    // For [state, setState], when setState is invoked, we want to use this function to . Else => nothing is done (void function)
+    if ()
   }
   // Render toggle functionality first, then depending on what user selects, render corresponding ChromogenObserver (may need to edit ChromogenObserver file for Recoil)
   // Button download: onClick for generateHooksFile
