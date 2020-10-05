@@ -23,15 +23,37 @@
 Look into React.createContext and useContext for hook obersver logic */
 
 /* eslint-disable */
+import type { CSSProperties } from 'react';
 import React, { useState, useEffect, useRef } from 'react';
+
 import { hooksLedger } from '../utils/hooks-ledger';
 import { hooksOutput } from '../output/hooks-output';
 /* eslint-enable */
 
 // Create buttonStyles and divStyles here
+const hooksButtonStyle: CSSProperties = {
+  display: 'inline-block',
+  margin: '8px',
+  padding: '0px',
+  height: '16px',
+  width: '16px',
+};
+
+const hooksDivStyle: CSSProperties = {
+  display: 'inline-block',
+  position: 'absolute',
+  bottom: '16px',
+  left: '16px',
+  backgroundColor: '#aaa',
+  borderRadius: '4px',
+  margin: 0,
+  padding: 0,
+  zIndex: 999999,
+};
+
+export const hookStyles = { hooksButtonStyle, hooksDivStyle };
 
 // Export generateFile as a function (which takes in a setFile function and a map) that deconstructs state/transactions and sets to the ledger, along with a finalLedger that will check whether the mapped store size > 0, if truthy, return a new ledger with both state and transaction arrays containing the user input ("key"). Else, return ledger.
-
   // generateFile will return setHooksFile passing in the URL Blob as an argument (downloadable file)
 export const generateHooksFile = (setHooksFile: Function, storeMap: Map<string, string>): void => {
   const {
@@ -42,8 +64,9 @@ export const generateHooksFile = (setHooksFile: Function, storeMap: Map<string, 
   const finalLedger: hooksLedger<> =
     storeMap.size > 0
     ? {
-
-    } : {};
+      state: ,
+      setTransactions: ,
+    } : { ...hooksLedger };
 
   return setHooksFile(URL.createObjectURL(new Blob([hooksOutput])));
 }

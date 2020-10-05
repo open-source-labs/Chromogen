@@ -7,15 +7,19 @@ import React, { useState, useEffect, useRef, useReducer } from 'react';
 //define a function that records previous and current state using useEffect and useRef
 
 type store = {
-    
+
 }
 
 // Export hooksChromogenObserver
 export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
+    // File will be 
   const [file, setFile] = useState<undefined | string>(undefined);
+    //
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
+    //
   const [recording, setRecording] = useState<boolean>(recordingState);
+    //
   const [devtool, setDevtool] = useState<boolean>(false);
 
   // DevTool message handling
@@ -49,13 +53,17 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
 
   // Update storeMap with src variable names if store prop passed
-  useEffect(() => {
-
-  })
+//   useEffect(() => {
+//     if (store !== undefined)
+//   })
 
   // useReactTransactionObserver
+  const useReactTransactionObserver = (previousSnapshot, snapshot) => {
 
+  }
   // Render toggle functionality first, then depending on what user selects, render corresponding ChromogenObserver (may need to edit ChromogenObserver file for Recoil)
+  // Button download: onClick for generateHooksFile
+  // Button record: onClick for setRecording
   return (
       {
 
