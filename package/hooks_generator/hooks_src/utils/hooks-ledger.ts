@@ -1,7 +1,7 @@
-import { Transaction } from '../hooks-types';
+
 /* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
-import { Ledger } from '../types';
+import { Ledger } from '../hooks-types';
 
 /* eslint-enable */
 
@@ -9,8 +9,12 @@ import { Ledger } from '../types';
 
 // Ledger will contain state(current, prev), when setState is invoked = count > 0
 
-export const hooksLedger: any {
-  Transaction: []
+export const hooksLedger: Ledger = {
+  initialState: [], //0
+  prevState: [], //0
+  currState: [], // 1
+  setStateCallback: [], 
+  count: 0, //1
 };
 
 // *******Logic for tracking previous state and whether setState cb has been invoked*******

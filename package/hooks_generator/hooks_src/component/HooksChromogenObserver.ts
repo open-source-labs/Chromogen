@@ -3,11 +3,13 @@ import React, { useState as reactUseState, useEffect, useRef } from 'react';
 
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
-import { recordingState } from '../utils/hooks-store';
+import { hooksRecordingState as recordingState } from '../utils/hooks-store';
+
+import { useState as hooksUseState } from '../api/hooks-api'
 /* eslint-enable */
 
 // Export hooksChromogenObserver
-export const hooksChromogenObserver: React.FC = () => {
+export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   // File will be string
   const [file, setFile] = reactUseState<undefined | string>(undefined);
@@ -61,24 +63,27 @@ export const hooksChromogenObserver: React.FC = () => {
 
   // useEffect to check if tracker[1] was invoked
   useEffect(() => {
-    const { transactions } = ledger;
     // For tracker ([state, setState]), write setInterval to check when tracker[0] !== currState (setState is invoked). Stop setInterval once this condition is truthy.
-
     let setStateTracker = setInterval(() => {
 
-      if (reactUseState() !== transactions.currState) {
+      if (hooksUseState(initState)[0]) {
+
+        if (hooksUseState(initState)[0] !== ledger.currState) {
+
         // Increment count by 1
-        transactions.count += 1;
+        ledger.count += 1;
 
         // Push currState to prevState
-        transactions.prevState ? transactions.prevState.splice(0, 1, transactions.currState) : transactions.prevState.push(transactions.currState);
+        ledger.prevState.splice(0, 1, ledger.currState)
 
         // Replace currState with value at tracker[0] (user input)
-        transactions.currState.splice(0, 1, reactUseState())
+        ledger.currState.splice(0, 1, hooksUseState(initState))
 
         // Stop interval
         clearInterval(setStateTracker);
       }
+      }
+      
     }, 1000);
   });
 
@@ -87,7 +92,7 @@ export const hooksChromogenObserver: React.FC = () => {
   // Button record: onClick for setRecording
   return (
       !devtool && (
-        <div style={styles.divStyle}>
+        <div style={styles.hooksDivStyle}>
           <button
             aria-label="capture test"
             id="chromogen-generate-file"
@@ -98,7 +103,7 @@ export const hooksChromogenObserver: React.FC = () => {
           <button
             aria-label={recording ? 'pause' : 'record'}
             id="chromogen-toggle-record"
-            style={{ ...styles.buttonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
+            style={{ ...styles.hooksButtonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
             type="button"
             onClick={() => {
               setRecording(!recording);
@@ -106,7 +111,6 @@ export const hooksChromogenObserver: React.FC = () => {
           />
         </div>
       )
-    }
     <a
       download="chromogen.test.js"
       href={file}
@@ -115,5 +119,6 @@ export const hooksChromogenObserver: React.FC = () => {
     >
       Download Test
     </a>
+    </>
   );
 };

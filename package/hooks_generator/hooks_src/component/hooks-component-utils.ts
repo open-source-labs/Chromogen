@@ -61,10 +61,7 @@ export const hookStyles = { hooksButtonStyle, hooksDivStyle };
   // generateFile is used as an onClick function inside hooks ChromogenObserver = meaning that this function is only invoked once download file hass started for user. This keeps performance cost low, since it never interacts with the main application.
 
 export const generateHooksFile = (setHooksFile: Function): void => {
-  const {
-    state,
-    count,
-  } = ledger;
+  const { transaction } = ledger;
 
 
   return setHooksFile(URL.createObjectURL(new Blob([output(ledger)])));
