@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 
 import { debounce } from '../utils/hooks-utils';
 import { hooksLedger } from '../utils/hooks-ledger';
