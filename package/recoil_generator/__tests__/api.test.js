@@ -28,6 +28,7 @@ describe('atom', () => {
 describe('selector', () => {
   // destructuring selectors from ledger object in utils folder
   const { selectors } = ledger;
+  const test = true;
 
   it('is a function', () => {
     // verify selector is a function
@@ -48,6 +49,11 @@ describe('selector', () => {
   it('should capture correct key name', () => {
     expect(selectors[0]).toEqual('exampleSelector');
   });
+
+  it('should return an object if an input condition evaluates to true', () => {
+    // verify that selector (recoilSelector in this context) invocation returns an object
+    expect(typeof selector(test)).toBe('object');
+  });
 });
 
 describe('atomFamily', () => {
@@ -63,6 +69,8 @@ describe('atomFamily', () => {
 });
 
 describe('selectorFamily', () => {
+  // truthy parameter
+  const test = true;
   it('should return a function', () => {
     // create a mock selectorFamily
     const familyFactory = selectorFamily({
@@ -73,5 +81,9 @@ describe('selectorFamily', () => {
     });
     // verify that familyFactory is a function
     expect(typeof familyFactory).toEqual('function');
+  });
+  it('should return an object if an input condition evaluates to true', () => {
+    // verify that selectorFamily (recoilSelectorFamily in this context) invocation returns an object
+    expect(typeof selectorFamily(test)).toBe('function');
   });
 });
