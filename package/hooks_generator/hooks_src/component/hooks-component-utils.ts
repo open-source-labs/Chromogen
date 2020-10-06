@@ -29,6 +29,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hooksOutput as output } from '../output/hooks-output';
 import { Ledger } from '../types';
+
 /* eslint-enable */
 
 // Create buttonStyles and divStyles here
@@ -53,6 +54,7 @@ const hooksDivStyle: CSSProperties = {
 };
 
 export const hookStyles = { hooksButtonStyle, hooksDivStyle };
+
 
 // Export generateFile as a function (which takes in a setFile function and storeMap) that deconstructs state/transactions and sets to the ledger*, along with a finalLedger that will check whether the mapped store size > 0, if truthy, return a new ledger with both state and transaction arrays containing the user input ("key"). Else, return ledger*.
   // generateFile will return setHooksFile passing in the URL Blob as an argument (downloadable file)
