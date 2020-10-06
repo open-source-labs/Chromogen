@@ -26,8 +26,9 @@ Look into React.createContext and useContext for hook obersver logic */
 import type { CSSProperties } from 'react';
 import React, { useState, useEffect, useRef } from 'react';
 
-import { hooksLedger } from '../utils/hooks-ledger';
-import { hooksOutput } from '../output/hooks-output';
+import { hooksLedger as ledger } from '../utils/hooks-ledger';
+import { hooksOutput as output } from '../output/hooks-output';
+import { Ledger } from '../types';
 /* eslint-enable */
 
 // Create buttonStyles and divStyles here
@@ -60,16 +61,16 @@ export const hookStyles = { hooksButtonStyle, hooksDivStyle };
 export const generateHooksFile = (setHooksFile: Function, storeMap: Map<string, string>): void => {
   const {
     state,
-    setTransactions,
+    count,
   } = ledger;
 
-  const finalLedger: hooksLedger<> =
+  const finalLedger: Ledger<> =
   // Key-to-Variable name mapping is applied if storeMap has any contents
     storeMap.size > 0
     ? {
-      state: ,
-      setTransactions: ,
-    } : { ...hooksLedger };
+      state: state.map((key) => storeMap.get(key) || key),
+      count: count += 1,
+    } : { ...ledger };
 
-  return setHooksFile(URL.createObjectURL(new Blob([hooksOutput])));
+  return setHooksFile(URL.createObjectURL(new Blob([output(finalLedger)])));
 }

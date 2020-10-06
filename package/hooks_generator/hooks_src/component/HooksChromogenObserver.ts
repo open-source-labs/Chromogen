@@ -1,5 +1,9 @@
 /* eslint-disable */
 import React, { useState, useEffect, useRef, useReducer } from 'react';
+
+import { hooksLedger as ledger } from '../utils/hooks-ledger';
+import { hookStyles, generateHooksFile as generateFile } from './hooks-component-utils';
+import { recordingState } from '../utils/hooks-store';
 /* eslint-enable */
 //Toggle for manually toggling between react hooks or recoil (?)
 
@@ -56,8 +60,7 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
   //   })
 
   // usePrevious custom hook for grabbing the previous state value
-  function usePrevious(value) {
-    // Current state value is stored inside ref
+  function usePrevious(value: any) {
     // useRef will return a mutable ref object with a current property initialized to the current passed in argument. This object will persist for full lifetime of the component
     const ref = useRef();
     // Store current value in ref
@@ -69,7 +72,7 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
   }
 
   // useReactTransactionObserver
-  const useReactTransactionObserver = (previousSnapshot, snapshot) => {
+  const useReactTransactionObserver = (prevState: any, currState: any) => {
     // For [state, setState], when setState is invoked, we want to push the prevState and currState to our transactions state array. Else => nothing is done (void function)
     if (transactions[state] > 0) {
       const { transactions } = ledger;
@@ -77,9 +80,10 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
       // newState
 
       // prevState
-      const prevState = usePrevious()
+      prevState = usePrevious()
     }
   };
+
   // Render toggle functionality first, then depending on what user selects, render corresponding ChromogenObserver (may need to edit ChromogenObserver file for Recoil)
   // Button download: onClick for generateHooksFile
   // Button record: onClick for setRecording
