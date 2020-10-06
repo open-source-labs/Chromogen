@@ -1,28 +1,22 @@
 /* eslint-disable */
-import React, { useState, useEffect, useRef, useReducer } from 'react';
+import React, { useState as reactUseState, useEffect, useRef } from 'react';
 
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
-import { hookStyles, generateHooksFile as generateFile } from './hooks-component-utils';
-import { recordingState } from '../utils/hooks-store';
+import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
+import { hooksRecordingState as recordingState } from '../utils/hooks-store';
+
+import { useState as hooksUseState } from '../api/hooks-api'
 /* eslint-enable */
-//Toggle for manually toggling between react hooks or recoil (?)
-
-//create similar function like ChromogenObserver's useReactTransactionObserver
-//define a function that records previous and current state using useEffect and useRef
-
-type store = {};
 
 // Export hooksChromogenObserver
-export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
+export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   // File will be string
-  const [file, setFile] = useState<undefined | string>(undefined);
-  // StoreMap will be an Map (object) with string keys and string values
-  const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
+  const [file, setFile] = reactUseState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
-  const [recording, setRecording] = useState<boolean>(recordingState);
+  const [recording, setRecording] = reactUseState<boolean>(recordingState);
   // DevTool will be default false unless user opens up devTool (=> true)
-  const [devtool, setDevtool] = useState<boolean>(false);
+  const [devtool, setDevtool] = reactUseState<boolean>(false);
 
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
@@ -33,7 +27,7 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':
-        generateFile(setFile, storeMap);
+        generateFile(setFile);
         break;
       case 'toggleRecord':
         setRecording(!recording);
@@ -54,11 +48,6 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
 
-  // Update storeMap with src variable names if store prop passed
-  //   useEffect(() => {
-  //     if (store !== undefined)
-  //   })
-
   // usePrevious custom hook for grabbing the previous state value
   // function usePrevious(value: any) {
   //   // useRef will return a mutable ref object with a current property initialized to the current passed in argument. This object will persist for full lifetime of the component
@@ -71,21 +60,65 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
   //   return ref.current; // Previous value (happens before update in useEffect)
   // }
 
+
   // useEffect to check if tracker[1] was invoked
-  const useReactTransactionObserver = (prevState: any, currState: any) => {
-    // For [state, setState], when setState is invoked, we want to push the prevState and currState to our transactions state array. Else => nothing is done (void function)
-    if (tracker[state] > 0) {
-      const { transactions } = ledger;
+  useEffect(() => {
+    // For tracker ([state, setState]), write setInterval to check when tracker[0] !== currState (setState is invoked). Stop setInterval once this condition is truthy.
+    let setStateTracker = setInterval(() => {
 
-      // newState
+      if (hooksUseState(initState)[0]) {
 
-      // prevState
-      //prevState = usePrevious()
-    }
-  };
+        if (hooksUseState(initState)[0] !== ledger.currState) {
 
-  // Render toggle functionality first, then depending on what user selects, render corresponding ChromogenObserver (may need to edit ChromogenObserver file for Recoil)
+        // Increment count by 1
+        ledger.count += 1;
+
+        // Push currState to prevState
+        ledger.prevState.splice(0, 1, ledger.currState)
+
+        // Replace currState with value at tracker[0] (user input)
+        ledger.currState.splice(0, 1, hooksUseState(initState))
+
+        // Stop interval
+        clearInterval(setStateTracker);
+      }
+      }
+      
+    }, 1000);
+  });
+
+  // User imports hooksChromogenObserver to their app
   // Button download: onClick for generateHooksFile
   // Button record: onClick for setRecording
-  return {};
+  return (
+      !devtool && (
+        <div style={styles.hooksDivStyle}>
+          <button
+            aria-label="capture test"
+            id="chromogen-generate-file"
+            style={{ ...styles.hooksButtonStyle, backgroundColor: '#12967a' }}
+            type="button"
+            onClick={() => generateFile(setFile, storeMap)}
+          />
+          <button
+            aria-label={recording ? 'pause' : 'record'}
+            id="chromogen-toggle-record"
+            style={{ ...styles.hooksButtonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
+            type="button"
+            onClick={() => {
+              setRecording(!recording);
+            }}
+          />
+        </div>
+      )
+    <a
+      download="chromogen.test.js"
+      href={file}
+      id="chromogen-download"
+      style={{ display: 'none' }}
+    >
+      Download Test
+    </a>
+    </>
+  );
 };

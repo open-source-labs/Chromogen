@@ -60,19 +60,9 @@ export const hookStyles = { hooksButtonStyle, hooksDivStyle };
   // generateFile will return setHooksFile passing in the URL Blob as an argument (downloadable file)
   // generateFile is used as an onClick function inside hooks ChromogenObserver = meaning that this function is only invoked once download file hass started for user. This keeps performance cost low, since it never interacts with the main application.
 
-export const generateHooksFile = (setHooksFile: Function, storeMap: Map<string, string>): void => {
-  const {
-    state,
-    count,
-  } = ledger;
+export const generateHooksFile = (setHooksFile: Function): void => {
+  const { transaction } = ledger;
 
-  const finalLedger: Ledger<> =
-  // Key-to-Variable name mapping is applied if storeMap has any contents
-    storeMap.size > 0
-    ? {
-      state: state.map((key) => storeMap.get(key) || key),
-      count: count += 1,
-    } : { ...ledger };
 
-  return setHooksFile(URL.createObjectURL(new Blob([output(finalLedger)])));
+  return setHooksFile(URL.createObjectURL(new Blob([output(ledger)])));
 }
