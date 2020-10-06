@@ -1,3 +1,4 @@
+import { Transaction } from './../../../recoil_generator/src/types';
 
 /* eslint-disable */
 //import useState and useReducer from React
@@ -42,13 +43,14 @@ import { Dispatch,BasicStateAction } from '../hooks-types';
 // }
 
 
-export function useState (initialState: any ) {
+export default function useState (initState: any ) {
   //bring in the state property from our ledger, which is of type array
-  const { state } = hooksLedger;
+  const { transactions } = hooksLedger;
 
   //push our the users intial state into our ledger
-  state.push(initialState)
-  const tracker = reactUseState(initialState)
+  transactions.initialState.push(initState)
+  transactions.currState.push(initState)
+  const tracker = reactUseState(initState)
 
   return tracker; // [ state, setState]
  

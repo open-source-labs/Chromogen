@@ -60,27 +60,27 @@ export const hooksChromogenObserver: React.FC<store> = ({ store }) => {
   //   })
 
   // usePrevious custom hook for grabbing the previous state value
-  function usePrevious(value: any) {
-    // useRef will return a mutable ref object with a current property initialized to the current passed in argument. This object will persist for full lifetime of the component
-    const ref = useRef();
-    // Store current value in ref
-    useEffect(() => {
-      ref.current = value;
-    }, [value]); // Only re-run if value changes
+  // function usePrevious(value: any) {
+  //   // useRef will return a mutable ref object with a current property initialized to the current passed in argument. This object will persist for full lifetime of the component
+  //   const ref = useRef();
+  //   // Store current value in ref
+  //   useEffect(() => {
+  //     ref.current = value;
+  //   }, [value]); // Only re-run if value changes
 
-    return ref.current; // Previous value (happens before update in useEffect)
-  }
+  //   return ref.current; // Previous value (happens before update in useEffect)
+  // }
 
-  // useReactTransactionObserver
+  // useEffect to check if tracker[1] was invoked
   const useReactTransactionObserver = (prevState: any, currState: any) => {
     // For [state, setState], when setState is invoked, we want to push the prevState and currState to our transactions state array. Else => nothing is done (void function)
-    if (transactions[state] > 0) {
+    if (tracker[state] > 0) {
       const { transactions } = ledger;
 
       // newState
 
       // prevState
-      prevState = usePrevious()
+      //prevState = usePrevious()
     }
   };
 

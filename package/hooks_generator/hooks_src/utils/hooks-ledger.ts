@@ -1,6 +1,8 @@
+import { Transaction } from '../hooks-types';
 /* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
 import { Ledger } from '../types';
+
 /* eslint-enable */
 
 // Import & add type for ledger later on?
@@ -8,21 +10,14 @@ import { Ledger } from '../types';
 // Ledger will contain state(current, prev), when setState is invoked = count > 0
 
 export const hooksLedger: any {
-  transactions: {
-    initialState: [],
-    prevState: [], 
-    currState: '',
-    setStateCallback: [], 
-    count: 0,
-    
-   }
+  Transaction: []
 };
 
 // *******Logic for tracking previous state and whether setState cb has been invoked*******
 // When user first imports Chromogen into their app: initialState, currState and setStateCallback will update AND intitalState === currState
 //--------
-// After setStateCallback is invoked:
+// After setStateCallback is invoked: which means tracker[0] !== currState
 // 1) Check if there is anything in prevState. If so, delete. 
 // 2) Increase value of count by 1 
 // 3) Push value of currState to prevState
-// 4) Replace currState with newly evaluated result of currState
+// 4) Replace currState with newly evaluated result of currState at tracker[0]
