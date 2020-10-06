@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState } from 'react';
-// import hooksLedger from type
+import { hooksLedger as ledger } from '../utils/hooks-ledger';
+import { renderHook } from '@testing-library/react-hooks'
 /* eslint-enable */
 
 //transaction = how many times setState cb has fired
@@ -22,24 +23,23 @@ import React, { useState } from 'react';
 export function importHooksInitialState(initialStateArray) {
   return initialStateArray.reduce(
     (fullStr: any, initState: any) => `${fullStr}\t${initState},\n`,
-    '',
-  );
+    '' );
 }
 
 //import hooks callback from user's app
-export function importHooksCallback() {
-  //will be function
+export function importHooksCallback(setStateCb) {
+  return setStateCb.reduce((fullStr, cb) => `${fullStr}\t${cb},\n`, '')
 }
 
 //DO WE NEED THIS??
 //import state after initial invokation of setState callback
-export function importHooksUpdatedState(currStateArray) {
-  return currStateArray.reduce(
-    (fullStr, currState) =>
-      `${fullStr}\tconst [${currState}Value, cb${currState}] = useState(${currState});\n`,
-    '',
-  );
-}
+// export function importHooksUpdatedState(currStateArray) {
+//   return currStateArray.reduce(
+//     (fullStr, currState) =>
+//       `${fullStr}\tconst [${currState}Value, cb${currState}] = useState(${currState});\n`,
+//     '',
+//   );
+// }
 
 //import writeable hook from user's app; MIGHT NOT NEED
 export function writeableHook() {
@@ -80,7 +80,7 @@ export function testHooksSetState(useStateCallbackArray) {
        ? `${callbackTests}\tit('${useStateCb[transactions.currState]}__${
          scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
        } should properly update State', () => {
-         \t\tconst { result } = ___________; 
+         \t\tconst { result } = renderHook(() => Transaction[setStateCallback][0]() ); 
 
         \t\t`
        } 
