@@ -20,15 +20,15 @@ import { renderHook } from '@testing-library/react-hooks'
 */
 
 //import hooks initial state from user's app
-export function importHooksInitialState(initialStateArray) {
+export function importHooksInitialState(initialStateArray: any[]) {
   return initialStateArray.reduce(
     (fullStr: any, initState: any) => `${fullStr}\t${initState},\n`,
     '' );
 }
 
 //import hooks callback from user's app
-export function importHooksCallback(setStateCb) {
-  return setStateCb.reduce((fullStr, cb) => `${fullStr}\t${cb},\n`, '')
+export function importHooksCallback(setStateCb: any[]) {
+  return setStateCb.reduce((fullStr: any, cb: any) => `${fullStr}\t${cb},\n`, '')
 }
 
 //DO WE NEED THIS??
@@ -40,6 +40,9 @@ export function importHooksCallback(setStateCb) {
 //     '',
 //   );
 // }
+
+//writeableHook = cb of useState
+//readableHook = state of useState 
 
 //import writeable hook from user's app; MIGHT NOT NEED
 export function writeableHook() {
@@ -62,12 +65,18 @@ Recreate hooks version of testSetters in output-utils.ts
 
 */
 
-export function testHooksSetState(useStateCallbackArray) {
-  return useStateCallbackArray.reduce((callbackTests, { currState, useStateCb }) => {
+const ledgerCurrState = ledger.currState[0];
+const ledgerSetStateCallback = ledger.setStateCallback[0];
+const ledgerInitialState = ledger.initialState[0];
+const ledgerPrevState = ledger.prevState[0];
+
+
+export function testHooksSetState(useStateCallbackArray: any[]) {
+  return useStateCallbackArray.reduce((callbackTests: any, { ledgerCurrState, ledgerSetStateCallback}: any) => {
     //CREATE TEST HERE
 
     //if initial state exists
-    if (transactions.initialState) {
+    if (Transactions[initialState]) {
       const { params } = useStateCb;
 
       let scrubbedParams;
@@ -80,7 +89,7 @@ export function testHooksSetState(useStateCallbackArray) {
        ? `${callbackTests}\tit('${useStateCb[transactions.currState]}__${
          scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
        } should properly update State', () => {
-         \t\tconst { result } = renderHook(() => Transaction[setStateCallback][0]() ); 
+         \t\tconst { result } = renderHook(() => Transaction[setStateCallback][0]()); 
 
         \t\t`
        } 
@@ -104,8 +113,6 @@ export function testHooksSetState(useStateCallbackArray) {
     // check whether setState cb has been fired
     // if fired
     //check whether hook state in ledger has been updated
-  });
-}
 
 // add to ledgers and types: state, initialState, previous state
 
