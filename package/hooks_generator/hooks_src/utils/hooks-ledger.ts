@@ -12,8 +12,17 @@ export const hooksLedger: any {
     initialState: [],
     prevState: [], 
     currState: '',
-    useStateCallback: [], 
+    setStateCallback: [], 
     count: 0,
     
    }
 };
+
+// *******Logic for tracking previous state and whether setState cb has been invoked*******
+// When user first imports Chromogen into their app: initialState, currState and setStateCallback will update AND intitalState === currState
+//--------
+// After setStateCallback is invoked:
+// 1) Check if there is anything in prevState. If so, delete. 
+// 2) Increase value of count by 1 
+// 3) Push value of currState to prevState
+// 4) Replace currState with newly evaluated result of currState
