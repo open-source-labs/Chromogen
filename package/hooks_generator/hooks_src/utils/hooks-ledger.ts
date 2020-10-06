@@ -8,9 +8,13 @@ import { Ledger } from '../types';
 // Ledger will contain state(current, prev), transactions (will fire when setState is invoked; length > 0)
 
 export const hooksLedger: any {
-   transactions: {
-       state: [],
-       count: 0,
+  transactions: {
+    initialState: [],
+    prevState: [], 
+    currState: '',
+    useStateCallback: [], 
+    count: 0,
+    
    }
 };
 

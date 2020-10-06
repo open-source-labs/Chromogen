@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react';
-// import ledger from types
-// import types
+// import hooksLedger from type
 /* eslint-enable */
 
 //transaction = how many times setState cb has fired
@@ -20,8 +19,11 @@ import React, { useState } from 'react';
 */
 
 //import hooks initial state from user's app
-export function importHooksState() {
-  //will be an array
+export function importHooksInitialState(initialStateArray) {
+  return initialStateArray.reduce(
+    (fullStr: any, initState: any) => `${fullStr}\t${initState},\n`,
+    '',
+  );
 }
 
 //import hooks callback from user's app
@@ -29,8 +31,15 @@ export function importHooksCallback() {
   //will be function
 }
 
+//DO WE NEED THIS??
 //import state after initial invokation of setState callback
-export function importHooksUpdatedState() {}
+export function importHooksUpdatedState(currStateArray) {
+  return currStateArray.reduce(
+    (fullStr, currState) =>
+      `${fullStr}\tconst [${currState}Value, cb${currState}] = useState(${currState});\n`,
+    '',
+  );
+}
 
 //import writeable hook from user's app; MIGHT NOT NEED
 export function writeableHook() {
@@ -53,35 +62,52 @@ Recreate hooks version of testSetters in output-utils.ts
 
 */
 
-export function testHooksSetState() {
-  const updatedState;
+export function testHooksSetState(useStateCallbackArray) {
+  return useStateCallbackArray.reduce((callbackTests, { currState, useStateCb }) => {
+    //CREATE TEST HERE
 
-  let scrubbedParams;
-  //stringify params to make sure there are no special characters or empty spaces
+    //if initial state exists
+    if (transactions.initialState) {
+      const { params } = useStateCb;
 
-  //CREATE TEST HERE
+      let scrubbedParams;
+      //stringify params to make sure there are no special characters or empty spaces
+      if (typeof params === 'string') {
+        scrubbedParams = params.replace(/[^\w\s]/gi, '');
+      }
 
-  //if initial state exists
-  //if exists, check whether setState cb exists
-  //if setState cb exists
-  //check whether there is a previous state value in transactions.state
+      return params !== undefined
+       ? `${callbackTests}\tit('${useStateCb[transactions.currState]}__${
+         scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
+       } should properly update State', () => {
+         \t\tconst { result } = ___________; 
 
-  //if initial state doesn't exist
-  //throw error message
-  //-----------------------------------------------
-  //if state has been set
-  // check whether another setState cb has been fired && transactions[state] exists in ledger
-  //if fired, check whether state has changed
+        \t\t`
+       } 
+       return callbackTests;
+      }, '');
+    }
+    //if exists, check whether setState cb exists
+    //if setState cb exists
+    //check whether there is a previous state value in transactions.state
 
-  //if state has not been set
-  // check whether setState cb exists
-  //if setState cb exists
-  // check whether setState cb has been fired
-  // if fired
-  //check whether hook state in ledger has been updated
+    //if initial state doesn't exist
+    //throw error message
+    //-----------------------------------------------
+    //if state has been set
+    // check whether another setState cb has been fired && transactions[state] exists in ledger
+    //if fired, check whether state has changed
+
+    //if state has not been set
+    // check whether setState cb exists
+    //if setState cb exists
+    // check whether setState cb has been fired
+    // if fired
+    //check whether hook state in ledger has been updated
+  });
 }
 
-// add to ledgers and types: state, initialRender, previous state
+// add to ledgers and types: state, initialState, previous state
 
 export function testSetters(setTransactionArray: SetTransaction[]): string {
   return setTransactionArray.reduce((setterTests, { state, setter }) => {
