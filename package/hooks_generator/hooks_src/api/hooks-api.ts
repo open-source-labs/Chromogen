@@ -43,13 +43,15 @@ import { Dispatch,BasicStateAction } from '../hooks-types';
 // }
 
 
-export default function useState (initState: any ) {
+export const useState = (initState: any ) => {
   //bring in the state property from our ledger, which is of type array
   const { transactions } = hooksLedger;
 
   //push our the users intial state into our ledger
   transactions.initialState.push(initState)
   transactions.currState.push(initState)
+
+  // Actual React useState function
   const tracker = reactUseState(initState)
 
   return tracker; // [ state, setState]
