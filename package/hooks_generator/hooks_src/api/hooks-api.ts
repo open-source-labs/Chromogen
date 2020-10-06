@@ -50,8 +50,6 @@ export function useState (initialState: any ) {
   state.push(initialState)
   const tracker = reactUseState(initialState)
 
-  //return out a useReducer function
-  // from react and pass in our trackStateReducer
   return tracker; // [ state, setState]
  
 
