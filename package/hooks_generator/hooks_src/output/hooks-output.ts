@@ -42,7 +42,7 @@ describe('Initial Render', () => {
     const { result } = renderHook(() => ledgerSetStateCallback());
 });
 
-describe('USESTATE', () => {});
+// describe('USESTATE', () => {});
 
 describe('USESTATE CALLBACKS', () => {
   ${testHooksSetState(setStateCallback)}
