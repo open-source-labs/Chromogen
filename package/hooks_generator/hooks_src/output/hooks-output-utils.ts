@@ -18,14 +18,12 @@ import { hooksLedger as ledger } from '../utils/hooks-ledger';
 
 //import hooks state from user's app
 export function importHooksInitialState(stateArray: any[]) {
-  return stateArray.reduce(
-    (fullStr: any, hooksState: any) => `${fullStr}\t${hooksState},\n`,
-    '' );
+  return stateArray.reduce((fullStr: any, hooksState: any) => `${fullStr}\t${hooksState},\n`, '');
 }
 
 //import hooks callback from user's app
 export function importHooksCallback(setStateCb: any[]) {
-  return setStateCb.reduce((fullStr: any, cb: any) => `${fullStr}\t${cb},\n`, '')
+  return setStateCb.reduce((fullStr: any, cb: any) => `${fullStr}\t${cb},\n`, '');
 }
 
 //DO WE NEED THIS??
@@ -39,7 +37,7 @@ export function importHooksCallback(setStateCb: any[]) {
 // }
 
 //writeableHook = cb of useState
-//readableHook = state of useState 
+//readableHook = state of useState
 
 //import writeable hook from user's app; MIGHT NOT NEED
 export function writeableHook() {
@@ -67,9 +65,8 @@ export const ledgerSetStateCallback = ledger.setStateCallback[0];
 export const ledgerInitialState = ledger.initialState[0];
 export const ledgerPrevState = ledger.prevState[0];
 
-
-export function testHooksSetState(useStateCallbackArray: any[] ) {
-  return useStateCallbackArray.reduce((callbackTests: any,  ledgerSetStateCallback: any) => {
+export function testHooksSetState(useStateCallbackArray: any[]) {
+  return useStateCallbackArray.reduce((callbackTests: any, ledgerSetStateCallback: any) => {
     //CREATE TEST HERE
 
     //if initial state exists
@@ -82,35 +79,37 @@ export function testHooksSetState(useStateCallbackArray: any[] ) {
         scrubbedParams = params.replace(/[^\w\s]/gi, '');
       }
 
-      return params !== undefined
-       ? `${callbackTests}\tit('${ledgerCurrState}__${
-         scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
-         } should properly update State', () => {
+      
+      if (params !== undefined) {
+        return `${callbackTests}\tit('${ledgerCurrState}__${
+          scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
+        } should properly update State', () => {
          \t\tconst { result } = renderHook(() => ledgerSetStateCallback()); 
 
         \t\tact(() => { 
           \t\t\tresult.current.state${ledgerCurrState}__${
-              scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
-            }(${JSON.stringify(ledgerSetStateCallback.newValue)});
-          \t\t});`
-       } 
-       return callbackTests;
-      }, '');
+          scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
+        }(${JSON.stringify(ledgerSetStateCallback.newValue)});
+          \t\t});`;
+      }
     }
-    //if exists, check whether setState cb exists
-    //if setState cb exists
-    //check whether there is a previous state value in transactions.state
+    return callbackTests;
+  }, '');
+}
+//if exists, check whether setState cb exists
+//if setState cb exists
+//check whether there is a previous state value in transactions.state
 
-    //if initial state doesn't exist
-    //throw error message
-    //-----------------------------------------------
-    //if state has been set
-    // check whether another setState cb has been fired && transactions[state] exists in ledger
-    //if fired, check whether state has changed
+//if initial state doesn't exist
+//throw error message
+//-----------------------------------------------
+//if state has been set
+// check whether another setState cb has been fired && transactions[state] exists in ledger
+//if fired, check whether state has changed
 
-    //if state has not been set
-    // check whether setState cb exists
-    //if setState cb exists
-    // check whether setState cb has been fired
-    // if fired
-    //check whether hook state in ledger has been updated
+//if state has not been set
+// check whether setState cb exists
+//if setState cb exists
+// check whether setState cb has been fired
+// if fired
+//check whether hook state in ledger has been updated
