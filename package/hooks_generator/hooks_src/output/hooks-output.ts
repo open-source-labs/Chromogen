@@ -11,20 +11,20 @@
 //writeableHook = cb of useState
 //readableHook = state of useState
 
-export const output = ({
-    initialState,
-    prevState,
-    currState,
-    setStateCallback,
-    count,
-} => 
-)
-// import { renderHook } from '@testing-library/react-hooks'
-// import React, { useState } from 'react';
-// import { ${importHooksInitialState}}
+// export const output = ({
+//     initialState,
+//     prevState,
+//     currState,
+//     setStateCallback,
+//     count,
+// } => 
+// )
+// // import { renderHook } from '@testing-library/react-hooks'
+// // import React, { useState } from 'react';
+// // import { ${importHooksInitialState}}
 
-describe('Initial Render', () => {});
+// describe('Initial Render', () => {});
 
-describe('USESTATE', () => {});
+// describe('USESTATE', () => {});
 
-describe('USESTATE CALLBACKS', () => {});
+// describe('USESTATE CALLBACKS', () => {});
