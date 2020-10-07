@@ -1,30 +1,49 @@
 /* eslint-disable */
-// import tpye { Ledger } from '../hook-types.ts';
-// import ____ './hooks-output.ts'
+import type { Ledger } from '../hooks-types';
+import {
+  //   ledgerCurrState,
+  //   ledgerSetStateCallback,
+  //   ledgerInitialState,
+  //   ledgerPrevState,
+  importHooksInitialState,
+  importHooksCallback,
+  testHooksSetState,
+} from './hooks-output-utils';
 
 /* eslint-enable */
+
 /* ----- HELPERS ----- */
 
 /* ----- MAIN ----- */
-//install npm i @tpyes/jest but didn't work??
 
 //writeableHook = cb of useState
 //readableHook = state of useState
 
 export const output = ({
-    initialState,
-    prevState,
-    currState,
-    setStateCallback,
-    count,
-} => 
-)
-// import { renderHook } from '@testing-library/react-hooks'
-// import React, { useState } from 'react';
-// import { ${importHooksInitialState}}
+  initialState,
+  //   prevState,
+  //   currState,
+  setStateCallback,
+}: //   count,
+Ledger): any =>
+  `import { renderHook } from '@testing-library/react-hooks';
+   import React, { useState } from 'react';
+   import { 
+   ${importHooksInitialState(initialState) + importHooksCallback(setStateCallback)}
 
-describe('Initial Render', () => {});
+} from '<ADD COMPONENT STORE FILEPATH>';
 
-describe('USESTATE', () => {});
+// Suppress 'Batcher' warnings from React conflict
+console.error = jest.fn();
 
-describe('USESTATE CALLBACKS', () => {});
+
+
+describe('Initial Render', () => {
+    const { result } = renderHook(() => ledgerSetStateCallback());
+});
+
+// describe('USESTATE', () => {});
+
+describe('USESTATE CALLBACKS', () => {
+  ${testHooksSetState(setStateCallback)}
+});`;
