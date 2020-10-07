@@ -19,7 +19,7 @@ import {
 //writeableHook = cb of useState
 //readableHook = state of useState
 
-export const output = ({
+export const hooksOutput = ({
   initialState,
   //   prevState,
   //   currState,

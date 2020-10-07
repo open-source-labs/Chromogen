@@ -24,11 +24,11 @@ Look into React.createContext and useContext for hook obersver logic */
 
 /* eslint-disable */
 import type { CSSProperties } from 'react';
-import React, { useState, useEffect, useRef } from 'react';
+// import React, { useState, useEffect, useRef } from 'react';
 
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hooksOutput as output } from '../output/hooks-output';
-import { Ledger } from '../types';
+// import { Ledger } from '../types';
 
 /* eslint-enable */
 
@@ -61,7 +61,7 @@ export const hookStyles = { hooksButtonStyle, hooksDivStyle };
   // generateFile is used as an onClick function inside hooks ChromogenObserver = meaning that this function is only invoked once download file hass started for user. This keeps performance cost low, since it never interacts with the main application.
 
 export const generateHooksFile = (setHooksFile: Function): void => {
-  const { transaction } = ledger;
+  // const { transaction } = ledger;
 
 
   return setHooksFile(URL.createObjectURL(new Blob([output(ledger)])));

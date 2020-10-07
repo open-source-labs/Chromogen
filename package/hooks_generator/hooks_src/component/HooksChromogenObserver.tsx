@@ -1,12 +1,14 @@
 /* eslint-disable */
-import React, { useState as reactUseState, useEffect, useRef } from 'react';
+import React, { useState as reactUseState, useEffect } from 'react';
 
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
-import { hooksRecordingState as recordingState } from '../utils/hooks-store';
+// import { hooksRecordingState as recordingState } from '../utils/hooks-store';
 
 import { useState as hooksUseState } from '../api/hooks-api'
 /* eslint-enable */
+
+// const hooksRecordingState = true;
 
 // Export hooksChromogenObserver
 export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) => {
@@ -14,7 +16,7 @@ export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) 
   // File will be string
   const [file, setFile] = reactUseState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
-  const [recording, setRecording] = reactUseState<boolean>(recordingState);
+  const [recording, setRecording] = reactUseState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
 
@@ -30,7 +32,10 @@ export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) 
         generateFile(setFile);
         break;
       case 'toggleRecord':
-        setRecording(!recording);
+        setRecording(() => {
+          if (!recording) return true;
+          return false;
+        });
         window.postMessage({ action: 'setStatus' }, '*');
         break;
       default:
@@ -109,7 +114,10 @@ export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) 
               style={{ ...styles.hooksButtonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
               type="button"
               onClick={() => {
-                setRecording(!recording);
+                setRecording(() => {
+                  if (!recording) return true;
+                  return false;
+                });
               }}
             />
           </div>

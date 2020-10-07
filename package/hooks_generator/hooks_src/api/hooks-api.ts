@@ -39,8 +39,9 @@ import { hooksLedger } from '../utils/hooks-ledger';
 
 // }
 
+// function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
 
-export const useState = (initState: any ) => {
+export function useState<S>(initState: S | (() => S)) {
   //bring in the state property from our ledger, which is of type array
   const { initialState, currState } = hooksLedger;
 

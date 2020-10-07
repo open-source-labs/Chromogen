@@ -23,4 +23,11 @@ export interface Ledger {
   setStateCallback: any[], 
   count: number, //1
 }
+// type Dispatch<A> = (value: A) => void;
+
+
+// type SetStateAction<S> = S | ((prevState: S) => S);
+
+// type useState = <S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
+
 
