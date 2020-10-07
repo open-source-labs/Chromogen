@@ -91,34 +91,38 @@ export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) 
   // Button download: onClick for generateHooksFile
   // Button record: onClick for setRecording
   return (
-      !devtool && (
-        <div style={styles.hooksDivStyle}>
-          <button
-            aria-label="capture test"
-            id="chromogen-generate-file"
-            style={{ ...styles.hooksButtonStyle, backgroundColor: '#12967a' }}
-            type="button"
-            onClick={() => generateFile(setFile, storeMap)}
-          />
-          <button
-            aria-label={recording ? 'pause' : 'record'}
-            id="chromogen-toggle-record"
-            style={{ ...styles.hooksButtonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
-            type="button"
-            onClick={() => {
-              setRecording(!recording);
-            }}
-          />
-        </div>
-      )
-    <a
-      download="chromogen.test.js"
-      href={file}
-      id="chromogen-download"
-      style={{ display: 'none' }}
-    >
-      Download Test
-    </a>
+    <>
+      {
+        // Render button div only if DevTool not connected
+        !devtool && (
+          <div style={styles.hooksDivStyle}>
+            <button
+              aria-label="capture test"
+              id="chromogen-generate-file"
+              style={{ ...styles.hooksButtonStyle, backgroundColor: '#12967a' }}
+              type="button"
+              onClick={() => generateFile(setFile)}
+            />
+            <button
+              aria-label={recording ? 'pause' : 'record'}
+              id="chromogen-toggle-record"
+              style={{ ...styles.hooksButtonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
+              type="button"
+              onClick={() => {
+                setRecording(!recording);
+              }}
+            />
+          </div>
+        )
+      }
+      <a
+        download="chromogen-hooks.test.js"
+        href={file}
+        id="chromogen-hooks-download"
+        style={{ display: 'none' }}
+      >
+        Download Test
+      </a>
     </>
   );
 };
