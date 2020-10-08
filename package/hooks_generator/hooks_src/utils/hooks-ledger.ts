@@ -9,10 +9,10 @@ import { Ledger } from '../hooks-types';
 // Ledger will contain state(current, prev), when setState is invoked = count > 0
 
 export const hooksLedger: Ledger = {
-  initialState: [], //0
-  prevState: [], //0
-  currState: [], // 1
-  setStateCallback: [],
+  initialState: '', //0
+  prevState:'' , //0
+  currState: '', // 1
+  setStateCallback: '',
   count: 0, //1
 };
 

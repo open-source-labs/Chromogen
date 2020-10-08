@@ -60,10 +60,10 @@ Recreate hooks version of testSetters in output-utils.ts
 
 */
 
-export const ledgerCurrState = ledger.currState[0];
-export const ledgerSetStateCallback = ledger.setStateCallback[0];
-export const ledgerInitialState = ledger.initialState[0];
-export const ledgerPrevState = ledger.prevState[0];
+export const ledgerCurrState = ledger.currState;
+export const ledgerSetStateCallback = ledger.setStateCallback;
+export const ledgerInitialState = ledger.initialState;
+export const ledgerPrevState = ledger.prevState;
 
 export function testHooksSetState(useStateCallbackArray: any[]) {
   return useStateCallbackArray.reduce((callbackTests: any, ledgerSetStateCallback: any) => {
