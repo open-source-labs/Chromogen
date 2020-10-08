@@ -20,9 +20,9 @@ export const HooksChromogenObserver: React.FC = () => {
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
 
-const { initialState, currState, setStateCallback } = ledger;
+// const { initialState, currState, setStateCallback } = ledger;
 
-  const [state, setState] = hooksUseState(initialState);
+  const [state, setState] = hooksUseState(ledger.initialState);
 
 
   // DevTool message handling
@@ -78,27 +78,27 @@ const { initialState, currState, setStateCallback } = ledger;
 
     console.log(`this is state and setState`, state, setState)
 
-    currState.push(state)
-    setStateCallback.push(setState)
+    ledger.currState= state
+    ledger.setStateCallback =setState
   
     let setStateTracker = setInterval(() => {
 
-    console.log(`this is initialState`, initialState);
-    console.log(`this is currState`, currState);
-    console.log(`this is setStateCallback`, setStateCallback);
+    console.log(`this is initialState`, ledger.initialState);
+    console.log(`this is currState`, ledger.currState);
+    console.log(`this is setStateCallback`, ledger.setStateCallback);
 
-      if (hooksUseState(initialState)[0]) {
+      if (hooksUseState(ledger.initialState)[0]) {
 
-        if (hooksUseState(initialState)[0] !== ledger.currState) {
+        if (hooksUseState(ledger.initialState)[0] !== ledger.currState) {
 
         // Increment count by 1
         ledger.count += 1;
 
         // Push currState to prevState
-        ledger.prevState.splice(0, ledger.prevState.length - 1, ledger.currState)
+        ledger.prevState = ledger.currState;
 
         // Replace currState with value at tracker[0] (user input)
-        ledger.currState.splice(0, ledger.currState.length - 1, hooksUseState(initialState))
+        ledger.currState = hooksUseState(ledger.initialState)
 
         // Stop interval
         clearInterval(setStateTracker);

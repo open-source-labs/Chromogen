@@ -19,7 +19,7 @@
 //import { dummyParam } from '../utils/hooks-utils';
 
 //We need ledger to store information the developer passes into useState and setState
-import { hooksLedger } from '../utils/hooks-ledger';
+import { hooksLedger as ledger } from '../utils/hooks-ledger';
 
 
 //function that user imports
@@ -43,12 +43,12 @@ import { hooksLedger } from '../utils/hooks-ledger';
 
 export function useState<S>(initState: S | (() => S)) {
   //bring in the state property from our ledger, which is of type array
-  const { initialState, currState, setStateCallback } = hooksLedger;
+  const { currState, setStateCallback } = ledger;
 
   // const [state, setState] = reactUseState(initState)
 
   //push our the users intial state into our ledger
-  initialState.push(initState)
+  ledger.initialState = initState
   // currState.push(state)
   // setStateCallback.push(setState)
 
@@ -61,9 +61,10 @@ setTimeout (() => {
   // Return currState, callback SHOULD BE LAST
   return [currState, setStateCallback];
 }, 1000)
-  
- 
-return initialState;
 
+
+console.log(`ledger.initialState api`, ledger.initialState)
+
+  return ledger.initialState
 
 }
