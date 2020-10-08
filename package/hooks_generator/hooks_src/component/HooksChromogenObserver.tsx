@@ -11,7 +11,7 @@ import { useState as hooksUseState } from '../api/hooks-api'
 // const hooksRecordingState = true;
 
 // Export hooksChromogenObserver
-export const HooksChromogenObserver: React.FC<{initState?: any}> = ({initState}) => {
+export const HooksChromogenObserver: React.FC = () => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   // File will be string
   const [file, setFile] = reactUseState<undefined | string>(undefined);
@@ -19,6 +19,11 @@ export const HooksChromogenObserver: React.FC<{initState?: any}> = ({initState})
   const [recording, setRecording] = reactUseState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
+
+const { initialState, currState, setStateCallback } = ledger;
+
+  const [state, setState] = hooksUseState(initialState);
+
 
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
@@ -68,21 +73,32 @@ export const HooksChromogenObserver: React.FC<{initState?: any}> = ({initState})
 
   // useEffect to check if tracker[1] was invoked
   useEffect(() => {
+    
     // For tracker ([state, setState]), write setInterval to check when tracker[0] !== currState (setState is invoked). Stop setInterval once this condition is truthy.
+
+    console.log(`this is state and setState`, state, setState)
+
+    currState.push(state)
+    setStateCallback.push(setState)
+  
     let setStateTracker = setInterval(() => {
 
-      if (hooksUseState(initState)[0]) {
+    console.log(`this is initialState`, initialState);
+    console.log(`this is currState`, currState);
+    console.log(`this is setStateCallback`, setStateCallback);
 
-        if (hooksUseState(initState)[0] !== ledger.currState) {
+      if (hooksUseState(initialState)[0]) {
+
+        if (hooksUseState(initialState)[0] !== ledger.currState) {
 
         // Increment count by 1
         ledger.count += 1;
 
         // Push currState to prevState
-        ledger.prevState.splice(0, 1, ledger.currState)
+        ledger.prevState.splice(0, ledger.prevState.length - 1, ledger.currState)
 
         // Replace currState with value at tracker[0] (user input)
-        ledger.currState.splice(0, 1, hooksUseState(initState))
+        ledger.currState.splice(0, ledger.currState.length - 1, hooksUseState(initialState))
 
         // Stop interval
         clearInterval(setStateTracker);
