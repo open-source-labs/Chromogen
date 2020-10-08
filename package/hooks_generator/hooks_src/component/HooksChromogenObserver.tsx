@@ -11,7 +11,7 @@ import { useState as hooksUseState } from '../api/hooks-api'
 // const hooksRecordingState = true;
 
 // Export hooksChromogenObserver
-export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) => {
+export const HooksChromogenObserver: React.FC<{initState?: any}> = ({initState}) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   // File will be string
   const [file, setFile] = reactUseState<undefined | string>(undefined);
@@ -51,7 +51,7 @@ export const hooksChromogenObserver: React.FC<{initState: any}> = ({initState}) 
   });
 
   // Auto-click download link when a new file is generated (via button click)
-  useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
+  useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [file]);
 
   // usePrevious custom hook for grabbing the previous state value
   // function usePrevious(value: any) {
