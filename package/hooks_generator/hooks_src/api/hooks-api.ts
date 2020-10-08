@@ -10,7 +10,7 @@
 
 */
 //Used to grab useState from the React APi
-import { useState as reactUseState }  from 'react';
+// import { useState as reactUseState }  from 'react';
 
 //A function that takes in useState params and pushes them to our ledger, then returns 
 //import { trackStateReducer } from './hooks-core-utils';
@@ -43,18 +43,27 @@ import { hooksLedger } from '../utils/hooks-ledger';
 
 export function useState<S>(initState: S | (() => S)) {
   //bring in the state property from our ledger, which is of type array
-  const { initialState, currState } = hooksLedger;
+  const { initialState, currState, setStateCallback } = hooksLedger;
+
+  // const [state, setState] = reactUseState(initState)
 
   //push our the users intial state into our ledger
   initialState.push(initState)
-  currState.push(initState)
+  // currState.push(state)
+  // setStateCallback.push(setState)
 
   // Actual React useState function
-  const tracker = reactUseState(initState)
 
-  return tracker; // [ state, setState]
+//HooksChromogenObserver needs to update ledger before return
+setTimeout (() => {
+  console.log('wait for updated ledger');
+  
+  // Return currState, callback SHOULD BE LAST
+  return [currState, setStateCallback];
+}, 1000)
+  
  
-
+return initialState;
 
 
 }
