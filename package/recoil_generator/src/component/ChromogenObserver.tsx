@@ -12,6 +12,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { styled } from '@material-ui/core/styles';
+import Record from './Record'
 /* eslint-enable */
 
 export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
@@ -150,30 +151,39 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
     },
   });
 
+
+
+
+
   return (
     <>
       {
         // Render button div only if DevTool not connected
         !devtool && (
-          <div style={styles.divStyle}>
-            <button
-              aria-label={recording ? 'pause' : 'record'}
-              id="chromogen-toggle-record"
-              style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f' }}
-              type="button"
-              onClick={() => {
-                setRecording(!recording);
-              }}
-              >{recording ? <MyPauseIcon/> : <MyPlayArrowIcon/> }
-            </button>
-            <button
-              aria-label="capture test"
-              id="chromogen-generate-file"
-              style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f', marginLeft: '-2px', marginRight: '13px' }}
-              type="button"
-              onClick={() => generateFile(setFile, storeMap)}
-              ><MyGetAppIcon/>
-            </button>
+          <div>
+            {recording ? <Record/> : <div></div>}
+            {/* <Record/> */}
+            <div style={styles.divStyle}>
+              <button
+                aria-label={recording ? 'pause' : 'record'}
+                id="chromogen-toggle-record"
+                style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f' }}
+                type="button"
+                onClick={() => {
+                  setRecording(!recording);
+                }}
+                >{recording ? <MyPauseIcon/> : <MyPlayArrowIcon/>}
+              </button>
+              <button
+                aria-label="capture test"
+                id="chromogen-generate-file"
+                style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f', marginLeft: '-2px', marginRight: '13px' }}
+                type="button"
+                onClick={() => generateFile(setFile, storeMap)}
+                ><MyGetAppIcon/>
+              </button>
+            </div>
+
           </div>
         )
       }
