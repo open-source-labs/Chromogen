@@ -57,8 +57,7 @@
     "react-dom": "^16.13.1",
     "react-keyframes": "^0.2.3",
     "react-recoil-hooks-testing-library": "0.0.8",
-    "recoil": "0.0.13",
-    "styled-components": "^5.2.0"
+    "recoil": "0.0.13"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

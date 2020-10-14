@@ -31,7 +31,22 @@ const divStyle: CSSProperties = {
   padding: 0,
   zIndex: 999999,
 };
-export const styles = { buttonStyle, divStyle };
+
+const recordStyle: CSSProperties = {
+  margin: '0px',
+  fontSize: '12px',
+  display: 'flex',
+  width: '95px',
+  color: 'white',
+  padding: '4px',
+  position: 'fixed',
+  borderRadius: '2px',
+  // border: '2px solid #7fe5f0',
+  flexDirection: 'row',
+  backgroundColor: '#7f7f7f'
+};
+
+export const styles = { buttonStyle, divStyle, recordStyle };
 
 /**
  * onclick function that generates test file & sets download URL
