@@ -50,8 +50,12 @@
     "typescript": ">=3.8.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "^4.10.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-keyframes": "^0.2.3",
     "react-recoil-hooks-testing-library": "0.0.8",
     "recoil": "0.0.13"
   },
