@@ -57,13 +57,12 @@ export function readableHook() {
 /*
 Recreate hooks version of testSetters in output-utils.ts 
     //test for variable user passes into setState of useState and make sure state is updating 
-
 */
 
-export const ledgerCurrState = ledger.currState;
-export const ledgerSetStateCallback = ledger.setStateCallback;
-export const ledgerInitialState = ledger.initialState;
-export const ledgerPrevState = ledger.prevState;
+export const ledgerCurrState = ledger.currState[0];
+export const ledgerSetStateCallback = ledger.setStateCallback[0];
+export const ledgerInitialState = ledger.initialState[0];
+export const ledgerPrevState = ledger.prevState[0];
 
 export function testHooksSetState(useStateCallbackArray: any[]) {
   return useStateCallbackArray.reduce((callbackTests: any, ledgerSetStateCallback: any) => {
@@ -85,7 +84,6 @@ export function testHooksSetState(useStateCallbackArray: any[]) {
           scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
         } should properly update State', () => {
          \t\tconst { result } = renderHook(() => ledgerSetStateCallback()); 
-
         \t\tact(() => { 
           \t\t\tresult.current.state${ledgerCurrState}__${
           scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)

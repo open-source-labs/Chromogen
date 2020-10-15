@@ -17,10 +17,10 @@ export all types and interfaces
 // export type Dispatch<A> = A => void;
 
 export interface Ledger {
-  initialState: any, //0
-  prevState: any, //0
-  currState: any, // 1
-  setStateCallback: any, 
+  initialState: any[], //0
+  prevState: any[], //0
+  currState: any[], // 1
+  setStateCallback: any[], 
   count: number, //1
 }
 // type Dispatch<A> = (value: A) => void;
@@ -29,5 +29,3 @@ export interface Ledger {
 // type SetStateAction<S> = S | ((prevState: S) => S);
 
 // type useState = <S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
-
-

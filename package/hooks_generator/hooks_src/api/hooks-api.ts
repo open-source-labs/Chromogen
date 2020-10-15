@@ -3,11 +3,9 @@
 //export useState and useReducer as chromogen components
 
 /* useState
-
 1. import useState from react
 2. if transactions = 0 (or similar logic), push first parameter of useState into state ledger(current), transactions > 0, run function
 3. Track setState (second parameter of useState) function body
-
 */
 //Used to grab useState from the React APi
 // import { useState as reactUseState }  from 'react';
@@ -19,7 +17,7 @@
 //import { dummyParam } from '../utils/hooks-utils';
 
 //We need ledger to store information the developer passes into useState and setState
-import { hooksLedger as ledger } from '../utils/hooks-ledger';
+import { hooksLedger } from '../utils/hooks-ledger';
 
 
 //function that user imports
@@ -43,12 +41,12 @@ import { hooksLedger as ledger } from '../utils/hooks-ledger';
 
 export function useState<S>(initState: S | (() => S)) {
   //bring in the state property from our ledger, which is of type array
-  const { currState, setStateCallback } = ledger;
+  const { initialState, currState, setStateCallback } = hooksLedger;
 
   // const [state, setState] = reactUseState(initState)
 
   //push our the users intial state into our ledger
-  ledger.initialState = initState
+  initialState.push(initState)
   // currState.push(state)
   // setStateCallback.push(setState)
 
@@ -61,10 +59,9 @@ setTimeout (() => {
   // Return currState, callback SHOULD BE LAST
   return [currState, setStateCallback];
 }, 1000)
+  
+ 
+return initialState;
 
-
-console.log(`ledger.initialState api`, ledger.initialState)
-
-  return ledger.initialState
 
 }

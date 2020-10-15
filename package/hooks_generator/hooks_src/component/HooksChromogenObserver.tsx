@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState as reactUseState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
@@ -14,16 +14,11 @@ import { useState as hooksUseState } from '../api/hooks-api'
 export const HooksChromogenObserver: React.FC = () => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   // File will be string
-  const [file, setFile] = reactUseState<undefined | string>(undefined);
+  const [file, setFile] = useState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
-  const [recording, setRecording] = reactUseState(true);
+  const [recording, setRecording] = useState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
-  const [devtool, setDevtool] = reactUseState<boolean>(false);
-
-// const { initialState, currState, setStateCallback } = ledger;
-
-  const [state, setState] = hooksUseState(ledger.initialState);
-
+  const [devtool, setDevtool] = useState<boolean>(false);
 
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
@@ -73,32 +68,22 @@ export const HooksChromogenObserver: React.FC = () => {
 
   // useEffect to check if tracker[1] was invoked
   useEffect(() => {
-    
+    const {initialState} = ledger
     // For tracker ([state, setState]), write setInterval to check when tracker[0] !== currState (setState is invoked). Stop setInterval once this condition is truthy.
-
-    console.log(`this is state and setState`, state, setState)
-
-    ledger.currState= state
-    ledger.setStateCallback =setState
-  
     let setStateTracker = setInterval(() => {
 
-    console.log(`this is initialState`, ledger.initialState);
-    console.log(`this is currState`, ledger.currState);
-    console.log(`this is setStateCallback`, ledger.setStateCallback);
+      if (hooksUseState(initialState)[0]) {
 
-      if (hooksUseState(ledger.initialState)[0]) {
-
-        if (hooksUseState(ledger.initialState)[0] !== ledger.currState) {
+        if (hooksUseState(initialState)[0] !== ledger.currState) {
 
         // Increment count by 1
         ledger.count += 1;
 
         // Push currState to prevState
-        ledger.prevState = ledger.currState;
+        ledger.prevState.splice(0, 1, ledger.currState)
 
         // Replace currState with value at tracker[0] (user input)
-        ledger.currState = hooksUseState(ledger.initialState)
+        ledger.currState.splice(0, 1, hooksUseState(initialState))
 
         // Stop interval
         clearInterval(setStateTracker);
