@@ -14,12 +14,15 @@ const buttonStyle: CSSProperties = {
   marginLeft: '13px',
   padding: '0px',
   height: '25px',
-  width: '30px',
+  width: '65px',
   borderRadius: '4px',
   justifyContent: 'space-evenly',
   border: '1px',
   cursor: 'pointer',
+  color:'#90d1f0',
+  fontSize: '12px',
 };
+
 const divStyle: CSSProperties = {
   display: 'flex',
   position: 'absolute',
@@ -41,7 +44,6 @@ const recordStyle: CSSProperties = {
   padding: '4px',
   position: 'fixed',
   borderRadius: '2px',
-  // border: '2px solid #7fe5f0',
   flexDirection: 'row',
   backgroundColor: '#7f7f7f'
 };
