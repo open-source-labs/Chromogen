@@ -140,7 +140,9 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 onClick={() => {
                   setRecording(!recording);
                 }}
-                >{ recording ? 'Pause' : 'Play' }
+                onMouseEnter={() => document.getElementById("chromogen-toggle-record")!.style.color = '#f6f071'}
+                onMouseLeave={() => document.getElementById("chromogen-toggle-record")!.style.color = '#90d1f0'}
+                ><a>{ recording ? 'Pause' : 'Play' }</a>
               </button>
               <button
                 aria-label="capture test"
@@ -148,7 +150,9 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f', marginLeft: '-2px', marginRight: '13px' }}
                 type="button"
                 onClick={() => generateFile(setFile, storeMap)}
-                >{'Download'}
+                onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
+                onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
+                ><a>{'Download'}</a>
               </button>
             </div>
           </div>
