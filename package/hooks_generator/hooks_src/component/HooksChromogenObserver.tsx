@@ -118,13 +118,6 @@ const { initialState, currState, setStateCallback } = ledger;
         !devtool && (
           <div style={styles.hooksDivStyle}>
             <button
-              aria-label="capture test"
-              id="chromogen-generate-file"
-              style={{ ...styles.hooksButtonStyle, backgroundColor: '#12967a' }}
-              type="button"
-              onClick={() => generateFile(setFile)}
-            />
-            <button
               aria-label={recording ? 'pause' : 'record'}
               id="chromogen-toggle-record"
               style={{ ...styles.hooksButtonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
@@ -135,7 +128,20 @@ const { initialState, currState, setStateCallback } = ledger;
                   return false;
                 });
               }}
-            />
+              onMouseEnter={() => document.getElementById("chromogen-toggle-record")!.style.color = '#f6f071'}
+              onMouseLeave={() => document.getElementById("chromogen-toggle-record")!.style.color = '#90d1f0'}
+            ><a>{ recording ? 'Pause' : 'Play' }</a>
+            </button>
+            <button
+              aria-label="capture test"
+              id="chromogen-generate-file"
+              style={{ ...styles.hooksButtonStyle, backgroundColor: '#12967a' }}
+              type="button"
+              onClick={() => generateFile(setFile)}
+              onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
+              onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
+            ><a>{'Download'}</a>
+            </button>
           </div>
         )
       }

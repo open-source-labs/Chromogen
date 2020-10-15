@@ -130,7 +130,6 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
         !devtool && (
           <div>
             {recording ? <Record/> : <div></div>}
-            {/* <Record/> */}
             <div style={styles.divStyle}>
               <button
                 aria-label={recording ? 'pause' : 'record'}
