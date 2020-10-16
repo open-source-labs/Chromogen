@@ -1,17 +1,29 @@
 /* eslint-disable */
-import React, { useState as reactUseState, useEffect } from 'react';
-
-import { hooksLedger as ledger } from '../utils/hooks-ledger';
+import React, { useState as reactUseState, ReducerAction, Reducer, useMemo, useEffect } from 'react';
+import { createStore } from "redux"
+import { EnhancedStore, StateInspectorContext } from "../utils/hooks-store"
+//import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
 // import { hooksRecordingState as recordingState } from '../utils/hooks-store';
 
-import { useState as hooksUseState } from '../api/hooks-api'
+//import { useState as hooksUseState } from '../api/hooks-api'
 /* eslint-enable */
 
 // const hooksRecordingState = true;
+interface StateInspectorProps {
+  name?: string
+  initialState?: any
+}
 
+interface StoreReducerAction {
+  type: string
+  payload: any
+}
 // Export hooksChromogenObserver
-export const HooksChromogenObserver: React.FC = () => {
+export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
+  initialState = {},
+   children
+}) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   // File will be string
   const [file, setFile] = reactUseState<undefined | string>(undefined);
@@ -19,10 +31,6 @@ export const HooksChromogenObserver: React.FC = () => {
   const [recording, setRecording] = reactUseState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
-
-const { initialState, currState, setStateCallback } = ledger;
-
-  const [state, setState] = hooksUseState(initialState);
 
 
   // DevTool message handling
@@ -72,58 +80,96 @@ const { initialState, currState, setStateCallback } = ledger;
 
 
   // useEffect to check if tracker[1] was invoked
-  useEffect(() => {
-    
-    // For tracker ([state, setState]), write setInterval to check when tracker[0] !== currState (setState is invoked). Stop setInterval once this condition is truthy.
-
-    console.log(`this is state and setState`, state, setState)
-
-    currState.push(state)
-    setStateCallback.push(setState)
   
-    let setStateTracker = setInterval(() => {
-
-    console.log(`this is initialState`, initialState);
-    console.log(`this is currState`, currState);
-    console.log(`this is setStateCallback`, setStateCallback);
-
-      if (hooksUseState(initialState)[0]) {
-
-        if (hooksUseState(initialState)[0] !== ledger.currState) {
-
-        // Increment count by 1
-        ledger.count += 1;
-
-        // Push currState to prevState
-        ledger.prevState.splice(0, ledger.prevState.length - 1, ledger.currState)
-
-        // Replace currState with value at tracker[0] (user input)
-        ledger.currState.splice(0, ledger.currState.length - 1, hooksUseState(initialState))
-
-        // Stop interval
-        clearInterval(setStateTracker);
+  
+  const omit = (obj: Record<string, any>, keyToRemove: string) =>
+    Object.keys(obj)
+      .filter(key => key !== keyToRemove)
+      .reduce<Record<string, any>>((acc, key) => {
+        acc[key] = obj[key]
+  
+        return acc
+      }, {})
+  
+  
+    const store = useMemo<EnhancedStore | undefined>(() => {
+      if (typeof window === "undefined") {
+        return undefined
       }
+  
+      const registeredReducers: Record<
+        string | number,
+        Reducer<any, ReducerAction<any>>
+      > = {}
+  
+      const storeReducer: Reducer<any, StoreReducerAction> = (state, action) => {
+        const actionReducerId = action.type.split("/")[0]
+        const isInitAction = /\/_init$/.test(action.type)
+        const isTeardownAction = /\/_teardown$/.test(action.type)
+  
+        const currentState = isTeardownAction
+          ? omit(state, actionReducerId)
+          : { ...state }
+  
+        return Object.keys(registeredReducers).reduce((acc, reducerId) => {
+          const reducer = registeredReducers[reducerId]
+          const reducerState = state[reducerId]
+          const reducerAction = action.payload
+          const isForCurrentReducer = actionReducerId === reducerId
+  
+          if (isForCurrentReducer) {
+            acc[reducerId] = isInitAction
+              ? action.payload
+              : reducer(reducerState, reducerAction)
+          } else {
+            acc[reducerId] = reducerState
+          }
+  
+          return acc
+        }, currentState)
       }
-      
-    }, 1000);
-  });
-
+  
+      const store: EnhancedStore = createStore(
+        storeReducer,
+        initialState
+      )
+  
+      store.registerHookedReducer = (reducer, initialState, reducerId) => {
+        registeredReducers[reducerId] = reducer
+  
+        store.dispatch({
+          type: `${reducerId}/_init`,
+          payload: initialState
+        })
+  
+        return () => {
+          delete registeredReducers[reducerId]
+  
+          store.dispatch({
+            type: `${reducerId}/_teardown`
+          })
+        }
+      }
+  
+      return store
+    }, [])
+  
+    useEffect(() => {
+      store && store.dispatch({ type: "REINSPECT/@@INIT", payload: {} })
+    }, [])
+  
+  
   // User imports hooksChromogenObserver to their app
   // Button download: onClick for generateHooksFile
   // Button record: onClick for setRecording
   return (
     <>
       {
-        // Render button div only if DevTool not connected
+        
         !devtool && (
+          <StateInspectorContext.Provider value={store}>
+          {children}
           <div style={styles.hooksDivStyle}>
-            <button
-              aria-label="capture test"
-              id="chromogen-generate-file"
-              style={{ ...styles.hooksButtonStyle, backgroundColor: '#12967a' }}
-              type="button"
-              onClick={() => generateFile(setFile)}
-            />
             <button
               aria-label={recording ? 'pause' : 'record'}
               id="chromogen-toggle-record"
@@ -135,8 +181,22 @@ const { initialState, currState, setStateCallback } = ledger;
                   return false;
                 });
               }}
-            />
+              onMouseEnter={() => document.getElementById("chromogen-toggle-record")!.style.color = '#f6f071'}
+              onMouseLeave={() => document.getElementById("chromogen-toggle-record")!.style.color = '#90d1f0'}
+            ><a>{ recording ? 'Pause' : 'Play' }</a>
+            </button>
+            <button
+              aria-label="capture test"
+              id="chromogen-generate-file"
+              style={{ ...styles.hooksButtonStyle, backgroundColor: '#12967a' }}
+              type="button"
+              onClick={() => generateFile(setFile)}
+              onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
+              onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
+            ><a>{'Download'}</a>
+            </button>
           </div>
+          </StateInspectorContext.Provider>
         )
       }
       <a
@@ -147,6 +207,7 @@ const { initialState, currState, setStateCallback } = ledger;
       >
         Download Test
       </a>
+      
     </>
   );
 };
