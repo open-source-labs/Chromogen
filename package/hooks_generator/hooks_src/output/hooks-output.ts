@@ -1,14 +1,6 @@
 /* eslint-disable */
-import type { Ledger } from '../hooks-types';
-import {
-  //   ledgerCurrState,
-  //   ledgerSetStateCallback,
-  //   ledgerInitialState,
-  //   ledgerPrevState,
-  importHooksInitialState,
-  importHooksCallback,
-  testHooksSetState,
-} from './hooks-output-utils';
+import { Ledger } from '../utils/hooks-ledger';
+import { importHooksInitialState } from './hooks-output-utils';
 
 /* eslint-enable */
 
@@ -21,15 +13,13 @@ import {
 
 export const hooksOutput = ({
   initialState,
-  //   prevState,
-  //   currState,
-  setStateCallback,
-}: //   count,
+}: //currState,
+//   count,
 Ledger): any =>
   `import { renderHook } from '@testing-library/react-hooks';
    import React, { useState } from 'react';
    import { 
-   ${importHooksInitialState(initialState) + importHooksCallback(setStateCallback)}
+   ${importHooksInitialState(initialState)}
 
 } from '<ADD COMPONENT STORE FILEPATH>';
 
@@ -39,11 +29,10 @@ console.error = jest.fn();
 
 
 describe('Initial Render', () => {
-    const { result } = renderHook(() => ledgerSetStateCallback());
+    const { result } = renderHook(() => storeSetStateCallback());
 });
 
 // describe('USESTATE', () => {});
 
 describe('USESTATE CALLBACKS', () => {
-  ${testHooksSetState(setStateCallback)}
 });`;

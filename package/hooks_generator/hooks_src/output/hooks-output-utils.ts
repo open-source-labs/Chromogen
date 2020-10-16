@@ -3,8 +3,8 @@
 //import { hooksLedger as ledger } from '../utils/hooks-ledger';
 // import { renderHook } from '@testing-library/react-hooks'
 /* eslint-enable */
-import { Store } from 'redux';
-import { EnhancedStore, StateInspectorContext } from '../utils/hooks-store';
+// import { Store } from 'redux';
+// import { EnhancedStore, StateInspectorContext } from '../utils/hooks-store';
 
 //transaction = how many times setState cb has fired
 
@@ -19,10 +19,11 @@ import { EnhancedStore, StateInspectorContext } from '../utils/hooks-store';
 */
 
 //import hooks state from user's app
-export function importHooksInitialState(stateArray: any[]) {
+export function importHooksInitialState(stateArray: any) {
   return stateArray.reduce((fullStr: any, hooksState: any) => `${fullStr}\t${hooksState},\n`, '');
 }
 
+/*
 //import hooks callback from user's app
 export function importHooksCallback(setStateCb: any[]) {
   return setStateCb.reduce((fullStr: any, cb: any) => `${fullStr}\t${cb},\n`, '');
@@ -62,14 +63,11 @@ Recreate hooks version of testSetters in output-utils.ts
 
 */
 
-// exmaple function to update previousValue 
+// exmaple function to update previousValue
 
+// export const storeInitialState = store.getState()[reducerId];
 
-
-
-export const storeSetStateCallback = .reducer;
-export const storeInitialState = store.getState()[reducerId]
-
+/*
 export function testHooksSetState(useStateCallbackArray: any[]) {
   return useStateCallbackArray.reduce((callbackTests: any, ledgerSetStateCallback: any) => {
     //CREATE TEST HERE
@@ -117,3 +115,4 @@ export function testHooksSetState(useStateCallbackArray: any[]) {
 // check whether setState cb has been fired
 // if fired
 //check whether hook state in ledger has been updated
+*/

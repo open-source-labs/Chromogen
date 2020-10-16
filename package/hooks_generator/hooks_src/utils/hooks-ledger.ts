@@ -1,19 +1,19 @@
 /* eslint-disable */
 // import React, { useState, useEffect, useRef } from 'react';
-import { Ledger } from '../hooks-types';
+// import { Ledger } from '../hooks-types';
 
 /* eslint-enable */
 
-// Import & add type for ledger later on?
-
-// Ledger will contain state(current, prev), when setState is invoked = count > 0
-
+export interface Ledger {
+  state: any;
+  initialState: any;
+  currState: any;
+}
+//storing initialState, currState, and prevState but through the store
 export const hooksLedger: Ledger = {
-  initialState: '', //0
-  prevState:'' , //0
-  currState: '', // 1
-  setStateCallback: '',
-  count: 0, //1
+  state: [],
+  initialState: '',
+  currState: '',
 };
 
 // *******Logic for tracking previous state and whether setState cb has been invoked*******
