@@ -19,7 +19,7 @@
 //import { dummyParam } from '../utils/hooks-utils';
 
 //We need ledger to store information the developer passes into useState and setState
-import { hooksLedger } from '../utils/hooks-ledger';
+//import { hooksLedger } from '../utils/hooks-ledger';
 
 
 //function that user imports
@@ -39,31 +39,77 @@ import { hooksLedger } from '../utils/hooks-ledger';
 
 // }
 
-// function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
+/* USESTATE WITH HOOKS LEDGER
+// export function useState<S>(initState: S | (() => S)) {
+//   //bring in the state property from our ledger, which is of type array
+//   const { initialState, currState, setStateCallback } = hooksLedger;
 
-export function useState<S>(initState: S | (() => S)) {
-  //bring in the state property from our ledger, which is of type array
-  const { initialState, currState, setStateCallback } = hooksLedger;
+//   // const [state, setState] = reactUseState(initState)
 
-  // const [state, setState] = reactUseState(initState)
+//   //push our the users intial state into our ledger
+//   initialState.push(initState)
+//   // currState.push(state)
+//   // setStateCallback.push(setState)
 
-  //push our the users intial state into our ledger
-  initialState.push(initState)
-  // currState.push(state)
-  // setStateCallback.push(setState)
+//   // Actual React useState function
 
-  // Actual React useState function
-
-//HooksChromogenObserver needs to update ledger before return
-setTimeout (() => {
-  console.log('wait for updated ledger');
+// //HooksChromogenObserver needs to update ledger before return
+// setTimeout (() => {
+//   console.log('wait for updated ledger');
   
-  // Return currState, callback SHOULD BE LAST
-  return [currState, setStateCallback];
-}, 1000)
+//   // Return currState, callback SHOULD BE LAST
+//   return [currState, setStateCallback];
+// }, 1000)
   
  
-return initialState;
+// return initialState;
 
 
+// }
+
+/*USESTATE WITH STORE*/
+
+import { useHookedReducer } from "./hooks-core-utils"
+import { useMemo, useContext, useState as useReactState } from "react"
+import { EnhancedStore, StateInspectorContext } from "../utils/hooks-store"
+
+type StateAction<S> = S | ((s: S) => S)
+
+function stateReducer<S>(state: S, action: StateAction<S>): S {
+  return typeof action === "function" ? (action as (s: S) => S)(state) : action
 }
+
+export const useState = <S>(
+  initialState: S | (() => S),
+  id: string | number
+) => {
+  const inspectorStore = useContext(StateInspectorContext)
+  // Keeping the first values
+  const [store, reducerId] = useMemo<
+    [EnhancedStore | undefined, string | number]
+  >(() => [inspectorStore, id], [])
+
+  if (!store || !reducerId) {
+    return useReactState<S>(initialState)
+  }
+
+  const finalInitialState = useMemo<S>(
+    () =>
+      typeof initialState === "function"
+        ? (initialState as () => S)()
+        : initialState,
+    []
+  )
+
+  return useHookedReducer<S, any>(
+    //returned from line 78
+    stateReducer,
+    //returned from line 96
+    finalInitialState,
+    //created in utils/store.ts
+    store,
+    //key in store
+    reducerId
+  )
+}
+
