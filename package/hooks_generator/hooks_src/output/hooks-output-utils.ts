@@ -1,8 +1,10 @@
 /* eslint-disable */
 // import React, { useState } from 'react';
-import { hooksLedger as ledger } from '../utils/hooks-ledger';
+//import { hooksLedger as ledger } from '../utils/hooks-ledger';
 // import { renderHook } from '@testing-library/react-hooks'
 /* eslint-enable */
+import { Store } from 'redux';
+import { EnhancedStore, StateInspectorContext } from '../utils/hooks-store';
 
 //transaction = how many times setState cb has fired
 
@@ -60,10 +62,13 @@ Recreate hooks version of testSetters in output-utils.ts
 
 */
 
-export const ledgerCurrState = ledger.currState;
-export const ledgerSetStateCallback = ledger.setStateCallback;
-export const ledgerInitialState = ledger.initialState;
-export const ledgerPrevState = ledger.prevState;
+// exmaple function to update previousValue 
+
+
+
+
+export const storeSetStateCallback = .reducer;
+export const storeInitialState = store.getState()[reducerId]
 
 export function testHooksSetState(useStateCallbackArray: any[]) {
   return useStateCallbackArray.reduce((callbackTests: any, ledgerSetStateCallback: any) => {
@@ -79,7 +84,6 @@ export function testHooksSetState(useStateCallbackArray: any[]) {
         scrubbedParams = params.replace(/[^\w\s]/gi, '');
       }
 
-      
       if (params !== undefined) {
         return `${callbackTests}\tit('${ledgerCurrState}__${
           scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)

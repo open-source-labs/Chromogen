@@ -36,6 +36,8 @@ import {
 import { EnhancedStore } from "../utils/hooks-store"
 
 
+
+
 export function useHookedReducer<S, A>(
   reducer: Reducer<S, A>,
   initialState: S,
@@ -49,7 +51,12 @@ export function useHookedReducer<S, A>(
       : initialStateInStore
   }, [])
 
+    let currentValue;
+
   const [localState, setState] = useState<S>(initialReducerState)
+
+
+
 
   const dispatch = useMemo<Dispatch<A>>(() => {
     const dispatch = (action: any) => {
@@ -58,10 +65,14 @@ export function useHookedReducer<S, A>(
         typeof action === "object" &&
         typeof action.type === "string"
       ) {
+        
+        store.subscribe(() => );
         store.dispatch({
           type: `${reducerId}/${action.type}`,
           payload: action
         })
+
+
       } else {
         store.dispatch({
           type: reducerId,
