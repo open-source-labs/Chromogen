@@ -10,7 +10,7 @@
 //Used to grab useState from the React APi
 // import { useState as reactUseState }  from 'react';
 
-//A function that takes in useState params and pushes them to our ledger, then returns 
+//A function that takes in useState params and pushes them to our ledger, then returns
 //import { trackStateReducer } from './hooks-core-utils';
 
 //A parameter to test our useState hook
@@ -18,7 +18,6 @@
 
 //We need ledger to store information the developer passes into useState and setState
 //import { hooksLedger } from '../utils/hooks-ledger';
-
 
 //function that user imports
 // export function useState<S>(initialState: (() => S) | S,):[S,Dispatch<BasicStateAction<S>>]{
@@ -31,9 +30,6 @@
 //   //return out a useReducer function
 //   // from react and pass in our trackStateReducer
 //   return useReducer(trackStateReducer,(initialState))
- 
-
-
 
 // }
 
@@ -67,37 +63,32 @@
 
 /*USESTATE WITH STORE*/
 
-import { useHookedReducer } from "./hooks-core-utils"
-import { useMemo, useContext, useState as useReactState } from "react"
-import { EnhancedStore, StateInspectorContext } from "../utils/hooks-store"
+import { useHookedReducer } from './hooks-core-utils';
+import { useMemo, useContext, useState as useReactState } from 'react';
+import { EnhancedStore, StateInspectorContext } from '../utils/hooks-store';
 
-type StateAction<S> = S | ((s: S) => S)
+type StateAction<S> = S | ((s: S) => S);
 
 function stateReducer<S>(state: S, action: StateAction<S>): S {
-  return typeof action === "function" ? (action as (s: S) => S)(state) : action
+  return typeof action === 'function' ? (action as (s: S) => S)(state) : action;
 }
 
-export const useState = <S>(
-  initialState: S | (() => S),
-  id: string | number
-) => {
-  const inspectorStore = useContext(StateInspectorContext)
+export const useState = <S>(initialState: S | (() => S), id: string | number) => {
+  const inspectorStore = useContext(StateInspectorContext);
   // Keeping the first values
-  const [store, reducerId] = useMemo<
-    [EnhancedStore | undefined, string | number]
-  >(() => [inspectorStore, id], [])
+  const [store, reducerId] = useMemo<[EnhancedStore | undefined, string | number]>(
+    () => [inspectorStore, id],
+    [],
+  );
 
   if (!store || !reducerId) {
-    return useReactState<S>(initialState)
+    return useReactState<S>(initialState);
   }
 
   const finalInitialState = useMemo<S>(
-    () =>
-      typeof initialState === "function"
-        ? (initialState as () => S)()
-        : initialState,
-    []
-  )
+    () => (typeof initialState === 'function' ? (initialState as () => S)() : initialState),
+    [],
+  );
 
   return useHookedReducer<S, any>(
     //returned from line 78
@@ -107,7 +98,6 @@ export const useState = <S>(
     //created in utils/store.ts
     store,
     //key in store
-    reducerId
-  )
-}
-
+    reducerId,
+  );
+};
