@@ -11,22 +11,44 @@ import { output } from '../output/output';
 const buttonStyle: CSSProperties = {
   display: 'inline-block',
   margin: '8px',
+  marginLeft: '13px',
   padding: '0px',
-  height: '16px',
-  width: '16px',
+  height: '25px',
+  width: '65px',
+  borderRadius: '4px',
+  justifyContent: 'space-evenly',
+  border: '1px',
+  cursor: 'pointer',
+  color:'#90d1f0',
+  fontSize: '12px',
 };
+
 const divStyle: CSSProperties = {
-  display: 'inline-block',
+  display: 'flex',
   position: 'absolute',
-  bottom: '16px',
-  left: '16px',
+  bottom: '100px',
+  left: '100px',
   backgroundColor: '#aaa',
   borderRadius: '4px',
   margin: 0,
   padding: 0,
   zIndex: 999999,
 };
-export const styles = { buttonStyle, divStyle };
+
+const recordStyle: CSSProperties = {
+  margin: '0px',
+  fontSize: '12px',
+  display: 'flex',
+  width: '95px',
+  color: 'white',
+  padding: '4px',
+  position: 'fixed',
+  borderRadius: '2px',
+  flexDirection: 'row',
+  backgroundColor: '#7f7f7f'
+};
+
+export const styles = { buttonStyle, divStyle, recordStyle };
 
 /**
  * onclick function that generates test file & sets download URL

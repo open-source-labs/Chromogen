@@ -8,6 +8,7 @@ import { dummyParam } from '../utils/utils';
 import { recordingState } from '../utils/store';
 import { ledger } from '../utils/ledger';
 import { styles, generateFile } from './component-utils';
+import Record from './Record'
 /* eslint-enable */
 
 export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
@@ -127,23 +128,33 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       {
         // Render button div only if DevTool not connected
         !devtool && (
-          <div style={styles.divStyle}>
-            <button
-              aria-label="capture test"
-              id="chromogen-generate-file"
-              style={{ ...styles.buttonStyle, backgroundColor: '#12967a' }}
-              type="button"
-              onClick={() => generateFile(setFile, storeMap)}
-            />
-            <button
-              aria-label={recording ? 'pause' : 'record'}
-              id="chromogen-toggle-record"
-              style={{ ...styles.buttonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
-              type="button"
-              onClick={() => {
-                setRecording(!recording);
-              }}
-            />
+          <div>
+            {recording ? <Record/> : <div></div>}
+            {/* <Record/> */}
+            <div style={styles.divStyle}>
+              <button
+                aria-label={recording ? 'pause' : 'record'}
+                id="chromogen-toggle-record"
+                style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f' }}
+                type="button"
+                onClick={() => {
+                  setRecording(!recording);
+                }}
+                onMouseEnter={() => document.getElementById("chromogen-toggle-record")!.style.color = '#f6f071'}
+                onMouseLeave={() => document.getElementById("chromogen-toggle-record")!.style.color = '#90d1f0'}
+                ><a>{ recording ? 'Pause' : 'Play' }</a>
+              </button>
+              <button
+                aria-label="capture test"
+                id="chromogen-generate-file"
+                style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f', marginLeft: '-2px', marginRight: '13px' }}
+                type="button"
+                onClick={() => generateFile(setFile, storeMap)}
+                onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
+                onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
+                ><a>{'Download'}</a>
+              </button>
+            </div>
           </div>
         )
       }
