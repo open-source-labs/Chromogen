@@ -8,11 +8,9 @@ import { dummyParam } from '../utils/utils';
 import { recordingState } from '../utils/store';
 import { ledger } from '../utils/ledger';
 import { styles, generateFile } from './component-utils';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import PauseIcon from '@material-ui/icons/Pause';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import { styled } from '@material-ui/core/styles';
 import Record from './Record'
+import Play from './Play';
+import Pause from './Pause';
 /* eslint-enable */
 
 export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
@@ -127,42 +125,13 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
     },
   );
 
-  const MyPauseIcon = styled(PauseIcon)({
-    height: 15,
-    color: '#7fe5f0',
-    '&:hover': {
-      color: "#fff176",
-   },
-  });
-  
-  const MyGetAppIcon = styled(GetAppIcon)({
-    height: 15,
-    color: '#7fe5f0',
-    '&:hover': {
-      color: "#fff176",
-   },
-  });
-
-  const MyPlayArrowIcon = styled(PlayArrowIcon)({
-    height: 15,
-    color: '#7fe5f0',
-    '&:hover': {
-      color: "#fff176",
-    },
-  });
-
-
-
-
-
   return (
     <>
       {
         // Render button div only if DevTool not connected
         !devtool && (
           <div>
-            {recording ? <Record/> : <div></div>}
-            {/* <Record/> */}
+            {recording ? <Record /> : <div></div>}
             <div style={styles.divStyle}>
               <button
                 aria-label={recording ? 'pause' : 'record'}
@@ -172,7 +141,9 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 onClick={() => {
                   setRecording(!recording);
                 }}
-                >{recording ? <MyPauseIcon/> : <MyPlayArrowIcon/>}
+                onMouseEnter={() => document.getElementById("chromogen-toggle-record")!.style.color = '#f6f071'}
+                onMouseLeave={() => document.getElementById("chromogen-toggle-record")!.style.color = '#90d1f0'}
+              ><a>{recording ? <Pause /> : <Play />}</a>
               </button>
               <button
                 aria-label="capture test"
@@ -180,10 +151,11 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f', marginLeft: '-2px', marginRight: '13px' }}
                 type="button"
                 onClick={() => generateFile(setFile, storeMap)}
-                ><MyGetAppIcon/>
+                onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
+                onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
+              ><a>{'Download'}</a>
               </button>
             </div>
-
           </div>
         )
       }

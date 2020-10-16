@@ -14,12 +14,15 @@ const buttonStyle: CSSProperties = {
   marginLeft: '13px',
   padding: '0px',
   height: '25px',
-  width: '30px',
+  width: '65px',
   borderRadius: '4px',
   justifyContent: 'space-evenly',
   border: '1px',
   cursor: 'pointer',
+  color: '#90d1f0',
+  fontSize: '12px',
 };
+
 const divStyle: CSSProperties = {
   display: 'flex',
   position: 'absolute',
@@ -32,6 +35,23 @@ const divStyle: CSSProperties = {
   zIndex: 999999,
 };
 
+const playStyle: CSSProperties = {
+  // width: '20px',
+  // height: '20px',
+  boxSizing: 'border-box',
+  borderStyle: 'solid',
+  borderWidth: '10px 0px 10px 20px',
+  borderColor: 'transparent transparent transparent #90d1f0',
+};
+
+const pauseStyle: CSSProperties = {
+  width: '20px',
+  height: '20px',
+  borderWidth: '0px 0px 0px 10px',
+  borderColor: '#202020',
+  borderStyle: 'double'
+};
+
 const recordStyle: CSSProperties = {
   margin: '0px',
   fontSize: '12px',
@@ -41,12 +61,11 @@ const recordStyle: CSSProperties = {
   padding: '4px',
   position: 'fixed',
   borderRadius: '2px',
-  // border: '2px solid #7fe5f0',
   flexDirection: 'row',
   backgroundColor: '#7f7f7f'
 };
 
-export const styles = { buttonStyle, divStyle, recordStyle };
+export const styles = { buttonStyle, divStyle, playStyle, pauseStyle, recordStyle };
 
 /**
  * onclick function that generates test file & sets download URL
@@ -73,60 +92,60 @@ export const generateFile = (setFile: Function, storeMap: Map<string, string>): 
   const finalLedger: Ledger<string, any, SerializableParam> =
     storeMap.size > 0
       ? {
-          atoms: atoms.map(({ key }) => storeMap.get(key) || key),
-          selectors: selectors.map((key) => storeMap.get(key) || key),
-          atomFamilies: convertFamilyTrackerKeys(atomFamilies, storeMap),
-          selectorFamilies: convertFamilyTrackerKeys(selectorFamilies, storeMap),
-          setters: setters.map((key) => storeMap.get(key) || key),
-          initialRender: initialRender.map(({ key, value }) => {
-            const newKey = storeMap.get(key) || key;
-            return { key: newKey, value };
-          }),
-          initialRenderFamilies: initialRenderFamilies.map(({ key, value, params }) => {
-            const newKey = storeMap.get(key) || key;
-            return { key: newKey, value, params };
-          }),
-          transactions: transactions.map(({ state, updates, atomFamilyState, familyUpdates }) => {
-            const newState = state.map((eachAtom) => {
-              const key = storeMap.get(eachAtom.key) || eachAtom.key;
-              return { ...eachAtom, key };
-            });
-            const newUpdates = updates.map((eachSelector) => {
-              const key = storeMap.get(eachSelector.key) || eachSelector.key;
-              const { value } = eachSelector;
-              return { key, value };
-            });
-            const newAtomFamilyState = atomFamilyState.map((eachFamAtom) => {
-              const family = storeMap.get(eachFamAtom.family) || eachFamAtom.family;
-              const oldKey = eachFamAtom.key;
-              const keySuffix = oldKey.substring(eachFamAtom.family.length);
-              const key = family + keySuffix;
-              return { ...eachFamAtom, family, key };
-            });
-            const newFamilyUpdates = familyUpdates.map((eachFamSelector) => {
-              const key = storeMap.get(eachFamSelector.key) || eachFamSelector.key;
-              return { ...eachFamSelector, key };
-            });
-            return {
-              state: newState,
-              updates: newUpdates,
-              atomFamilyState: newAtomFamilyState,
-              familyUpdates: newFamilyUpdates,
-            };
-          }),
-          setTransactions: setTransactions.map(({ state, setter }) => {
-            const newState = state.map((eachAtom) => {
-              const key = storeMap.get(eachAtom.key) || eachAtom.key;
-              return { ...eachAtom, key };
-            });
-            const newSetter = setter;
-            if (newSetter) {
-              const { key } = newSetter;
-              newSetter.key = storeMap.get(key) || key;
-            }
-            return { state: newState, setter: newSetter };
-          }),
-        }
+        atoms: atoms.map(({ key }) => storeMap.get(key) || key),
+        selectors: selectors.map((key) => storeMap.get(key) || key),
+        atomFamilies: convertFamilyTrackerKeys(atomFamilies, storeMap),
+        selectorFamilies: convertFamilyTrackerKeys(selectorFamilies, storeMap),
+        setters: setters.map((key) => storeMap.get(key) || key),
+        initialRender: initialRender.map(({ key, value }) => {
+          const newKey = storeMap.get(key) || key;
+          return { key: newKey, value };
+        }),
+        initialRenderFamilies: initialRenderFamilies.map(({ key, value, params }) => {
+          const newKey = storeMap.get(key) || key;
+          return { key: newKey, value, params };
+        }),
+        transactions: transactions.map(({ state, updates, atomFamilyState, familyUpdates }) => {
+          const newState = state.map((eachAtom) => {
+            const key = storeMap.get(eachAtom.key) || eachAtom.key;
+            return { ...eachAtom, key };
+          });
+          const newUpdates = updates.map((eachSelector) => {
+            const key = storeMap.get(eachSelector.key) || eachSelector.key;
+            const { value } = eachSelector;
+            return { key, value };
+          });
+          const newAtomFamilyState = atomFamilyState.map((eachFamAtom) => {
+            const family = storeMap.get(eachFamAtom.family) || eachFamAtom.family;
+            const oldKey = eachFamAtom.key;
+            const keySuffix = oldKey.substring(eachFamAtom.family.length);
+            const key = family + keySuffix;
+            return { ...eachFamAtom, family, key };
+          });
+          const newFamilyUpdates = familyUpdates.map((eachFamSelector) => {
+            const key = storeMap.get(eachFamSelector.key) || eachFamSelector.key;
+            return { ...eachFamSelector, key };
+          });
+          return {
+            state: newState,
+            updates: newUpdates,
+            atomFamilyState: newAtomFamilyState,
+            familyUpdates: newFamilyUpdates,
+          };
+        }),
+        setTransactions: setTransactions.map(({ state, setter }) => {
+          const newState = state.map((eachAtom) => {
+            const key = storeMap.get(eachAtom.key) || eachAtom.key;
+            return { ...eachAtom, key };
+          });
+          const newSetter = setter;
+          if (newSetter) {
+            const { key } = newSetter;
+            newSetter.key = storeMap.get(key) || key;
+          }
+          return { state: newState, setter: newSetter };
+        }),
+      }
       : { ...ledger, atoms: atoms.map(({ key }) => key) };
 
   return setFile(URL.createObjectURL(new Blob([output(finalLedger)])));
