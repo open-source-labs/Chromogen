@@ -14,16 +14,6 @@ export all types and interfaces
 // export type BasicStateAction<S> = (S => S) | S;
 // export type Dispatch<A> = A => void;
 
-<<<<<<< HEAD
-export interface Ledger {
-  initialState: any[], //0
-  prevState: any[], //0
-  currState: any[], // 1
-  setStateCallback: any[], 
-  count: number, //1
-}
-=======
->>>>>>> 9fb3ca7af14c2fcbbb15fc968860d3e77ea80a65
 // type Dispatch<A> = (value: A) => void;
 
 // type SetStateAction<S> = S | ((prevState: S) => S);

@@ -12,19 +12,15 @@ import { importHooksInitialState } from './hooks-output-utils';
 //readableHook = state of useState
 
 export const hooksOutput = ({
-  initialState,
+  state,
 }: //currState,
 //   count,
 Ledger): any =>
   `import { renderHook } from '@testing-library/react-hooks';
    import React, { useState } from 'react';
    import { 
-<<<<<<< HEAD
-   ${importHooksInitialState(initialState) + importHooksCallback(setStateCallback)}
-=======
-   ${importHooksInitialState(initialState)}
+   ${importHooksInitialState(state)}
 
->>>>>>> 9fb3ca7af14c2fcbbb15fc968860d3e77ea80a65
 } from '<ADD COMPONENT STORE FILEPATH>';
 // Suppress 'Batcher' warnings from React conflict
 console.error = jest.fn();

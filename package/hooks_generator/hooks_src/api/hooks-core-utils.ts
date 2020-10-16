@@ -26,6 +26,7 @@
 // }
 import { Reducer, useMemo, Dispatch, useState, useEffect } from 'react';
 import { hooksLedger } from '../utils/hooks-ledger';
+// import { hooksLedger } from '../utils/hooks-ledger';
 import { EnhancedStore } from '../utils/hooks-store';
 
 export function useHookedReducer<S, A>(
@@ -40,24 +41,38 @@ export function useHookedReducer<S, A>(
   }, []);
 
   const [localState, setState] = useState<S>(initialReducerState);
-
   //creating state property in store to save all state changes
-  hooksLedger.state = store.subscribe(() => store.getState()[reducerId]);
-  //creating intialState propety in store array - 1st element
-  hooksLedger.initialState = store.subscribe(() => store.getState()[reducerId][0]);
-  //creating currState in store array - last element
-  hooksLedger.currState = store.subscribe(
-    () => store.getState()[reducerId][hooksLedger.state.length - 1],
-  );
+  store.subscribe(() => (hooksLedger.state = store.getState()[reducerId]));
+  store.subscribe(() => console.log(store.getState()));
+  // //creating intialState propety in store array - 1st element
+  // hooksLedger.initialState = store.subscribe(() => store.getState()[reducerId][0]);
+  // //creating currState in store array - last element
+  // hooksLedger.currState = store.subscribe(
+  //   () => store.getState()[reducerId][hooksLedger.state.length - 1],
+  // );
 
   const dispatch = useMemo<Dispatch<A>>(() => {
     const dispatch = (action: any) => {
       if (action && typeof action === 'object' && typeof action.type === 'string') {
+        //creating state property in store to save all state changes
+        // hooksLedger.state = store.subscribe(() => store.getState());
+        //         store.subscribe(() => hooksLedger.state = store.getState());
+        // store.subscribe(() => console.log(store.getState()))
         store.dispatch({
           type: `${reducerId}/${action.type}`,
           payload: action,
         });
       } else {
+        //creating state property in store to save all state changes
+        // hooksLedger.state = store.subscribe(() => store.getState());
+        store.subscribe(() => (hooksLedger.state = store.getState()[reducerId]));
+        store.subscribe(() => console.log(store.getState()));
+        // //creating intialState propety in store array - 1st element
+        // hooksLedger.initialState = store.subscribe(() => store.getState()[reducerId][0]);
+        // //creating currState in store array - last element
+        // hooksLedger.currState = store.subscribe(
+        //   () => store.getState()[reducerId][hooksLedger.state.length - 1],
+        // );
         store.dispatch({
           type: reducerId,
           payload: action,
