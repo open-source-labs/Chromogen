@@ -32,7 +32,11 @@ describe('chromogenObserver', () => {
 
   // ChromogenObserver lines 25-36
   it('should relay messages to DevTool', () => {
+    expect(window.addEventListener('message', 'connectChromogen')).toBe()
 
+    expect(window.addEventListener('message', 'downloadFile')).toBe()
+
+    expect(window.addEventListener('message', 'toggleRecord')).toBe()
   });
 
   // ChromogenObserver lines 56-80
@@ -42,7 +46,7 @@ describe('chromogenObserver', () => {
   })
 
   // ChromogenObserver lines 104-117
-  it('should ', () => {
+  it('should update atomFamilyState', () => {
 
   })
 
