@@ -1,14 +1,6 @@
 /* eslint-disable */
-import type { Ledger } from '../hooks-types';
-import {
-  //   ledgerCurrState,
-  //   ledgerSetStateCallback,
-  //   ledgerInitialState,
-  //   ledgerPrevState,
-  importHooksInitialState,
-  importHooksCallback,
-  testHooksSetState,
-} from './hooks-output-utils';
+import { Ledger } from '../utils/hooks-ledger';
+import { importHooksInitialState } from './hooks-output-utils';
 
 /* eslint-enable */
 
@@ -20,30 +12,21 @@ import {
 //readableHook = state of useState
 
 export const hooksOutput = ({
-  initialState,
-  //   prevState,
-  //   currState,
-  setStateCallback,
-}: //   count,
+  state,
+}: //currState,
+//   count,
 Ledger): any =>
   `import { renderHook } from '@testing-library/react-hooks';
    import React, { useState } from 'react';
    import { 
-   ${importHooksInitialState(initialState) + importHooksCallback(setStateCallback)}
+   ${importHooksInitialState(state)}
 
 } from '<ADD COMPONENT STORE FILEPATH>';
-
 // Suppress 'Batcher' warnings from React conflict
 console.error = jest.fn();
-
-
-
 describe('Initial Render', () => {
-    const { result } = renderHook(() => ledgerSetStateCallback());
+    const { result } = renderHook(() => storeSetStateCallback());
 });
-
 // describe('USESTATE', () => {});
-
 describe('USESTATE CALLBACKS', () => {
-  ${testHooksSetState(setStateCallback)}
 });`;

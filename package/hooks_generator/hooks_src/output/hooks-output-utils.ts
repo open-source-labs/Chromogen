@@ -1,8 +1,10 @@
 /* eslint-disable */
 // import React, { useState } from 'react';
-import { hooksLedger as ledger } from '../utils/hooks-ledger';
+//import { hooksLedger as ledger } from '../utils/hooks-ledger';
 // import { renderHook } from '@testing-library/react-hooks'
 /* eslint-enable */
+// import { Store } from 'redux';
+// import { EnhancedStore, StateInspectorContext } from '../utils/hooks-store';
 
 //transaction = how many times setState cb has fired
 
@@ -17,10 +19,11 @@ import { hooksLedger as ledger } from '../utils/hooks-ledger';
 */
 
 //import hooks state from user's app
-export function importHooksInitialState(stateArray: any[]) {
-  return stateArray.reduce((fullStr: any, hooksState: any) => `${fullStr}\t${hooksState},\n`, '');
+export function importHooksInitialState(state: any) {
+  return `${state}`;
 }
 
+/*
 //import hooks callback from user's app
 export function importHooksCallback(setStateCb: any[]) {
   return setStateCb.reduce((fullStr: any, cb: any) => `${fullStr}\t${cb},\n`, '');
@@ -57,14 +60,13 @@ export function readableHook() {
 /*
 Recreate hooks version of testSetters in output-utils.ts 
     //test for variable user passes into setState of useState and make sure state is updating 
-
 */
 
-export const ledgerCurrState = ledger.currState;
-export const ledgerSetStateCallback = ledger.setStateCallback;
-export const ledgerInitialState = ledger.initialState;
-export const ledgerPrevState = ledger.prevState;
+// exmaple function to update previousValue
 
+// export const storeInitialState = store.getState()[reducerId];
+
+/*
 export function testHooksSetState(useStateCallbackArray: any[]) {
   return useStateCallbackArray.reduce((callbackTests: any, ledgerSetStateCallback: any) => {
     //CREATE TEST HERE
@@ -79,13 +81,11 @@ export function testHooksSetState(useStateCallbackArray: any[]) {
         scrubbedParams = params.replace(/[^\w\s]/gi, '');
       }
 
-      
       if (params !== undefined) {
         return `${callbackTests}\tit('${ledgerCurrState}__${
           scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
         } should properly update State', () => {
          \t\tconst { result } = renderHook(() => ledgerSetStateCallback()); 
-
         \t\tact(() => { 
           \t\t\tresult.current.state${ledgerCurrState}__${
           scrubbedParams !== undefined ? scrubbedParams : JSON.stringify(params)
@@ -113,3 +113,4 @@ export function testHooksSetState(useStateCallbackArray: any[]) {
 // check whether setState cb has been fired
 // if fired
 //check whether hook state in ledger has been updated
+*/
