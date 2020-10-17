@@ -30,6 +30,32 @@ describe('chromogenObserver', () => {
     );
   });
 
+  // ChromogenObserver lines 25-36
+  it('should relay messages to DevTool', () => {
+
+  });
+
+  // ChromogenObserver lines 56-80
+  // Store contains atoms and selectors
+  it('should update storeMap with all items from passed in store', () => {
+    
+  })
+
+  // ChromogenObserver lines 104-117
+  it('should ', () => {
+
+  })
+
+  // ChromogenObserver lines 142-145
+  it('should ', () => {
+
+  })
+
+  // ChromogenObserver lines 154-155
+  it('should change button color on mouse enter/leave', () => {
+    
+  })
+
   it('should render a download link', () => {
     // verify that download Chromogen tests link exists and is being rendered
     expect(document.getElementById('chromogen-download')).toBeTruthy();
