@@ -34,7 +34,7 @@ const App: React.FC = () => {
       <Recorder status={status} />
     </div>
   ) : (
-    // Otherwise, render 'please install' message
+    // Otherwise, render 'please install' message along with Github Icon
     <div id="installContainer">
       <div />
 
