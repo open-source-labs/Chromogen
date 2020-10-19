@@ -36,20 +36,20 @@ const divStyle: CSSProperties = {
 };
 
 const playStyle: CSSProperties = {
+  // width: '20px',
+  // height: '20px',
   boxSizing: 'border-box',
-  marginLeft: '25px',
   borderStyle: 'solid',
-  borderWidth: '7px 0px 7px 14px',
+  borderWidth: '10px 0px 10px 20px',
   borderColor: 'transparent transparent transparent #90d1f0',
 };
 
 const pauseStyle: CSSProperties = {
-  width: '14px',
-  height: '14px',
+  width: '20px',
+  height: '20px',
   borderWidth: '0px 0px 0px 10px',
-  borderColor: '#90d1f0',
-  borderStyle: 'double',
-  marginLeft: '27px',
+  borderColor: '#202020',
+  borderStyle: 'double'
 };
 
 const recordStyle: CSSProperties = {
