@@ -12,14 +12,15 @@ import { importHooksInitialState } from './hooks-output-utils';
 //readableHook = state of useState
 
 export const hooksOutput = ({
-  state,
+  //state,
+  id,
 }: //currState,
 //   count,
 Ledger): any =>
   `import { renderHook } from '@testing-library/react-hooks';
    import React, { useState } from 'react';
    import { 
-   ${importHooksInitialState(state)}
+   ${importHooksInitialState(id)}
 
 } from '<ADD COMPONENT STORE FILEPATH>';
 // Suppress 'Batcher' warnings from React conflict

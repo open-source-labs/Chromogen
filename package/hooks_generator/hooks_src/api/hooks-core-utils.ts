@@ -65,7 +65,8 @@ export function useHookedReducer<S, A>(
       } else {
         //creating state property in store to save all state changes
         // hooksLedger.state = store.subscribe(() => store.getState());
-        store.subscribe(() => (hooksLedger.state = store.getState()[reducerId]));
+        store.subscribe(() => hooksLedger.state = store.getState()[reducerId]);
+        store.subscribe(() => hooksLedger.id = reducerId);
         store.subscribe(() => console.log(store.getState()));
         // //creating intialState propety in store array - 1st element
         // hooksLedger.initialState = store.subscribe(() => store.getState()[reducerId][0]);

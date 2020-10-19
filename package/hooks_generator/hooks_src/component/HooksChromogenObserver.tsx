@@ -180,9 +180,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
                   return false;
                 });
               }}
-<<<<<<< HEAD
-            />
-=======
               onMouseEnter={() =>
                 (document.getElementById('chromogen-toggle-record')!.style.color = '#f6f071')
               }
@@ -207,7 +204,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
             >
               <a>{'Download'}</a>
             </button>
->>>>>>> 3245d73033abdb6d26ac8b63e3a25285809dc81c
           </div>
         </StateInspectorContext.Provider>
       )}
