@@ -155,8 +155,8 @@ const playBorderStyle = {
                 onMouseEnter={() => recording ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
                 onMouseLeave={() => recording ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}
               ><a>{recording ? 
-                <div style={{...styles.pauseStyle, ...pauseBorderStyle}} className="playpause"></div>
-                 : <div style={{...styles.playStyle, ...playBorderStyle}} className="playpause"></div>
+                <div style={{...styles.pauseStyle, ...pauseBorderStyle}}></div>
+                 : <div style={{...styles.playStyle, ...playBorderStyle}}></div>
                  }</a>
               </button>
               <button
