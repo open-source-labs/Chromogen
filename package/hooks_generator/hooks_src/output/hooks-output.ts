@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Ledger } from '../utils/hooks-ledger';
-import { importHooksInitialState } from './hooks-output-utils';
+import { importHooksInitialState, testStateChange } from './hooks-output-utils';
 
 /* eslint-enable */
 
@@ -13,13 +13,14 @@ import { importHooksInitialState } from './hooks-output-utils';
 
 export const hooksOutput = ({
   state,
+  id,
 }: //currState,
 //   count,
 Ledger): any =>
   `import { renderHook } from '@testing-library/react-hooks';
    import React, { useState } from 'react';
    import { 
-   ${importHooksInitialState(state)}
+   ${importHooksInitialState(id)}
 
 } from '<ADD COMPONENT STORE FILEPATH>';
 // Suppress 'Batcher' warnings from React conflict
@@ -27,6 +28,6 @@ console.error = jest.fn();
 describe('Initial Render', () => {
     const { result } = renderHook(() => storeSetStateCallback());
 });
-// describe('USESTATE', () => {});
-describe('USESTATE CALLBACKS', () => {
+// describe('USESTATE', () => {
+  ${testStateChange(state,id)}
 });`;

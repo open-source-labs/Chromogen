@@ -4,13 +4,14 @@ import {
   testSelectors,
   testSetters,
   importRecoilFamily,
+  atomFamilyHook,
   //writeableHook,
   readableHook,
 } from '../src/output/output-utils.ts';
 
 // testing ternary operator in initializeAtoms helper function
 describe('initializeAtoms', () => {
-  // create mock atomUpdate object, follows AtomUpdate interface 
+  // create mock atomUpdate object, follows AtomUpdate interface
   const atomUpdate = {
     key: 'testAtom',
     value: 2,
@@ -75,8 +76,8 @@ describe('assertState', () => {
 describe('importRecoilFamily', () => {
   const familyObj = {
     familyName: 'string',
-    atomName: 'test'
-  }
+    atomName: 'test',
+  };
   it('should return a string with an object as its parameter', () => {
     expect(typeof importRecoilFamily(familyObj)).toBe('string');
   });
@@ -180,5 +181,42 @@ describe('testSetters', () => {
   it('should return a string if an array is passed in', () => {
     // verify that a string is returned if provided an array with out a setter object
     expect(typeof falsyReturnString).toBe('string');
+  });
+});
+
+// TEST FOR ATOMFAMILYHOOK lines 70-81
+//create mock transactionArray
+describe('atomFamilyHook', () => {
+  const transactionArray = [
+    {
+      atomFamilyState: [
+        {
+          key: 'spec!alCh@rspec!alCh@r',
+          family: 'familyName',
+          value: 10,
+          updated: true,
+        },
+      ],
+      familyUpdates: [
+        {
+          key: 'familyUpdate1',
+          value: 5,
+          params: 'params',
+        },
+      ],
+    },
+  ]; // truthy
+
+  const transactionArray2 = []; // falsy
+
+  const truthyReturnStr = atomFamilyHook(transactionArray);
+  const falsyReturnStr = atomFamilyHook(transactionArray2);
+
+  it('should scrub special characters', () => {
+    expect(truthyReturnStr).toEqual(expect.not.stringContaining('spec!alCh@r'));
+  });
+
+  it('should return empty string when transactionsArr length is falsy', () => {
+    expect(falsyReturnStr).toBe('');
   });
 });
