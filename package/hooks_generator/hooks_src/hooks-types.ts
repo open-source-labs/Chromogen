@@ -2,8 +2,6 @@
 export all types and interfaces
 */
 
-
-
 // Declare non-importable Dispatch function
 // type Dispatch<A> = A => void;
 
@@ -13,6 +11,11 @@ export all types and interfaces
 //     transactions:
 // }
 
-export type BasicStateAction<S> = (S => S) | S;
-export type Dispatch<A> = A => void;
+// export type BasicStateAction<S> = (S => S) | S;
+// export type Dispatch<A> = A => void;
 
+// type Dispatch<A> = (value: A) => void;
+
+// type SetStateAction<S> = S | ((prevState: S) => S);
+
+// type useState = <S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];

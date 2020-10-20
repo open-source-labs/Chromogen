@@ -1,15 +1,33 @@
 /* eslint-disable */
-// import tpye { Ledger } from '../hook-types.ts';
-// import ____ './hooks-output.ts'
+import { Ledger } from '../utils/hooks-ledger';
+import { importHooksInitialState, testStateChange } from './hooks-output-utils';
 
 /* eslint-enable */
+
 /* ----- HELPERS ----- */
 
 /* ----- MAIN ----- */
-//install npm i @tpyes/jest but didn't work??
 
-describe('Initial Render', () => {});
+//writeableHook = cb of useState
+//readableHook = state of useState
 
-describe('USESTATE', () => {});
+export const hooksOutput = ({
+  state,
+  id,
+}: //currState,
+//   count,
+Ledger): any =>
+  `import { renderHook } from '@testing-library/react-hooks';
+   import React, { useState } from 'react';
+   import { 
+   ${importHooksInitialState(id)}
 
-describe('USESTATE CALLBACKS', () => {});
+} from '<ADD COMPONENT STORE FILEPATH>';
+// Suppress 'Batcher' warnings from React conflict
+console.error = jest.fn();
+describe('Initial Render', () => {
+    const { result } = renderHook(() => storeSetStateCallback());
+});
+// describe('USESTATE', () => {
+  ${testStateChange(state,id)}
+});`;

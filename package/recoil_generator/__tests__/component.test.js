@@ -5,6 +5,9 @@ import { ChromogenObserver } from '../src/component/ChromogenObserver.tsx';
 import { ledger } from '../src/utils/ledger.ts';
 import { atom } from '../src/api/api.ts';
 
+// import {shallow} from 'enzyme';
+// import {mount} from 'enzyme';
+
 describe('chromogenObserver', () => {
   global.URL = {
     createObjectURL: () => 'http://mockURL.com',
@@ -29,6 +32,37 @@ describe('chromogenObserver', () => {
       </RecoilRoot>,
     );
   });
+
+  // ChromogenObserver lines 25-36
+  it('should relay messages to DevTool', () => {
+
+    // expect(window.addEventListener('message', 'connectChromogen')).toBeTruthy()
+
+    // expect(window.addEventListener('message', 'downloadFile')).toBeTruthy()
+
+    // expect(window.addEventListener('message', 'toggleRecord')).toBeTruthy()
+  });
+
+  // ChromogenObserver lines 56-80
+  // Store contains atoms and selectors
+  it('should update storeMap with all items from passed in store', () => {
+    
+  })
+
+  // ChromogenObserver lines 104-117
+  it('should update atomFamilyState', () => {
+
+  })
+
+  // ChromogenObserver lines 142-145
+  it('should ', () => {
+
+  })
+
+  // ChromogenObserver lines 154-155
+  it('should change button color on mouse enter/leave', () => {
+    
+  })
 
   it('should render a download link', () => {
     // verify that download Chromogen tests link exists and is being rendered
