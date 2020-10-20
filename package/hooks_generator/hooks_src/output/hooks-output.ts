@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Ledger } from '../utils/hooks-ledger';
-import { importHooksInitialState } from './hooks-output-utils';
+import { importHooksInitialState, testStateChange } from './hooks-output-utils';
 
 /* eslint-enable */
 
@@ -12,7 +12,7 @@ import { importHooksInitialState } from './hooks-output-utils';
 //readableHook = state of useState
 
 export const hooksOutput = ({
-  //state,
+  state,
   id,
 }: //currState,
 //   count,
@@ -28,6 +28,6 @@ console.error = jest.fn();
 describe('Initial Render', () => {
     const { result } = renderHook(() => storeSetStateCallback());
 });
-// describe('USESTATE', () => {});
-describe('USESTATE CALLBACKS', () => {
+// describe('USESTATE', () => {
+  ${testStateChange(state,id)}
 });`;

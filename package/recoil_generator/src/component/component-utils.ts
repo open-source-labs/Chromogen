@@ -35,26 +35,23 @@ const divStyle: CSSProperties = {
   zIndex: 999999,
 };
 
-<<<<<<< HEAD
-=======
-const playStyle: CSSProperties = {
-  boxSizing: 'border-box',
-  marginLeft: '25px',
-  borderStyle: 'solid',
-  borderWidth: '7px 0px 7px 14px',
-  borderColor: 'transparent transparent transparent #90d1f0',
-};
+// const playStyle: CSSProperties = {
+//   boxSizing: 'border-box',
+//   marginLeft: '25px',
+//   borderStyle: 'solid',
+//   borderWidth: '7px 0px 7px 14px',
+//   borderColor: 'transparent transparent transparent #90d1f0',
+// };
 
-const pauseStyle: CSSProperties = {
-  width: '14px',
-  height: '14px',
-  borderWidth: '0px 0px 0px 10px',
-  borderColor: '#90d1f0',
-  borderStyle: 'double',
-  marginLeft: '27px',
-};
+// const pauseStyle: CSSProperties = {
+//   width: '14px',
+//   height: '14px',
+//   borderWidth: '0px 0px 0px 10px',
+//   borderColor: '#90d1f0',
+//   borderStyle: 'double',
+//   marginLeft: '27px',
+// };
 
->>>>>>> 08c1f8d187b54345101c4e00ece0240d4ba0212d
 const recordStyle: CSSProperties = {
   margin: '0px',
   fontSize: '12px',
