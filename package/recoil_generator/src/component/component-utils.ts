@@ -50,20 +50,7 @@ const pauseStyle: CSSProperties = {
   marginLeft: '27px',
 };
 
-const recordStyle: CSSProperties = {
-  margin: '0px',
-  fontSize: '12px',
-  display: 'flex',
-  width: '95px',
-  color: 'white',
-  padding: '4px',
-  position: 'fixed',
-  borderRadius: '2px',
-  flexDirection: 'row',
-  backgroundColor: '#7f7f7f'
-};
-
-export const styles = { buttonStyle, divStyle, playStyle, pauseStyle, recordStyle };
+export const styles = { buttonStyle, divStyle, playStyle, pauseStyle };
 
 /**
  * onclick function that generates test file & sets download URL

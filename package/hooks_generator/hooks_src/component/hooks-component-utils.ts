@@ -41,8 +41,8 @@ const hooksButtonStyle: CSSProperties = {
   justifyContent: 'space-evenly',
   border: '1px',
   cursor: 'pointer',
-  color:'#90d1f0',
-  fontSize: '12px',
+  color: '#90d1f0',
+  fontSize: '10px',
 };
 
 const hooksDivStyle: CSSProperties = {
@@ -57,7 +57,22 @@ const hooksDivStyle: CSSProperties = {
   zIndex: 999999,
 };
 
-export const hookStyles = { hooksButtonStyle, hooksDivStyle };
+const hooksPlayStyle: CSSProperties = {
+  boxSizing: 'border-box',
+  marginLeft: '25px',
+  borderStyle: 'solid',
+  borderWidth: '7px 0px 7px 14px',
+};
+
+const hooksPauseStyle: CSSProperties = {
+  width: '14px',
+  height: '14px',
+  borderWidth: '0px 0px 0px 10px',
+  borderStyle: 'double',
+  marginLeft: '27px',
+};
+
+export const hookStyles = { hooksButtonStyle, hooksDivStyle, hooksPlayStyle, hooksPauseStyle };
 
 
 // Export generateFile as a function (which takes in a setFile function and storeMap) that deconstructs state/transactions and sets to the ledger*, along with a finalLedger that will check whether the mapped store size > 0, if truthy, return a new ledger with both state and transaction arrays containing the user input ("key"). Else, return ledger*.
