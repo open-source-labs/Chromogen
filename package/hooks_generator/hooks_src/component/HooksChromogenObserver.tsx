@@ -160,6 +160,13 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
           {children}
           <div style={styles.hooksDivStyle}>
             <button
+              aria-label="capture test"
+              id="chromogen-generate-file"
+              style={{ ...styles.hooksButtonStyle, backgroundColor: '#12967a' }}
+              type="button"
+              onClick={() => generateFile(setFile)}
+            />
+            <button
               aria-label={recording ? 'pause' : 'record'}
               id="chromogen-toggle-record"
               style={{

@@ -6,12 +6,14 @@
 
 export interface Ledger {
   state: any;
+  id: string | number;
   initialState: any;
   currState: any;
 }
 //storing initialState, currState, and prevState but through the store
 export const hooksLedger: Ledger = {
   state: [],
+  id: '',
   initialState: '',
   currState: '',
 };

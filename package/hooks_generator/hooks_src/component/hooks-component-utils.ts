@@ -33,23 +33,16 @@ import { hooksOutput as output } from '../output/hooks-output';
 const hooksButtonStyle: CSSProperties = {
   display: 'inline-block',
   margin: '8px',
-  marginLeft: '13px',
   padding: '0px',
-  height: '25px',
-  width: '65px',
-  borderRadius: '4px',
-  justifyContent: 'space-evenly',
-  border: '1px',
-  cursor: 'pointer',
-  color:'#90d1f0',
-  fontSize: '12px',
+  height: '16px',
+  width: '16px',
 };
 
 const hooksDivStyle: CSSProperties = {
-  display: 'flex',
+  display: 'inline-block',
   position: 'absolute',
-  bottom: '100px',
-  left: '100px',
+  bottom: '16px',
+  left: '16px',
   backgroundColor: '#aaa',
   borderRadius: '4px',
   margin: 0,

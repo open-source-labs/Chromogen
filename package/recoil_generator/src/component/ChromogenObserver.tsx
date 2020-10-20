@@ -9,8 +9,6 @@ import { recordingState } from '../utils/store';
 import { ledger } from '../utils/ledger';
 import { styles, generateFile } from './component-utils';
 import Record from './Record'
-import Play from './Play';
-import Pause from './Pause';
 /* eslint-enable */
 
 export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
@@ -131,7 +129,8 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
         // Render button div only if DevTool not connected
         !devtool && (
           <div>
-            {recording ? <Record /> : <div></div>}
+            {recording ? <Record/> : <div></div>}
+            {/* <Record/> */}
             <div style={styles.divStyle}>
               <button
                 aria-label={recording ? 'pause' : 'record'}
@@ -143,7 +142,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 }}
                 onMouseEnter={() => document.getElementById("chromogen-toggle-record")!.style.color = '#f6f071'}
                 onMouseLeave={() => document.getElementById("chromogen-toggle-record")!.style.color = '#90d1f0'}
-              ><a>{recording ? <Pause /> : <Play />}</a>
+                ><a>{ recording ? 'Pause' : 'Play' }</a>
               </button>
               <button
                 aria-label="capture test"
@@ -153,7 +152,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 onClick={() => generateFile(setFile, storeMap)}
                 onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
                 onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
-              ><a>{'Download'}</a>
+                ><a>{'Download'}</a>
               </button>
             </div>
           </div>
