@@ -8,9 +8,6 @@ import { dummyParam } from '../utils/utils';
 import { recordingState } from '../utils/store';
 import { ledger } from '../utils/ledger';
 import { styles, generateFile } from './component-utils';
-// import Record from './Record'
-// import Play from './Play';
-// import Pause from './Pause';
 /* eslint-enable */
 
 export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
@@ -125,16 +122,15 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
     },
   );
 
-
 const [pauseColor, setPauseColor] = useState('#90d1f0');
 const pauseBorderStyle = {
   borderColor: `${pauseColor}`,
-}
+};
 
 const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0')
 const playBorderStyle = {
   borderColor: `${playColor}`,
-}
+};
 
   return (
     <>
@@ -142,7 +138,6 @@ const playBorderStyle = {
         // Render button div only if DevTool not connected
         !devtool && (
           <div>
-            {/* {recording ? <Record /> : <div></div>} */}
             <div style={styles.divStyle}>
               <button
                 aria-label={recording ? 'pause' : 'record'}
