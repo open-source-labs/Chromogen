@@ -1,20 +1,24 @@
 import { ledger } from '../src/utils/ledger.ts';
+import {generateFile} from '../src/component/component-utils';
 
 // Testing generateFile
 describe('generateFile', () => {
-  // Deconstruct all items from ledger or deconstruct individually within tests?
-  // Key-to-Variable name mapping ONLY occurs is storeMap has any contents (if ChromogenObserver has a store={[atoms, selectors...]} props)
-  // So, we are testing when store exists, does key to mapping occur?
+  const setFile = 0
+  const array = [[], [], []]
+  let storeMap = new Map(array);
 
-  // Atoms
-    // Create mock atoms
+  const {
+    atoms,
+    selectors,
+    setters,
+    atomFamilies,
+    selectorFamilies,
+    initialRender,
+    initialRenderFamilies,
+    transactions,
+    setTransactions,
+  } = ledger;
 
-// Selectors
-// Atom Families
-// Selector Families
-// Setters
-// Initial Render
-// Initial Render Families
-// Transactions
-// setTransactions
+  // We expect our generate file to not be the falsy return statement, which is the entirety of the ledger, with atoms being the new user input
+  generateFile(setFile, storeMap)
 })
