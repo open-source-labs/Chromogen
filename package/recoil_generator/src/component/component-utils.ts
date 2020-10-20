@@ -19,8 +19,8 @@ const buttonStyle: CSSProperties = {
   justifyContent: 'space-evenly',
   border: '1px',
   cursor: 'pointer',
-  color:'#90d1f0',
-  fontSize: '12px',
+  color: '#90d1f0',
+  fontSize: '10px',
 };
 
 const divStyle: CSSProperties = {
@@ -35,37 +35,22 @@ const divStyle: CSSProperties = {
   zIndex: 999999,
 };
 
-// const playStyle: CSSProperties = {
-//   boxSizing: 'border-box',
-//   marginLeft: '25px',
-//   borderStyle: 'solid',
-//   borderWidth: '7px 0px 7px 14px',
-//   borderColor: 'transparent transparent transparent #90d1f0',
-// };
-
-// const pauseStyle: CSSProperties = {
-//   width: '14px',
-//   height: '14px',
-//   borderWidth: '0px 0px 0px 10px',
-//   borderColor: '#90d1f0',
-//   borderStyle: 'double',
-//   marginLeft: '27px',
-// };
-
-const recordStyle: CSSProperties = {
-  margin: '0px',
-  fontSize: '12px',
-  display: 'flex',
-  width: '95px',
-  color: 'white',
-  padding: '4px',
-  position: 'fixed',
-  borderRadius: '2px',
-  flexDirection: 'row',
-  backgroundColor: '#7f7f7f'
+const playStyle: CSSProperties = {
+  boxSizing: 'border-box',
+  marginLeft: '25px',
+  borderStyle: 'solid',
+  borderWidth: '7px 0px 7px 14px',
 };
 
-export const styles = { buttonStyle, divStyle, recordStyle };
+const pauseStyle: CSSProperties = {
+  width: '14px',
+  height: '14px',
+  borderWidth: '0px 0px 0px 10px',
+  borderStyle: 'double',
+  marginLeft: '27px',
+};
+
+export const styles = { buttonStyle, divStyle, playStyle, pauseStyle };
 
 /**
  * onclick function that generates test file & sets download URL
