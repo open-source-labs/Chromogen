@@ -40,14 +40,12 @@ const playStyle: CSSProperties = {
   marginLeft: '25px',
   borderStyle: 'solid',
   borderWidth: '7px 0px 7px 14px',
-  // borderColor: 'transparent transparent transparent #90d1f0',
 };
 
 const pauseStyle: CSSProperties = {
   width: '14px',
   height: '14px',
   borderWidth: '0px 0px 0px 10px',
-  // borderColor: '#90d1f0',
   borderStyle: 'double',
   marginLeft: '27px',
 };
