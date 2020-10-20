@@ -19,8 +19,8 @@
 */
 
 //import hooks state from user's app
-export function importHooksInitialState(state: any) {
-  return `${state}`;
+export function importHooksInitialState(id: any) {
+  return `${id}`;
 }
 
 /*
