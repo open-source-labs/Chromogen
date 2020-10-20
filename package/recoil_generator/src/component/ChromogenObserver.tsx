@@ -162,7 +162,7 @@ const playBorderStyle = {
                 onClick={() => generateFile(setFile, storeMap)}
                 onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
                 onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
-              ><a>{'Download'}</a>
+                ><a>{'Download'}</a>
               </button>
             </div>
           </div>

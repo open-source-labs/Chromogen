@@ -6,23 +6,26 @@
 // import { Store } from 'redux';
 // import { EnhancedStore, StateInspectorContext } from '../utils/hooks-store';
 
-//transaction = how many times setState cb has fired
-
 //Testing logic for user's state
 //testing for edge cases in the user's app
 
 /* ----- HELPER FUNCTIONS ----- */
 
 /* ----- SETUP FUNCTIONS ----- */
-/*
 // set up functions to import user's useState and variables related to it: state variable (array), setState callback function & use regex to return outcomes
-*/
 
 //import hooks state from user's app
-export function importHooksInitialState(state: any) {
-  return `${state}`;
+export function importHooksInitialState(id: any) {
+  return `${id}`;
 }
 
+
+export function testStateChange(state: any, id: any) {
+  return `state in ${id} should not be null or undefined, () => {
+    expect(${state.length-1}).not.toBe(undefined);
+    expect(${state.length-1}).not.toBe(null));
+  }`
+}
 /*
 //import hooks callback from user's app
 export function importHooksCallback(setStateCb: any[]) {
