@@ -15,15 +15,22 @@
 // set up functions to import user's useState and variables related to it: state variable (array), setState callback function & use regex to return outcomes
 
 //import hooks state from user's app
-export function importHooksInitialState(id: any) {
+export function importHooksInitialState(id: string | number) {
   return `${id}`;
 }
 
 
-export function testStateChange(state: any, id: any) {
-  return `state in ${id} should not be null or undefined, () => {
+export function testState(state: any, id: string | number) {
+  return `'state in ${id} should not be null or undefined', () => {
     expect(${state.length-1}).not.toBe(undefined);
     expect(${state.length-1}).not.toBe(null));
+  }`
+}
+
+export function testStateChange (state: any, id: string | number, dispCount: number) {
+  return `'state in ${id} should change after every dispatch and its length should be eqaul to to dispatch count', () => {
+    expect(${state[dispCount-1]}).not.toBe(${state[dispCount-2]}));
+    expect(${state.length}).toBe(${dispCount});
   }`
 }
 /*
