@@ -20,7 +20,7 @@
 
 </div>
 
-Chromogen is a Jest unit-test generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your app after following the installation instructions below, interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
+Chromogen is a Jest unit-test generation tool for Recoil selectors and React Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your app after following the installation instructions below, interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
 
 ## Installation
 
@@ -29,6 +29,9 @@ Start by installing the **chromogen** package from npm:
 npm i chromogen
 ```
 
+Click here if you're looking to test Hooks.
+
+## ChromogenObserver (Recoil)
 Before using Chromogen, you'll need to make two changes to your application:
   1. Import the `<ChromogenObserver />` component as a child of `<RecoilRoot />`
   1. Import `atom` and `selector` functions from Chromogen instead of Recoil
@@ -75,6 +78,36 @@ export myAtom = atom({key: 'myAtom', default: true});
 export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)});
 ```
 
+## HooksChromogenObserver (React Hooks)
+### React Component
+Import HooksChromogenObserver in index.js and should wrap around your
+App, and useState will become available throughout your app.
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import {HooksChromogenObserver} from 'chromogen'
+ReactDOM.render(
+    <React.StrictMode>
+        <HooksChromogenObserver name = "App">
+          <App />  
+          </HooksChromogenObserver>
+    </React.StrictMode>,
+    document.getElementById('root'),
+)
+```
+
+By default, Chromogen uses atom & selector keys to generate import statements in the test file. If your source code variable names don't match their assigned keys (such as when using _UUID_), you can optionally pass a `store` prop containing all your import atoms & selectors.
+```jsx
+import React from 'react';
+import {useState} from 'chromogen';
+const App: React.FC = () => {
+    const [elements, setElements] = useState<number[]>([0], "reinspectTest")
+    return (...)
+}
+```
+
+
 ## Usage
   1. After installing Chromogen, launch your application as you normally would.
   2. Two buttons will appear in the lower left corner. The red (right) button toggles test recording on and off. It will always start on by default. The green (left) button downloads the test file containing all cumulative recorded tests.
@@ -82,10 +115,13 @@ export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)}
   4. Before running any tests, you'll need to update the line `<ADD STORE FILEPATH>` with the correct filepath to your Recoil store.
 
 ### Coverage
-  Chromogen produces unit tests for synchronous Recoil selectors, including readonly selectors, writeable selectors, and selectorFamilies (_coming soon_). It does _not_ generate tests for any asynchronous selectors due to their unique mocking requirements; it is able to identify and exclude these cases at runtime without issue.
+  Chromogen produces unit tests for the useState hook and synchronous Recoil
+  selectors, including readonly selectors, writeable selectors, and
+  selectorFamilies (_coming soon_). It does _not_ generate tests for any other hooks or asynchronous selectors due to their unique mocking requirements; it
+  is able to identify and exclude these cases at runtime without issue.
 
 ### DevTool
-If the injected control buttons interfere with your application, you can optionally download Chromogen's DevTool extension (_pending approval by Chrome Web Store_). This will move the control buttons into a DevTool panel with no change in functionality.
+If the injected control buttons interfere with your application, you can optionally download [Chromogen's DevTool](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US) extension. This will move the control buttons into a DevTool panel with no change in functionality.
 
 ## Chromogen is currently in active Beta
 Please visit our [main repo](https://github.com/oslabs-beta/Chromogen) for more detailed instructions, as well as any bug reports, support issues, or feature requests.
