@@ -1,13 +1,3 @@
-// /* eslint-disable */
-// import type { useState } from 'react';
-// /* eslint-enable */
-
-// // Recording toggle
-// export const hooksRecordingState: useState<boolean> = {
-//   key: 'recordingState',
-//   default: true,
-// };
-
 import React, { Reducer } from 'react';
 import { Store } from 'redux';
 
@@ -21,4 +11,5 @@ export type EnhancedStore = Store & {
   ) => UnsubscribeFn;
 };
 
-export const StateInspectorContext = React.createContext<EnhancedStore | undefined>(undefined);
+
+export const ObserverContext = React.createContext<EnhancedStore | undefined>(undefined);

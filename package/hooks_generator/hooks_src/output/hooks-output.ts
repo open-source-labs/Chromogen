@@ -1,32 +1,22 @@
 /* eslint-disable */
-import { Ledger } from '../utils/hooks-ledger';
-import { importHooksInitialState, testState, testStateChange } from './hooks-output-utils';
-
+import { Ledger } from '../hooks-types';
+import { importHooksId, testState } from './hooks-output-utils';
 /* eslint-enable */
 
-/* ----- HELPERS ----- */
-
-/* ----- MAIN ----- */
-
-//writeableHook = cb of useState
-//readableHook = state of useState
-
+// NOTE: HooksOutput needs a beforeEach to bring down state (to instantiate state and create mock data for testing)
 export const hooksOutput = ({
   state,
-  id,
-  dispCount,
-}: //currState,
-//   count,
-Ledger): any =>
+  id
+}: Ledger): any =>
   `import { renderHook } from '@testing-library/react-hooks';
    import React, { useState } from 'react';
    import { 
-   ${importHooksInitialState(id)}
+   ${importHooksId(id)}
 
 } from '<ADD USESTATE HOOK FILEPATH>';
 
 describe('USESTATE', () => {
-  it(${testState(state,id)});
 
-  it(${testStateChange(state, id, dispCount)});
+  it(${testState(state, id)});
+
 });`;
