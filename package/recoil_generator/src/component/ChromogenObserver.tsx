@@ -96,7 +96,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
         const atomFamilyState: AtomFamilyState[] = [];
 
         /* eslint-disable */
-        // TODO: refactor out of for-in syntax
+        // TODO: refactor out of for-in syntax b/c for-in tracks up the prototype chain x_x
         for (const family in atomFamilies) {
           const familyMembers = atomFamilies[family];
           for (const member in familyMembers) {
@@ -122,28 +122,49 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
     },
   );
 
+const [pauseColor, setPauseColor] = useState('#90d1f0');
+const pauseBorderStyle = {
+  borderColor: `${pauseColor}`,
+};
+
+const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0')
+const playBorderStyle = {
+  borderColor: `${playColor}`,
+};
+
   return (
     <>
       {
         // Render button div only if DevTool not connected
         !devtool && (
-          <div style={styles.divStyle}>
-            <button
-              aria-label="capture test"
-              id="chromogen-generate-file"
-              style={{ ...styles.buttonStyle, backgroundColor: '#12967a' }}
-              type="button"
-              onClick={() => generateFile(setFile, storeMap)}
-            />
-            <button
-              aria-label={recording ? 'pause' : 'record'}
-              id="chromogen-toggle-record"
-              style={{ ...styles.buttonStyle, backgroundColor: recording ? '#d44b5a' : '#fce3a3' }}
-              type="button"
-              onClick={() => {
-                setRecording(!recording);
-              }}
-            />
+          <div>
+            <div style={styles.divStyle}>
+              <button
+                aria-label={recording ? 'pause' : 'record'}
+                id="chromogen-toggle-record"
+                style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f' }}
+                type="button"
+                onClick={() => {
+                  setRecording(!recording);
+                }}
+                onMouseEnter={() => recording ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
+                onMouseLeave={() => recording ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}
+              ><a>{recording ? 
+                <div style={{...styles.pauseStyle, ...pauseBorderStyle}}></div>
+                 : <div style={{...styles.playStyle, ...playBorderStyle}}></div>
+                 }</a>
+              </button>
+              <button
+                aria-label="capture test"
+                id="chromogen-generate-file"
+                style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f', marginLeft: '-2px', marginRight: '13px' }}
+                type="button"
+                onClick={() => generateFile(setFile, storeMap)}
+                onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
+                onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
+                ><a>{'Download'}</a>
+              </button>
+            </div>
           </div>
         )
       }
