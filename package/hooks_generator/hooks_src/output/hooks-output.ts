@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Ledger } from '../utils/hooks-ledger';
-import { importHooksInitialState, testStateChange } from './hooks-output-utils';
+import { importHooksInitialState, testState, testStateChange } from './hooks-output-utils';
 
 /* eslint-enable */
 
@@ -14,6 +14,7 @@ import { importHooksInitialState, testStateChange } from './hooks-output-utils';
 export const hooksOutput = ({
   state,
   id,
+  dispCount,
 }: //currState,
 //   count,
 Ledger): any =>
@@ -22,12 +23,10 @@ Ledger): any =>
    import { 
    ${importHooksInitialState(id)}
 
-} from '<ADD COMPONENT STORE FILEPATH>';
-// Suppress 'Batcher' warnings from React conflict
-console.error = jest.fn();
-describe('Initial Render', () => {
-    const { result } = renderHook(() => storeSetStateCallback());
-});
-// describe('USESTATE', () => {
-  ${testStateChange(state,id)}
+} from '<ADD USESTATE HOOK FILEPATH>';
+
+describe('USESTATE', () => {
+  it(${testState(state,id)});
+
+  it(${testStateChange(state, id, dispCount)});
 });`;

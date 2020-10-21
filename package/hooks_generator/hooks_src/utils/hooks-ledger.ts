@@ -9,6 +9,7 @@ export interface Ledger {
   id: string | number;
   initialState: any;
   currState: any;
+  dispCount: number
 }
 //storing initialState, currState, and prevState but through the store
 export const hooksLedger: Ledger = {
@@ -16,6 +17,7 @@ export const hooksLedger: Ledger = {
   id: '',
   initialState: '',
   currState: '',
+  dispCount: -1,
 };
 
 // *******Logic for tracking previous state and whether setState cb has been invoked*******

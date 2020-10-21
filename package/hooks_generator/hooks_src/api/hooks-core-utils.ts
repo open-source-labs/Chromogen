@@ -67,6 +67,9 @@ export function useHookedReducer<S, A>(
         // hooksLedger.state = store.subscribe(() => store.getState());
         store.subscribe(() => hooksLedger.state = store.getState()[reducerId]);
         store.subscribe(() => hooksLedger.id = reducerId);
+        store.subscribe(() => hooksLedger.initialState = hooksLedger.state[0]);
+        store.subscribe(() => hooksLedger.currState = hooksLedger.state[length-1]);
+        store.subscribe(() => hooksLedger.dispCount = hooksLedger.dispCount + 1);
         store.subscribe(() => console.log('ledger',hooksLedger));
         store.subscribe(() => console.log(store.getState()));
         store.subscribe(() => console.log(hooksLedger));
