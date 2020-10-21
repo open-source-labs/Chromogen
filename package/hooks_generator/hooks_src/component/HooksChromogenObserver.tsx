@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {
   useState as reactUseState,
   ReducerAction,
@@ -8,15 +7,10 @@ import React, {
   useState,
 } from 'react';
 import { createStore } from 'redux';
-import { EnhancedStore, StateInspectorContext } from '../utils/hooks-store';
-//import { hooksLedger as ledger } from '../utils/hooks-ledger';
+import { EnhancedStore, ObserverContext } from '../utils/hooks-store';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
-// import { hooksRecordingState as recordingState } from '../utils/hooks-store';
 
-//import { useState as hooksUseState } from '../api/hooks-api'
-/* eslint-enable */
-
-// const hooksRecordingState = true;
+// Interfaces for StateInspectorProps and StoreReducerAction
 interface StateInspectorProps {
   name?: string;
   initialState?: any;
@@ -26,13 +20,13 @@ interface StoreReducerAction {
   type: string;
   payload: any;
 }
+
 // Export hooksChromogenObserver
 export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
   initialState = {},
   children,
 }) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
-  // File will be string
   const [file, setFile] = reactUseState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
   const [recording, setRecording] = reactUseState(true);
@@ -71,20 +65,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
 
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [file]);
-
-  // usePrevious custom hook for grabbing the previous state value
-  // function usePrevious(value: any) {
-  //   // useRef will return a mutable ref object with a current property initialized to the current passed in argument. This object will persist for full lifetime of the component
-  //   const ref = useRef();
-  //   // Store current value in ref
-  //   useEffect(() => {
-  //     ref.current = value;
-  //   }, [value]); // Only re-run if value changes
-
-  //   return ref.current; // Previous value (happens before update in useEffect)
-  // }
-
-  // useEffect to check if tracker[1] was invoked
 
   const omit = (obj: Record<string, any>, keyToRemove: string) =>
     Object.keys(obj)
@@ -162,12 +142,10 @@ const playBorderStyle = {
 };
 
   // User imports hooksChromogenObserver to their app
-  // Button download: onClick for generateHooksFile
-  // Button record: onClick for setRecording
   return (
     <>
       {!devtool && (
-        <StateInspectorContext.Provider value={store}>
+        <ObserverContext.Provider value={store}>
           {children}
           <div style={styles.hooksDivStyle}>
             <button
@@ -201,7 +179,7 @@ const playBorderStyle = {
               <a>{'Download'}</a>
             </button>
           </div>
-        </StateInspectorContext.Provider>
+        </ObserverContext.Provider>
       )}
       <a
         download="chromogen-hooks.test.js"
