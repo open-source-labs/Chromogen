@@ -9,7 +9,7 @@
   />
 </a>
 
-<h3>A UI-driven Jest test-generation package for <a href="https://www.npmjs.com/package/recoil">Recoil.js</a> selectors and <a href="https://www.npmjs.com/package/react">React.js</a> useState hooks.</h3>
+<h3>A UI-driven Jest test-generation package for <a href="https://www.npmjs.com/package/recoil">Recoil.js</a> selectors and <a href="https://www.npmjs.com/package/react">React.js</a> useState Hooks.</h3>
 
 <br />
 
@@ -112,9 +112,14 @@ export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)}
 
 ## HooksChromogenObserver (React Hooks)
 
+Before using Chromogen, you'll need to make two changes to your application:
+
+1. Import the `<HooksChromogenObserver />` component and wrap it around the parent most `<App />`
+2. Import `useState` function from Chromogen instead of React. Chromogen has engineered `useState` to track state changes.
+
 ### React Component
 
-To track state changes in your application's useState hooks, import HooksChromogenObserver in index.js (or the file your application's uppermost parent component is stored) and wrap it around your App. Now Chromogen's useState will become available throughout your app.
+To track state changes in your application's useState Hooks, import HooksChromogenObserver in index.js (or the file your application's uppermost parent component is stored) and wrap it around your App. Now Chromogen's useState will become available throughout your app.
 
 ```jsx
 import React from 'react';
@@ -144,14 +149,14 @@ const App: React.FC = () => {
 };
 ```
 
-<i>Note: Only track one useState hook at a time for accurate test suite generation.</i>
+<i>Note: Only track one useState Hook at a time for accurate test suite generation.</i>
 <br><Br>
 
 ### Coverage
 
-Chromogen produces unit tests for the useState hook and synchronous Recoil
+Chromogen produces unit tests for the useState Hook and synchronous Recoil
 selectors, including readonly selectors, writeable selectors, and
-selectorFamilies (_coming soon_). Currently, it does _not_ generate tests for any other hooks or asynchronous selectors due to their unique mocking requirements; Chromogen
+selectorFamilies (_coming soon_). Currently, it does _not_ generate tests for any other Hooks or asynchronous selectors due to their unique mocking requirements; Chromogen
 identifies and excludes these cases at runtime without issue.
 <Br><Br>
 
