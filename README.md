@@ -14,6 +14,7 @@
 <br />
 
 <!--- Update coverage badge to main repo once Coveralls permission is granted --->
+
 [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
 [![Build Status](https://travis-ci.com/open-source-labs/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
 [![Coverage Status](https://coveralls.io/repos/github/open-source-labs/Chromogen/badge.svg?branch=master)](https://coveralls.io/github/oslabs-beta/Chromogen?branch=master)
@@ -22,7 +23,7 @@
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=CHROMOGEN%20-%20A%20UI-driven%20Jest%20test%20generator%20for%20Recoil%20apps%0A&url=https://www.npmjs.com/package/Chromogen&hashtags=React,Recoil,Jest,testing)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen)
-[![Github stars](https://img.shields.io/github/stars/oslabs-beta/Chromogen?style=social)](https://github.com/oslabs-beta/Chromogen)
+[![Github stars](https://img.shields.io/github/stars/oslabs-beta/Chromogen?style=social)](https://github.com/open-source-labs/Chromogen)
 
 </div>
 
@@ -42,13 +43,16 @@ You're an independent developer or part of a lean team. You want reliable unit t
 [Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application (after following the installation instructions below), interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
 
 ### Don't have a Recoil app handy?
+
 Chromogen's [official demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
 
 ### Chromogen is currently in active Beta
+
 Chromogen supports three main types of test:
-  1. **Initial selector values** on page load
-  2. **Selector return values** for a given state, using snapshots captured after each state transaction.
-  3. **Selector _set_ logic** asserting on resulting atom values for a given `newValue` argument and starting state.
+
+1. **Initial selector values** on page load
+2. **Selector return values** for a given state, using snapshots captured after each state transaction.
+3. **Selector _set_ logic** asserting on resulting atom values for a given `newValue` argument and starting state.
 
 These test suites will be captured for _synchronous_ selectors and selectorFamilies only. However, the presence of asyncronous selectors in your app should not cause any issues with the generated tests. Chromogen can identify such selectors at run-time and exclude them from capture.
 
@@ -61,8 +65,9 @@ _(09/15/20)_ **WARNING:** _Chromogen_ v1.3.x is only compatible with Recoil v0.0
 ## Installation
 
 Before running Chromogen, you'll need to make two changes to your application:
-  1. Import the `<ChromogenObserver />` component as a child of `<RecoilRoot />`
-  1. Import the `atom` and `selector` functions from Chromogen instead of Recoil
+
+1. Import the `<ChromogenObserver />` component as a child of `<RecoilRoot />`
+1. Import the `atom` and `selector` functions from Chromogen instead of Recoil
 
 These changes do have a small performance cost, so they should be reverted before deploying to production.
 
@@ -73,6 +78,7 @@ npm install chromogen
 ```
 
 ### Import the ChromogenObserver component
+
 ChromogenObserver should be included as a direct child of RecoilRoot. It does not need to wrap any other components, and it takes no mandatory props. It utilizes Recoil's TransactionObserver hook to record snapshots on state change.
 
 ```jsx
@@ -82,33 +88,36 @@ import { ChromogenObserver } from 'chromogen';
 import MyComponent from './components/MyComponent.jsx';
 
 const App = (props) => (
-    <RecoilRoot>
-      <ChromogenObserver />
-      <MyComponent {...props} />
-    </RecoilRoot>
-)
+  <RecoilRoot>
+    <ChromogenObserver />
+    <MyComponent {...props} />
+  </RecoilRoot>
+);
 
 export default App;
 ```
 
 If you are using pseudo-random key names, such as with _UUID_, you'll need to pass all of your store exports to the ChromogenObserver component as a `store` prop. This will allow Chromogen to use source code variable names in the output file, instead of relying on keys. When all atoms and selectors are exported from a single file, you can pass the imported module directly:
+
 ```jsx
 import * as store from './store';
-  // ...
-  <ChromogenObserver store={store} />
+// ...
+<ChromogenObserver store={store} />;
 ```
 
 If your store utilizes seprate files for various pieces of state, you can pass all of the imports in an array:
+
 ```jsx
 import * as atoms from './store/atoms';
 import * as selectors from './store/selectors';
 import * as misc from './store/arbitraryRecoilState';
-  // ...
-  <ChromogenObserver store={[atoms, selectors, misc]} />
+// ...
+<ChromogenObserver store={[atoms, selectors, misc]} />;
 ```
 
 ### Import atom & selector functions from Chromogen
-Wherever you import `atom` and/or `selector` functions from Recoil (typically in your `store` file), import them from Chromogen instead. The arguments passed in do **not** need to change in any away, and the return value will still be a normal RecoilAtom or RecoilSelector.  Chromogen wraps the native Recoil functions to track which pieces of state have been created, as well as when various selectors are called and what values they return.
+
+Wherever you import `atom` and/or `selector` functions from Recoil (typically in your `store` file), import them from Chromogen instead. The arguments passed in do **not** need to change in any away, and the return value will still be a normal RecoilAtom or RecoilSelector. Chromogen wraps the native Recoil functions to track which pieces of state have been created, as well as when various selectors are called and what values they return.
 
 ```js
 import { atom, selector } from 'chromogen';
@@ -123,16 +132,17 @@ export const barState = selector({
   get: ({ get }) => {
     const derivedState = get(fooState);
     return derivedState.baz || 'value does not exist';
-  }
-})
+  },
+});
 ```
 
 ## Usage
+
 After following the installation steps above, launch your application as normal. You should see two buttons in the bottom left corner.
 
 <div align="center">
 
-![Buttons](./assets/README-root/buttons.png)
+![Buttons](./assets/README-root/demoButtons.png)
 
 </div>
 
@@ -146,16 +156,15 @@ Once you've recorded all the interactions you want to test, click the green butt
 
 <div align="center">
 
-
-![Download](./assets/README-root/download.png)&nbsp;&nbsp;&nbsp;&nbsp;![File](./assets/README-root/test-directory.png)
+![Download](./assets/README-root/newDownload.png)&nbsp;&nbsp;&nbsp;&nbsp;![File](./assets/README-root/testFilePath.png)
 
 </div>
 
 Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
 
-| **BEFORE** | **AFTER** |
-|:----------:|:---------:|
-|![Default Filepath](./assets/README-root/filepath-before.png)|![Updated Filepath](./assets/README-root/filepath-after.png)|
+|                          **BEFORE**                           |                          **AFTER**                           |
+| :-----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![Default Filepath](./assets/README-root/filepath-before.png) | ![Updated Filepath](./assets/README-root/filepath-after.png) |
 
 You're now ready to run your tests! Upon running your normal Jest test command, you should see three suites for `chromogen.test.js`:
 
@@ -172,6 +181,7 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 
 ### Chrome DevTool (Optional)
+
 If the injected buttons interfere with the functioning or layout of your application, you can also control Chromogen through an optional DevTool panel. As soon as Chromogen detects that the panel has been opened and loaded, the injected buttons will disappear from the application view. The recording and download buttons on the panel work exactly the same as outlined above.
 
 <div align="center">
@@ -183,6 +193,7 @@ If the injected buttons interfere with the functioning or layout of your applica
 _Please Note:_ Chromogen's DevTool is currently under review with the Chrome Web Store. In the interim, the DevTool can be added as an unpacked extension by running `npm install && npm run build` in the `dev-tool` subdirectory and loading the resulting `build` folder.
 
 ## Contributing
+
 **We expect all contributors to abide by the standards of behavior outlined in the [Code of Conduct](CODE_OF_CONDUCT.md).**
 
 We welcome community contributions, including new developers who've never [made an open source Pull Request before](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github). If you'd like to start a new PR, we recommend [creating an issue](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue) for discussion first. This lets us open a conversation, ensuring work is not duplicated unnecessarily and that the proposed PR is a fix or feature we're actively looking to add.
@@ -201,6 +212,7 @@ a 👍. This helps us prioritize what to work on.
 For questions related to using the package, you may either file an issue or _gmail_ us: `chromogen.app`.
 
 ## Core Team
+
 <table>
   <tr>
     <td align="center"><a href="https://github.com/michellebholland"><img src="https://avatars3.githubusercontent.com/u/64747593" width="150px;" alt=""/><br /><sub><b>Michelle Holland</b></sub></a></td>
@@ -214,6 +226,7 @@ For questions related to using the package, you may either file an issue or _gma
   </table>
 
 ## LICENSE
+
 Logo remixed from [ReactJS](https://github.com/reactjs/reactjs.org) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and [Smashicons](https://www.flaticon.com/authors/smashicons) via [www.flaticon.com](https://www.flaticon.com/)
 
 README format adapted from [react-testing-library](https://github.com/testing-library/react-testing-library/blob/master/README.md) under [MIT license](https://github.com/testing-library/react-testing-library/blob/master/LICENSE).
