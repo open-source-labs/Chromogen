@@ -1,6 +1,6 @@
 <div align="center">
 <h1>Chromogen</h1>
-<a href="https://github.com/oslabs-beta/Chromogen">
+<a href="https://github.com/open-source-labs/Chromogen">
   <img
     height="120"
     width="120"
@@ -97,8 +97,10 @@ export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)}
 
 ## Usage
 
-![usage demo](./assets/README-gifs/recoilToDo_Demo.gif)
-<Br>
+<img
+    alt="chromogen demo-todo"
+    src="https://chromogen.dev/1st.gif"
+  />
 
 1. After installing Chromogen and following the above directionsa accordingly, launch your application as you normally would.
 
@@ -162,7 +164,10 @@ identifies and excludes these cases at runtime without issue.
 
 ### DevTool
 
-![devtool test](./assets/README-gifs/devTool_test.gif)
+<img
+    alt="chromogen devtool"
+    src="https://chromogen.dev/devToolDemo.gif"
+  />
 
 If the injected control buttons interfere with your application, you can optionally download [Chromogen's DevTool](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US) extension. This will move the control buttons into a DevTool panel with no change in functionality.
 <Br><br>
