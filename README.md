@@ -331,6 +331,8 @@ For questions related to using the package, you may either file an issue or _gma
     <!-- SPACE -->
     <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Jim Chen</b></sub></a></td>
    <!-- SPACE -->
+
+   <br>
    <td align="center"><a href="https://github.com/amyy98"><img src="https://media-exp1.licdn.com/dms/image/C4E03AQHJz67MSeI7Pw/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=E1Lf--QoVaRPClVVxGjEhUAort0G1UHyM2IdIkUdV_0" width="150px;" alt=""/><br /><sub><b>Amy Yee</b></sub></a></td>
      <!-- SPACE -->
       <td align="center"><a href="https://github.com/wlstjs"><img src="https://avatars1.githubusercontent.com/u/68680285?s=400&u=5b89d376d4d27a77442b74dcfe1c9c4025ce6453&v=4" width="150px;" alt=""/><br /><sub><b>Jinseon Shin</b></sub></a></td>
