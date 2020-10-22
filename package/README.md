@@ -136,7 +136,7 @@ Wherever you import useState from React in your file, import useState from Chrom
 
 ```jsx
 import React from 'react';
-import { useState } as hooksUseState from 'chromogen';
+import { useState as hooksUseState } from 'chromogen';
 
 const App: React.FC = () => {
   const [elements, setElements] = hooksUseState<number[]>([0], "id");
