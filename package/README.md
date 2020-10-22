@@ -97,7 +97,7 @@ export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)}
 
 ## Usage
 
-![usage demo](../assets/README-root/recoilToDo_Demo.gif)
+![usage demo](./assets/README-gifs/recoilToDo_Demo.gif)
 <Br>
 
 1. After installing Chromogen and following the above directionsa accordingly, launch your application as you normally would.
@@ -162,7 +162,7 @@ identifies and excludes these cases at runtime without issue.
 
 ### DevTool
 
-![devtool test](../assets/README-root/devTool_test.gif)
+![devtool test](./assets/README-gifs/devTool_test.gif)
 
 If the injected control buttons interfere with your application, you can optionally download [Chromogen's DevTool](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US) extension. This will move the control buttons into a DevTool panel with no change in functionality.
 <Br><br>
