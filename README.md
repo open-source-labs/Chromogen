@@ -36,6 +36,7 @@
 - [Usage for Recoil Apps](#Usage-for-Recoil-Apps)
 - [Installation for Hooks Apps](#Installation-for-Hooks-Apps)
 - [Usage for Hooks Apps](#Usage-for-Hooks-Apps)
+- [Chrome DevTool (Optional)](<#Chrome-DevTool-(Optional)>)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
 - [License](#license)
@@ -171,11 +172,11 @@ After following the installation steps above, launch your application as normal.
 
 The pause button on the left is the **pause recording** button. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
 
-The red button, on the right, is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
+The button on the right is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
 
 For example, if we want to test our demo to-do app's filter and sort buttons, we may want to have 10 or so different items with various priority levels and completion states. However, we don't necessarily want 10 separate tests just for adding items. We can instead add one or two items to generate tests for that functionality, then pause recording while we add the other 8 items. Once everything is added, we can resume recording to generate filter & sort tests with all 10 items present.
 
-Once you've recorded all the interactions you want to test, click the pause button and then the download to download the test file. You can now drag-and-drop the downloaded file into your app's test directory.
+Once you've recorded all the interactions you want to test, click the pause button and then the download button to download the test file. You can now drag-and-drop the downloaded file into your app's test directory.
 
 <div align="center">
 
@@ -202,12 +203,88 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Selectors** tests the return value of various selectors for a given state. Each test represents the app state after a transaction has occured, generally triggered by some user interaction. For each selector that ran after that transaction, the test asserts on the selector's return value for the given state.
 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
+<br><br><Br>
 
 ## Installation for Hooks Apps
 
+Before using Chromogen, you'll need to make two changes to your application:
+
+1. Import the `<HooksChromogenObserver />` component and wrap it around the parent most `<App />`
+2. Import `useState` function from Chromogen instead of React. Chromogen has engineered `useState` to track state changes.
+
+### Download the Chromogen package from npm.
+
+```
+npm install chromogen
+```
+
+### Import the HooksChromogenObserver component
+
+Import `HooksChromgenObserver`. HooksChromogenObserver should wrap the parent most component of the user's app (usually inside of index.js).
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import { HooksChromogenObserver } from 'chromogen';
+
+ReactDOM.render(
+    <HooksChromogenObserver name="App">
+      <App />
+    </HooksChromogenObserver>
+  document.getElementById('root'),
+);
+```
+
+### Import useState Hook from Chromogen
+
+Chromogen has engineered React's `useState` Hook to include a state change tracker. Wherever your app imports `useState` from React, import `useState` from Chromogen instead.
+
+By default, Chromogen requires a second parameter in the useState hooks as `id` to generate a test suite for the user's application.
+
+```jsx
+import React from 'react';
+import { useState as hooksUseState } from 'chromogen';
+
+const App: React.FC = () => {
+  const [elements, setElements] = hooksUseState<number[]>([0], "id");
+  return (...)
+};
+```
+
+<br> <br>
+
 ## Usage for Hooks Apps
 
-### Chrome DevTool (Optional)
+After following the installation steps above, launch your application as normal. You should see two buttons in the bottom left corner.
+
+<div align="center">
+
+![Buttons](./assets/README-root/hooksDemo.gif)
+
+</div>
+
+The pause button on the left is the **pause recording** button. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
+
+The button on the right is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
+
+Once you've recorded all the interactions you want to test, click the pause button and then the download button to generate the test file. You can now drag-and-drop the downloaded file into your app's test directory.
+
+<div align="center">
+
+![Download](./assets/README-root/newDownload.png)&nbsp;&nbsp;&nbsp;&nbsp;![File](./assets/README-root/testFilePath.png)
+
+</div>
+
+You're now ready to run your tests! After running your normal Jest test command, you should a test suite for `chromogen.test.js`.
+
+The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
+
+<br><br>
+
+## Chrome DevTool (Optional)
+
+[Install Chromogen DevTool Extension](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
 
 If the injected buttons interfere with the functioning or layout of your application, you can also control Chromogen through an optional DevTool panel. As soon as Chromogen detects that the panel has been opened and loaded, the injected buttons will disappear from the application view. The recording and download buttons on the panel work exactly the same as outlined above.
 
@@ -217,7 +294,8 @@ If the injected buttons interfere with the functioning or layout of your applica
 
 </div>
 
-_Please Note:_ Chromogen's DevTool is currently under review with the Chrome Web Store. In the interim, the DevTool can be added as an unpacked extension by running `npm install && npm run build` in the `dev-tool` subdirectory and loading the resulting `build` folder.
+_Note:_ You may also access the DevTool can be added as an unpacked extension by running `npm install && npm run build` in the `dev-tool` subdirectory and loading the resulting `build` folder.
+<Br><br><br>
 
 ## Contributing
 
@@ -237,8 +315,11 @@ a 👍. This helps us prioritize what to work on.
 ### Questions
 
 For questions related to using the package, you may either file an issue or _gmail_ us: `chromogen.app`.
+<br><Br>
 
 ## Core Team
+
+<br>
 
 <table>
   <tr>
@@ -249,19 +330,20 @@ For questions related to using the package, you may either file an issue or _gma
     <td align="center"><a href="https://github.com/connorrose"><img src="https://avatars1.githubusercontent.com/u/42079810" width="150px;" alt=""/><br /><sub><b>Connor Rose Delisle</b></sub></a></td>
     <!-- SPACE -->
     <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Jim Chen</b></sub></a></td>
-
-     <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Cameron Greer</b></sub></a></td>
-
    <!-- SPACE -->
-   <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Amy Yee</b></sub></a></td>
+   <td align="center"><a href="https://github.com/amyy98"><img src="https://media-exp1.licdn.com/dms/image/C4E03AQHJz67MSeI7Pw/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=E1Lf--QoVaRPClVVxGjEhUAort0G1UHyM2IdIkUdV_0" width="150px;" alt=""/><br /><sub><b>Amy Yee</b></sub></a></td>
      <!-- SPACE -->
-      <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Jinseon Shin</b></sub></a></td>
+      <td align="center"><a href="https://github.com/wlstjs"><img src="https://avatars1.githubusercontent.com/u/68680285?s=400&u=5b89d376d4d27a77442b74dcfe1c9c4025ce6453&v=4" width="150px;" alt=""/><br /><sub><b>Jinseon Shin</b></sub></a></td>
    <!-- SPACE -->
-       <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Ryan Tumel</b></sub></a></td>
+       <td align="center"><a href="https://github.com/rtumel123"><img src="https://media-exp1.licdn.com/dms/image/C4E03AQEfadHTTgopog/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=G_ZYBPIbzTeJfZPELKiAoNeHNFnHwukX02E2v1-jZ9c" width="150px;" alt=""/><br /><sub><b>Ryan Tumel</b></sub></a></td>
    <!-- SPACE -->
-         <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Amy Yee</b></sub></a></td>
+         <td align="center"><a href="https://github.com/cgreer011"><img src="https://media-exp1.licdn.com/dms/image/C4E03AQGVS66UliP03A/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=Hw09TN_ObXiVzmBLbIRfUyVvfskRBc_F9vXt9AYy72Y" width="150px;" alt=""/><br /><sub><b>Cameron Greer</b></sub></a></td>
+           <!-- SPACE -->
+         <td align="center"><a href="https://github.com/nicholasjs"><img src="https://media-exp1.licdn.com/dms/image/C5603AQEeCnAZRgST9Q/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=1aGCazRr9QdzKXfyL6sQz5UMl-_Idf9SpHQPfRnCPY4" width="150px;" alt=""/><br /><sub><b>Nicholas Shay</b></sub></a></td>
+
   </tr>
   </table>
+<br><br>
 
 ## LICENSE
 

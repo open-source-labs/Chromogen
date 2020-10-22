@@ -112,6 +112,11 @@ export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)}
 
 ## HooksChromogenObserver (React Hooks)
 
+Before using Chromogen, you'll need to make two changes to your application:
+
+1. Import the `<HooksChromogenObserver />` component and wrap it around the parent most `<App />`
+2. Import `useState` function from Chromogen instead of React. Chromogen has engineered `useState` to track state changes.
+
 ### React Component
 
 To track state changes in your application's useState Hooks, import HooksChromogenObserver in index.js (or the file your application's uppermost parent component is stored) and wrap it around your App. Now Chromogen's useState will become available throughout your app.
