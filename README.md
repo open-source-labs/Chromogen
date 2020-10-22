@@ -1,15 +1,15 @@
 <div align="center">
 
-<a href="https://www.npmjs.com/package/Chromogen">
+<a href="https://chromogen.dev">
   <img
-    height="145"
-    width="625"
+    height="110"
+    width="600"
     alt="Chromogen logo"
     src="./assets/logo/chromogen-banner.png"
   />
 </a>
 
-<h3>A UI-driven test-generation package for <a href="https://github.com/facebookexperimental/Recoil">Recoil</a> selectors.</h3>
+<h3>A UI-driven test-generation package for <a href="https://github.com/facebookexperimental/Recoil">Recoil.js</a> selectors and <a href="https://github.com/facebook/react">React</a> useState Hooks.</h3>
 
 <br />
 
@@ -24,31 +24,34 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen)
 [![Github stars](https://img.shields.io/github/stars/oslabs-beta/Chromogen?style=social)](https://github.com/open-source-labs/Chromogen)
+<br />
 
 </div>
+<br />
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Installation](#installation)
-- [Usage](#usage)
+- [Installation for Recoil Apps](#Installation-for-Recoil-Apps)
+- [Usage for Recoil Apps](#Usage-for-Recoil-Apps)
+- [Installation for Hooks Apps](#Installation-for-Hooks-Apps)
+- [Usage for Hooks Apps](#Usage-for-Hooks-Apps)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
 - [License](#license)
+  <Br><br />
 
 ## Overview
 
-You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil app, but you need to move fast and time is major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
+You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
 
-[Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application (after following the installation instructions below), interact as a user normally would, and with one click you'll download a ready-to-run Jest test file.
-
-### Don't have a Recoil app handy?
-
-Chromogen's [official demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
+[Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
 
 ### Chromogen is currently in active Beta
 
-Chromogen supports three main types of test:
+<b>FOR RECOIL APPS:</b>
+
+Chromogen currently supports three main types of tests for Recoil apps:
 
 1. **Initial selector values** on page load
 2. **Selector return values** for a given state, using snapshots captured after each state transaction.
@@ -56,20 +59,38 @@ Chromogen supports three main types of test:
 
 These test suites will be captured for _synchronous_ selectors and selectorFamilies only. However, the presence of asyncronous selectors in your app should not cause any issues with the generated tests. Chromogen can identify such selectors at run-time and exclude them from capture.
 
-At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime. However, we are always open to suggestions to meet the needs of our userbase. Want to see this or any other feature added to the package? [Let us know!](#contributing)
+At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime.
 
 By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the ChromogenObserver component as a `store` prop. The installation instructions below contain further details.
+<br><Br>
 
-_(09/15/20)_ **WARNING:** _Chromogen_ v1.3.x is only compatible with Recoil v0.0.10 currently. We are working on an update to enable compatibility with Recoil's new v0.0.11 release.
+<b>FOR REACT HOOKS APPS</b>
 
-## Installation
+Chromogen currently supports one main type of test for React Hooks Apps:
+
+1. **Initial state values** on page load for useState Hooks
+2. **useState's returned state variable** - _in beta_
+
+Currently, these test suites will be captured only for the useState Hook. We are working on adding testing for the useReducer Hook in the near future.
+<br><Br>
+
+We are always open to suggestions to meet the needs of our userbase. Want to see this or any other feature added to the package? [Let us know!](#contributing)
+<br><Br>
+
+### Recoil Demo To-Do App
+
+Chromogen's [official demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
+
+<Br>
+
+## Installation for Recoil Apps
 
 Before running Chromogen, you'll need to make two changes to your application:
 
 1. Import the `<ChromogenObserver />` component as a child of `<RecoilRoot />`
 1. Import the `atom` and `selector` functions from Chromogen instead of Recoil
 
-These changes do have a small performance cost, so they should be reverted before deploying to production.
+<i>Note: These changes do have a small performance cost, so they should be reverted before deploying to production.</i>
 
 ### Download the Chromogen package from npm.
 
@@ -79,7 +100,7 @@ npm install chromogen
 
 ### Import the ChromogenObserver component
 
-ChromogenObserver should be included as a direct child of RecoilRoot. It does not need to wrap any other components, and it takes no mandatory props. It utilizes Recoil's TransactionObserver hook to record snapshots on state change.
+ChromogenObserver should be included as a direct child of RecoilRoot. It does not need to wrap any other components, and it takes no mandatory props. It utilizes Recoil's TransactionObserver Hook to record snapshots on state change.
 
 ```jsx
 import React from 'react';
@@ -136,7 +157,9 @@ export const barState = selector({
 });
 ```
 
-## Usage
+<br><Br>
+
+## Usage for Recoil Apps
 
 After following the installation steps above, launch your application as normal. You should see two buttons in the bottom left corner.
 
@@ -146,13 +169,13 @@ After following the installation steps above, launch your application as normal.
 
 </div>
 
-The green button, on the left, is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
+The pause button on the left is the **pause recording** button. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
 
-The red button, on the right, is the **recording toggle**. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Red indicates "recording in progress" and yellow means the recording is paused. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
+The red button, on the right, is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
 
-For example, if we want to test our to-do app's filter and sort buttons, we may want to have 10 or so different items with various priority levels and completion states. However, we don't necessarily want 10 separate tests just for adding items. We can instead add one or two items to generate tests for that functionality, then pause recording while we add the other 8 items. Once everything is added, we can resume recording to generate filter & sort tests with all 10 items present.
+For example, if we want to test our demo to-do app's filter and sort buttons, we may want to have 10 or so different items with various priority levels and completion states. However, we don't necessarily want 10 separate tests just for adding items. We can instead add one or two items to generate tests for that functionality, then pause recording while we add the other 8 items. Once everything is added, we can resume recording to generate filter & sort tests with all 10 items present.
 
-Once you've recorded all the interactions you want to test, click the green button to download the test file. You can now drag-and-drop the downloaded file into your app's test directory.
+Once you've recorded all the interactions you want to test, click the pause button and then the download to download the test file. You can now drag-and-drop the downloaded file into your app's test directory.
 
 <div align="center">
 
@@ -179,6 +202,10 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Selectors** tests the return value of various selectors for a given state. Each test represents the app state after a transaction has occured, generally triggered by some user interaction. For each selector that ran after that transaction, the test asserts on the selector's return value for the given state.
 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
+
+## Installation for Hooks Apps
+
+## Usage for Hooks Apps
 
 ### Chrome DevTool (Optional)
 
@@ -222,6 +249,17 @@ For questions related to using the package, you may either file an issue or _gma
     <td align="center"><a href="https://github.com/connorrose"><img src="https://avatars1.githubusercontent.com/u/42079810" width="150px;" alt=""/><br /><sub><b>Connor Rose Delisle</b></sub></a></td>
     <!-- SPACE -->
     <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Jim Chen</b></sub></a></td>
+
+     <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Cameron Greer</b></sub></a></td>
+
+   <!-- SPACE -->
+   <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Amy Yee</b></sub></a></td>
+     <!-- SPACE -->
+      <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Jinseon Shin</b></sub></a></td>
+   <!-- SPACE -->
+       <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Ryan Tumel</b></sub></a></td>
+   <!-- SPACE -->
+         <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Amy Yee</b></sub></a></td>
   </tr>
   </table>
 
