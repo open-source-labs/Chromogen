@@ -1,6 +1,6 @@
 {
   "name": "chromogen",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "description": "simple, interaction-driven Jest test generator for Recoil apps",
   "main": "build/index.js",
   "keywords": [
@@ -38,6 +38,26 @@
     {
       "name": "Connor Rose Delisle",
       "url": "https://github.com/connorrose"
+    },
+    {
+      "name": "Amy Yee",
+      "url": "https://github.com/amyy98"
+    },
+    {
+      "name": "Cameron Greer",
+      "url": "https://github.com/cgreer011"
+    },
+    {
+      "name": "Jinseon Shin",
+      "url": "https://github.com/wlstjs/"
+    },
+    {
+      "name": "Nicholas Shay",
+      "url": "https://github.com/nicholasjs"
+    },
+    {
+      "name": "Ryan Tumel",
+      "url": "https://github.com/rtumel123"
     }
   ],
   "license": "MIT",
