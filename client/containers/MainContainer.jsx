@@ -1,24 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Gratitude from '../components/Gratitude.jsx';
 
 function MainContainer (){
   const [post, setPost] = useState([]);
   
-//   fetch('http://localhost:3000/', {
-//     method: 'GET', 
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   })
-//  .then(response => response.json())
-//  .then(data => console.log(data.answer))
+ // useEffect(() => 
+ 
+    // fetch('/')
+    // .then(data => data.json())
+    // .then(data => console.log(data))
 
-    // .catch(() => {
-    //   console.log('there was an error')
-    // }
-    // )
-  
 
+  //)
 
   return (
      <Gratitude />

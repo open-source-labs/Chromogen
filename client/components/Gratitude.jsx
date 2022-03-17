@@ -9,10 +9,12 @@ const useInput = init => {
     };
     return [ value, onChange ];
 }
+//const id = 0;
 
 const Gratitude = props => {
   const [ answer, answerOnChange] = useInput('');
   const [ arrays, setArrays ] = useState([]);
+  //const [ id, setId ] = useState(0);
 
 const saveAnswer = () => {
     const body = {
@@ -29,7 +31,6 @@ const saveAnswer = () => {
      .then(response => response.json())
      .then(data => { setArrays(oldArray => [...oldArray, data.answer]) })
      .catch(err => console.log('CreateCharacter fetch /: ERROR: ', err));
-
 }
 
   return(

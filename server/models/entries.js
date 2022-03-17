@@ -9,7 +9,7 @@ const EntriesSchema = new mongoose.Schema({
   answer: {
     type: String,
     required: true,
-  }
+  },
 })
 
 module.exports = mongoose.model('entries', EntriesSchema);

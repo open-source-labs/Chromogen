@@ -42,21 +42,21 @@ module.exports = {
       template: path.join(__dirname, 'client', 'index.html'),
     })
   ],
-//   devServer: {
-//     host: 'localhost',
-//     port: 8080,
-//      static: {
-//       publicPath: '/',
-//        directory: path.resolve(__dirname, 'dist')
-//       },
-//       hot: true,
-//       historyApiFallback: true,
-//       headers: { 'Access-Control-Allow-Origin': '*' },
-//      proxy: {
-//         '/': {
-//           target: 'http://localhost:3000',
-//           secure: false,
-//     }
-//   }
-// }
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+     static: {
+      publicPath: '/',
+       directory: path.resolve(__dirname, 'dist')
+      },
+      hot: true,
+      historyApiFallback: true,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+     proxy: {
+        '/': {
+          target: 'http://localhost:3000',
+          secure: false,
+    }
+  }
+}
 }

@@ -1,4 +1,4 @@
-// const db = require('../models/entries')
+
 const mongoose = require('mongoose');
 const models = require('../models/entries.js')
 
@@ -8,7 +8,6 @@ dailyController.getEntries = (req, res, next) => {
     models.find({})
     .then(entryDocs => {
         res.locals.entries = entryDocs;
-        console.log(entryDocs)
         next();
     })
     .catch(err => {
@@ -38,10 +37,17 @@ dailyController.addEntry = (req, res, next) => {
 }
 
 dailyController.deleteEntry = (req, res, next) => {
-  const { answer } = req.body;
-
-  models.deleteOne({
-    answer
+  const id = req.params.id;
+  models.findOneAndDelete(id)
+  .then(deleteDoc => {
+    res.locals.delete = deleteDoc;
+    next();
+  })
+  .catch(err => {
+    next({
+      log: `dailyController.deleteEntry: ERROR: ${err}`,
+      message: { err: 'Error occured in dailyController.deleteEntry. Check server logs for more details.'}
+    })
   })
 }
 module.exports = dailyController;

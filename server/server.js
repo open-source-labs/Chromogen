@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const infoRouter = require('./routes/info');
 const dailyController = require('./controllers/dailyController');
+const methodOverride = require('method-override');
 
 const app = express();
 const PORT = 3000;
@@ -22,14 +23,8 @@ app.use(express.static(path.resolve(__dirname, '../client')))
 //define rounte handlers
 app.use('/', infoRouter);
 
-// //creating entry
-// app.post('/', 
-//   dailyController.addEntry,
-//   (req,res) => {
-//     //console.log(res.locals.entry);
-//     res.status(200).json(res.locals.entry)
-//   }
-// );
+//allow for delete in forms
+app.use(methodOverride('_method'))
 
 //catch-all rounte handler for request to an unknow route
 app.use((req, res) => res.status(404).send('This is not the page you are looking for...'));

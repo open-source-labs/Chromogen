@@ -17,6 +17,7 @@ h1 {
 }
 
 .goals{
+  display: flex;
   background-color: rgb(236, 236, 236);
   padding: 10px 0px 10px 10px;
   margin: 10px 0;
@@ -26,12 +27,15 @@ h1 {
 }
 
 textarea{
-  width: 500px;
+  width: 525px;
   height: 50px;
 }
+.goals .element{
+ width: 450px;
 
+}
 .goals button {
-
+  justify-content: space-between;
 }
 
 .affirm {
@@ -40,4 +44,19 @@ textarea{
   padding: 5px 10px;
   border: 2px solid rgb(170, 179, 231);
   border-radius: 10px;
+}
+
+#jokeContainer{
+  position: absolute;
+  bottom: 10px;
+  height: 120px;
+  width: 550px;
+}
+
+.joke{
+  background-color: rgb(252, 235, 189);
+  margin: 10px 5px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-align: center;
 }
