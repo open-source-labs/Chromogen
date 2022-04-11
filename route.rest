@@ -1,5 +1,0 @@
-GET http://localhost:3000/info
-
-###
-
-GET http://localhost:3000/15

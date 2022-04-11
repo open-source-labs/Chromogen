@@ -1,47 +1,54 @@
 {
-  "name": "daily-app",
+  "name": "chromogen-root",
   "version": "1.0.0",
-  "description": "App for daily journaling and goal setting.",
-  "main": "index.js",
+  "description": "simple, interaction-driven test generator for Recoil apps",
   "scripts": {
-    "test": "test",
-    "start": "NODE_ENV=production node server/server.js",
-    "build": "webpack",
-    "dev": "NODE_ENV=development nodemon server/server.js & NODE_ENV=development webpack server",
-    "gulp-prod": "node_modules/.bin/gulp prod",
-    "gulp-dev": "node_modules/.bin/gulp dev"
+    "ci-all": "(npm ci); (cd ./package && npm ci); (cd ./dev-tool && npm ci); (cd ./demo-todo && npm ci);",
+    "build": "echo \"ERROR! Nothing to build in root directory.\n\""
   },
-  "keywords": [
-    "daily",
-    "journal",
-    "app"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oslabs-beta/Chromogen.git"
+  },
+  "contributors": [
+    {
+      "name": "Michelle Holland",
+      "url": "https://github.com/michellebholland/"
+    },
+    {
+      "name": "Jim Chen",
+      "url": "https://github.com/chenchingk"
+    },
+    {
+      "name": "Andy Wang",
+      "url": "https://github.com/andywang23"
+    },
+    {
+      "name": "Connor Rose Delisle",
+      "url": "https://github.com/connorrose"
+    }
   ],
-  "author": "Dani",
-  "license": "ISC",
-  "dependencies": {
-    "chromogen": "^1.4.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "method-override": "^3.0.0",
-    "mongoose": "^6.2.6",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-redux": "^7.2.6",
-    "react-router-dom": "^6.2.2",
-    "redux": "^4.1.2"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oslabs-beta/Chromogen/issues"
   },
+  "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
   "devDependencies": {
-    "@babel/core": "^7.17.7",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
-    "@babel/preset-typescript": "^7.16.7",
-    "babel-loader": "^8.2.3",
-    "css-loader": "^6.7.1",
-    "html-webpack-plugin": "^5.5.0",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.2.8",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "@testing-library/react-hooks": "^3.4.2",
+    "@typescript-eslint/parser": "^3.9.1",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.5",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "prettier": "npm:@btmills/prettier@^2.1.1",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@types/jest": "^26.0.14",
+    "redux": "^4.0.5"
   }
 }
