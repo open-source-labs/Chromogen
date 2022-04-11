@@ -38,7 +38,7 @@ dailyController.addEntry = (req, res, next) => {
 
 dailyController.deleteEntry = (req, res, next) => {
   const id = req.params.id;
-  models.findOneAndDelete(id)
+  models.findOneAndDelete({answer: id})
   .then(deleteDoc => {
     res.locals.delete = deleteDoc;
     next();

@@ -5,11 +5,11 @@ const path = require('path/posix');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: path.join(__dirname, 'client', 'index.js'),
-  // output: {
-  //   filename: 'bundle.js',
-  //   path: path.resolve(__dirname, "build"),
-  // },
+  entry: path.join(__dirname, "client", "index.js"),
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, "build"),
+  },
   module: {
     rules: [
       {
@@ -18,9 +18,14 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
+      },
+      {
+        test: /\.tsx?/,
+        exclude: /(node_modules)/,
+        use: "ts-loader",
       },
       {
         test: /.(css)$/,
@@ -28,35 +33,39 @@ module.exports = {
       },
       {
         test: /\.(png|jp(e*)g|svg|gif)$/,
-        use: ['file-loader'],
+        use: ["file-loader"],
       },
       {
         test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      }
-    ]
+        use: ["@svgr/webpack"],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Development",
-      template: path.join(__dirname, 'client', 'index.html'),
-    })
+      template: path.join(__dirname, "client", "index.html"),
+    }),
   ],
   devServer: {
-    host: 'localhost',
+    host: "localhost",
     port: 8080,
-     static: {
-      publicPath: '/',
-       directory: path.resolve(__dirname, 'dist')
+    static: {
+      publicPath: "/",
+      directory: path.resolve(__dirname, "dist"),
+    },
+    hot: true,
+    historyApiFallback: true,
+    headers: { "Access-Control-Allow-Origin": "*" },
+    proxy: {
+      "/": {
+        target: "http://localhost:3000",
+        secure: false,
       },
-      hot: true,
-      historyApiFallback: true,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-     proxy: {
-        '/': {
-          target: 'http://localhost:3000',
-          secure: false,
-    }
-  }
-}
-}
+    },
+  },
+
+  resolve: {
+    extensions: [".js", ".jsx", ".tsx", ".ts"],
+  },
+};
