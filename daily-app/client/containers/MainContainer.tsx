@@ -8,19 +8,27 @@ const MainContainer: React.FC = () => {
   // const [post, setPost] = hooksUseState<number[]>([0], "id");
   // console.log('in maincontainer???????')
   // const [post, setPost] = useState([]);
-  const [count, setCount] = hooksUseState<number[]>([0], 'id');
+  const [count, setCount] = hooksUseState<number[]>([0], 'Main Container\'s count');
+  const [subtract, setSubtract] = hooksUseState<number[]>([0], 'Main Container');
 
   return (
 
   <div>
-    <p>You clicked {count} times</p>
+    <p>You clicked {count.length-1} times</p>
     <button onClick={() => {
-      setCount([1])
-      console.log(count)
+        // setCount([count[0]+1])
+      setCount([...count, count[count.length-1]+1])
+      console.log('count after setCount', count)
       }
     }>
       Click me
-    </button>
+      </button>
+      <p>You did not </p>
+      <button onClick={() => {
+      
+      }}>
+        Don't click me
+      </button>
   </div>
 
   //  <Gratitude />

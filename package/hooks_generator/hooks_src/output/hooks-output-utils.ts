@@ -16,9 +16,9 @@ export function testState(state: any, id: string | number) {
 // Testing that individual state is changing, and our ledger is updating accordingly
 // BUG: State needs to be a primitive data type or mapped over in order for the test to be read. Arrays and objects will show up as undefined
 
-// export function testStateChange (state: any, id: string | number, dispCount: number) {
-//   return `'should show that state in ${id} changes after every dispatch and its length should be equal to dispatch count', () => {
-//     expect(${state[dispCount-1]}).not.toBe(${state[dispCount-2]}));
-//     expect(${state.length}).toBe(${dispCount});
-//   }`
-// }
+export function testStateChange (state: any, id: string | number, dispCount: number) {
+  return `'should show that state in ${id} changes after every dispatch and its length should be equal to dispatch count', () => {
+    expect(${state[dispCount-1]}).not.toBe(${state[dispCount-2]}));
+    expect(${state.length}).toBe(${dispCount});
+  }`
+}
