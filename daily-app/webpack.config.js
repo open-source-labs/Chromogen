@@ -1,11 +1,11 @@
-//const path = require('path');
+// const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path/posix');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: path.join(__dirname, "client", "index.js"),
+  entry: path.join(__dirname, 'client', "index.js"),
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, "build"),
@@ -59,13 +59,13 @@ module.exports = {
     headers: { "Access-Control-Allow-Origin": "*" },
     proxy: {
       "/": {
-        target: "http://localhost:3000",
+        target: 'http://localhost:3000',
         secure: false,
       },
     },
   },
-
   resolve: {
-    extensions: [".js", ".jsx", ".tsx", ".ts"],
+    extensions: ['.js', '.jsx', '.tsx', '.ts'],
   },
+
 };
