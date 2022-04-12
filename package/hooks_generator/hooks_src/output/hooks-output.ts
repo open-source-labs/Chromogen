@@ -18,5 +18,6 @@ export const hooksOutput = ({
 describe('USESTATE', () => {
 
   it(${testState(state, id)});
+  ${console.log(state)}
 
 });`;
