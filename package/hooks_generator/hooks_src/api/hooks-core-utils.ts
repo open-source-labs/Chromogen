@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Reducer, useMemo, Dispatch, useState, useEffect } from 'react';
 import { hooksLedger } from '../utils/hooks-ledger';
 import { EnhancedStore } from '../utils/hooks-store';
@@ -13,10 +14,10 @@ export function useHookedReducer<S, A>(
     return initialStateInStore === undefined ? initialState : initialStateInStore;
   }, []);
 
+
   const [localState, setState] = useState<S>(initialReducerState);
   // Creating state property in store to save all state changes
   store.subscribe(() => (hooksLedger.state = store.getState()[reducerId]));
-  // store.subscribe(() => console.log(store.getState()));
 
   const dispatch = useMemo<Dispatch<A>>(() => {
     const dispatch = (action: any) => {
@@ -26,17 +27,26 @@ export function useHookedReducer<S, A>(
           payload: action,
         });
       } else {
+
+        //Subscribe will be called any time an action is dispatched, and some part of the state tree may potentially have changed. You may then call getState() to read the current state tree inside the callback.
         store.subscribe(() => {
+          //how does getState work? is this causing our error?
           hooksLedger.state = store.getState()[reducerId];
           hooksLedger.id = reducerId;
           hooksLedger.initialState = hooksLedger.state[0];
         });
 
-
         store.subscribe(() => hooksLedger.currState = hooksLedger.state[length - 1]);
 
-        store.subscribe(() => hooksLedger.dispCount = hooksLedger.dispCount + 1);
+        store.subscribe(() => {
+          hooksLedger.dispCount = hooksLedger.dispCount + 1
+           
+            //!!!!!!bug!!!!!!  hooksLedger is getting rerendered the amount of times the button is clicked
+            console.log('hooksLedger', hooksLedger)
+        });
 
+        //bug, every time we click the count, the hooksLedger is now being printed that many times
+        //console.log('hooks-core-utils dispCount', hooksLedger.dispCount);
         store.dispatch({
           type: reducerId,
           payload: action,

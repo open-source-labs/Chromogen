@@ -3,6 +3,7 @@ import React from 'react';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import TextBox from './TextBox';
 
 const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
   // Connect to background.js

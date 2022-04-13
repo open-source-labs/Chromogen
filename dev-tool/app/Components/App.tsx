@@ -30,7 +30,7 @@ const App: React.FC = () => {
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="row">chromogen</div>
+      <div className="row">Team MSLED's super awesome chromogen tool</div>
       <Recorder status={status} />
     </div>
   ) : (

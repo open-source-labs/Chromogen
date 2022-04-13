@@ -74,6 +74,15 @@ span {
   margin-top: 5px;
 }
 
+#testing{
+  color: white;
+}
+#textBoxEdit {
+  background-color: white;
+  height: 100px;
+  width: 300px;
+}
+
 /* Media queries */
 
 @media (max-width: 450px) {

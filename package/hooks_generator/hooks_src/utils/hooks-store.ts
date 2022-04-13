@@ -3,6 +3,7 @@ import { Store } from 'redux';
 
 type UnsubscribeFn = () => void;
 
+//
 export type EnhancedStore = Store & {
   registerHookedReducer: (
     reducer: Reducer<any, any>,

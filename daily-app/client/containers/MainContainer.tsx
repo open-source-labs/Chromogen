@@ -6,17 +6,16 @@ import Gratitude from '../components/Gratitude';
 const MainContainer: React.FC = () => {
   // function MainContainer (){
   // const [post, setPost] = hooksUseState<number[]>([0], "id");
-  // console.log('in maincontainer???????')
   // const [post, setPost] = useState([]);
-  const [count, setCount] = hooksUseState<number[]>([0], 'id');
 
+  const [count, setCount] = hooksUseState<number[]>([0], 'id');
   return (
 
   <div>
-    <p>You clicked {count} times</p>
+    <p>You clicked {count.length-1} times</p>
     <button onClick={() => {
-      setCount([1])
-      console.log(count)
+      setCount([...count, count[count.length-1] + 1])
+      console.log('Main container count array', count)
       }
     }>
       Click me
