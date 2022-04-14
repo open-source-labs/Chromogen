@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Recorder from './Recorder';
+import StateTree from './StateTree';
+import TextBox from './TextBox';
 /* eslint-enable */
 
 const App: React.FC = () => {
@@ -30,8 +32,10 @@ const App: React.FC = () => {
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="row">chromogen</div>
+      <div className="header">chromogen</div>
       <Recorder status={status} />
+      <StateTree />
+      <TextBox />
     </div>
   ) : (
     // Otherwise, render 'please install' message along with Github Icon

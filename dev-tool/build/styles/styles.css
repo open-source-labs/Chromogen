@@ -1,29 +1,55 @@
 /* General styles */
 html {
   height: 100vh;
-  color: #d4d4d8;
-  background-color: rgb(30, 30, 31);
+  color: #1b1b1b;
+  background-color: rgb(224, 224, 224);
 }
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
 }
 
 /* App.jsx */
-.App {
+/* .App {
   display: grid;
   grid-template-rows: 33fr 33fr 33fr;
   font-family: 'Palanquin', sans-serif;
   height: 100vh;
-}
+} */
 .App div {
-  text-align: center;
-  font-size: 2.5rem;
-  letter-spacing: 4px;
   width: 100%;
-  text-shadow: #83beb1c2 1px 2px 0;
 }
-
+.App #header{
+  text-align: center;
+  margin: 0px auto;
+  font-size: 1.5rem;
+  letter-spacing: 4px;
+  text-shadow: #83beb1c2 1px 2px 0px;
+  height: 50px;
+  width: 100%;
+}
+#label{
+  font-size: 1rem;
+  margin: 0px;
+  padding-left: 20px;
+  background-color: #c2c2c2;
+  color: rgb(0, 0, 0);
+  width: 100%;
+}
+#textBox{
+  background-color: white;
+  margin: 10px 0px;
+  height: 200px;
+}
+#textBoxEdit{
+  height: 150px;
+  width: 100%;
+}
+#stateTree{
+  background-color: white;
+  margin: 10px 0px;
+  height: 200px;
+}
 /* Recorder.jsx */
 .recorder-div { 
   display: flex;
@@ -32,7 +58,8 @@ body {
   align-items: center;
   border-top: 2px solid #83beb1;
   border-bottom: 2px solid #83beb1;
-  background-color: rgb(48, 48, 49);
+  background-color: rgb(255, 255, 255);
+  height: 100px;
 } 
 #recorderBtn {
   border: none;
@@ -40,7 +67,7 @@ body {
   border-radius: 11px;
   background-color: rgb(30, 30, 31);
   color: #8ccabd;
-  width: 200px;
+  width: 100px;
   height: 50px;
   font-size: 18px;
 }
