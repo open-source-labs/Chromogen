@@ -2,7 +2,7 @@
 html {
   height: 100vh;
   color: #d4d4d8;
-  background-color: rgb(30, 30, 31);
+  background-color: blue;
 }
 body {
   margin: 0;
@@ -79,8 +79,9 @@ span {
 }
 #textBoxEdit {
   background-color: white;
-  height: 100px;
-  width: 300px;
+  height: 200px;
+  width: 100vw;
+  overflow: scroll;
 }
 
 /* Media queries */

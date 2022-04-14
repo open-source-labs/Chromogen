@@ -33,6 +33,9 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
 
+  //for chome extension to generate the file, to read / edit in extension before downloading
+  const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
+
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
@@ -43,6 +46,10 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
         break;
       case 'downloadFile':
         generateFile(setFile);
+        break;
+      //added case for chrome extension here
+      case 'editFile':
+        generateFile(setEditFile);
         break;
       case 'toggleRecord':
         setRecording(() => {

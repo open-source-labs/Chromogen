@@ -16,6 +16,14 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
   const [devtool, setDevtool] = useState<boolean>(false);
+  const [editFile, setEditFile] = useState<undefined | string>(undefined);
+
+  //when editFile has update its state, we want to send that editFile back to 
+  //when editFile has changed
+  //create a message to send to chrome extension
+  //then have chrome extension read this message
+  //and when receieved, display in extension
+  //chrome dev tool browser
 
   // DevTool message handling
   const receiveMessage = (message: any) => {
@@ -26,6 +34,12 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
         break;
       case 'downloadFile':
         generateFile(setFile, storeMap);
+        break;
+      case 'editFile':
+        generateFile(setEditFile, storeMap);
+        window.postMessage({action: 'editFileBack'}, '*');
+        //this is where we can send something back to chrome ext with file url
+        //invoke function to send editFile back to chrom ext
         break;
       case 'toggleRecord':
         setRecording(!recording);
