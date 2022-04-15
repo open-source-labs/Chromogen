@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 // import React, { useEffect, useState } from 'react';
 import { useState as hooksUseState } from '../../../package/hooks_generator/hooks_src/api/hooks-api'
-import Gratitude from '../components/Gratitude';
+// import Gratitude from '../components/Gratitude';
 
 const MainContainer: React.FC = () => {
   // function MainContainer (){

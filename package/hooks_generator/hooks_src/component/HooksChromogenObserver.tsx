@@ -32,7 +32,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
   const [recording, setRecording] = reactUseState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
-
+  const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
@@ -43,6 +43,13 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
         break;
       case 'downloadFile':
         generateFile(setFile);
+        break;
+      case 'editFile':
+        const testing = generateFile(setEditFile);
+        console.log('we have clicked editFile button and generated the url string:', testing);
+        //we could just send back testing string here in window.postMessage here
+        window.postMessage({ action: 'editFileReceived', file: `${testing}` }, '*');
+        console.log(editFile);
         break;
       case 'toggleRecord':
         setRecording(() => {

@@ -19,11 +19,6 @@ export const hooksOutput = ({
 describe('USESTATE', () => {
 
   it(${testState(state, id)});
-  ${console.log('state from testState', state)}
-  ${console.log('id from testState', id)}
-  it(${testStateChange(state, id, dispCount)})
-  ${console.log('state from testStateChange', state)}
-  ${console.log('id from testStateChange', id)}
-  ${console.log('dispCount from testStateChange', dispCount)}
 
+  it(${testStateChange(state, id, dispCount)})
 });`;
