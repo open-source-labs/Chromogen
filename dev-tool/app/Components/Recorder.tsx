@@ -28,7 +28,7 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
           <PlayArrowIcon style={{ color: '#FCE3A3', fontSize: '40px' }} />
         )}
       </button>
-      <button id="recorderBtn" type="submit" onClick={() => sendMessage('downloadFile')}>
+      <button id="recorderBtn" type="submit" onClick={() => sendMessage('editFile')}>
         <GetAppIcon style={{ fontSize: '38px' }} />
       </button>
     </div>

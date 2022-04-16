@@ -2,11 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Recorder from './Recorder';
+import StateTree from './StateTree';
+import TextBox from './TextBox';
 /* eslint-enable */
 
 const App: React.FC = () => {
   const [status, setStatus] = useState(true);
   const [connected, setConnected] = useState(false);
+  const [fileReturned, setFileReturned] = useState(false);
 
   useEffect(() => {
     // Create a connection to the background page
@@ -24,6 +27,9 @@ const App: React.FC = () => {
       if (message.action === 'setStatus') {
         setStatus(!status);
       }
+      if (message.action = 'editFileReturn'){
+        setFileReturned(true);
+      }
     });
   }, [connected, status]);
 
@@ -32,6 +38,8 @@ const App: React.FC = () => {
     <div className="App">
       <div className="row">Team MSLED's super awesome chromogen tool</div>
       <Recorder status={status} />
+      <StateTree />
+      <TextBox />
     </div>
   ) : (
     // Otherwise, render 'please install' message along with Github Icon
