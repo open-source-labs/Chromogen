@@ -10,6 +10,9 @@ const App: React.FC = () => {
   const [status, setStatus] = useState(true);
   const [connected, setConnected] = useState(false);
   const [fileRecieved, setFileRecieved] = useState(false);
+
+  // const blobreader = new FileReader();
+
   useEffect(() => {
     // Create a connection to the background page
     const backgroundConnection = chrome.runtime.connect();
@@ -20,25 +23,36 @@ const App: React.FC = () => {
     });
     // Listen for messages from background.js
     backgroundConnection.onMessage.addListener((message) => {
+      console.log('inside app.tsx, message received from background', message)
       if (message.action === 'moduleConnected') {
         setConnected(true);
       }
       if (message.action === 'setStatus') {
         setStatus(!status);
       }
-      if (message.action === 'editFile') {
-        const fileBlob = message.file;
-        setFileRecieved(true);
-        //console.log('we are now in devtool app.tsx and our blob is:', fileBlob)
-        const blobreader = new FileReader();
-        const fileAfterRead = blobreader.readAsDataURL(fileBlob);
-        console.log('setFileRieved should be', fileRecieved)
-        console.log(fileAfterRead);
+      if (message.action === 'editFileReceived') {
+        if (message.data) {
+          console.log('this is app.tsx and message is', message)
+          setFileRecieved(true);
+          const testAsArray = message.data;
+          const blob = new Blob(testAsArray)
+          console.log('WHAT DOES BLOB LOOK LIKE', blob);
+          //console.log('we are now in devtool app.tsx and our blob is:', fileBlob)
+          const blobreader = new FileReader();
+          blobreader.readAsDataURL(blob);
+          // load event fires when a file has been read successfully
+          const readFile = blobreader.addEventListener("load", function () {
+            //console.log('FILE I WANT TO RENDER', fileToBeRendered)
+            return blobreader.result;
+          })
+          console.log('WHAT IS READFILE', readFile)
+          console.log('setFileRieved should be', fileRecieved)
+        }
         // FileReader.readAsDataURL(fileBlob)
         // Blob.text(fileBlob);
       }
     });
-  }, [connected, status]);
+  }, [connected, status, fileRecieved]);
 
   return connected ? (
     // Render extension if Chromogen is installed
@@ -46,6 +60,7 @@ const App: React.FC = () => {
       <div className="header">chromogen</div>
       <Recorder status={status} />
       <StateTree />
+
       <TextBox />
     </div>
   ) : (

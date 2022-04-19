@@ -15,8 +15,11 @@ export function useHookedReducer<S, A>(
 
   const [localState, setState] = useState<S>(initialReducerState);
   // Creating state property in store to save all state changes
-  store.subscribe(() => (hooksLedger.state = store.getState()[reducerId]));
-  // store.subscribe(() => console.log(store.getState()));
+  store.subscribe(() => { 
+    hooksLedger.state = store.getState()[reducerId];
+    // console.log('HOOKSLEDGER AT FIRST STORE.SUBSCRIBE IN HOOKS-CORE-UTILS.TS', hooksLedger)
+  })
+  // store.subscribe(() => console.log('in hooks-core-utils.ts, store.getState()', store.getState()));
 
   const dispatch = useMemo<Dispatch<A>>(() => {
     const dispatch = (action: any) => {
@@ -27,15 +30,21 @@ export function useHookedReducer<S, A>(
         });
       } else {
         store.subscribe(() => {
+          // console.log('HOOKSLEDGER before GETSTATE', hooksLedger)
           hooksLedger.state = store.getState()[reducerId];
+          console.log('HOOKSLEDGER after GETSTATE', hooksLedger)
           hooksLedger.id = reducerId;
           hooksLedger.initialState = hooksLedger.state[0];
         });
+        
+        store.subscribe(() => {
+          hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1];
+        });
 
-
-        store.subscribe(() => hooksLedger.currState = hooksLedger.state[length - 1]);
-
-        store.subscribe(() => hooksLedger.dispCount = hooksLedger.dispCount + 1);
+        store.subscribe(() => {
+          hooksLedger.dispCount = hooksLedger.dispCount + 1;
+          // console.log('HOOKSLEDGER.DISPCOUNT', hooksLedger.dispCount)
+        });
 
         store.dispatch({
           type: reducerId,

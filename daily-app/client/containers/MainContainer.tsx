@@ -14,11 +14,10 @@ const MainContainer: React.FC = () => {
   return (
 
   <div>
-    <p>You clicked {count.length-1} times</p>
+    <p>You clicked {count[count.length-1]} times</p>
     <button onClick={() => {
         // setCount([count[0]+1])
-      setCount([...count, count[count.length-1]+1])
-      console.log('count after setCount', count)
+        setCount([...count, count[count.length - 1] + 1]);
       }
     }>
       Click me

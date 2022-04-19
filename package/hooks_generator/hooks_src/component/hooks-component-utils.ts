@@ -47,12 +47,13 @@ const hooksPauseStyle: CSSProperties = {
 
 export const hookStyles = { hooksButtonStyle, hooksDivStyle, hooksPlayStyle, hooksPauseStyle };
 
-export const generateHooksFile = (setHooksFile: Function): Blob => {
+export const generateHooksFile = (setHooksFile: Function): any => {
   // return setHooksFile(URL.createObjectURL(new Blob([output(ledger)])));
-  console.log('we are in generate Hooks file, This is our ledger:', ledger)
-  const test = new Blob([output(ledger)]);
-  console.log('this is our test to see what updated file looks like:', test);
-  setHooksFile(URL.createObjectURL(test));
-  return test;
-  //return setHooksFile(test);
+  console.log('we are hooks-component-utils and this is our ledger for generateFile:', ledger)
+  const blob = new Blob([output(ledger)]);
+  console.log('updated blob looks like:', blob);
+  console.log('updated url:', URL.createObjectURL(blob));
+  setHooksFile(URL.createObjectURL(blob));
+  // return blob;
+  return [output(ledger)];
 };

@@ -14,7 +14,8 @@ const TextBox: React.FC = () => {
       <div id="label">Tests</div>
       <div id="textBoxEdit">
         <textarea>
-           here is where we need to read file
+         here is where we need to read file
+         {}
         </textarea>
       </div>
    </div>
