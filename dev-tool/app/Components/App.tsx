@@ -10,8 +10,8 @@ const App: React.FC = () => {
   const [status, setStatus] = useState(true);
   const [connected, setConnected] = useState(false);
   const [fileRecieved, setFileRecieved] = useState(false);
-
-  // const blobreader = new FileReader();
+  // state variable for chromogen's test
+  const [test, setTest] = useState('');
 
   useEffect(() => {
     // Create a connection to the background page
@@ -35,24 +35,24 @@ const App: React.FC = () => {
           console.log('this is app.tsx and message is', message)
           setFileRecieved(true);
           const testAsArray = message.data;
-          const blob = new Blob(testAsArray)
+          const blob = new Blob(testAsArray);
+          // const blob = new Blob([JSON.stringify(testAsArray)]);
           console.log('WHAT DOES BLOB LOOK LIKE', blob);
           //console.log('we are now in devtool app.tsx and our blob is:', fileBlob)
           const blobreader = new FileReader();
-          blobreader.readAsDataURL(blob);
+          blobreader.readAsText(blob);
           // load event fires when a file has been read successfully
-          const readFile = blobreader.addEventListener("load", function () {
-            //console.log('FILE I WANT TO RENDER', fileToBeRendered)
+          const readFile = blobreader.addEventListener('loadend', function () {
+            console.log('FILE I WANT TO RENDER', blobreader.result)
+            setTest(String(blobreader.result));
             return blobreader.result;
           })
-          console.log('WHAT IS READFILE', readFile)
-          console.log('setFileRieved should be', fileRecieved)
         }
-        // FileReader.readAsDataURL(fileBlob)
-        // Blob.text(fileBlob);
       }
     });
   }, [connected, status, fileRecieved]);
+
+  // update test state once blobreader.result loads
 
   return connected ? (
     // Render extension if Chromogen is installed
@@ -60,8 +60,7 @@ const App: React.FC = () => {
       <div className="header">chromogen</div>
       <Recorder status={status} />
       <StateTree />
-
-      <TextBox />
+      <TextBox test={test}/>
     </div>
   ) : (
     // Otherwise, render 'please install' message along with Github Icon
