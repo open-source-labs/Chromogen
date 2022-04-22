@@ -7,6 +7,10 @@ import React, {
   useState,
 } from 'react';
 import { createStore } from 'redux';
+
+//import { Store as reduxStore} from 'redux'
+
+import ReactDOM from 'react-dom';
 import { EnhancedStore, ObserverContext } from '../utils/hooks-store';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
 
@@ -22,17 +26,20 @@ interface StoreReducerAction {
 }
 
 // Export hooksChromogenObserver
-export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
+export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   initialState = {},
   children,
-}) => {
+}) {
+
+  //console.log('children', children)
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   const [file, setFile] = reactUseState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
   const [recording, setRecording] = reactUseState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
-
+  const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
+  const [currState, setCurrState] = reactUseState<any>(undefined);
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
@@ -43,6 +50,10 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
         break;
       case 'downloadFile':
         generateFile(setFile);
+        break;
+      case 'editFile':
+        const testing = generateFile(setEditFile);
+        window.postMessage({ action: 'editFileReceived', file: `${testing}` }, '*');
         break;
       case 'toggleRecord':
         setRecording(() => {
@@ -89,7 +100,9 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
 
       const currentState = isTeardownAction ? omit(state, actionReducerId) : { ...state };
 
-      return Object.keys(registeredReducers).reduce((acc, reducerId) => {
+      // Object.keys(registeredReducers)) returns an array with reducer id strings as entries
+      //result returns an object with appropriate updated state
+      const result =  Object.keys(registeredReducers).reduce((acc, reducerId) => {
         const reducer = registeredReducers[reducerId];
         const reducerState = state[reducerId];
         const reducerAction = action.payload;
@@ -97,15 +110,32 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
 
         if (isForCurrentReducer) {
           acc[reducerId] = isInitAction ? action.payload : reducer(reducerState, reducerAction);
+          //console.log(acc[reducerId])
+          // if (Array.isArray(acc[reducerId])){
+          //   acc[reducerId].push(reducerState);
+          //   acc[reducerId].flat(Infinity);
+             //console.log('state now', acc[reducerId])
+          // }
+         //console.log('type of',  Array.isArray(acc[reducerId]))
+
         } else {
           acc[reducerId] = reducerState;
+          //console.log('reducerState', reducerState)
         }
 
         return acc;
-      }, currentState);
-    };
 
+      }, currentState)
+      
+
+      //store reducer will send any state changes to dev tool
+      window.postMessage({ action: 'stateChange', result: result }, '*');
+      //console.log('result', result)
+      return result;
+    }; //end storeReducer
+    
     const store: EnhancedStore = createStore(storeReducer, initialState);
+    //const store: Store 
 
     store.registerHookedReducer = (reducer, initialState, reducerId) => {
       registeredReducers[reducerId] = reducer;
@@ -124,8 +154,10 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
       };
     };
 
+
     return store;
-  }, []);
+  }, []);//end storeMemo
+
 
   useEffect(() => {
     store && store.dispatch({ type: 'REINSPECT/@@INIT', payload: {} });
@@ -141,6 +173,10 @@ const playBorderStyle = {
   borderColor: `${playColor}`,
 };
 
+
+useEffect(() => {
+  console.log('look for dom node', ReactDOM.findDOMNode(this))
+})
   // User imports hooksChromogenObserver to their app
   return (
     <>
@@ -183,7 +219,7 @@ const playBorderStyle = {
       )}
       <a
         download="chromogen-hooks.test.js"
-        href={file} // have chrome button 
+        href={file} 
         id="chromogen-hooks-download"
         style={{ display: 'none' }}
       >

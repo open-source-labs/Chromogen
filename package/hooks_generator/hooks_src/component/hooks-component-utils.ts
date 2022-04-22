@@ -47,6 +47,10 @@ const hooksPauseStyle: CSSProperties = {
 
 export const hookStyles = { hooksButtonStyle, hooksDivStyle, hooksPlayStyle, hooksPauseStyle };
 
-export const generateHooksFile = (setHooksFile: Function): void => {
-  return setHooksFile(URL.createObjectURL(new Blob([output(ledger)])));
+export const generateHooksFile = (setHooksFile: Function): Blob => {
+  // return setHooksFile(URL.createObjectURL(new Blob([output(ledger)])));
+  //return setHooksFile(test);
+  const test = new Blob([output(ledger)]);
+  setHooksFile(URL.createObjectURL(test));
+  return test;
 };

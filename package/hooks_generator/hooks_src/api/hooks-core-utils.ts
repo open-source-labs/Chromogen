@@ -9,69 +9,83 @@ export function useHookedReducer<S, A>(
   store: EnhancedStore,
   reducerId: string | number,
 ): [S, Dispatch<A>] {
+  
   const initialReducerState = useMemo(() => {
     const initialStateInStore = store.getState()[reducerId];
     return initialStateInStore === undefined ? initialState : initialStateInStore;
   }, []);
 
-
   const [localState, setState] = useState<S>(initialReducerState);
-  // Creating state property in store to save all state changes
-  store.subscribe(() => (hooksLedger.state = store.getState()[reducerId]));
+  //Creating state property in store to save all state changes
+ //wrapped store.subscribe method inside useEffect to avoid listening to change exponentially
+ useEffect(() => {
+  const unsubscribe = store.subscribe(() => {
+    hooksLedger.state = store.getState()[reducerId]
+    //console.log('hooks', hooksLedger.state)
+  })
+  return unsubscribe;
+ }, [])
+ 
+const dispatch = useMemo<Dispatch<A>>(() => {
 
-  const dispatch = useMemo<Dispatch<A>>(() => {
-    const dispatch = (action: any) => {
+  const dispatch = (action: any) => {     
       if (action && typeof action === 'object' && typeof action.type === 'string') {
         store.dispatch({
           type: `${reducerId}/${action.type}`,
           payload: action,
         });
       } else {
-
-        //Subscribe will be called any time an action is dispatched, and some part of the state tree may potentially have changed. You may then call getState() to read the current state tree inside the callback.
+        //Subscribe will be called any time an action is dispatched, and some part of the state tree may potentially have changed. 
         store.subscribe(() => {
-          //how does getState work? is this causing our error?
-          hooksLedger.state = store.getState()[reducerId];
+          hooksLedger.state = store.getState()[reducerId];;
           hooksLedger.id = reducerId;
           hooksLedger.initialState = hooksLedger.state[0];
-        });
 
-        store.subscribe(() => hooksLedger.currState = hooksLedger.state[length - 1]);
-
-        store.subscribe(() => {
+          hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]
+          //bug: dispCount is incremented each time store.subscribe is called
           hooksLedger.dispCount = hooksLedger.dispCount + 1
-           
-            //!!!!!!bug!!!!!!  hooksLedger is getting rerendered the amount of times the button is clicked
-            console.log('hooksLedger', hooksLedger)
+          //console.log('hooksLedger.state', hooksLedger.state)
+          console.log('dispatch count', hooksLedger.dispCount)
         });
-
-        //bug, every time we click the count, the hooksLedger is now being printed that many times
-        //console.log('hooks-core-utils dispCount', hooksLedger.dispCount);
+       
         store.dispatch({
           type: reducerId,
           payload: action,
         });
-      }
-    };
 
-    return dispatch;
-  }, []);
+    }
+  }
+   return dispatch;
+  }, [hooksLedger.dispCount]);
+
+  // useEffect(() => {
+
+  //   store.subscribe(() => {
+  //     hooksLedger.state = store.getState()[reducerId];;
+  //     hooksLedger.id = reducerId;
+  //     hooksLedger.initialState = hooksLedger.state[0];
+
+  //     hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]
+  //     //bug: dispCount is incremented each time store.subscribe is called
+  //     hooksLedger.dispCount = hooksLedger.dispCount + 1
+  //     //console.log('hooksLedger.state', hooksLedger.state)
+  //     console.log('dispatch count', hooksLedger.dispCount)
+  //   });
+  // }, [hooksLedger.dispCount])
+
+
 
   useEffect(() => {
     const teardown = store.registerHookedReducer(reducer, initialReducerState, reducerId);
-
     let lastReducerState = localState;
     const unsubscribe = store.subscribe(() => {
       const storeState: any = store.getState();
       const reducerState = storeState[reducerId];
-
       if (lastReducerState !== reducerState) {
         setState(reducerState);
       }
-
       lastReducerState = reducerState;
     });
-
     return () => {
       unsubscribe();
       teardown();
@@ -80,4 +94,5 @@ export function useHookedReducer<S, A>(
 
   // Returns a tuple
   return [localState, dispatch];
+
 }

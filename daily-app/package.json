@@ -24,8 +24,8 @@
     "express": "^4.17.3",
     "method-override": "^3.0.0",
     "mongoose": "^6.2.6",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.2",
     "redux": "^4.1.2"

@@ -12,6 +12,6 @@
   },
   "include": [
       "./"
-  ],
+, "../demo-todo/test"  ],
   "exclude": ["node_modules", ".vscode"]
 }

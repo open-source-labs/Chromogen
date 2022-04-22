@@ -5,6 +5,7 @@ import type { Connections, Message } from './types/types';
 // Listens for events from DevTools panel and content.js (package intermediary)
 const connections: Connections = {};
 
+// runtime.onConnect is fired when a connection is made w/ an extension process or content script
 chrome.runtime.onConnect.addListener((port) => {
   // Listen for messages from DevTools panel
   const extensionListener = (message: Message, portID) => {
@@ -44,6 +45,7 @@ chrome.runtime.onMessage.addListener((message: Message, sender) => {
     if (connections[tabId]) {
       connections[tabId].postMessage({
         action: message.action,
+        result: message.result
       });
     }
   }

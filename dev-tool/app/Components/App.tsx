@@ -9,9 +9,11 @@ import TextBox from './TextBox';
 const App: React.FC = () => {
   const [status, setStatus] = useState(true);
   const [connected, setConnected] = useState(false);
-  const [fileReturned, setFileReturned] = useState(false);
+  const [fileRecieved, setFileRecieved] = useState(false);
+  const [stateChange, setStateChange] = useState('');
 
   useEffect(() => {
+    console.log('testing use effect')
     // Create a connection to the background page
     const backgroundConnection = chrome.runtime.connect();
     // Send tab ID to background.js
@@ -27,8 +29,22 @@ const App: React.FC = () => {
       if (message.action === 'setStatus') {
         setStatus(!status);
       }
-      if (message.action = 'editFileReturn'){
-        setFileReturned(true);
+      if (message.action === 'editFileReceived') {
+        const fileBlob = message.file;
+        setFileRecieved(true);
+        console.log('we are now in devtool app.tsx and our blob is:', fileBlob)
+        const blobreader = new FileReader();
+        const fileAfterRead = blobreader.readAsDataURL(fileBlob);
+        //console.log('setFileRieved should be', fileRecieved)
+        console.log(fileAfterRead);
+        // FileReader.readAsDataURL(fileBlob)
+        // Blob.text(fileBlob);
+      }
+      if (message.action === 'stateChange'){
+       // console.log('state has been changed', message.result)
+       //if state has changed from HooksChromogenObserver, stringify the object to display
+        setStateChange(JSON.stringify(message.result));
+        //not sure if this can be sent back as an object. need to test on someone that can view console logs
       }
     });
   }, [connected, status]);
@@ -36,9 +52,10 @@ const App: React.FC = () => {
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="row">Team MSLED's super awesome chromogen tool</div>
+      <div className="header">chromogen</div>
       <Recorder status={status} />
       <StateTree />
+      <p>Here is the STATE as a string {stateChange}</p>
       <TextBox />
     </div>
   ) : (
