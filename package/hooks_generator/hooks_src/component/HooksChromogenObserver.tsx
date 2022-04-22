@@ -40,6 +40,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   const [devtool, setDevtool] = reactUseState<boolean>(false);
   const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
   const [currState, setCurrState] = reactUseState<any>(undefined);
+
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
@@ -77,14 +78,17 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [file]);
 
+
   const omit = (obj: Record<string, any>, keyToRemove: string) =>
     Object.keys(obj)
       .filter((key) => key !== keyToRemove)
       .reduce<Record<string, any>>((acc, key) => {
         acc[key] = obj[key];
-
+        console.log('obj', obj);
+        console.log('key', key)
         return acc;
-      }, {});
+  }, {});
+
 
   const store = useMemo<EnhancedStore | undefined>(() => {
     if (typeof window === 'undefined') {
@@ -93,12 +97,20 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
     const registeredReducers: Record<string | number, Reducer<any, ReducerAction<any>>> = {};
 
+
     const storeReducer: Reducer<any, StoreReducerAction> = (state, action) => {
       const actionReducerId = action.type.split('/')[0];
       const isInitAction = /\/_init$/.test(action.type);
       const isTeardownAction = /\/_teardown$/.test(action.type);
 
+      //currentState keeps logging as undefined, even with state changes
+      //currentState is initial state value
       const currentState = isTeardownAction ? omit(state, actionReducerId) : { ...state };
+      
+      const realCurrentState = { ...state };
+
+      console.log('actionReducerId', actionReducerId)
+      console.log('state is:', {...state})
 
       // Object.keys(registeredReducers)) returns an array with reducer id strings as entries
       //result returns an object with appropriate updated state
@@ -110,13 +122,8 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
         if (isForCurrentReducer) {
           acc[reducerId] = isInitAction ? action.payload : reducer(reducerState, reducerAction);
-          //console.log(acc[reducerId])
-          // if (Array.isArray(acc[reducerId])){
-          //   acc[reducerId].push(reducerState);
-          //   acc[reducerId].flat(Infinity);
-             //console.log('state now', acc[reducerId])
-          // }
-         //console.log('type of',  Array.isArray(acc[reducerId]))
+          //acc[reducerId] is our current state value for our current reducer
+          //console.log('acc[reducerId]', acc[reducerId])
 
         } else {
           acc[reducerId] = reducerState;
@@ -128,9 +135,19 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       }, currentState)
       
 
+
       //store reducer will send any state changes to dev tool
       window.postMessage({ action: 'stateChange', result: result }, '*');
-      //console.log('result', result)
+
+      //we want to return an array where it appends result to previous state array
+      //check for undefined to avoid trying to push undefined to state array
+      // if (realCurrentState[actionReducerId] !== undefined){
+      //   if (Array.isArray(realCurrentState[actionReducerId])){
+      //     //realCurrentState[actionReducerId].push(result);
+      //    console.log('result inside if', result[actionReducerId])
+      //    console.log('reaLLLLLCURRR', realCurrentState[actionReducerId])
+      // } 
+      // }//else
       return result;
     }; //end storeReducer
     

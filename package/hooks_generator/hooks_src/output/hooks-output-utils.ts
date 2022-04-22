@@ -16,6 +16,13 @@ export function testState(state: any, id: string | number) {
 // Testing that individual state is changing, and our ledger is updating accordingly
 // BUG: State needs to be a primitive data type or mapped over in order for the test to be read. Arrays and objects will show up as undefined
 
+// export function testStateChange (state: any, id: string | number, dispCount: number) {
+//   return `'should show that state in ${id} changes after every dispatch and its length should be equal to dispatch count', () => {
+//     expect(${state[dispCount-1]}).not.toBe(${state[dispCount-2]}));
+//     expect(${state.length}).toBe(${dispCount});
+//   }`
+// }
+
 //if state is an array, map over state using reducer to generate multiple tests when state changes
 //this bug still occuring in occuring in dispatch count
 export function testStateChange (state: any, id: string | number, dispCount: number) {
@@ -28,7 +35,7 @@ export function testStateChange (state: any, id: string | number, dispCount: num
   const reducer = (acc, item, index = 0) => {
     //use index to compare the previous state value with current item in state
     index--;
-
+    //first expect test should be showing that the current state has changed from the previous state
     return acc +  '\n' + `'should show that state in ${id} changes after every dispatch and the number of elements in state array should be equal to dispatch count', () => {
       expect(${item}).not.toBe(${state[index]}));
       expect(${state.length}).toBe(${dispCount});  

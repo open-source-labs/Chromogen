@@ -44,8 +44,7 @@ const dispatch = useMemo<Dispatch<A>>(() => {
           hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]
           //bug: dispCount is incremented each time store.subscribe is called
           hooksLedger.dispCount = hooksLedger.dispCount + 1
-          //console.log('hooksLedger.state', hooksLedger.state)
-          console.log('dispatch count', hooksLedger.dispCount)
+          //console.log('dispatch count', hooksLedger.dispCount)
         });
        
         store.dispatch({
@@ -56,7 +55,7 @@ const dispatch = useMemo<Dispatch<A>>(() => {
     }
   }
    return dispatch;
-  }, [hooksLedger.dispCount]);
+  }, []);
 
   // useEffect(() => {
 

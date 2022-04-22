@@ -18,6 +18,10 @@ export const hooksOutput = ({
 
 describe('USESTATE', () => {
 
+  ${state}
+  ${id}
+  ${dispCount}
+  
   it(${testState(state, id)});
 
   it(${testStateChange(state, id, dispCount)})
