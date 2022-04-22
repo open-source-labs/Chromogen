@@ -9,7 +9,7 @@ import TextBox from './TextBox';
 const App: React.FC = () => {
   const [status, setStatus] = useState(true);
   const [connected, setConnected] = useState(false);
-  const [fileRecieved, setFileRecieved] = useState(false);
+  const [fileReceived, setFileReceived] = useState(false);
   const [stateChange, setStateChange] = useState('');
   // state variable for chromogen's test
   const [test, setTest] = useState('');
@@ -35,7 +35,7 @@ const App: React.FC = () => {
       if (message.action === 'editFileReceived') {
         if (message.data) {
           console.log('this is app.tsx and message is', message)
-          setFileRecieved(true);
+          setFileReceived(true);
           const testAsArray = message.data;
           const blob = new Blob(testAsArray);
           // const blob = new Blob([JSON.stringify(testAsArray)]);
@@ -58,7 +58,7 @@ const App: React.FC = () => {
         //not sure if this can be sent back as an object. need to test on someone that can view console logs
       }
     });
-  }, [connected, status, fileRecieved]);
+  }, [connected, status, fileReceived]);
 
   return connected ? (
     // Render extension if Chromogen is installed
