@@ -36,7 +36,8 @@ export function useHookedReducer<S, A>(
           hooksLedger.initialState = hooksLedger.state[0];
         });
 
-        store.subscribe(() => hooksLedger.currState = hooksLedger.state[length - 1]);
+        // store.subscribe(() => hooksLedger.currState = hooksLedger.state[length - 1]);
+        store.subscribe(() => hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]);
 
         store.subscribe(() => {
           hooksLedger.dispCount = hooksLedger.dispCount + 1
