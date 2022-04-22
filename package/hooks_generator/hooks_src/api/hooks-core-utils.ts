@@ -42,7 +42,7 @@ export function useHookedReducer<S, A>(
         });
 
         store.subscribe(() => {
-          hooksLedger.dispCount = hooksLedger.dispCount + 1;
+          hooksLedger.dispCount = hooksLedger.dispCount;
           // console.log('HOOKSLEDGER.DISPCOUNT', hooksLedger.dispCount)
         });
 

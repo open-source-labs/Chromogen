@@ -52,8 +52,6 @@ const App: React.FC = () => {
     });
   }, [connected, status, fileRecieved]);
 
-  // update test state once blobreader.result loads
-
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
