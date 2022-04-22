@@ -47,6 +47,16 @@ const dispatch = useMemo<Dispatch<A>>(() => {
           //console.log('dispatch count', hooksLedger.dispCount)
         });
        
+        
+        // store.subscribe(() => {
+        //   hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1];
+        // });
+
+        // store.subscribe(() => {
+        //   hooksLedger.dispCount = hooksLedger.dispCount;
+        //   // console.log('HOOKSLEDGER.DISPCOUNT', hooksLedger.dispCount)
+        // });
+
         store.dispatch({
           type: reducerId,
           payload: action,
@@ -56,23 +66,6 @@ const dispatch = useMemo<Dispatch<A>>(() => {
   }
    return dispatch;
   }, []);
-
-  // useEffect(() => {
-
-  //   store.subscribe(() => {
-  //     hooksLedger.state = store.getState()[reducerId];;
-  //     hooksLedger.id = reducerId;
-  //     hooksLedger.initialState = hooksLedger.state[0];
-
-  //     hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]
-  //     //bug: dispCount is incremented each time store.subscribe is called
-  //     hooksLedger.dispCount = hooksLedger.dispCount + 1
-  //     //console.log('hooksLedger.state', hooksLedger.state)
-  //     console.log('dispatch count', hooksLedger.dispCount)
-  //   });
-  // }, [hooksLedger.dispCount])
-
-
 
   useEffect(() => {
     const teardown = store.registerHookedReducer(reducer, initialReducerState, reducerId);

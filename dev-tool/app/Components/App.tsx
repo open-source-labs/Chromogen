@@ -11,6 +11,8 @@ const App: React.FC = () => {
   const [connected, setConnected] = useState(false);
   const [fileRecieved, setFileRecieved] = useState(false);
   const [stateChange, setStateChange] = useState('');
+  // state variable for chromogen's test
+  const [test, setTest] = useState('');
 
   useEffect(() => {
     console.log('testing use effect')
@@ -23,6 +25,7 @@ const App: React.FC = () => {
     });
     // Listen for messages from background.js
     backgroundConnection.onMessage.addListener((message) => {
+      console.log('inside app.tsx, message received from background', message)
       if (message.action === 'moduleConnected') {
         setConnected(true);
       }
@@ -30,24 +33,32 @@ const App: React.FC = () => {
         setStatus(!status);
       }
       if (message.action === 'editFileReceived') {
-        const fileBlob = message.file;
-        setFileRecieved(true);
-        console.log('we are now in devtool app.tsx and our blob is:', fileBlob)
-        const blobreader = new FileReader();
-        const fileAfterRead = blobreader.readAsDataURL(fileBlob);
-        //console.log('setFileRieved should be', fileRecieved)
-        console.log(fileAfterRead);
-        // FileReader.readAsDataURL(fileBlob)
-        // Blob.text(fileBlob);
+        if (message.data) {
+          console.log('this is app.tsx and message is', message)
+          setFileRecieved(true);
+          const testAsArray = message.data;
+          const blob = new Blob(testAsArray);
+          // const blob = new Blob([JSON.stringify(testAsArray)]);
+          console.log('WHAT DOES BLOB LOOK LIKE', blob);
+          //console.log('we are now in devtool app.tsx and our blob is:', fileBlob)
+          const blobreader = new FileReader();
+          blobreader.readAsText(blob);
+          // load event fires when a file has been read successfully
+          const readFile = blobreader.addEventListener('loadend', function () {
+            console.log('FILE I WANT TO RENDER', blobreader.result)
+            setTest(String(blobreader.result));
+            return blobreader.result;
+          })
+        }
       }
       if (message.action === 'stateChange'){
        // console.log('state has been changed', message.result)
        //if state has changed from HooksChromogenObserver, stringify the object to display
-        setStateChange(JSON.stringify(message.result));
+        setStateChange(JSON.stringify(message.stateObj));
         //not sure if this can be sent back as an object. need to test on someone that can view console logs
       }
     });
-  }, [connected, status]);
+  }, [connected, status, fileRecieved]);
 
   return connected ? (
     // Render extension if Chromogen is installed
@@ -56,7 +67,7 @@ const App: React.FC = () => {
       <Recorder status={status} />
       <StateTree />
       <p>Here is the STATE as a string {stateChange}</p>
-      <TextBox />
+      <TextBox test={test}/>
     </div>
   ) : (
     // Otherwise, render 'please install' message along with Github Icon

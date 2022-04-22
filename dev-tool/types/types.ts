@@ -5,5 +5,6 @@ export interface Connections {
 export interface Message {
   tabId: string;
   action: string;
-  result: string;
+  stateObj: string;
+  data: any;
 }

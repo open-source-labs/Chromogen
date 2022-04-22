@@ -18,7 +18,11 @@
   ],
   "plugins": ["prettier"],
   "parserOptions": {
+<<<<<<< HEAD
       "ecmaVersion": 2020,
+=======
+      "ecmaVersion": 2022,
+>>>>>>> dev
       "sourceType": "module",
       "ecmaFeatures": {
         "jsx": true
