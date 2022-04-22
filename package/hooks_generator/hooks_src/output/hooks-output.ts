@@ -14,10 +14,14 @@ export const hooksOutput = ({
    import { 
    ${importHooksId(id)}
 
-} from '<ADD USESTATE HOOK FILEPATH>';
+} from '<ADD USESTATE HOOK FILEPATH >';
 
 describe('USESTATE', () => {
 
+  ${state}
+  ${id}
+  ${dispCount}
+  
   it(${testState(state, id)});
 
   it(${testStateChange(state, id, dispCount)})

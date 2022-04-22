@@ -6,22 +6,31 @@ import { useState as hooksUseState } from '../../../package/hooks_generator/hook
 const MainContainer: React.FC = () => {
   // function MainContainer (){
   // const [post, setPost] = hooksUseState<number[]>([0], "id");
-  // console.log('in maincontainer???????')
-  // const [post, setPost] = useState([]);
-  const [count, setCount] = hooksUseState<number[]>([0], 'Main Container\'s count');
-  const [subtract, setSubtract] = hooksUseState<number[]>([0], 'Main Container');
+  // const [post, setPost] = useState();
 
+  const [subtract, setSubtract] = hooksUseState<number>(0, 'subtract');
+  const [count, setCount] = hooksUseState<number[]>([0], 'count');
   return (
 
   <div>
-    <p>You clicked {count[count.length-1]} times</p>
+    <p>You clicked {count} times</p>
     <button onClick={() => {
-        // setCount([count[0]+1])
-        setCount([...count, count[count.length - 1] + 1]);
+        setCount([count[0]+1])
+      //setCount([...count, count[count.length-1]+1])
+      console.log('count after setCount', count)
       }
     }>
-      Click me
-      </button>
+    Count
+    </button>
+
+     <p>You subtracted {subtract} times</p>
+      <button onClick={() => {
+        setSubtract(subtract - 1)
+      //setCount([...count, count[count.length-1]+1])
+      //console.log('count after setCount', count)
+      }
+    }>Subtract</button> 
+
       <p>You did not </p>
       <button onClick={() => {
       

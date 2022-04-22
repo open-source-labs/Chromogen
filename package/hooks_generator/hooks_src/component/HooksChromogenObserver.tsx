@@ -7,6 +7,10 @@ import React, {
   useState,
 } from 'react';
 import { createStore } from 'redux';
+
+//import { Store as reduxStore} from 'redux'
+
+import ReactDOM from 'react-dom';
 import { EnhancedStore, ObserverContext } from '../utils/hooks-store';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
 
@@ -22,10 +26,12 @@ interface StoreReducerAction {
 }
 
 // Export hooksChromogenObserver
-export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
+export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   initialState = {},
   children,
-}) => {
+}) {
+
+  //console.log('children', children)
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   const [file, setFile] = reactUseState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
@@ -33,6 +39,8 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
   const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
+  const [currState, setCurrState] = reactUseState<any>(undefined);
+
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
@@ -86,9 +94,11 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
       .filter((key) => key !== keyToRemove)
       .reduce<Record<string, any>>((acc, key) => {
         acc[key] = obj[key];
-
+        console.log('obj', obj);
+        console.log('key', key)
         return acc;
-      }, {});
+  }, {});
+
 
   const store = useMemo<EnhancedStore | undefined>(() => {
     if (typeof window === 'undefined') {
@@ -97,14 +107,24 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
 
     const registeredReducers: Record<string | number, Reducer<any, ReducerAction<any>>> = {};
 
+
     const storeReducer: Reducer<any, StoreReducerAction> = (state, action) => {
       const actionReducerId = action.type.split('/')[0];
       const isInitAction = /\/_init$/.test(action.type);
       const isTeardownAction = /\/_teardown$/.test(action.type);
 
+      //currentState keeps logging as undefined, even with state changes
+      //currentState is initial state value
       const currentState = isTeardownAction ? omit(state, actionReducerId) : { ...state };
+      
+      const realCurrentState = { ...state };
 
-      return Object.keys(registeredReducers).reduce((acc, reducerId) => {
+      console.log('actionReducerId', actionReducerId)
+      console.log('state is:', {...state})
+
+      // Object.keys(registeredReducers)) returns an array with reducer id strings as entries
+      //result returns an object with appropriate updated state
+      const result =  Object.keys(registeredReducers).reduce((acc, reducerId) => {
         const reducer = registeredReducers[reducerId];
         const reducerState = state[reducerId];
         const reducerAction = action.payload;
@@ -112,15 +132,37 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
 
         if (isForCurrentReducer) {
           acc[reducerId] = isInitAction ? action.payload : reducer(reducerState, reducerAction);
+          //acc[reducerId] is our current state value for our current reducer
+          //console.log('acc[reducerId]', acc[reducerId])
+
         } else {
           acc[reducerId] = reducerState;
+          //console.log('reducerState', reducerState)
         }
 
         return acc;
-      }, currentState);
-    };
 
+      }, currentState)
+      
+
+
+      //store reducer will send any state changes to dev tool
+      window.postMessage({ action: 'stateChange', stateObj: result }, '*');
+
+      //we want to return an array where it appends result to previous state array
+      //check for undefined to avoid trying to push undefined to state array
+      // if (realCurrentState[actionReducerId] !== undefined){
+      //   if (Array.isArray(realCurrentState[actionReducerId])){
+      //     //realCurrentState[actionReducerId].push(result);
+      //    console.log('result inside if', result[actionReducerId])
+      //    console.log('reaLLLLLCURRR', realCurrentState[actionReducerId])
+      // } 
+      // }//else
+      return result;
+    }; //end storeReducer
+    
     const store: EnhancedStore = createStore(storeReducer, initialState);
+    //const store: Store 
 
     store.registerHookedReducer = (reducer, initialState, reducerId) => {
       registeredReducers[reducerId] = reducer;
@@ -139,8 +181,10 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
       };
     };
 
+
     return store;
-  }, []);
+  }, []);//end storeMemo
+
 
   useEffect(() => {
     store && store.dispatch({ type: 'REINSPECT/@@INIT', payload: {} });
@@ -156,6 +200,10 @@ const playBorderStyle = {
   borderColor: `${playColor}`,
 };
 
+
+useEffect(() => {
+  console.log('look for dom node', ReactDOM.findDOMNode(this))
+})
   // User imports hooksChromogenObserver to their app
   return (
     <>
@@ -198,7 +246,7 @@ const playBorderStyle = {
       )}
       <a
         download="chromogen-hooks.test.js"
-        href={file} // have chrome button 
+        href={file} 
         id="chromogen-hooks-download"
         style={{ display: 'none' }}
       >

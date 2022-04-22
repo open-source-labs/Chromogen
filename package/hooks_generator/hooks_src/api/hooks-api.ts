@@ -43,6 +43,3 @@ export const useState = <S>(initialState: S | (() => S), id: string | number) =>
     reducerId,
   );
 };
-
-
-// console.log(useState())

@@ -8,7 +8,9 @@ body {
   margin: 0px;
   padding: 0px;
 }
-
+p{
+  color: white;
+}
 textarea {
   width: 100vw;
   height: 30vw;
@@ -120,6 +122,15 @@ code {
 span {
   font-size: 1rem;
   margin-top: 5px;
+}
+
+#testing{
+  color: white;
+}
+#textBoxEdit {
+  background-color: white;
+  height: 100px;
+  width: 300px;
 }
 
 /* Media queries */
