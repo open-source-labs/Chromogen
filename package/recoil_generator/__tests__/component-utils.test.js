@@ -3,8 +3,8 @@ import {generateFile} from '../src/component/component-utils';
 
 // Testing generateFile
 describe('generateFile', () => {
-  const setFile = 0
-  const array = [[], [], []]
+  const setFile = 0;
+  const array = [[], [], []];
   let storeMap = new Map(array);
 
   const {
@@ -20,5 +20,5 @@ describe('generateFile', () => {
   } = ledger;
 
   // We expect our generate file to not be the falsy return statement, which is the entirety of the ledger, with atoms being the new user input
-  generateFile(setFile, storeMap)
-})
+  generateFile(setFile, storeMap);
+});

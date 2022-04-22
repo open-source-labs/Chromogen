@@ -32,17 +32,28 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
   const [recording, setRecording] = reactUseState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
-
+  const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
       case 'connectChromogen':
         setDevtool(true);
+        console.log('inside connectChromogen in HooksChromogenObserver')
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':
         generateFile(setFile);
+        console.log('im in receiveMessage downloadFile case')
+        break;
+      case 'editFile':
+        const array = generateFile(setEditFile);
+        // editFile is updated to url, but testing should be blob
+        console.log('we have clicked editFile button and generated blob:', array);
+        console.log('typeof blob', typeof array)
+        //we could just send back testing string here in window.postMessage here
+        console.log('per error message on chrome ext, message.file should be a blob')
+        window.postMessage({ action: 'editFileReceived', data: array }, '*');
         break;
       case 'toggleRecord':
         setRecording(() => {
@@ -56,8 +67,9 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
     }
   };
 
-  // Add DevTool event listeners
+  // Add DevTool event listeners 
   useEffect(() => {
+    // fire receiveMessage fn when 'message' event is fired on window obj by a call to Window.postMessage() from another browsing context
     window.addEventListener('message', receiveMessage);
 
     return () => window.removeEventListener('message', receiveMessage);
@@ -65,6 +77,9 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
 
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [file]);
+
+  // with updated state in editFile, readfile 
+  useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [editFile]);
 
   const omit = (obj: Record<string, any>, keyToRemove: string) =>
     Object.keys(obj)
@@ -183,7 +198,7 @@ const playBorderStyle = {
       )}
       <a
         download="chromogen-hooks.test.js"
-        href={file}
+        href={file} // have chrome button 
         id="chromogen-hooks-download"
         style={{ display: 'none' }}
       >

@@ -1,27 +1,74 @@
 /* General styles */
 html {
   height: 100vh;
-  color: #d4d4d8;
-  background-color: rgb(30, 30, 31);
+  color: #1b1b1b;
+  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54));
 }
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
+}
+
+textarea {
+  width: 100vw;
+  height: 30vw;
+  border-radius: 10px;
+  background: black;
+  color: white;
 }
 
 /* App.jsx */
-.App {
+/* .App {
   display: grid;
   grid-template-rows: 33fr 33fr 33fr;
   font-family: 'Palanquin', sans-serif;
   height: 100vh;
-}
+} */
 .App div {
-  text-align: center;
-  font-size: 2.5rem;
-  letter-spacing: 4px;
   width: 100%;
-  text-shadow: #83beb1c2 1px 2px 0;
+}
+.App .header{
+  text-align: center;
+  margin: 0px auto;
+  font-size: 1.5rem;
+  letter-spacing: 4px;
+  color: white;
+  text-shadow: #83beb1c2 1px 2px 0px;
+  height: 50px;
+  width: 100vw;
+}
+#label{
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px;
+  /* background-color: #c2c2c2; */
+  color: white;
+  width: 80vw;
+}
+
+#textBox{
+  background: black;
+  color: white;
+  border-radius: 10px;
+  margin: 10px 0px;
+  height: 20vw;
+}
+
+#stateTree{
+  background: black;
+  color: white;
+  border-radius: 10px;
+  margin: 60px 0px;
+  height: 20vw;
+}
+
+#textBoxEdit{
+  height: 20vw;
+}
+
+#statebox {
+  height: 20vw;
 }
 
 /* Recorder.jsx */
@@ -30,9 +77,10 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  border-top: 2px solid #83beb1;
-  border-bottom: 2px solid #83beb1;
-  background-color: rgb(48, 48, 49);
+  /* border-top: 2px solid #83beb1;
+  border-bottom: 2px solid #83beb1; */
+  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54));
+  height: 100px;
 } 
 #recorderBtn {
   border: none;
@@ -40,7 +88,7 @@ body {
   border-radius: 11px;
   background-color: rgb(30, 30, 31);
   color: #8ccabd;
-  width: 200px;
+  width: 100px;
   height: 50px;
   font-size: 18px;
 }
