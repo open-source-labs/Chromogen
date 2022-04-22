@@ -8,12 +8,12 @@
   "devtools_page" : "devtools.html",
   "background": {
     "persistent": false,
-    "scripts": ["bundles/background.bundle.js"]
+    "scripts": ["build/bundles/background.bundle.js"]
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["bundles/content.bundle.js"]
+      "js": ["build/bundles/content.bundle.js"]
     }
   ] 
 }
