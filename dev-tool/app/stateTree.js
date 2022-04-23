@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
-import HooksChromogenObserver from '../hooks_src/component/HooksChromogenObserver'; // -> state object
 
-function TreeChart({ data }){
+
+
+
+const TreeChart: React.FC = ({ data }) => {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = HooksChromogenObserver(wrapperRef);

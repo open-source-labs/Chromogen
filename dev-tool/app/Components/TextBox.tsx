@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 // }
 
 const TextBox: React.FC<{test: any}> = ({test}) => {
-  // const [fileRecieved, setFileRecieved] = useState(false);
+  // const [fileReceived, setFileReceived] = useState(false);
   // const [test, setTest] = useState('');
   
   useEffect(() => {
@@ -26,7 +26,7 @@ const TextBox: React.FC<{test: any}> = ({test}) => {
     //   if (message.action === 'editFileReceived') {
     //     if (message.data) {
     //       console.log('INSIDE TEXTBOX, MESSAGE IS', message)
-    //       setFileRecieved(true);
+    //       setFileReceived(true);
     //       const testAsArray = message.data;
     //       const blob = new Blob(testAsArray);
     //       // const blob = new Blob([JSON.stringify(testAsArray)]);
