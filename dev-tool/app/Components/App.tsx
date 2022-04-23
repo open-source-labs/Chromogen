@@ -10,12 +10,11 @@ const App: React.FC = () => {
   const [status, setStatus] = useState(true);
   const [connected, setConnected] = useState(false);
   const [fileRecieved, setFileRecieved] = useState(false);
-  const [stateChange, setStateChange] = useState('');
+  const [stateChange, setStateChange] = useState({});
   // state variable for chromogen's test
   const [test, setTest] = useState('');
 
   useEffect(() => {
-    console.log('testing use effect')
     // Create a connection to the background page
     const backgroundConnection = chrome.runtime.connect();
     // Send tab ID to background.js
@@ -25,7 +24,7 @@ const App: React.FC = () => {
     });
     // Listen for messages from background.js
     backgroundConnection.onMessage.addListener((message) => {
-      console.log('inside app.tsx, message received from background', message)
+      // console.log('inside app.tsx, message received from background', message)
       if (message.action === 'moduleConnected') {
         setConnected(true);
       }
@@ -54,6 +53,8 @@ const App: React.FC = () => {
       if (message.action === 'stateChange'){
        // console.log('state has been changed', message.result)
        //if state has changed from HooksChromogenObserver, stringify the object to display
+        console.log('INSIDE APP.TSX,', message.stateObj)
+       
         setStateChange(JSON.stringify(message.stateObj));
         //not sure if this can be sent back as an object. need to test on someone that can view console logs
       }
@@ -65,8 +66,7 @@ const App: React.FC = () => {
     <div className="App">
       <div className="header">chromogen</div>
       <Recorder status={status} />
-      <StateTree />
-      <p>Here is the STATE as a string {stateChange}</p>
+      <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>
   ) : (
