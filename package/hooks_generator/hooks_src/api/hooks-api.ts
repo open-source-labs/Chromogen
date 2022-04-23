@@ -19,6 +19,7 @@ function stateReducer<S>(state: S, action: StateAction<S>): S {
 
 export const useState = <S>(initialState: S | (() => S), id: string | number) => {
   const inspectorStore = useContext(ObserverContext);
+
   // Keeping the first values
   const [store, reducerId] = useMemo<[EnhancedStore | undefined, string | number]>(
     () => [inspectorStore, id],
@@ -33,7 +34,7 @@ export const useState = <S>(initialState: S | (() => S), id: string | number) =>
     () => (typeof initialState === 'function' ? (initialState as () => S)() : initialState),
     [],
   );
-
+  
   return useHookedReducer<S, any>(
     stateReducer,
     finalInitialState,
