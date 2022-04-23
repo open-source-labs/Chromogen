@@ -54,7 +54,9 @@ const App: React.FC = () => {
       if (message.action === 'stateChange'){
        // console.log('state has been changed', message.result)
        //if state has changed from HooksChromogenObserver, stringify the object to display
-        setStateChange(JSON.stringify(message.stateObj));
+       setStateChange(message.stateObj)
+
+       // setStateChange(JSON.stringify(message.stateObj));
         //not sure if this can be sent back as an object. need to test on someone that can view console logs
       }
     });
