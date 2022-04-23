@@ -39,9 +39,9 @@ const dispatch = useMemo<Dispatch<A>>(() => {
         store.subscribe(() => {
           hooksLedger.state = store.getState()[reducerId];;
           hooksLedger.id = reducerId;
-          hooksLedger.initialState = hooksLedger.state[0];
+          // hooksLedger.initialState = hooksLedger.state[0];
 
-          hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]
+          // hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]
           //bug: dispCount is incremented each time store.subscribe is called
           hooksLedger.dispCount = hooksLedger.dispCount + 1
           //console.log('dispatch count', hooksLedger.dispCount)

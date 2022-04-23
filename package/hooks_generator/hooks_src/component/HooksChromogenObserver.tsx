@@ -87,7 +87,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [file]);
 
   // with updated state in editFile, readfile 
-  useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [editFile]);
+  // useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [editFile]);
 
   const omit = (obj: Record<string, any>, keyToRemove: string) =>
     Object.keys(obj)
