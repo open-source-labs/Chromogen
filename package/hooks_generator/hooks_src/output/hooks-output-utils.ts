@@ -31,9 +31,7 @@ export function testState(state: any, id: string | number) {
 //   }`
 // }
 
-//if state is an array, map over state using reducer to generate multiple tests when state changes
-//this bug still occuring in occuring in dispatch count
-export function testStateChange (state: any, id: string | number, dispCount: number) {
+export function testStateChange (state: any, id: string | number, previousState: Array<Object>) {
   
   //use reduce to pass state element into tests 
   if (Array.isArray(state)){
@@ -46,7 +44,7 @@ export function testStateChange (state: any, id: string | number, dispCount: num
     //first expect test should be showing that the current state has changed from the previous state
     return acc +  '\n' + `'should show that state in ${id} changes after every dispatch and the number of elements in state array should be equal to dispatch count', () => {
       expect(${item}).not.toBe(${state[index]}));
-      expect(${state!.length}).toBe(${dispCount});  
+      expect(${state!.length}).toBe(${dispCount});
     }`
   }
 
@@ -57,4 +55,12 @@ export function testStateChange (state: any, id: string | number, dispCount: num
 
 
 
+  // let resultStr = '';
+  // for (let i = 0; i < previousState.length; i++){
+  //   resultStr += `'should show that state changes after every dispatch', () => {
+  //     expect(${previousState[i][id]}).not.toBe(${previousState[i - 1][id]})}
+  //   }`
+  // }
+
+  // return  resultStr;
 }

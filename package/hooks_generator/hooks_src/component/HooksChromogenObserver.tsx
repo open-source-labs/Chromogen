@@ -8,6 +8,9 @@ import React, {
 } from 'react';
 import { createStore } from 'redux';
 
+//added
+import { hooksLedger } from '../utils/hooks-ledger';
+
 //import { Store as reduxStore} from 'redux'
 
 import ReactDOM from 'react-dom';
@@ -27,7 +30,8 @@ interface StoreReducerAction {
 
 // Export hooksChromogenObserver
 export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
-  initialState = {},
+  //initialState = {},
+  initialState = [],
   children,
 }) {
 
@@ -108,6 +112,8 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
     const registeredReducers: Record<string | number, Reducer<any, ReducerAction<any>>> = {};
 
 
+    //const array: any = [];
+
     const storeReducer: Reducer<any, StoreReducerAction> = (state, action) => {
       const actionReducerId = action.type.split('/')[0];
       const isInitAction = /\/_init$/.test(action.type);
@@ -116,53 +122,45 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       //currentState keeps logging as undefined, even with state changes
       //currentState is initial state value
       const currentState = isTeardownAction ? omit(state, actionReducerId) : { ...state };
-      
-      const realCurrentState = { ...state };
-
-      console.log('actionReducerId', actionReducerId)
-      console.log('state is:', {...state})
 
       // Object.keys(registeredReducers)) returns an array with reducer id strings as entries
       //result returns an object with appropriate updated state
+      //all different properties of state object will be updated by reducer
+
+      //could we declare a const to keep track of previous acc value, to be used after reduce is invoked
+      //let prevValue: any;
+
       const result =  Object.keys(registeredReducers).reduce((acc, reducerId) => {
         const reducer = registeredReducers[reducerId];
         const reducerState = state[reducerId];
+
         const reducerAction = action.payload;
         const isForCurrentReducer = actionReducerId === reducerId;
 
         if (isForCurrentReducer) {
+          const obj = {};
+          //console.log(`acc for ${reducerId}`, acc[reducerId])
+          //array.push(acc[reducerId])
+          obj[reducerId] = acc[reducerId];
+          hooksLedger.previousState.push(obj);
+
           acc[reducerId] = isInitAction ? action.payload : reducer(reducerState, reducerAction);
-          //acc[reducerId] is our current state value for our current reducer
-          //console.log('acc[reducerId]', acc[reducerId])
 
         } else {
           acc[reducerId] = reducerState;
-          //console.log('reducerState', reducerState)
         }
 
         return acc;
 
       }, currentState)
-      
-
 
       //store reducer will send any state changes to dev tool
       window.postMessage({ action: 'stateChange', stateObj: result }, '*');
 
-      //we want to return an array where it appends result to previous state array
-      //check for undefined to avoid trying to push undefined to state array
-      // if (realCurrentState[actionReducerId] !== undefined){
-      //   if (Array.isArray(realCurrentState[actionReducerId])){
-      //     //realCurrentState[actionReducerId].push(result);
-      //    console.log('result inside if', result[actionReducerId])
-      //    console.log('reaLLLLLCURRR', realCurrentState[actionReducerId])
-      // } 
-      // }//else
       return result;
     }; //end storeReducer
     
     const store: EnhancedStore = createStore(storeReducer, initialState);
-    //const store: Store 
 
     store.registerHookedReducer = (reducer, initialState, reducerId) => {
       registeredReducers[reducerId] = reducer;
@@ -199,11 +197,7 @@ const [playColor, setPlayColor] = useState('transparent transparent transparent 
 const playBorderStyle = {
   borderColor: `${playColor}`,
 };
-
-
-useEffect(() => {
-  console.log('look for dom node', ReactDOM.findDOMNode(this))
-})
+console.log('dev too', devtool)
   // User imports hooksChromogenObserver to their app
   return (
     <>
