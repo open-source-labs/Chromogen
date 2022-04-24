@@ -5,12 +5,13 @@ const MainContainer: React.FC = () => {
 
   const [subtract, setSubtract] = hooksUseState<number>(0, 'subtract');
   const [count, setCount] = hooksUseState<number[]>([0], 'count');
+
   return (
 
   <div>
     <p>You clicked {count} times</p>
     <button onClick={() => {
-        setCount([count[0]+1])
+        setCount([count[0] + 1])
       }
     }>
     Count
@@ -23,8 +24,7 @@ const MainContainer: React.FC = () => {
     }>Subtract</button> 
 
       <p>You did not </p>
-      <button onClick={() => {
-      
+      <button onClick={() => {      
       }}>
         Don't click me
       </button>
