@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hooksOutput as output } from '../output/hooks-output';
+import { stat } from 'fs';
 
 // Create buttonStyles and divStyles here
 const hooksButtonStyle: CSSProperties = {
@@ -46,13 +47,51 @@ const hooksPauseStyle: CSSProperties = {
 };
 
 export const hookStyles = { hooksButtonStyle, hooksDivStyle, hooksPlayStyle, hooksPauseStyle };
+let count = 1;
+//function converts an a 2d array with changes in state to one object, with all reducer ids as properties with each having an array of state changes as its value
+//ie: [[firstReducerId, firstState], [secondReducerId, firstState], [firstReducerId, secondState]] -> {firstReducerId: [initialState, secondState], secondReducerId: [firstState]}
+export const createPrevStateObj = (stateArrays: Array<Array<any>>): object => {
+
+  const stateObj: object = {};
+  
+  for(let i = 0; i < stateArrays.length; i++){
+    count++
+    console.log('count', count)
+  //check if stateArrays[i][0] exists in object
+   if (stateArrays[i][1] !== undefined) {
+         const key = stateArrays[i][0]
+         if (key in stateObj){
+          const oldValue = stateObj[key];
+          if(Array.isArray(stateArrays[i][1])){
+            oldValue.push(stateArrays[i][1][0]);
+          }
+          else{
+            oldValue.push(stateArrays[i][1]);
+          }
+            stateObj[key] = oldValue;
+            console.log('state[key]', stateObj[key])
+
+         }
+      else {
+        if (!Array.isArray(stateArrays[i][1])){
+          stateObj[key] = [stateArrays[i][1]];
+        } else{
+          stateObj[key] = stateArrays[i][1];
+        }
+        }
+  console.log('state obj', i, stateObj)
+  }
+ }
+
+  return stateObj
+}
 
 export const generateHooksFile = (setHooksFile: Function): any => {
   // return setHooksFile(URL.createObjectURL(new Blob([output(ledger)])));
-  console.log('we are hooks-component-utils and this is our ledger for generateFile:', ledger)
+  //console.log('we are hooks-component-utils and this is our ledger for generateFile:', ledger)
   const blob = new Blob([output(ledger)]);
-  console.log('updated blob looks like:', blob);
-  console.log('updated url:', URL.createObjectURL(blob));
+ // console.log('updated blob looks like:', blob);
+ // console.log('updated url:', URL.createObjectURL(blob));
   setHooksFile(URL.createObjectURL(blob));
   // return blob;
   return [output(ledger)];
