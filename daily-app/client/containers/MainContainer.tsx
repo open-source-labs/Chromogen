@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { useState as hooksUseState } from '../../../package/hooks_generator/hooks_src/api/hooks-api'
 
 const MainContainer: React.FC = () => {

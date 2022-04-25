@@ -13,7 +13,6 @@ import { hooksLedger } from '../utils/hooks-ledger';
 
 //import { Store as reduxStore} from 'redux'
 
-import ReactDOM from 'react-dom';
 import { EnhancedStore, ObserverContext } from '../utils/hooks-store';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
 
@@ -21,6 +20,7 @@ import { hookStyles as styles, generateHooksFile as generateFile } from './hooks
 interface StateInspectorProps {
   name?: string;
   initialState?: any;
+  children: any;
 }
 
 interface StoreReducerAction {
@@ -43,7 +43,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
   const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
-  const [currState, setCurrState] = reactUseState<any>(undefined);
 
   // DevTool message handling
   // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)

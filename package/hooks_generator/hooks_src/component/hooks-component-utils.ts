@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react';
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hooksOutput as output } from '../output/hooks-output';
-import { stat } from 'fs';
 
 // Create buttonStyles and divStyles here
 const hooksButtonStyle: CSSProperties = {
