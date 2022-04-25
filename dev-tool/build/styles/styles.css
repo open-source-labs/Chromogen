@@ -52,14 +52,14 @@ textarea {
   margin: 0px 10px;
   /* padding-right: 10px; */
   padding-top: 5px;
-  /* background-color: #c2c2c2; */
   color: rgb(144, 209, 240);
   width: 80vw;
 }
 
 #textBox{
   /* background: rgb(158, 158, 160); */
-  background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47));
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
   color: rgb(144, 209, 240);
   border-top: solid;
   /* border-radius: 4px; */
@@ -70,7 +70,8 @@ textarea {
 
 #stateTree{
   /* background: rgb(158, 158, 160); */
-  background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47));
+    background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
   color: rgb(144, 209, 240);
   /* border-radius: 4px; */
   border-top: solid;
@@ -125,7 +126,7 @@ textarea {
   outline: none;
   resize: both;
   overflow: auto;
-  background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47));
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
   border: transparent;
 }
 
