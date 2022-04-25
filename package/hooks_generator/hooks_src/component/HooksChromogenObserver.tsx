@@ -120,12 +120,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       const currentState = isTeardownAction ? omit(state, actionReducerId) : { ...state };
 
       // Object.keys(registeredReducers)) returns an array with reducer id strings as entries
-      //result returns an object with appropriate updated state
-      //all different properties of state object will be updated by reducer
-
-      //could we declare a const to keep track of previous acc value, to be used after reduce is invoked
-      //let prevValue: any;
-
+      //all properties of state object will be updated by reducer
       const result =  Object.keys(registeredReducers).reduce((acc, reducerId) => {
         const reducer = registeredReducers[reducerId];
         const reducerState = state[reducerId];
@@ -134,11 +129,11 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
         const isForCurrentReducer = actionReducerId === reducerId;
 
         if (isForCurrentReducer) {
-          const obj = {};
-          //console.log(`acc for ${reducerId}`, acc[reducerId])
-          //array.push(acc[reducerId])
-          obj[reducerId] = acc[reducerId];
-          hooksLedger.previousState.push(obj);
+          //adding 2d array to previousState in ledger to keep track of each reducerId and its associated state change
+          const arr = [];
+          arr[0] = reducerId;
+          arr[1] = acc[reducerId];
+          hooksLedger.previousState.push(arr);
 
           acc[reducerId] = isInitAction ? action.payload : reducer(reducerState, reducerAction);
 
