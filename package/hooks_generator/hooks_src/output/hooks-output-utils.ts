@@ -16,8 +16,8 @@ export function importHooksId(id: string | number) {
 // download button irresponsive possibly due to .length of undefined error
 export function testState(state: any, id: string | number) {
   return `'should show that state in ${id} (number of elements in state array) is not null or undefined', () => {
-    expect(${state!.length-1}).not.toBe(undefined);
-    expect(${state!.length-1}).not.toBe(null));
+    expect(${state?.length-1}).not.toBe(undefined);
+    expect(${state?.length-1}).not.toBe(null));
   }`
 }
 
@@ -44,7 +44,7 @@ export function testStateChange (state: any, id: string | number, previousState:
     //first expect test should be showing that the current state has changed from the previous state
     return acc +  '\n' + `'should show that state in ${id} changes after every dispatch and the number of elements in state array should be equal to dispatch count', () => {
       expect(${item}).not.toBe(${state[index]}));
-      expect(${state!.length}).toBe(${dispCount});
+      expect(${state?.length}).toBe(${previousState});
     }`
   }
 

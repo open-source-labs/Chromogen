@@ -13,7 +13,6 @@ import { hooksLedger } from '../utils/hooks-ledger';
 
 //import { Store as reduxStore} from 'redux'
 
-import ReactDOM from 'react-dom';
 import { EnhancedStore, ObserverContext } from '../utils/hooks-store';
 import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
 
@@ -34,8 +33,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   initialState = [],
   children,
 }) {
-
-  //console.log('children', children)
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   const [file, setFile] = reactUseState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
@@ -46,7 +43,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   const [currState, setCurrState] = reactUseState<any>(undefined);
 
   // DevTool message handling
-  // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
+    // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
       case 'connectChromogen':
@@ -102,7 +99,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
         console.log('key', key)
         return acc;
   }, {});
-
 
   const store = useMemo<EnhancedStore | undefined>(() => {
     if (typeof window === 'undefined') {
@@ -179,7 +175,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       };
     };
 
-
     return store;
   }, []);//end storeMemo
 
@@ -197,7 +192,7 @@ const [playColor, setPlayColor] = useState('transparent transparent transparent 
 const playBorderStyle = {
   borderColor: `${playColor}`,
 };
-console.log('dev too', devtool)
+console.log('dev tool', devtool)
   // User imports hooksChromogenObserver to their app
   return (
     <>
