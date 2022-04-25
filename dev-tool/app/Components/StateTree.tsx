@@ -11,6 +11,8 @@ const StateTree: React.FC<{ state: object }> = () => {
         <div id ="label">State Tree</div>
         <div id="stateBox">
           <TreeChart />
+          Hello it's me
+          {/* above not updating in dev tool */}
         </div>
       </div>
     </React.Fragment>

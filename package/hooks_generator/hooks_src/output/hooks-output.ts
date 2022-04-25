@@ -7,7 +7,7 @@ import { importHooksId, testState, testStateChange } from './hooks-output-utils'
 export const hooksOutput = ({
   state,
   id,
-  dispCount
+  previousState,
 }: Ledger): any =>
   `import { renderHook } from '@testing-library/react-hooks';
    import React, { useState } from 'react';
@@ -17,12 +17,9 @@ export const hooksOutput = ({
 } from '<ADD USESTATE HOOK FILEPATH >';
 
 describe('USESTATE', () => {
-
-  ${state}
-  ${id}
-  ${dispCount}
   
   it(${testState(state, id)});
 
-  it(${testStateChange(state, id, dispCount)})
+  ${testStateChange(previousState)}
+
 });`;

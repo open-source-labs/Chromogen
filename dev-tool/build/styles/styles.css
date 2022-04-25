@@ -2,7 +2,7 @@
 html {
   height: 100vh;
   color: #1b1b1b;
-  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54));
+  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(226, 86, 203));
 }
 body {
   margin: 0px;
@@ -81,7 +81,7 @@ textarea {
   align-items: center;
   /* border-top: 2px solid #83beb1;
   border-bottom: 2px solid #83beb1; */
-  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54));
+  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(82, 173, 226));
   height: 100px;
 } 
 #recorderBtn {
