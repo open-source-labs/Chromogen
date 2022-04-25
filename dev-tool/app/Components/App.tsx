@@ -64,8 +64,10 @@ const App: React.FC = () => {
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="header">chromogen</div>
-      <Recorder status={status} />
+      <p className="header">chromogen</p>
+      <span>
+        <Recorder status={status} setStatus={setStatus} />
+      </span>
       <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>
