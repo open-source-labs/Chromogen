@@ -5,9 +5,9 @@
       "module": "commonjs",
       "esModuleInterop": true,
       "target": "es6",
-      "jsx": "react",
+      "jsx": "react-jsx",
       "allowJs": true,
       "moduleResolution": "node"
     },
-    "include": ["client/**/*"]
+    //"include": ["client/**/*"]
   }
