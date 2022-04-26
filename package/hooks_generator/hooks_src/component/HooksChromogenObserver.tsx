@@ -41,7 +41,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
   const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
-  const [currState, setCurrState] = reactUseState<any>(undefined);
+ // const [send, setSend] = reactUseState<boolean>(false);
 
   // DevTool message handling
     // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
@@ -54,15 +54,10 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
         break;
       case 'downloadFile':
         generateFile(setFile);
-        console.log('im in receiveMessage downloadFile case')
         break;
       case 'editFile':
         const array = generateFile(setEditFile);
-        // editFile is updated to url, but testing should be blob
-        console.log('we have clicked editFile button and generated blob:', array);
-        console.log('typeof blob', typeof array)
-        //we could just send back testing string here in window.postMessage here
-        console.log('per error message on chrome ext, message.file should be a blob')
+        //setSend(true);
         window.postMessage({ action: 'editFileReceived', data: array }, '*');
         break;
       case 'toggleRecord':
@@ -131,7 +126,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
         if (isForCurrentReducer) {
           //adding 2d array to previousState in ledger to keep track of each reducerId and its associated state change
-          const arr = [];
+          const arr:any[] = [];
           arr[0] = reducerId;
           arr[1] = acc[reducerId];
           hooksLedger.previousState.push(arr);

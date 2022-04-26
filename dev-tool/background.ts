@@ -24,7 +24,6 @@ chrome.runtime.onConnect.addListener((port) => {
 
   // Handle disconnect
   port.onDisconnect.addListener((portID) => {
-    console.log('before portID.onMessage.removeListener')
     portID.onMessage.removeListener(extensionListener);
     // remove current DevTool instance from connections
     // eslint-disable-next-line no-restricted-syntax
@@ -40,7 +39,6 @@ chrome.runtime.onConnect.addListener((port) => {
 // Listen for messages from Chromogen package (sent via content.js)
 chrome.runtime.onMessage.addListener((message: Message, sender) => {
   const { tab } = sender;
-  console.log('listening for msg from chromagen package');
 
   if (tab) {
     const tabId = `${tab.id}`;
