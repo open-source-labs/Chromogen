@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import TreeChart from '../stateTree';
+import TreeChart from '../d3stateTree';
 
-const StateTree: React.FC<{ state: object }> = () => {
-  
+const StateTree: React.FC<{ state: object }> = ({state}) => {
+  // const StateTree: React.FC<{ state: object }> = () => {
 
 
   return (
@@ -10,9 +10,8 @@ const StateTree: React.FC<{ state: object }> = () => {
       <div id="stateTree">
         <div id ="label">State Tree</div>
         <div id="stateBox">
-          <TreeChart />
-          Hello it's me
-          {/* above not updating in dev tool */}
+          <TreeChart state={state} />
+          {/* Hello it's me, is the TreeChart working */}
         </div>
       </div>
     </React.Fragment>

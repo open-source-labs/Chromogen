@@ -4,7 +4,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Recorder from './Recorder';
 import StateTree from './StateTree';
 import TextBox from './TextBox';
-import TreeChart from '../stateTree';
+import TreeChart from '../d3stateTree';
 import { Message } from '@material-ui/icons';
 /* eslint-enable */
 
@@ -55,7 +55,7 @@ const App: React.FC = () => {
       }
       if (message.action === 'stateChange'){
        // console.log('state has been changed', message.result)
-       //if state has changed from HooksChromogenObserver, stringify the object to display
+      //  if state has changed from HooksChromogenObserver, stringify the object to display
         // setStateChange(JSON.stringify(message.stateObj)); // need stateObj as object, not as string
         setStateChange(message.stateObj);
         //not sure if this can be sent back as an object. need to test on someone that can view console logs
@@ -63,13 +63,27 @@ const App: React.FC = () => {
     });
   }, [connected, status, fileReceived]);
 
+  const d3testState = {
+    name: 'Sung',
+    children: [
+      {
+        name: 'Dani', 
+        children: [
+          {name: 'Lina'}, 
+          {name: 'Marcellies'}
+        ]
+      }
+    ]
+  }
+
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="header">chromogen</div>
+      <div className="header">chromogen123</div>
       <Recorder status={status} />
-      <StateTree state={stateChange} />
-      <p>Here is the STATE as a string {stateChange}</p>
+      <StateTree state={d3testState} />
+      {/* <StateTree /> */}
+      <p>Here is the STATE as a string   hello hello</p>
       <TextBox test={test}/>
     </div>
   ) : (

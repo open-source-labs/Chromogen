@@ -1,22 +1,43 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
+import ResizeObserver from 'resize-observer-polyfill';
 
 
+const useResizeObserver = ref => {
+  const [dimensions, setDimensions] = useState(null);
+  useEffect(() => {
+    const observeTarget = ref.current;
+    const resizeObserver = new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        setDimensions(entry.contentRect);
+      });
+    });
+    resizeObserver.observe(observeTarget);
+    return () => {
+      resizeObserver.unobserve(observeTarget);
+    };
+  }, [ref]);
+  return dimensions;
+};
 
 
-const TreeChart: React.FC = ({ data }) => {
+function TreeChart({ state }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
-  const dimensions = HooksChromogenObserver(wrapperRef);
+  const dimensions = useResizeObserver(wrapperRef);
 
-  // will be called initially and on every data change
+  // will be called initially and on every data/state change
   useEffect(() => {
     const svg = select(svgRef.current);
-    if (!dimensions) return;
+    if (!dimensions) {
+      console.log('d3 tree not rendering');
+      return
+    };
 
-    const root = hierarchy(data);
+    // transform hierarchical data/state
+    const root = hierarchy(state);
     const treeLayout = tree().size([dimensions.height, dimensions.width]);
-    treeLayout(root);
+
 
     console.log(root.descendants()); // -> root.descendants are all the nodes of the tree
     console.log(root.links()); // -> all lines that link parent nodes to their children
@@ -26,6 +47,9 @@ const TreeChart: React.FC = ({ data }) => {
       // .target(link => link.target) // -> likewise, default
       .x(node => node.x)
       .y(node => node.y);
+
+
+    treeLayout(root);
 
     // nodes
     svg
@@ -73,7 +97,7 @@ const TreeChart: React.FC = ({ data }) => {
       .data(root.descendants())
       .join('text')
       .attr('class', 'label')
-      .text(node => node.data.name)
+      .text(node => node.data.name) // -> node.state?
       .attr('text-anchor', 'middle')
       .attr('font-size', 24)
       .attr('x', node => node.y)
@@ -85,11 +109,13 @@ const TreeChart: React.FC = ({ data }) => {
       .delay(node => node.depth * 500) // -> ensures that animation will start from each source node of linkObj, from parent to children
       .attr('opacity', 1)
 
-  }, [data, dimensions]);
+  }, [state, dimensions]);
 
   return (
     <div ref={wrapperRef} style={{ marginBottom: '2rem' }}>
       <svg ref={svgRef}></svg>
+      {/* {JSON.stringify(state)} */}
+      Inside d3stateTree
     </div>
   );
 }
