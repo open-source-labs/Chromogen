@@ -20,6 +20,7 @@ import { hookStyles as styles, generateHooksFile as generateFile } from './hooks
 interface StateInspectorProps {
   name?: string;
   initialState?: any;
+  children?: any;
 }
 
 interface StoreReducerAction {
