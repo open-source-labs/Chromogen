@@ -4,7 +4,7 @@
     "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */,
     "jsx": "react" /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */,
     "declaration": true /* Generates corresponding '.d.ts' file. */,
-    "outDir": "./build" /* Redirect output structure to the directory. */,
+    // "outDir": "./build" /* Redirect output structure to the directory. */,
     "rootDir": "." /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
     "removeComments": true /* Do not emit comments to output. */,
     "strict": true /* Enable all strict type-checking options. */,

@@ -6,5 +6,5 @@ export interface Message {
   tabId: string;
   action: string;
   stateObj: object;
-  data: any;
+  data: string;
 }

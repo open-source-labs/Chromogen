@@ -17,7 +17,6 @@ const App: React.FC = () => {
   const [test, setTest] = useState('');
 
   useEffect(() => {
-    console.log('testing use effect')
     // Create a connection to the background page
     const backgroundConnection = chrome.runtime.connect();
     // Send tab ID to background.js
@@ -27,7 +26,7 @@ const App: React.FC = () => {
     });
     // Listen for messages from background.js
     backgroundConnection.onMessage.addListener((message) => {
-      console.log('inside app.tsx, message received from background', message)
+      // console.log('inside app.tsx, message received from background', message)
       if (message.action === 'moduleConnected') {
         setConnected(true);
       }
@@ -84,6 +83,11 @@ const App: React.FC = () => {
       <StateTree state={d3testState} />
       {/* <StateTree /> */}
       <p>Here is the STATE as a string   hello hello</p>
+      <p className="header">chromogen</p>
+      <span>
+        <Recorder status={status} setStatus={setStatus} />
+      </span>
+      <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>
   ) : (

@@ -1,4 +1,5 @@
 /* General styles */
+
 html {
   height: 100vh;
   color: #1b1b1b;
@@ -13,7 +14,7 @@ p{
 }
 textarea {
   width: 100vw;
-  height: 30vw;
+  height: 50vw;
   border-radius: 10px;
   background: grey;
   color: white;
@@ -30,50 +31,59 @@ textarea {
   width: 100%;
 }
 .App .header{
-  text-align: center;
+  text-align: right;
   margin: 0px auto;
-  font-size: 1.5rem;
-  letter-spacing: 4px;
+  margin-top: 15px;
+  font: Arial;
+  font-size: 1rem;
+  letter-spacing: 2px;
   color: white;
   text-shadow: #83beb1c2 1px 2px 0px;
-  height: 50px;
+  height: 2vh;
   width: 100vw;
 }
 #label{
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-  margin: 10px;
-  /* background-color: #c2c2c2; */
-  color: white;
+  /* display: flex; */
+  /* direction: row-reverse; */
+  text-align: right;
+  font: Arial;
+  font-size: 12px;
+  /* font-weight: bold; */
+  margin: 0px 10px;
+  /* padding-right: 10px; */
+  padding-top: 5px;
+  color: rgb(144, 209, 240);
   width: 80vw;
 }
 
 #textBox{
-  background: black;
-  color: white;
-  border-radius: 10px;
-  margin: 10px 0px;
-  height: 20vw;
+  /* background: rgb(158, 158, 160); */
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
+  color: rgb(144, 209, 240);
+  border-top: solid;
+  /* border-radius: 4px; */
+  /* margin: 10px 0px 0px 0px; */
+  height: 50vh;
+  width: 100vw;
 }
 
 #stateTree{
-  background: grey;
-  color: white;
-  border-radius: 10px;
-  margin: 60px 0px;
-  height: 20vw;
+  /* background: rgb(158, 158, 160); */
+    background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));
+  /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
+  color: rgb(144, 209, 240);
+  /* border-radius: 4px; */
+  border-top: solid;
+  margin: 10px 0px 0px 0px;
+  height: 50vh;
 }
 
-#textBoxEdit{
+/* #statebox {
   height: 20vw;
-}
+} */
 
-#statebox {
-  height: 20vw;
-}
-
-/* Recorder.jsx */
+/* Recorder.tsx */
 .recorder-div { 
   display: flex;
   flex-direction: row;
@@ -81,8 +91,8 @@ textarea {
   align-items: center;
   /* border-top: 2px solid #83beb1;
   border-bottom: 2px solid #83beb1; */
-  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(82, 173, 226));
-  height: 100px;
+  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54));
+  height: auto;
 } 
 #recorderBtn {
   border: none;
@@ -90,9 +100,11 @@ textarea {
   border-radius: 11px;
   background-color: rgb(30, 30, 31);
   color: #8ccabd;
-  width: 100px;
-  height: 50px;
-  font-size: 18px;
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  /* margin: 8 8 8 13 */
+  cursor: 'pointer';
 }
 #recorderBtn:focus {
   outline: none;
@@ -100,6 +112,22 @@ textarea {
 }
 #recorderBtn:hover {
   border: 2px solid rgb(48, 48, 49);
+}
+#buttons {
+  display: flex;
+}
+
+/* TextBox.tsx */
+
+#editBoxPost {
+  float: left;
+  width: 100vw;
+  /* min-height: 75px; */
+  outline: none;
+  resize: both;
+  overflow: auto;
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  border: transparent;
 }
 
 /* Install Chromogen render */
@@ -127,11 +155,11 @@ span {
 #testing{
   color: white;
 }
-#textBoxEdit {
-  background-color: white;
-  height: 100px;
+/* #textBoxEdit {
+  background-color: pink;
+  height: 800px;
   width: 300px;
-}
+} */
 
 /* Media queries */
 
