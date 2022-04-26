@@ -62,16 +62,23 @@ const App: React.FC = () => {
     });
   }, [connected, status, fileReceived]);
 
+  // const d3testState = {
+  //   name: 'Sung',
+  //   children: [
+  //     {
+  //       name: 'Dani', 
+  //       children: [
+  //         {name: 'Lina'}, 
+  //         {name: 'Marcellies'}
+  //       ]
+  //     }
+  //   ]
+  // }
+
   const d3testState = {
-    name: 'Sung',
+    name: 'Chromogen Observer',
     children: [
-      {
-        name: 'Dani', 
-        children: [
-          {name: 'Lina'}, 
-          {name: 'Marcellies'}
-        ]
-      }
+      { stateChange }
     ]
   }
 
@@ -83,11 +90,7 @@ const App: React.FC = () => {
       <StateTree state={d3testState} />
       {/* <StateTree /> */}
       <p>Here is the STATE as a string   hello hello</p>
-      <p className="header">chromogen</p>
-      <span>
-        <Recorder status={status} setStatus={setStatus} />
-      </span>
-      <StateTree state={stateChange}/>
+      {/* <StateTree state={stateChange}/> */}
       <TextBox test={test}/>
     </div>
   ) : (

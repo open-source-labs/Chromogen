@@ -45,8 +45,8 @@ function TreeChart({ state }) {
     const linkGenerator = linkHorizontal()
       // .source(link => link.source) // -> default, so do not need to define them
       // .target(link => link.target) // -> likewise, default
-      .x(node => node.x)
-      .y(node => node.y);
+      .x(link => link.y)
+      .y(link => link.x);
 
 
     treeLayout(root);
@@ -57,8 +57,8 @@ function TreeChart({ state }) {
       .data(root.descendants())
       .join('circle')
       .attr('class', 'node')
-      .attr('r', 4)
-      .attr('fill', 'black')
+      .attr('r', 10) // -> r = radius of circle, set to 4
+      .attr('fill', 'pink')
       .attr('cx', node => node.y)
       .attr('cy', node => node.x)
       // animation following
@@ -99,9 +99,9 @@ function TreeChart({ state }) {
       .attr('class', 'label')
       .text(node => node.data.name) // -> node.state?
       .attr('text-anchor', 'middle')
-      .attr('font-size', 24)
+      .attr('font-size', 15)
       .attr('x', node => node.y)
-      .attr('y', node => node.x=10)
+      .attr('y', node => node.x=5)
       // animation following
       .attr('opacity', 0)
       .transition()

@@ -25,13 +25,8 @@ module.exports = {
         },
       },
       {
-<<<<<<< HEAD
-        test: /\.tsx?/,
-        exclude: /(node_modules)/,
-=======
         test: /\.tsx?$/,
         exclude: /node_modules/,
->>>>>>> dev
         use: {
           loader: "ts-loader",
           options: {
