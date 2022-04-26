@@ -150,9 +150,9 @@ const playBorderStyle = {
                 style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f' }}
                 type="button"
                 onClick={() => {
-                  //setRecording(!recording);
-                  if (!recording) return true;
-                  return false;
+                  setRecording(!recording);
+                  // if (!recording) return true;
+                  // return false;
                 }}
                 onMouseEnter={() => recording ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
                 onMouseLeave={() => recording ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}
