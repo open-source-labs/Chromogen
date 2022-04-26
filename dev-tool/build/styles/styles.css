@@ -44,25 +44,25 @@ textarea {
   font-weight: bold;
   text-align: center;
   margin: 10px;
-  /* background-color: #c2c2c2; */
   color: white;
   width: 80vw;
 }
 
 #textBox{
-  background: black;
-  color: white;
-  border-radius: 10px;
-  margin: 10px 0px;
-  height: 20vw;
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  color: rgb(144, 209, 240);
+  border-top: solid;
 }
 
 #stateTree{
-  background: black;
-  color: white;
-  border-radius: 10px;
-  margin: 60px 0px;
-  height: 20vw;
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  color: rgb(144, 209, 240);
+  border-top: solid;
+  outline: none;
+  resize: both;
+  overflow: auto;
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  border: transparent;
 }
 
 #textBoxEdit{
