@@ -1,62 +1,121 @@
+
 body {
+  background-color: #120543;
+  width: 60%;
+  margin: 0 auto;
+}
+.main {
+  background-color: rgb(219, 219, 219);
+  padding: 30px 0;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.todolist {
+  margin: 20px 0;
+  padding: 30px 0;
+  background-color: rgb(219, 219, 219);
+  border-radius: 5px;
+}
+.buttonBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.buttonDiv{
+  width: 50%;
+  border: 2px dashed grey;
+  margin: 10px;
   background-color: rgb(255, 255, 255);
-  width: 550px;
-}
-
-header{
-    width: 300px;
-    margin: 0px auto;
-    background-color: rgb(238, 238, 238);
-    border-radius: 15px;
-}
-
+} 
 h1 {
     text-align: center;
-    color: rgb(46, 46, 46);
+    color: black;
     padding: 5px;
-}
-
-.goals{
-  display: flex;
-  background-color: rgb(236, 236, 236);
-  padding: 10px 0px 10px 10px;
-  margin: 10px 0;
-  border: 2px solid rgb(216, 216, 216);
-  border-radius: 10px;
-  width: 525px;
+    width: 95%;
+    margin: 0px auto;
+    border: 2px solid rgb(193, 193, 193);
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255)
 }
 
 textarea{
   width: 525px;
   height: 50px;
 }
-.goals .element{
- width: 450px;
 
-}
-.goals button {
-  justify-content: space-between;
-}
-
-.affirm {
-  background-color: rgb(157, 226, 247);
-  color: black;
-  padding: 5px 10px;
-  border: 2px solid rgb(129, 200, 221);
+.mainButton {
+  background: #fdb83f;
+  border: 1px solid #082783;
   border-radius: 10px;
+  box-shadow: 0 1px #4C6BC7 inset;
+  color: black;
+  padding: 10px 5px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 #082783;
+  font: 14px Verdana, sans-serif;
+  width: 120px;
+  display: block;
+  margin: 0 auto 15px auto;
 }
-
-#jokeContainer{
-  position: absolute;
-  bottom: 10px;
-  height: 120px;
-  width: 550px;
+.submitButton{
+  background-color: #fdb83f;
+  border: 1px solid #082783;
+  border-radius: 10px;
+  box-shadow: 0 1px #4C6BC7 inset;
+  color: black;
+  padding: 7px 5px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 #082783;
+  margin: 15px 0px 10px 10px;
+  font: 14px Verdana, sans-serif;
+  width: 100px;
 }
-
-.joke{
-  background-color: rgb(252, 235, 189);
+.todoButton{
+  background-color: #fdb83f;
+  border: 1px solid #082783;
+  border-radius: 10px;
+  box-shadow: 0 1px #4C6BC7 inset;
+  color: black;
+  padding: 10px 5px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 #082783;
+  margin: 15px 0px 10px 10px;
+  font: 14px Verdana, sans-serif;
+  width: 50px;
+}
+.mainButton:hover{
+  background-color: #F79E02;
+}
+.todoButton:hover{
+  background-color: #F79E02;
+}
+.buttonDiv p{
+  width: 20px;
+  display: block;
+  margin: 0 auto;
+  font-size: 2.5rem;
+  font-family: 'Orelega One', cursive;
+}
+.card{
   margin: 10px 5px;
   padding: 5px 10px;
-  border-radius: 10px;
-  text-align: center;
+  background-color: white;
+}
+
+.formDiv label{
+  display: block;
+  margin: 15px 0 0 5px;
+}
+
+.inputTodo {
+  padding: 10px;
+  margin-left: 5px;
+}
+.todo h2 {
+  font-size: 1.5rem;
+  margin: 10px;
+}
+.todo span{
+  margin: 0 10px;
+  font-weight: bold;
 }

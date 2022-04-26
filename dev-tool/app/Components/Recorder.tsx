@@ -73,7 +73,7 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
     <div id='buttons'>
       <button
         id="recorderBtn"
-        type="submit"
+        //type="submit"
         aria-label={status ? 'pause' : 'record'}
         onClick={() => sendMessage('toggleRecord') }
         style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
