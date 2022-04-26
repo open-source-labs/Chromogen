@@ -1,4 +1,3 @@
-import { SettingsEthernetTwoTone } from '@material-ui/icons';
 import React, { useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
 

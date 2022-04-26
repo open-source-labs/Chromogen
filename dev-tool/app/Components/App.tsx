@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import GitHubIcon from '@material-ui/icons/GitHub';
+// import { GitHub } from '../../build/imgs/github'
 import Recorder from './Recorder';
 import StateTree from './StateTree';
 import TextBox from './TextBox';
@@ -66,7 +67,7 @@ const App: React.FC = () => {
     <div className="App">
       <p className="header">chromogen</p>
       <span>
-        <Recorder status={status} setStatus={setStatus} />
+        <Recorder status={status} />
       </span>
       <StateTree state={stateChange}/>
       <TextBox test={test}/>
@@ -81,8 +82,11 @@ const App: React.FC = () => {
         <code>npm install chromogen </code>
         <div>in your app before using this extension. </div>
         <div>
-          <GitHubIcon /> <span>github.com/oslabs-beta/Chromogen</span>
+            <GitHubIcon />
+            {/* {GitHub()} */}
+            {/* <img src="" alt="" /> */}
         </div>
+            <span>github.com/oslabs-beta/Chromogen</span>
       </div>
 
       <div />
