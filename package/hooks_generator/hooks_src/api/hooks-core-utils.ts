@@ -1,5 +1,3 @@
-import { type } from 'os';
-import { useRef } from 'react';
 import { Reducer, useMemo, Dispatch, useState, useEffect } from 'react';
 import { hooksLedger } from '../utils/hooks-ledger';
 import { EnhancedStore } from '../utils/hooks-store';
@@ -51,10 +49,12 @@ const dispatch = useMemo<Dispatch<A>>(() => {
         store.subscribe(() => {
           hooksLedger.state = store.getState()[reducerId];;
           hooksLedger.id = reducerId;
-          hooksLedger.initialState = hooksLedger.state[0];
-          //console.log('initialState', initialState)
-          //hooksLedger.initialState = hooksLedger.currState;
+          hooksLedger.initialState = hooksLedger.state;
+          
+          /* had to rid of state[0] to allow download function 
+          hooksLedger.initialState = hooksLedger.state[0];*/
 
+          //hooksLedger.initialState = hooksLedger.currState;
           //hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]
           //bug: dispCount is incremented each time store.subscribe is called
           //hooksLedger.dispCount = hooksLedger.dispCount + 1
@@ -63,7 +63,7 @@ const dispatch = useMemo<Dispatch<A>>(() => {
        
         
         store.subscribe(() => {
-          hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1];
+          hooksLedger.currState = hooksLedger.state;
          //console.log('type of initialstate', typeof hooksLedger.initialState)
         //  hooksLedger.initialState.push(hooksLedger.currState)
         //   console.log('initialState after push', hooksLedger.initialState)

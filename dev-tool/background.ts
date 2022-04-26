@@ -9,7 +9,7 @@ const connections: Connections = {};
 chrome.runtime.onConnect.addListener((port) => {
   // Listen for messages from DevTools panel
   const extensionListener = (message: Message, portID) => {
-    console.log('inside background.ts, this is message from extensionListener', message)
+    // console.log('inside background.ts, this is message from extensionListener', message)
     const { tabId, action } = message;
     // Initial connection – store current instance of DevTools page
     if (action === 'connectChromogen') {

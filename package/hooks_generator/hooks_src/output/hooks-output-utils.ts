@@ -8,6 +8,14 @@ export function importHooksId(id: string | number) {
 }
 
 // Tests whether current state is NOT null or undefined
+// export function testState(state: any, id: string | number) {
+//   return `'should show that state in ${id} (number of elements in state array) is not null or undefined', () => {
+//     expect(${state.length-1}).not.toBe(undefined);
+//     expect(${state.length-1}).not.toBe(null));
+//   }`
+// }
+
+// download button irresponsive possibly due to .length of undefined error
 export function testState(state: any, id: string | number) {
   return `'should show that current state in ${id} is not null or undefined', () => {
     expect(${state}).not.toBe(undefined);

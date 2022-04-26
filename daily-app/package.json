@@ -7,7 +7,7 @@
     "test": "test",
     "start": "webpack-dev-server --open",
     "build": "webpack",
-    "dev": "NODE_ENV=development nodemon server/server.js & NODE_ENV=development webpack server",
+    "dev": "NODE_ENV=development webpack server",
     "gulp-prod": "node_modules/.bin/gulp prod",
     "gulp-dev": "node_modules/.bin/gulp dev"
   },
@@ -19,6 +19,7 @@
   "author": "Dani",
   "license": "ISC",
   "dependencies": {
+    "chromogen": "^1.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
