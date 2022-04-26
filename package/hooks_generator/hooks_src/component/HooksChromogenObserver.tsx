@@ -20,7 +20,7 @@ import { hookStyles as styles, generateHooksFile as generateFile } from './hooks
 interface StateInspectorProps {
   name?: string;
   initialState?: any;
-  children: any;
+  children?: any;
 }
 
 interface StoreReducerAction {
@@ -34,8 +34,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   initialState = [],
   children,
 }) {
-
-  //console.log('children', children)
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   const [file, setFile] = reactUseState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
@@ -43,9 +41,10 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
   const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
+ // const [send, setSend] = reactUseState<boolean>(false);
 
   // DevTool message handling
-  // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
+    // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
       case 'connectChromogen':
@@ -55,15 +54,10 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
         break;
       case 'downloadFile':
         generateFile(setFile);
-        console.log('im in receiveMessage downloadFile case')
         break;
       case 'editFile':
         const array = generateFile(setEditFile);
-        // editFile is updated to url, but testing should be blob
-        console.log('we have clicked editFile button and generated blob:', array);
-        console.log('typeof blob', typeof array)
-        //we could just send back testing string here in window.postMessage here
-        console.log('per error message on chrome ext, message.file should be a blob')
+        //setSend(true);
         window.postMessage({ action: 'editFileReceived', data: array }, '*');
         break;
       case 'toggleRecord':
@@ -90,7 +84,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [file]);
 
   // with updated state in editFile, readfile 
-  useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [editFile]);
+  // useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [editFile]);
 
   const omit = (obj: Record<string, any>, keyToRemove: string) =>
     Object.keys(obj)
@@ -101,7 +95,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
         console.log('key', key)
         return acc;
   }, {});
-
 
   const store = useMemo<EnhancedStore | undefined>(() => {
     if (typeof window === 'undefined') {
@@ -133,7 +126,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
         if (isForCurrentReducer) {
           //adding 2d array to previousState in ledger to keep track of each reducerId and its associated state change
-          const arr = [];
+          const arr:any[] = [];
           arr[0] = reducerId;
           arr[1] = acc[reducerId];
           hooksLedger.previousState.push(arr);
@@ -173,7 +166,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       };
     };
 
-
     return store;
   }, []);//end storeMemo
 
@@ -191,7 +183,7 @@ const [playColor, setPlayColor] = useState('transparent transparent transparent 
 const playBorderStyle = {
   borderColor: `${playColor}`,
 };
-console.log('dev too', devtool)
+console.log('dev tool', devtool)
   // User imports hooksChromogenObserver to their app
   return (
     <>
