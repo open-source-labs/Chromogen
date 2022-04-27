@@ -8,7 +8,7 @@ const config = {
     content: path.resolve(__dirname, './content.ts'),
   },
   output: {
-    path: path.join(__dirname, './build/bundles'),
+    path: path.join(__dirname, './build'),
     filename: '[name].bundle.js',
   },
   module: {

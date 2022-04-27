@@ -187,7 +187,7 @@ console.log('dev tool', devtool)
   // User imports hooksChromogenObserver to their app
   return (
     <>
-      {!devtool && (
+      {true && (
         <ObserverContext.Provider value={store}>
           {children}
           <div style={styles.hooksDivStyle}>
