@@ -54,12 +54,14 @@
     "@types/chrome": "0.0.122",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.2",
+    "d3": "^7.4.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "recoil": "0.0.10"
   },
   "devDependencies": {
     "css-loader": "^4.2.1",
+    "resize-observer-polyfill": "^1.5.1",
     "source-map-loader": "^1.0.1",
     "style-loader": "^1.2.1",
     "ts-loader": "^8.0.3",

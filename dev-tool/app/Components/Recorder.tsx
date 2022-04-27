@@ -7,7 +7,7 @@ import TextBox from './TextBox';
 import type { CSSProperties } from 'react';
 import { useState, useEffect } from 'react';
 
-const Recorder: React.FC<{ status: boolean, setStatus: Function }> = ({ status, setStatus }) => {
+const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
   // Connect to background.js
   const backgroundConnection = chrome.runtime.connect();
 
