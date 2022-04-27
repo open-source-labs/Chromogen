@@ -182,7 +182,7 @@ console.log('dev tool', devtool)
   return (
     <>
       {true && (
-         <ObserverContext.Provider value={store}>
+        <ObserverContext.Provider value={store}>
           {children}
           <div style={styles.hooksDivStyle}>
             <button

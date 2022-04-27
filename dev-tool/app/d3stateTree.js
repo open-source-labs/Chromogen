@@ -25,6 +25,7 @@ function TreeChart({ state }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
+  
 
   // will be called initially and on every data/state change
   useEffect(() => {
@@ -36,7 +37,7 @@ function TreeChart({ state }) {
 
     // transform hierarchical data/state
     const root = hierarchy(state);
-    const treeLayout = tree().size([dimensions.height - 50, dimensions.width - 60 ]); // -> adjusting tree size according to height and width of the dimensions
+    const treeLayout = tree().size([dimensions.height, dimensions.width - 50 ]); // -> adjusting tree size according to height and width of the dimensions
     console.log('here are dimensions', dimensions, 'height: ', dimensions.height, 'width: ', dimensions.width);
 
     console.log('hi, I\'m state', state);
@@ -94,18 +95,19 @@ function TreeChart({ state }) {
       .delay(linkObj => linkObj.source.depth * 500) // -> ensures that animation will start from each source node of linkObj, from parent to children
       .attr('stroke-dashoffset', 0)
 
-    // labels
+    // node labels
     svg
-      .selectAll('.label') // -> class name of labels (state)
+      .selectAll('.nodeLabel') // -> class name of labels (state)
       .data(root.descendants())
       // .join(enter => enter.append('text').attr('opacity', 0))
       .join('text')
-      .attr('class', 'label')
+      .attr('class', 'nodeLabel')
       .text(node => node.data.name) // -> node.state? -> node.data
       .attr('text-anchor', 'middle')
-      .attr('font-size', 12)
-      .attr('x', node => node.y + 15)
-      .attr('y', node => node.x) // -> make it dynamic
+      // .attr('fill', 'black')
+      // .attr('stroke', 'white')
+      .attr('x', node => node.y + 15) // -> make it dynamic, coordinate with 'cx' svg to center label to each node
+      .attr('y', node => node.x) 
       // animation following
       .attr('opacity', 0)
       .transition()
@@ -116,7 +118,8 @@ function TreeChart({ state }) {
   }, [state, dimensions]);
 
   return (
-    <div ref={wrapperRef} style={{ marginBottom: '1rem'}}>
+    // <div ref={wrapperRef} style={{ marginBottom: '1rem'}}>
+      <div ref={wrapperRef} id='wrapperRef'>
       <svg ref={svgRef} id='svgRef'></svg>
     </div>
   );
