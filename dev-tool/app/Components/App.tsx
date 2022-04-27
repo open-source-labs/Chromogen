@@ -40,13 +40,11 @@ const App: React.FC = () => {
           const testAsArray = message.data;
           const blob = new Blob(testAsArray);
           // const blob = new Blob([JSON.stringify(testAsArray)]);
-          console.log('WHAT DOES BLOB LOOK LIKE', blob);
           //console.log('we are now in devtool app.tsx and our blob is:', fileBlob)
           const blobreader = new FileReader();
           blobreader.readAsText(blob);
           // load event fires when a file has been read successfully
           const readFile = blobreader.addEventListener('loadend', function () {
-            console.log('FILE I WANT TO RENDER', blobreader.result)
             setTest(String(blobreader.result));
             return blobreader.result;
           })
@@ -62,25 +60,35 @@ const App: React.FC = () => {
     });
   }, [connected, status, fileReceived]);
 
-  // const d3testState = {
-  //   name: 'Sung',
-  //   children: [
-  //     {
-  //       name: 'Dani', 
-  //       children: [
-  //         {name: 'Lina'}, 
-  //         {name: 'Marcellies'}
-  //       ]
-  //     }
-  //   ]
-  // }
-
   const d3testState = {
-    name: 'Chromogen Observer',
+    name: 'Sung',
     children: [
-      { stateChange }
+      {
+        name: 'Dani', 
+        children: [
+          {name: 'Lina',
+          children: [
+            {name: 'Bruno'}, 
+            {name: 'Olive'},
+          ]}, 
+          { name: 'Marcellies', 
+            children: [
+              {name: 'Michael'}, 
+              {name: 'Caitlin'},
+              {name: 'Kai'}
+            ]
+          }
+        ]
+      }
     ]
   }
+
+  // const d3testState = {
+  //   name: 'Chromogen Observer',
+  //   children: [
+  //     { stateChange }
+  //   ]
+  // }
 
   return connected ? (
     // Render extension if Chromogen is installed

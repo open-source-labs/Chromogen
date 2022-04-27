@@ -36,9 +36,11 @@ function TreeChart({ state }) {
 
     // transform hierarchical data/state
     const root = hierarchy(state);
-    const treeLayout = tree().size([dimensions.height, dimensions.width]);
+    const treeLayout = tree().size([dimensions.height - 50, dimensions.width - 60 ]); // -> adjusting tree size according to height and width of the dimensions
+    console.log('here are dimensions', dimensions, 'height: ', dimensions.height, 'width: ', dimensions.width);
 
-
+    console.log('hi, I\'m state', state);
+    console.log('hi, i\'m root', root); // -> think about how this can be manipulated for dynamic rendering
     console.log(root.descendants()); // -> root.descendants are all the nodes of the tree
     console.log(root.links()); // -> all lines that link parent nodes to their children
 
@@ -50,6 +52,7 @@ function TreeChart({ state }) {
 
 
     treeLayout(root);
+    // console.log('node.data: ', data, 'node.state: ', state)
 
     // nodes
     svg
@@ -57,9 +60,9 @@ function TreeChart({ state }) {
       .data(root.descendants())
       .join('circle')
       .attr('class', 'node')
-      .attr('r', 10) // -> r = radius of circle, set to 4
+      .attr('r', 10) // -> r = radius of circle, originally set to 4
       .attr('fill', 'pink')
-      .attr('cx', node => node.y)
+      .attr('cx', node => node.y + 15)
       .attr('cy', node => node.x)
       // animation following
       .attr('opacity', 0) // -> initial opacity is 0
@@ -68,7 +71,7 @@ function TreeChart({ state }) {
       .delay(node => node.depth * 500) // -> ensures that animation will start from each source node of linkObj, from parent to children
       .attr('opacity', 1)
 
-    // links
+    // links (paths)
     svg
       .selectAll('.link') // -> class name of links
       .data(root.links())
@@ -95,13 +98,14 @@ function TreeChart({ state }) {
     svg
       .selectAll('.label') // -> class name of labels (state)
       .data(root.descendants())
+      // .join(enter => enter.append('text').attr('opacity', 0))
       .join('text')
       .attr('class', 'label')
-      .text(node => node.data.name) // -> node.state?
+      .text(node => node.data.name) // -> node.state? -> node.data
       .attr('text-anchor', 'middle')
-      .attr('font-size', 15)
-      .attr('x', node => node.y)
-      .attr('y', node => node.x=5)
+      .attr('font-size', 12)
+      .attr('x', node => node.y + 15)
+      .attr('y', node => node.x) // -> make it dynamic
       // animation following
       .attr('opacity', 0)
       .transition()
@@ -112,8 +116,8 @@ function TreeChart({ state }) {
   }, [state, dimensions]);
 
   return (
-    <div ref={wrapperRef} style={{ marginBottom: '2rem' }}>
-      <svg ref={svgRef}></svg>
+    <div ref={wrapperRef} style={{ marginBottom: '2rem'}}>
+      <svg ref={svgRef} id='svgRef'></svg>
       {/* {JSON.stringify(state)} */}
       Inside d3stateTree
     </div>

@@ -75,13 +75,20 @@ textarea {
   color: rgb(144, 209, 240);
   /* border-radius: 4px; */
   border-top: solid;
-  margin: 10px 0px 0px 0px;
+  margin: 10px 0px 0px 10px;
   height: 50vh;
 }
 
-/* #statebox {
+#stateBox {
   height: 20vw;
-} */
+  margin: 25px;
+  width: 90%;
+}
+
+/* svg container */
+#svgRef {
+  width: 100%;
+}
 
 /* Recorder.tsx */
 .recorder-div { 

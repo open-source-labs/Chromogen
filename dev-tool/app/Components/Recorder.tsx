@@ -76,7 +76,7 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
     <div id='buttons'>
       <button
         id="recorderBtn"
-        type="submit"
+        //type="submit"
         aria-label={status ? 'pause' : 'record'}
         onClick={() => sendMessage('toggleRecord') }
         style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
@@ -98,12 +98,10 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
       <button
         id="testBtn"
         type="submit"
-        onClick={() => sendMessage('editFile')}
-        // style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
         style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f'}}
         onMouseEnter={() => document.getElementById("testBtn")!.style.color = '#f6f071'}
-        onMouseLeave={() => document.getElementById("testBtn")!.style.color = '#90d1f0'}>
-        {/* <GetAppIcon style={{ fontSize: '38px' }} /> */}
+        onMouseLeave={() => document.getElementById("testBtn")!.style.color = '#90d1f0'}
+        onClick={() => sendMessage('editFile')}>
         Show Test
       </button>
       <button id="downloadBtn"
