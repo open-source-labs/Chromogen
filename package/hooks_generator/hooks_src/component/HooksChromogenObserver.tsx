@@ -8,13 +8,9 @@ import React, {
 } from 'react';
 import { createStore } from 'redux';
 
-//added
 import { hooksLedger } from '../utils/hooks-ledger';
-
-//import { Store as reduxStore} from 'redux'
-
 import { EnhancedStore, ObserverContext } from '../utils/hooks-store';
-import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
+import { createPrevStateObj as prevStateObj, generateStateTreeObj as stateTreeObj, hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
 
 // Interfaces for StateInspectorProps and StoreReducerAction
 interface StateInspectorProps {
@@ -41,7 +37,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
   const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
- // const [send, setSend] = reactUseState<boolean>(false);
 
   // DevTool message handling
     // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
@@ -49,7 +44,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
     switch (message.data.action) {
       case 'connectChromogen':
         setDevtool(true);
-        console.log('inside connectChromogen in HooksChromogenObserver')
+        console.log('inside connectChromogen in HooksChromogenObserver devtool is:', devtool)
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':
@@ -57,7 +52,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
         break;
       case 'editFile':
         const array = generateFile(setEditFile);
-        //setSend(true);
         window.postMessage({ action: 'editFileReceived', data: array }, '*');
         break;
       case 'toggleRecord':
@@ -68,7 +62,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
         window.postMessage({ action: 'setStatus' }, '*');
         break;
       default:
-      // Do nothing
     }
   };
 
@@ -102,10 +95,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
     }
 
     const registeredReducers: Record<string | number, Reducer<any, ReducerAction<any>>> = {};
-
-
-    //const array: any = [];
-
     const storeReducer: Reducer<any, StoreReducerAction> = (state, action) => {
       const actionReducerId = action.type.split('/')[0];
       const isInitAction = /\/_init$/.test(action.type);
@@ -142,7 +131,12 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       }, currentState)
 
       //store reducer will send any state changes to dev tool
-      window.postMessage({ action: 'stateChange', stateObj: result }, '*');
+      //update state object
+      // hooksLedger.previousState is 2d array of state
+      const newStateObj = prevStateObj(hooksLedger.previousState);
+      const newStateTreeObj = stateTreeObj(newStateObj);
+
+      window.postMessage({ action: 'stateChange', stateObj: newStateTreeObj }, '*');
 
       return result;
     }; //end storeReducer
@@ -222,7 +216,7 @@ console.log('dev tool', devtool)
               <a>{'Download'}</a>
             </button>
           </div>
-        </ObserverContext.Provider>
+         </ObserverContext.Provider> 
       )}
       <a
         download="chromogen-hooks.test.js"

@@ -28,7 +28,6 @@ export function testStateChange (prevState: Array<Array<any>>) {
   
   const prevStateObj = createPrevStateObj(prevState);
 
-  console.log('inside test state change logging state obj', prevStateObj)
   let resultStr = '';
 
   for (const [key , value] of Object.entries(prevStateObj)){

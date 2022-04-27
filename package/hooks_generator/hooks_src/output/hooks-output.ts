@@ -21,5 +21,4 @@ describe('USESTATE', () => {
   it(${testState(state, id)});
 
   ${testStateChange(previousState)}
-
 });`;

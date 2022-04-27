@@ -3,7 +3,7 @@
 html {
   height: 100vh;
   color: #1b1b1b;
-  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54));
+  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(86, 158, 226));
 }
 body {
   margin: 0px;
@@ -16,7 +16,7 @@ textarea {
   width: 100vw;
   height: 50vw;
   border-radius: 10px;
-  background: black;
+  background: grey;
   color: white;
 }
 
@@ -42,6 +42,7 @@ textarea {
   height: 2vh;
   width: 100vw;
 }
+
 #label{
   /* display: flex; */
   /* direction: row-reverse; */
@@ -64,24 +65,30 @@ textarea {
   border-top: solid;
   /* border-radius: 4px; */
   /* margin: 10px 0px 0px 0px; */
-  height: 50vh;
+  height: 70vh;
   width: 100vw;
 }
 
 #stateTree{
   /* background: rgb(158, 158, 160); */
-    background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+    background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));
   /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
   color: rgb(144, 209, 240);
   /* border-radius: 4px; */
   border-top: solid;
-  margin: 10px 0px 0px 0px;
-  height: 50vh;
+  height: 35vh;
 }
 
-/* #statebox {
-  height: 20vw;
-} */
+#stateBox {
+  height: 20vh;
+  margin: 25px;
+  width: 90%;
+}
+
+/* svg container */
+#svgRef {
+  width: 100%;
+}
 
 /* Recorder.tsx */
 .recorder-div { 
@@ -91,7 +98,8 @@ textarea {
   align-items: center;
   /* border-top: 2px solid #83beb1;
   border-bottom: 2px solid #83beb1; */
-  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54));
+  /* background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54)); */
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));
   height: auto;
 } 
 #recorderBtn {
@@ -122,11 +130,13 @@ textarea {
 #editBoxPost {
   float: left;
   width: 100vw;
+  height: 70vh;
   /* min-height: 75px; */
   outline: none;
   resize: both;
   overflow: auto;
   background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  /* background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179)); */
   border: transparent;
 }
 
