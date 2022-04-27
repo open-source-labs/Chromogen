@@ -11,5 +11,4 @@ export type EnhancedStore = Store & {
   ) => UnsubscribeFn;
 };
 
-
 export const ObserverContext = React.createContext<EnhancedStore | undefined>(undefined);

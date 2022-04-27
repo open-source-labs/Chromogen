@@ -21,7 +21,6 @@ export function useHookedReducer<S, A>(
 //Creating state property in store to save all state changes
 store.subscribe(() => {
   hooksLedger.state = store.getState()[reducerId]
-  //console.log('hooks ledger after store is called on reducer id.', hooksLedger)
 });
 
 
@@ -53,25 +52,15 @@ const dispatch = useMemo<Dispatch<A>>(() => {
           
           /* had to rid of state[0] to allow download function 
           hooksLedger.initialState = hooksLedger.state[0];*/
-
-          //hooksLedger.initialState = hooksLedger.currState;
-          //hooksLedger.currState = hooksLedger.state[hooksLedger.state.length-1]
-          //bug: dispCount is incremented each time store.subscribe is called
-          //hooksLedger.dispCount = hooksLedger.dispCount + 1
-          //console.log('dispatch count', hooksLedger.dispCount)
         });
        
         
         store.subscribe(() => {
           hooksLedger.currState = hooksLedger.state;
-         //console.log('type of initialstate', typeof hooksLedger.initialState)
-        //  hooksLedger.initialState.push(hooksLedger.currState)
-        //   console.log('initialState after push', hooksLedger.initialState)
         });
 
         store.subscribe(() => {
           hooksLedger.dispCount = hooksLedger.dispCount + 1;
-          // console.log('HOOKSLEDGER.DISPCOUNT', hooksLedger.dispCount)
         });
 
         store.dispatch({
@@ -90,11 +79,8 @@ const dispatch = useMemo<Dispatch<A>>(() => {
   useEffect(() => {
     const teardown = store.registerHookedReducer(reducer, initialReducerState, reducerId);
     let lastReducerState = localState;
-    //console.log('local state ', localState)
     const unsubscribe = store.subscribe(() => {
-      //console.log('lastReducerstate ', lastReducerState)
       const storeState: any = store.getState();
-      //console.log('storeState', storeState)
       const reducerState = storeState[reducerId];
       if (lastReducerState !== reducerState) {
         setState(reducerState);
@@ -107,7 +93,6 @@ const dispatch = useMemo<Dispatch<A>>(() => {
     };
   }, []);
 
-    //console.log('local state', localState)
   // Returns a tuple
   return [localState, dispatch];
 

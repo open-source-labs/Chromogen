@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 import { hooksLedger as ledger } from '../utils/hooks-ledger';
 import { hooksOutput as output } from '../output/hooks-output';
 
@@ -46,7 +46,6 @@ const hooksPauseStyle: CSSProperties = {
 };
 
 export const hookStyles = { hooksButtonStyle, hooksDivStyle, hooksPlayStyle, hooksPauseStyle };
-let count = 1;
 //function converts an a 2d array with changes in state to one object, with all reducer ids as properties with each having an array of state changes as its value
 //ie: [[firstReducerId, firstState], [secondReducerId, firstState], [firstReducerId, secondState]] -> {firstReducerId: [initialState, secondState], secondReducerId: [firstState]}
 export const createPrevStateObj = (stateArrays: Array<Array<any>>): object => {
@@ -54,13 +53,12 @@ export const createPrevStateObj = (stateArrays: Array<Array<any>>): object => {
   const stateObj: object = {};
   
   for(let i = 0; i < stateArrays.length; i++){
-    count++
-    console.log('count', count)
   //check if stateArrays[i][0] exists in object
    if (stateArrays[i][1] !== undefined) {
          const key = stateArrays[i][0]
          if (key in stateObj){
           const oldValue = stateObj[key];
+          //bug has to do with pushing arrays
           if(Array.isArray(stateArrays[i][1])){
             oldValue.push(stateArrays[i][1][0]);
           }
@@ -78,20 +76,48 @@ export const createPrevStateObj = (stateArrays: Array<Array<any>>): object => {
           stateObj[key] = stateArrays[i][1];
         }
         }
-  console.log('state obj', i, stateObj)
   }
  }
-
+ console.log('state object inside create previous state object' , stateObj)
   return stateObj
 }
 
+type D3Obj = {
+  name: string,
+  children: Array<any>
+}
+
+export const generateStateTreeObj = (stateObj: object): D3Obj => {
+  const d3Obj : D3Obj = {
+    name: 'root',
+    children: []
+  };
+
+  //iterate through properties of our state object
+  //to parse each and place in d3Obj
+  for (const property in stateObj){
+    const innerObj : D3Obj = {
+      name: property,
+      children: []
+    }
+    //iterate through values array of each property
+    //add each element of array to inner obj children array
+    //for (let i= 0; i < stateObj[property].length; i++){
+      //need to push a new object to children with only name property
+      //check with erica -> should the values here be strings or can they be numbers?
+      const lastIndex = stateObj[property].length - 1;
+      innerObj.children.push({name: `${stateObj[property][lastIndex]}`})
+    //}
+    //then push innerObj to d3Obj children array
+    d3Obj.children.push(innerObj)
+  }
+
+  console.log('d3 object inside generate state tree object', d3Obj)
+  return d3Obj;
+}
+
 export const generateHooksFile = (setHooksFile: Function): any => {
-  // return setHooksFile(URL.createObjectURL(new Blob([output(ledger)])));
-  //console.log('we are hooks-component-utils and this is our ledger for generateFile:', ledger)
   const blob = new Blob([output(ledger)]);
- // console.log('updated blob looks like:', blob);
- // console.log('updated url:', URL.createObjectURL(blob));
   setHooksFile(URL.createObjectURL(blob));
-  // return blob;
   return [output(ledger)];
 };

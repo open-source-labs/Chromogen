@@ -1,3 +1,4 @@
+import e from 'express';
 import React from 'react';
 import { useState as reactUseState} from 'react';
 import { useState as hooksUseState } from '../../../package/hooks_generator/hooks_src/api/hooks-api'
@@ -17,19 +18,24 @@ function Todo({todo, index, markTodo, removeTodo}) {
 
 function FormTodo ({ addTodo}) {
   const [value, setValue] = hooksUseState<string>('', 'todo');
+  const [inputVal, setInputVal] = reactUseState<string>('');
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (!value) return;
-    addTodo(value);
-    setValue('');
+    // if (!value) return;
+    // addTodo(value);
+    // setValue('')
+    if (!inputVal) return
+    setValue(inputVal)
+    addTodo(inputVal);
+    setInputVal('')
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className = 'formDiv'>
         <label>Add Todo</label>
-        <input type="text" className="inputTodo" value={value} onChange={e => setValue(e.target.value)}></input>
+        <input type="text" className="inputTodo" value={inputVal} onChange ={e => setInputVal(e.target.value)}></input>
         <button className = 'submitButton' type='submit'>Submit</button>
       </div>
     </form>
@@ -37,8 +43,7 @@ function FormTodo ({ addTodo}) {
   }
   
   function TodoList(){
-    const [todos, setTodos] = reactUseState([
-    ]);
+    const [todos, setTodos] = reactUseState<Array<any>>([]);
 
     const addNewTodo = text => {
       const newTodos = [...todos, { text }];

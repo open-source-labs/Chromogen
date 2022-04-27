@@ -60,28 +60,28 @@ const App: React.FC = () => {
     });
   }, [connected, status, fileReceived]);
 
-  const d3testState = {
-    name: 'Sung',
-    children: [
-      {
-        name: 'Dani', 
-        children: [
-          {name: 'Lina',
-          children: [
-            {name: 'Bruno'}, 
-            {name: 'Olive'},
-          ]}, 
-          { name: 'Marcellies', 
-            children: [
-              {name: 'Michael'}, 
-              {name: 'Caitlin'},
-              {name: 'Kai'}
-            ]
-          }
-        ]
-      }
-    ]
-  }
+  // const d3testState = {
+  //   name: 'Sung',
+  //   children: [
+  //     {
+  //       name: 'Dani', 
+  //       children: [
+  //         {name: 'Lina',
+  //         children: [
+  //           {name: 'Bruno'}, 
+  //           {name: 'Olive'},
+  //         ]}, 
+  //         { name: 'Marcellies', 
+  //           children: [
+  //             {name: 'Michael'}, 
+  //             {name: 'Caitlin'},
+  //             {name: 'Kai'}
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
 
   // const d3testState = {
   //   name: 'Chromogen Observer',
@@ -93,12 +93,11 @@ const App: React.FC = () => {
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="header">chromogen123</div>
+      <div className="header">chromogen</div>
       <Recorder status={status} />
-      <StateTree state={d3testState} />
+      {/* <StateTree state={d3testState} /> */}
       {/* <StateTree /> */}
-      <p>Here is the STATE as a string   hello hello</p>
-      {/* <StateTree state={stateChange}/> */}
+      <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>
   ) : (

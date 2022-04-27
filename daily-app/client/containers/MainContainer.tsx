@@ -3,7 +3,7 @@ import { useState as hooksUseState } from '../../../package/hooks_generator/hook
 const MainContainer: React.FC = () => {
 
   const [subtract, setSubtract] = hooksUseState<number>(0, 'subtract');
-  const [add, setAdd] = hooksUseState<number[]>([0], 'add');
+  const [add, setAdd] = hooksUseState<number>(0, 'add');
 
   return (
 
@@ -14,7 +14,7 @@ const MainContainer: React.FC = () => {
     <div className='buttonBox'>
     <div className='buttonDiv'>
       <p><span className="num">{add}</span></p>
-      <button className="mainButton" onClick = {() => setAdd([add[0] + 1])}>Add One</button>        
+      <button className="mainButton" onClick = {() => setAdd(add + 1)}>Add One</button>        
     </div>
     <div className='buttonDiv'>
       <p><span className="num"> {subtract}</span></p>

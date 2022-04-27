@@ -116,10 +116,8 @@ function TreeChart({ state }) {
   }, [state, dimensions]);
 
   return (
-    <div ref={wrapperRef} style={{ marginBottom: '2rem'}}>
+    <div ref={wrapperRef} style={{ marginBottom: '1rem'}}>
       <svg ref={svgRef} id='svgRef'></svg>
-      {/* {JSON.stringify(state)} */}
-      Inside d3stateTree
     </div>
   );
 }
