@@ -31,6 +31,7 @@ textarea {
 .App div {
   width: 100vw;
 }
+
 .header{
   display: flex;
   /* text-align: right; */
@@ -47,15 +48,11 @@ textarea {
 }
 
 #label{
-  /* display: flex; */
-  /* direction: row-reverse; */
   display: flex;
   text-align: right;
   font: Arial;
   font-size: 15px;
-  /* font-weight: bold; */
   margin: 0px 10px;
-  /* padding-right: 10px; */
   padding-top: 5px;
   color: rgb(144, 209, 240);
   width: 100vw;
@@ -63,24 +60,18 @@ textarea {
 }
 
 #textBox{
-  /* background: rgb(158, 158, 160); */
   background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
-  /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
   color: rgb(144, 209, 240);
   border-top: solid;
-  /* border-radius: 4px; */
-  /* margin: 10px 0px 0px 0px; */
   height: 50vh;
   width: 100vw;
 }
 
 #stateTree{
-  /* background: rgb(158, 158, 160); */
-    background-image: linear-gradient(to right, rgb(85, 85, 101), rgb(34, 85, 179));
-  /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
+  background-image: linear-gradient(to right, rgb(85, 85, 101), rgb(34, 85, 179));
   color: rgb(144, 209, 240);
-  /* border-radius: 4px; */
   border-top: solid;
+
   height: 50vh;
 }
 
@@ -194,12 +185,6 @@ span {
 #testing{
   color: white;
 }
-/* #textBoxEdit {
-  background-color: pink;
-  height: 800px;
-  width: 300px;
-} */
-
 /* Media queries */
 
 @media (max-width: 450px) {

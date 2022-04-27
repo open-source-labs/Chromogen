@@ -9,14 +9,14 @@ const MainContainer: React.FC = () => {
 
   <div className='main'>
     <header>
-      <h1>Score Card</h1>
+      <h1 className='scoreH1'>Score Card</h1>
     </header>
     <div className='buttonBox'>
-    <div className='buttonDiv'>
+    <div className='buttonDiv' id="add">
       <p><span className="num">{add}</span></p>
       <button className="mainButton" onClick = {() => setAdd(add + 1)}>Add One</button>        
     </div>
-    <div className='buttonDiv'>
+    <div className='buttonDiv' id="subtract">
       <p><span className="num"> {subtract}</span></p>
       <button className="mainButton" onClick = {() => setSubtract(subtract - 1)}>Subtract One</button>
     </div>
