@@ -6,9 +6,8 @@ import { useState as hooksUseState } from '../../../package/hooks_generator/hook
 function Todo({todo, index, markTodo, removeTodo}) {
   return (
     <div className= "todo">
-      <h2>Todo</h2> 
-      <span style = {{ textDecoration: todo.isDone ? 'line-through': ''}}>{todo.text}</span>
       <div>
+      <span style = {{ textDecoration: todo.isDone ? 'line-through': ''}}>{todo.text}</span>
       <button className = 'todoButton' onClick = {() => markTodo(index)}>&#10003;</button>{' '}
       <button className = 'todoButton' onClick = {() => removeTodo(index)}>X</button>
       </div>
@@ -22,9 +21,6 @@ function FormTodo ({ addTodo}) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // if (!value) return;
-    // addTodo(value);
-    // setValue('')
     if (!inputVal) return
     setValue(inputVal)
     addTodo(inputVal);
@@ -65,8 +61,10 @@ function FormTodo ({ addTodo}) {
     return (
       <div className = 'todolist'>
         <div className = 'container'>
-          <h1>Todo List</h1>
+          <div className = 'todoHeader'>
+          <h1 className='todoH1'>Todo List</h1>
           <FormTodo addTodo={addNewTodo} />
+          </div>
         <div>
         {todos.map((todo, index) => (
           <div className = "card">

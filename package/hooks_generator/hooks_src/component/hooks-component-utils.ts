@@ -102,12 +102,13 @@ export const generateStateTreeObj = (stateObj: object): D3Obj => {
     }
     //iterate through values array of each property
     //add each element of array to inner obj children array
-    //for (let i= 0; i < stateObj[property].length; i++){
+   for (let i= 0; i < stateObj[property].length; i++){
       //need to push a new object to children with only name property
       //check with erica -> should the values here be strings or can they be numbers?
-      const lastIndex = stateObj[property].length - 1;
-      innerObj.children.push({name: `${stateObj[property][lastIndex]}`})
-    //}
+      //const lastIndex = stateObj[property].length - 1;
+      //innerObj.children.push({name: `${stateObj[property][lastIndex]}`})
+      innerObj.children.push({name: `${stateObj[property][i]}`})
+    }
     //then push innerObj to d3Obj children array
     d3Obj.children.push(innerObj)
   }

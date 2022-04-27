@@ -32,8 +32,8 @@ textarea {
 }
 .App .header{
   text-align: right;
-  margin: 0px auto;
-  margin-top: 15px;
+  margin: 15px 10px 0px auto;
+  padding-right: 20px;
   font: Arial;
   font-size: 1rem;
   letter-spacing: 2px;
@@ -48,8 +48,7 @@ textarea {
   text-align: right;
   font: Arial;
   font-size: 12px;
-  /* font-weight: bold; */
-  margin: 0px 10px;
+  /* took out marigin - causes horizontal scrolling */
   /* padding-right: 10px; */
   padding-top: 5px;
   color: rgb(144, 209, 240);
@@ -75,7 +74,8 @@ textarea {
   color: rgb(144, 209, 240);
   /* border-radius: 4px; */
   border-top: solid;
-  margin: 10px 0px 0px 10px;
+  /* changed left margin to 0 */
+  margin: 10px 0px 0px 0px;
   height: 50vh;
 }
 
@@ -162,12 +162,6 @@ span {
 #testing{
   color: white;
 }
-/* #textBoxEdit {
-  background-color: pink;
-  height: 800px;
-  width: 300px;
-} */
-
 /* Media queries */
 
 @media (max-width: 450px) {
