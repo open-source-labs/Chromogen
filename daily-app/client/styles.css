@@ -1,54 +1,65 @@
-
 body {
-  background-color: #120543;
+  background-color: #6db7f7;
   width: 60%;
   margin: 0 auto;
 }
 .main {
-  background-color: rgb(219, 219, 219);
   padding: 30px 0;
   border-radius: 5px;
   margin-top: 20px;
-}
-.todolist {
-  margin: 20px 0;
-  padding: 30px 0;
-  background-color: rgb(219, 219, 219);
-  border-radius: 5px;
+
 }
 .buttonBox {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.todoHeader{
+  background-color: rgb(255, 255, 255);
+  box-shadow: 2px 5px 10px rgb(60, 108, 174);
+  border-radius: 5px;
+  margin: 10px 5px;
+  padding: 0;
+}
+#add{
+  margin: 10px 10px 10px 5px;
+}
+#subtract{
+  margin: 10px 5px 10px 10px;
+}
 .buttonDiv{
   width: 50%;
-  border: 2px dashed grey;
-  margin: 10px;
+  margin: 10px 0;
+  box-shadow: 2px 5px 10px rgb(60, 108, 174);
   background-color: rgb(255, 255, 255);
+  border-radius: 5px;
 } 
-h1 {
+
+.scoreH1 {
     text-align: center;
     color: black;
     padding: 5px;
     width: 95%;
     margin: 0px auto;
-    border: 2px solid rgb(193, 193, 193);
+    box-shadow: 2px 5px 10px rgb(60, 108, 174);
     border-radius: 5px;
-    background-color: rgb(255, 255, 255)
+    background-color: rgb(255, 255, 255);
 }
-
-textarea{
-  width: 525px;
-  height: 50px;
+.todoH1 {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  padding: 5px 0;
+  margin: 5px 0 5px 0;
+  background-color: #1282e4;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
-
 .mainButton {
-  background: #fdb83f;
+  background-color: rgb(15, 15, 246);
   border: 1px solid #082783;
   border-radius: 10px;
-  box-shadow: 0 1px #4C6BC7 inset;
-  color: black;
+  box-shadow: 0 1px 1px #06288e;
+  color: rgb(255, 255, 255);
   padding: 10px 5px;
   text-decoration: none;
   text-shadow: 0 -1px 0 #082783;
@@ -58,11 +69,11 @@ textarea{
   margin: 0 auto 15px auto;
 }
 .submitButton{
-  background-color: #fdb83f;
-  border: 1px solid #082783;
+  background-color: rgb(15, 15, 246);
+  border: 1px solid #042eaa;
   border-radius: 10px;
-  box-shadow: 0 1px #4C6BC7 inset;
-  color: black;
+  box-shadow: 0 1px 1px #06288e;
+  color: white;
   padding: 7px 5px;
   text-decoration: none;
   text-shadow: 0 -1px 0 #082783;
@@ -71,27 +82,30 @@ textarea{
   width: 100px;
 }
 .todoButton{
-  background-color: #fdb83f;
+  background-color: rgb(37, 37, 255);
   border: 1px solid #082783;
   border-radius: 10px;
   box-shadow: 0 1px #4C6BC7 inset;
-  color: black;
-  padding: 10px 5px;
+  color: white;
+  padding: 5px 5px;
   text-decoration: none;
   text-shadow: 0 -1px 0 #082783;
   margin: 15px 0px 10px 10px;
   font: 14px Verdana, sans-serif;
-  width: 50px;
+  width: 40px;
 }
 .mainButton:hover{
-  background-color: #F79E02;
+  background-image: linear-gradient(#00d2ff, #3a7bd5, lavender);
+}
+.submitButton:hover{
+  background-image: linear-gradient(#00d2ff, #3a7bd5, lavender);
 }
 .todoButton:hover{
-  background-color: #F79E02;
+  background-color: rgb(42, 42, 216);
 }
 .buttonDiv p{
+  display: float;
   width: 20px;
-  display: block;
   margin: 0 auto;
   font-size: 2.5rem;
   font-family: 'Orelega One', cursive;
@@ -99,21 +113,21 @@ textarea{
 .card{
   margin: 10px 5px;
   padding: 5px 10px;
-  background-color: white;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 2px 5px 10px rgb(60, 108, 174);
 }
-
 .formDiv label{
   display: block;
   margin: 15px 0 0 5px;
+  font-weight: bold;
+  padding: 0 10px;
 }
-
 .inputTodo {
   padding: 10px;
   margin-left: 5px;
-}
-.todo h2 {
-  font-size: 1.5rem;
-  margin: 10px;
+  margin-right: 10px;
+
 }
 .todo span{
   margin: 0 10px;

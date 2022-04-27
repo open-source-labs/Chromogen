@@ -5,8 +5,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Recorder from './Recorder';
 import StateTree from './StateTree';
 import TextBox from './TextBox';
-import TreeChart from '../d3stateTree';
-import { Message } from '@material-ui/icons';
+import { Message } from '@material-ui/icons'; // -> remove?
 /* eslint-enable */
 
 const App: React.FC = () => {
@@ -14,7 +13,6 @@ const App: React.FC = () => {
   const [connected, setConnected] = useState(false);
   const [fileReceived, setFileReceived] = useState(false);
   const [stateChange, setStateChange] = useState({});
-  // state variable for chromogen's test
   const [test, setTest] = useState('');
 
   useEffect(() => {
@@ -27,7 +25,6 @@ const App: React.FC = () => {
     });
     // Listen for messages from background.js
     backgroundConnection.onMessage.addListener((message) => {
-      // console.log('inside app.tsx, message received from background', message)
       if (message.action === 'moduleConnected') {
         setConnected(true);
       }
@@ -40,8 +37,6 @@ const App: React.FC = () => {
           setFileReceived(true);
           const testAsArray = message.data;
           const blob = new Blob(testAsArray);
-          // const blob = new Blob([JSON.stringify(testAsArray)]);
-          //console.log('we are now in devtool app.tsx and our blob is:', fileBlob)
           const blobreader = new FileReader();
           blobreader.readAsText(blob);
           // load event fires when a file has been read successfully
@@ -52,52 +47,17 @@ const App: React.FC = () => {
         }
       }
       if (message.action === 'stateChange'){
-       // console.log('state has been changed', message.result)
-      //  if state has changed from HooksChromogenObserver, stringify the object to display
-        // setStateChange(JSON.stringify(message.stateObj)); // need stateObj as object, not as string
         setStateChange(message.stateObj);
-        //not sure if this can be sent back as an object. need to test on someone that can view console logs
       }
     });
   }, [connected, status, fileReceived]);
 
-  // const d3testState = {
-  //   name: 'Sung',
-  //   children: [
-  //     {
-  //       name: 'Dani', 
-  //       children: [
-  //         {name: 'Lina',
-  //         children: [
-  //           {name: 'Bruno'}, 
-  //           {name: 'Olive'},
-  //         ]}, 
-  //         { name: 'Marcellies', 
-  //           children: [
-  //             {name: 'Michael'}, 
-  //             {name: 'Caitlin'},
-  //             {name: 'Kai'}
-  //           ]
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // }
-
-  // const d3testState = {
-  //   name: 'Chromogen Observer',
-  //   children: [
-  //     { stateChange }
-  //   ]
-  // }
-
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <p className="header">chromogen</p>
-      <span>
-        <Recorder status={status} />
-      </span>
+      <div className="header">chromogen</div>
+      <Recorder status={status} />
+
       <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>
@@ -107,8 +67,9 @@ const App: React.FC = () => {
       <div />
 
       <div id="installMessage">
+
         <div>Please </div>
-        <code>npm install chromogen </code>
+        <code>npm install team mslead </code>
         <div>in your app before using this extension. </div>
         <div>
             <GitHubIcon />
