@@ -153,6 +153,7 @@ textarea {
   font-size: 1.7rem;
   text-decoration: none;
   vertical-align: middle;
+  color: white;
 }
 code {
   color: #8ccabd;
@@ -165,11 +166,6 @@ span {
 #testing{
   color: white;
 }
-/* #textBoxEdit {
-  background-color: pink;
-  height: 800px;
-  width: 300px;
-} */
 
 /* Media queries */
 
