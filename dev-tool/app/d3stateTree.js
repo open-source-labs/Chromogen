@@ -38,7 +38,6 @@ function TreeChart({ state }) {
     // transform hierarchical data/state
     const root = hierarchy(state);
     const treeLayout = tree().size([dimensions.height, dimensions.width - 50 ]); // -> adjusting tree size according to height and width of the dimensions
-
     const linkGenerator = linkHorizontal()
       .x(link => link.y)
       .y(link => link.x);

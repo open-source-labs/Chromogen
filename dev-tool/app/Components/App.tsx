@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import GitHubIcon from '@material-ui/icons/GitHub';
+// import { GitHub } from '../../build/imgs/github'
 import Recorder from './Recorder';
 import StateTree from './StateTree';
 import TextBox from './TextBox';
@@ -54,10 +55,9 @@ const App: React.FC = () => {
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <p className="header">chromogen</p>
-      <span>
-        <Recorder status={status} />
-      </span>
+      <div className="header">chromogen</div>
+      <Recorder status={status} />
+
       <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>

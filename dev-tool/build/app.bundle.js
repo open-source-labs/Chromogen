@@ -288,9 +288,8 @@ var App = function () {
         });
     }, [connected, status, fileReceived]);
     return connected ? (react_1.default.createElement("div", { className: "App" },
-        react_1.default.createElement("p", { className: "header" }, "chromogen"),
-        react_1.default.createElement("span", null,
-            react_1.default.createElement(Recorder_1.default, { status: status })),
+        react_1.default.createElement("div", { className: "header" }, "chromogen"),
+        react_1.default.createElement(Recorder_1.default, { status: status }),
         react_1.default.createElement(StateTree_1.default, { state: stateChange }),
         react_1.default.createElement(TextBox_1.default, { test: test }))) : (react_1.default.createElement("div", { id: "installContainer" },
         react_1.default.createElement("div", null),
@@ -7259,125 +7258,9 @@ function toVal(mix) {
   !*** ./node_modules/css-loader/dist/cjs.js!./build/styles/styles.css ***!
   \***********************************************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(true);
-// Module
-___CSS_LOADER_EXPORT___.push([module.i, "/* General styles */\n\nhtml {\n  height: 100vh;\n  width: 100vw;\n  color: #1b1b1b;\n  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(86, 158, 226));\n}\nbody {\n  margin: 0px;\n  padding: 0px;\n}\np{\n  color: white;\n}\ntextarea {\n  width: 100vw;\n  height: 50vw;\n  border-radius: 10px;\n  background: grey;\n  color: white;\n}\n\n.App div {\n  width: 100vw;\n}\n.header{\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 15px;\n  font: Arial;\n  font-size: 1.5rem;\n  letter-spacing: 2.5px;\n  color: white;\n  text-shadow: #83beb1c2 1px 2px 0px;\n  height: 2vh;\n  width: 95vw;\n}\n\n#label{\n  display: flex;\n  text-align: right;\n  font: Arial;\n  font-size: 15px;\n  margin: 0px 10px;\n  padding-top: 5px;\n  color: rgb(144, 209, 240);\n  width: 100vw;\n  justify-content: center;\n}\n\n#textBox{\n  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));\n  color: rgb(144, 209, 240);\n  border-top: solid;\n  height: 50vh;\n  width: 100vw;\n}\n\n#stateTree{\n  background-image: linear-gradient(to right, rgb(85, 85, 101), rgb(34, 85, 179));\n  color: rgb(144, 209, 240);\n  border-top: solid;\n  height: 50vh;\n}\n\n#stateBox {\n  height: 50vh;\n  margin: 10px;\n  width: 95%;\n}\n\n/* wrapper container */\n#wrapperRef {\n  display: flex;\n  width: 100%;\n  align-items: center;\n  height: 85%;\n}\n\n/* svg container */\n#svgRef {\n  display: flex;\n  width: 100%;\n  align-items: center;\n  height: 100%;\n}\n\n/* node labels */\n.nodeLabel {\n  fill: white;\n  text-shadow: 1px 1px 1.2px black;\n  font-size: 13;\n  font-weight: 'bold';\n}\n\n\n/* Recorder.tsx */\n.recorder-div { \n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  align-items: center;\n  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));\n  height: auto;\n} \n#recorderBtn {\n  border: none;\n  box-shadow: 0px 0px 9px 0px rgba(165, 165, 165, 0.123);\n  border-radius: 11px;\n  background-color: rgb(30, 30, 31);\n  color: #8ccabd;\n  width: 14px;\n  height: 14px;\n  font-size: 14px;\n  cursor: 'pointer';\n}\n#recorderBtn:focus {\n  outline: none;\n  color: #5f817a98;\n}\n#recorderBtn:hover {\n  border: 2px solid rgb(48, 48, 49);\n}\n#buttons {\n  display: flex;\n}\n\n/* TextBox.tsx */\n\n#editBoxPost {\n  float: left;\n  width: 100vw;\n  height: 70vh;\n  outline: none;\n  resize: both;\n  overflow: auto;\n  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));\n  border: transparent;\n}\n\n/* Install Chromogen render */\n#installContainer {\n  display: grid;\n  grid-template-rows: 33fr 33fr 33fr;\n  height: 100vh;\n  text-align: center;\n}\n#installMessage div, code, span {\n  height: 40px;\n  margin-top: 15px;\n  font-size: 1.7rem;\n  text-decoration: none;\n  vertical-align: middle;\n}\ncode {\n  color: #8ccabd;\n}\nspan {\n  font-size: 1rem;\n  margin-top: 5px;\n}\n\n#testing{\n  color: white;\n}\n/* Media queries */\n@media (max-width: 450px) {\n  .recorder-div {\n    flex-direction: column; \n  }\n}\n", "",{"version":3,"sources":["webpack://build/styles/styles.css"],"names":[],"mappings":"AAAA,mBAAmB;;AAEnB;EACE,aAAa;EACb,YAAY;EACZ,cAAc;EACd,gFAAgF;AAClF;AACA;EACE,WAAW;EACX,YAAY;AACd;AACA;EACE,YAAY;AACd;AACA;EACE,YAAY;EACZ,YAAY;EACZ,mBAAmB;EACnB,gBAAgB;EAChB,YAAY;AACd;;AAEA;EACE,YAAY;AACd;AACA;EACE,aAAa;EACb,yBAAyB;EACzB,gBAAgB;EAChB,WAAW;EACX,iBAAiB;EACjB,qBAAqB;EACrB,YAAY;EACZ,kCAAkC;EAClC,WAAW;EACX,WAAW;AACb;;AAEA;EACE,aAAa;EACb,iBAAiB;EACjB,WAAW;EACX,eAAe;EACf,gBAAgB;EAChB,gBAAgB;EAChB,yBAAyB;EACzB,YAAY;EACZ,uBAAuB;AACzB;;AAEA;EACE,6EAA6E;EAC7E,yBAAyB;EACzB,iBAAiB;EACjB,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,+EAA+E;EAC/E,yBAAyB;EACzB,iBAAiB;EACjB,YAAY;AACd;;AAEA;EACE,YAAY;EACZ,YAAY;EACZ,UAAU;AACZ;;AAEA,sBAAsB;AACtB;EACE,aAAa;EACb,WAAW;EACX,mBAAmB;EACnB,WAAW;AACb;;AAEA,kBAAkB;AAClB;EACE,aAAa;EACb,WAAW;EACX,mBAAmB;EACnB,YAAY;AACd;;AAEA,gBAAgB;AAChB;EACE,WAAW;EACX,gCAAgC;EAChC,aAAa;EACb,mBAAmB;AACrB;;;AAGA,iBAAiB;AACjB;EACE,aAAa;EACb,mBAAmB;EACnB,6BAA6B;EAC7B,mBAAmB;EACnB,8EAA8E;EAC9E,YAAY;AACd;AACA;EACE,YAAY;EACZ,sDAAsD;EACtD,mBAAmB;EACnB,iCAAiC;EACjC,cAAc;EACd,WAAW;EACX,YAAY;EACZ,eAAe;EACf,iBAAiB;AACnB;AACA;EACE,aAAa;EACb,gBAAgB;AAClB;AACA;EACE,iCAAiC;AACnC;AACA;EACE,aAAa;AACf;;AAEA,gBAAgB;;AAEhB;EACE,WAAW;EACX,YAAY;EACZ,YAAY;EACZ,aAAa;EACb,YAAY;EACZ,cAAc;EACd,6EAA6E;EAC7E,mBAAmB;AACrB;;AAEA,6BAA6B;AAC7B;EACE,aAAa;EACb,kCAAkC;EAClC,aAAa;EACb,kBAAkB;AACpB;AACA;EACE,YAAY;EACZ,gBAAgB;EAChB,iBAAiB;EACjB,qBAAqB;EACrB,sBAAsB;AACxB;AACA;EACE,cAAc;AAChB;AACA;EACE,eAAe;EACf,eAAe;AACjB;;AAEA;EACE,YAAY;AACd;AACA,kBAAkB;AAClB;EACE;IACE,sBAAsB;EACxB;AACF","sourcesContent":["/* General styles */\n\nhtml {\n  height: 100vh;\n  width: 100vw;\n  color: #1b1b1b;\n  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(86, 158, 226));\n}\nbody {\n  margin: 0px;\n  padding: 0px;\n}\np{\n  color: white;\n}\ntextarea {\n  width: 100vw;\n  height: 50vw;\n  border-radius: 10px;\n  background: grey;\n  color: white;\n}\n\n.App div {\n  width: 100vw;\n}\n.header{\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 15px;\n  font: Arial;\n  font-size: 1.5rem;\n  letter-spacing: 2.5px;\n  color: white;\n  text-shadow: #83beb1c2 1px 2px 0px;\n  height: 2vh;\n  width: 95vw;\n}\n\n#label{\n  display: flex;\n  text-align: right;\n  font: Arial;\n  font-size: 15px;\n  margin: 0px 10px;\n  padding-top: 5px;\n  color: rgb(144, 209, 240);\n  width: 100vw;\n  justify-content: center;\n}\n\n#textBox{\n  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));\n  color: rgb(144, 209, 240);\n  border-top: solid;\n  height: 50vh;\n  width: 100vw;\n}\n\n#stateTree{\n  background-image: linear-gradient(to right, rgb(85, 85, 101), rgb(34, 85, 179));\n  color: rgb(144, 209, 240);\n  border-top: solid;\n  height: 50vh;\n}\n\n#stateBox {\n  height: 50vh;\n  margin: 10px;\n  width: 95%;\n}\n\n/* wrapper container */\n#wrapperRef {\n  display: flex;\n  width: 100%;\n  align-items: center;\n  height: 85%;\n}\n\n/* svg container */\n#svgRef {\n  display: flex;\n  width: 100%;\n  align-items: center;\n  height: 100%;\n}\n\n/* node labels */\n.nodeLabel {\n  fill: white;\n  text-shadow: 1px 1px 1.2px black;\n  font-size: 13;\n  font-weight: 'bold';\n}\n\n\n/* Recorder.tsx */\n.recorder-div { \n  display: flex;\n  flex-direction: row;\n  justify-content: space-evenly;\n  align-items: center;\n  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));\n  height: auto;\n} \n#recorderBtn {\n  border: none;\n  box-shadow: 0px 0px 9px 0px rgba(165, 165, 165, 0.123);\n  border-radius: 11px;\n  background-color: rgb(30, 30, 31);\n  color: #8ccabd;\n  width: 14px;\n  height: 14px;\n  font-size: 14px;\n  cursor: 'pointer';\n}\n#recorderBtn:focus {\n  outline: none;\n  color: #5f817a98;\n}\n#recorderBtn:hover {\n  border: 2px solid rgb(48, 48, 49);\n}\n#buttons {\n  display: flex;\n}\n\n/* TextBox.tsx */\n\n#editBoxPost {\n  float: left;\n  width: 100vw;\n  height: 70vh;\n  outline: none;\n  resize: both;\n  overflow: auto;\n  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));\n  border: transparent;\n}\n\n/* Install Chromogen render */\n#installContainer {\n  display: grid;\n  grid-template-rows: 33fr 33fr 33fr;\n  height: 100vh;\n  text-align: center;\n}\n#installMessage div, code, span {\n  height: 40px;\n  margin-top: 15px;\n  font-size: 1.7rem;\n  text-decoration: none;\n  vertical-align: middle;\n}\ncode {\n  color: #8ccabd;\n}\nspan {\n  font-size: 1rem;\n  margin-top: 5px;\n}\n\n#testing{\n  color: white;\n}\n/* Media queries */\n@media (max-width: 450px) {\n  .recorder-div {\n    flex-direction: column; \n  }\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ __webpack_exports__["default"] = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/runtime/api.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-// eslint-disable-next-line func-names
-module.exports = function (useSourceMap) {
-  var list = []; // return the list of modules as css string
-
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = cssWithMappingToString(item, useSourceMap);
-
-      if (item[2]) {
-        return "@media ".concat(item[2], " {").concat(content, "}");
-      }
-
-      return content;
-    }).join('');
-  }; // import a list of modules into the list
-  // eslint-disable-next-line func-names
-
-
-  list.i = function (modules, mediaQuery, dedupe) {
-    if (typeof modules === 'string') {
-      // eslint-disable-next-line no-param-reassign
-      modules = [[null, modules, '']];
-    }
-
-    var alreadyImportedModules = {};
-
-    if (dedupe) {
-      for (var i = 0; i < this.length; i++) {
-        // eslint-disable-next-line prefer-destructuring
-        var id = this[i][0];
-
-        if (id != null) {
-          alreadyImportedModules[id] = true;
-        }
-      }
-    }
-
-    for (var _i = 0; _i < modules.length; _i++) {
-      var item = [].concat(modules[_i]);
-
-      if (dedupe && alreadyImportedModules[item[0]]) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      if (mediaQuery) {
-        if (!item[2]) {
-          item[2] = mediaQuery;
-        } else {
-          item[2] = "".concat(mediaQuery, " and ").concat(item[2]);
-        }
-      }
-
-      list.push(item);
-    }
-  };
-
-  return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-  var content = item[1] || ''; // eslint-disable-next-line prefer-destructuring
-
-  var cssMapping = item[3];
-
-  if (!cssMapping) {
-    return content;
-  }
-
-  if (useSourceMap && typeof btoa === 'function') {
-    var sourceMapping = toComment(cssMapping);
-    var sourceURLs = cssMapping.sources.map(function (source) {
-      return "/*# sourceURL=".concat(cssMapping.sourceRoot || '').concat(source, " */");
-    });
-    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-  }
-
-  return [content].join('\n');
-} // Adapted from convert-source-map (MIT)
-
-
-function toComment(sourceMap) {
-  // eslint-disable-next-line no-undef
-  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-  var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
-  return "/*# ".concat(data, " */");
-}
+throw new Error("Module build failed (from ./node_modules/css-loader/dist/cjs.js):\nCssSyntaxError\n\n(64:9) Unknown word\n\n \u001b[90m 62 | \u001b[39m  color\u001b[33m:\u001b[39m \u001b[36mrgb\u001b[39m\u001b[36m(144, 209, 240)\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 63 | \u001b[39m  border-top\u001b[33m:\u001b[39m solid\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 | \u001b[39m<<<<<<< HEAD\n \u001b[90m    | \u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 | \u001b[39m=======\n \u001b[90m 66 | \u001b[39m\n");
 
 /***/ }),
 
