@@ -1,55 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import GetAppIcon from '@material-ui/icons/GetApp';
+import type { CSSProperties } from 'react';
 
-const TextBox: React.FC = () => {
+const TextBox: React.FC<{ test: string }> = ({ test }) => {
+
+  // attempt to make height of textbox responsive to test length
+  function calcHeight(value) {
+    let numberOfLineBreaks = (value.match(/\n/g) || []).length;
+    // min-height + lines x line-height + padding + border
+    let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
+    return newHeight;
+  }
   
-  // const [test, setTest] = useState(false);
-  
-  // useEffect(() => {
-  //   // Create a connection to the background page
-  //   const backgroundConnection = chrome.runtime.connect();
-  //   // Send tab ID to background.js
-  //   backgroundConnection.postMessage({
-  //     action: 'connectChromogen',
-  //     tabId: chrome.devtools.inspectedWindow.tabId,
-  //   });
-  //   // Listen for messages from background.js
-  //   backgroundConnection.onMessage.addListener((message) => {
-  //     if (message.action === 'editFileBack'){
-  //       //read file and render in textbox
-  //       console.log('editFileString has been set back')
-  //       setTest(true);
-  //     }
-  //   });
-  // }, [test]);
-  
-  
-  //connect to background
+  useEffect(() => {
+    const editBox = document.getElementById('editBoxPost') as HTMLInputElement;
+    if (editBox) editBox.value = test;
+    editBox.addEventListener("onKeyUp", () => {
+      editBox.style.height = calcHeight(editBox.value) + "px";
+    });
+  }, [test]);
+
   const backgroundConnection = chrome.runtime.connect();
 
-   const sendMessage = (action: string) => {
-      backgroundConnection.postMessage({
-        action,
-        tabId: chrome.devtools.inspectedWindow.tabId,
-      });
-    };
-  
-   return (
-    <div className = "textBoxComp">
-       {/* <p>I am in a paragraph</p> */}
-      {/* when user clicks the button, file will be automatically downloaded */}
-      {/* <button id="recorderBtn" type="submit" onClick={() => sendMessage('downloadFile')}>
-        <GetAppIcon style={{ fontSize: '38px' }} />
-      </button> */}
+  // Send messages to background.js
+  const sendMessage = (action: string) => {
+    backgroundConnection.postMessage({
+      action,
+      tabId: chrome.devtools.inspectedWindow.tabId,
+    });
+  };
 
+  const hooksButtonStyle: CSSProperties = {
+    display: 'inline-block',
+    // justifyContent: 'space-evenly',
+    justifyContent: 'right',
+    margin: '4px',
+    marginLeft: '13px',
+    padding: '0px',
+    height: '25px',
+    width: '65px',
+    borderRadius: '4px',
+    alignItems: 'flex-end',
+    border: '1px',
+    cursor: 'pointer',
+    color: '#90d1f0',
+    fontSize: '10px',
+  };
+
+  return (
+    <div id="textBox">
+      <div id="label">Tests</div>
       <div id="textBoxEdit">
-        <textarea>
-           here is where we need to read file
-        </textarea>
+        <textarea id='editBoxPost' defaultValue={'here is where we need to read file'}
+        ></textarea>
       </div>
-      {/* read from file and make it editable */}
     </div>
- ) 
-}
+  );
+};
+
+
+
 
 export default TextBox;

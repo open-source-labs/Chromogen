@@ -1,19 +1,18 @@
 {
-  "name" : "Chromogen",
-  "version" : "0.1.0",
-  "manifest_version" : 2,
+  "name" : "My Little Chromogen Tool",
+  "version" : "0.3.0",
+  "manifest_version" : 3,
   "description" : "DevTool panel for Chromogen, a UX-driven test generator for Recoil apps.",
-  "author" : "Chromogen Team",
+  "author" : "Team MSLED",
   "icons": { "128": "./imgs/chromogen-logo.png"},
   "devtools_page" : "devtools.html",
   "background": {
-    "persistent": false,
-    "scripts": ["build/bundles/background.bundle.js"]
+    "service_worker": "background.bundle.js"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["build/bundles/content.bundle.js"]
+      "js": ["content.bundle.js"]
     }
   ] 
 }

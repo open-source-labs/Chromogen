@@ -7,4 +7,5 @@ export const hooksLedger: Ledger = {
   initialState: '',
   currState: '',
   dispCount: 0,
+  previousState: []
 };

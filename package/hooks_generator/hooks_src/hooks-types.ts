@@ -5,4 +5,6 @@ export interface Ledger {
   initialState: any;
   currState: any;
   dispCount: number;
+  previousState: Array<Array<any>>;
 }
+

@@ -7,13 +7,16 @@ import React, {
   useState,
 } from 'react';
 import { createStore } from 'redux';
+
+import { hooksLedger } from '../utils/hooks-ledger';
 import { EnhancedStore, ObserverContext } from '../utils/hooks-store';
-import { hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
+import { createPrevStateObj as prevStateObj, generateStateTreeObj as stateTreeObj, hookStyles as styles, generateHooksFile as generateFile } from './hooks-component-utils';
 
 // Interfaces for StateInspectorProps and StoreReducerAction
 interface StateInspectorProps {
   name?: string;
   initialState?: any;
+  children?: any;
 }
 
 interface StoreReducerAction {
@@ -22,34 +25,34 @@ interface StoreReducerAction {
 }
 
 // Export hooksChromogenObserver
-export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
-  initialState = {},
+export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
+  //initialState = {},
+  initialState = [],
   children,
-}) => {
+}) {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   const [file, setFile] = reactUseState<undefined | string>(undefined);
   // RecordingState is imported from hooks-store
   const [recording, setRecording] = reactUseState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
-
-  //for chome extension to generate the file, to read / edit in extension before downloading
   const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
 
   // DevTool message handling
-  // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
+    // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
       case 'connectChromogen':
         setDevtool(true);
+        console.log('inside connectChromogen in HooksChromogenObserver devtool is:', devtool)
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':
         generateFile(setFile);
         break;
-      //added case for chrome extension here
       case 'editFile':
-        generateFile(setEditFile);
+        const array = generateFile(setEditFile);
+        window.postMessage({ action: 'editFileReceived', data: array }, '*');
         break;
       case 'toggleRecord':
         setRecording(() => {
@@ -59,12 +62,12 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
         window.postMessage({ action: 'setStatus' }, '*');
         break;
       default:
-      // Do nothing
     }
   };
 
-  // Add DevTool event listeners
+  // Add DevTool event listeners 
   useEffect(() => {
+    // fire receiveMessage fn when 'message' event is fired on window obj by a call to Window.postMessage() from another browsing context
     window.addEventListener('message', receiveMessage);
 
     return () => window.removeEventListener('message', receiveMessage);
@@ -73,14 +76,18 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [file]);
 
+  // with updated state in editFile, readfile 
+  // useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [editFile]);
+
   const omit = (obj: Record<string, any>, keyToRemove: string) =>
     Object.keys(obj)
       .filter((key) => key !== keyToRemove)
       .reduce<Record<string, any>>((acc, key) => {
         acc[key] = obj[key];
-
+        console.log('obj', obj);
+        console.log('key', key)
         return acc;
-      }, {});
+  }, {});
 
   const store = useMemo<EnhancedStore | undefined>(() => {
     if (typeof window === 'undefined') {
@@ -88,30 +95,52 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
     }
 
     const registeredReducers: Record<string | number, Reducer<any, ReducerAction<any>>> = {};
-
     const storeReducer: Reducer<any, StoreReducerAction> = (state, action) => {
       const actionReducerId = action.type.split('/')[0];
       const isInitAction = /\/_init$/.test(action.type);
       const isTeardownAction = /\/_teardown$/.test(action.type);
 
+      //currentState keeps logging as undefined, even with state changes
+      //currentState is initial state value
       const currentState = isTeardownAction ? omit(state, actionReducerId) : { ...state };
 
-      return Object.keys(registeredReducers).reduce((acc, reducerId) => {
+      // Object.keys(registeredReducers)) returns an array with reducer id strings as entries
+      //all properties of state object will be updated by reducer
+      const result =  Object.keys(registeredReducers).reduce((acc, reducerId) => {
         const reducer = registeredReducers[reducerId];
         const reducerState = state[reducerId];
+
         const reducerAction = action.payload;
         const isForCurrentReducer = actionReducerId === reducerId;
 
         if (isForCurrentReducer) {
+          //adding 2d array to previousState in ledger to keep track of each reducerId and its associated state change
+          const arr:any[] = [];
+          arr[0] = reducerId;
+          arr[1] = acc[reducerId];
+          hooksLedger.previousState.push(arr);
+
           acc[reducerId] = isInitAction ? action.payload : reducer(reducerState, reducerAction);
+
         } else {
           acc[reducerId] = reducerState;
         }
 
         return acc;
-      }, currentState);
-    };
 
+      }, currentState)
+
+      //store reducer will send any state changes to dev tool
+      //update state object
+      // hooksLedger.previousState is 2d array of state
+      const newStateObj = prevStateObj(hooksLedger.previousState);
+      const newStateTreeObj = stateTreeObj(newStateObj);
+
+      window.postMessage({ action: 'stateChange', stateObj: newStateTreeObj }, '*');
+
+      return result;
+    }; //end storeReducer
+    
     const store: EnhancedStore = createStore(storeReducer, initialState);
 
     store.registerHookedReducer = (reducer, initialState, reducerId) => {
@@ -132,7 +161,8 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = ({
     };
 
     return store;
-  }, []);
+  }, []);//end storeMemo
+
 
   useEffect(() => {
     store && store.dispatch({ type: 'REINSPECT/@@INIT', payload: {} });
@@ -147,11 +177,11 @@ const [playColor, setPlayColor] = useState('transparent transparent transparent 
 const playBorderStyle = {
   borderColor: `${playColor}`,
 };
-
+console.log('dev tool', devtool)
   // User imports hooksChromogenObserver to their app
   return (
     <>
-      {!devtool && (
+      {true && (
         <ObserverContext.Provider value={store}>
           {children}
           <div style={styles.hooksDivStyle}>
@@ -186,11 +216,11 @@ const playBorderStyle = {
               <a>{'Download'}</a>
             </button>
           </div>
-        </ObserverContext.Provider>
+         </ObserverContext.Provider> 
       )}
       <a
         download="chromogen-hooks.test.js"
-        href={file} // have chrome button 
+        href={file} 
         id="chromogen-hooks-download"
         style={{ display: 'none' }}
       >

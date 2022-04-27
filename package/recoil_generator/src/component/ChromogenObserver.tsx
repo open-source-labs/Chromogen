@@ -16,14 +16,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
   const [devtool, setDevtool] = useState<boolean>(false);
-  const [editFile, setEditFile] = useState<undefined | string>(undefined);
-
-  //when editFile has update its state, we want to send that editFile back to 
-  //when editFile has changed
-  //create a message to send to chrome extension
-  //then have chrome extension read this message
-  //and when receieved, display in extension
-  //chrome dev tool browser
+  const [editFile, setEditFile] =useState<undefined | string>(undefined);
 
   // DevTool message handling
   const receiveMessage = (message: any) => {
@@ -36,11 +29,9 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
         generateFile(setFile, storeMap);
         break;
       case 'editFile':
-        generateFile(setEditFile, storeMap);
-        window.postMessage({action: 'editFileBack'}, '*');
-        //this is where we can send something back to chrome ext with file url
-        //invoke function to send editFile back to chrom ext
-        break;
+        const array = generateFile(setEditFile, storeMap);
+        window.postMessage({ action: 'editFileReceived', data: array }, '*');
+        break;       
       case 'toggleRecord':
         setRecording(!recording);
         window.postMessage({ action: 'setStatus' }, '*');
@@ -160,6 +151,8 @@ const playBorderStyle = {
                 type="button"
                 onClick={() => {
                   setRecording(!recording);
+                  // if (!recording) return true;
+                  // return false;
                 }}
                 onMouseEnter={() => recording ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
                 onMouseLeave={() => recording ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}

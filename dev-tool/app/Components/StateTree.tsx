@@ -1,12 +1,21 @@
-//import { SettingsBackupRestoreRounded } from '@material-ui/icons';
-// import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import TreeChart from '../d3stateTree';
 
-// const TextBox: React.FC = () => {
-    
-//  return (
-   
-//  );
-// }
+const StateTree: React.FC<{ state: object }> = ({state}) => {
+  // const StateTree: React.FC<{ state: object }> = () => {
 
-// export default TextBox;
 
+  return (
+    <React.Fragment>
+      <div id="stateTree">
+        <div id ="label">State Tree</div>
+        <div id="stateBox">
+          <TreeChart state={state} />
+          {/* Hello it's me, is the TreeChart working */}
+        </div>
+      </div>
+    </React.Fragment>
+  );
+}
+
+export default StateTree;
