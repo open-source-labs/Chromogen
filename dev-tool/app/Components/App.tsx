@@ -4,13 +4,14 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Recorder from './Recorder';
 import StateTree from './StateTree';
 import TextBox from './TextBox';
+
 /* eslint-enable */
 
 const App: React.FC = () => {
   const [status, setStatus] = useState(true);
   const [connected, setConnected] = useState(false);
   const [fileRecieved, setFileRecieved] = useState(false);
-  const [stateChange, setStateChange] = useState({});
+  const [stateChange, setStateChange] = useState([]);
   // state variable for chromogen's test
   const [test, setTest] = useState('');
 
@@ -51,6 +52,7 @@ const App: React.FC = () => {
        // console.log('state has been changed', message.result)
        //if state has changed from HooksChromogenObserver, stringify the object to display
        setStateChange(JSON.stringify(message.stateObj))
+       console.log('state obj from chromogen', stateChange);
       }
     });
   }, [connected, status, fileRecieved]);
@@ -62,6 +64,7 @@ const App: React.FC = () => {
       <span>
         <Recorder status={status} setStatus={setStatus} />
       </span>
+      <p> This is testing our state object {stateChange} </p>
       <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>

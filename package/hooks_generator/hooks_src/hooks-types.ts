@@ -7,3 +7,4 @@ export interface Ledger {
   dispCount: number;
   previousState: Array<Array<any>>;
 }
+
