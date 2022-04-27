@@ -1,11 +1,8 @@
 /* eslint-disable */
 import React from 'react';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import StopIcon from '@material-ui/icons/Stop';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import TextBox from './TextBox';
 import type { CSSProperties } from 'react';
 import { useState, useEffect } from 'react';
+import '../../build/styles/styles.css';
 
 const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
   // Connect to background.js
@@ -87,21 +84,14 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
           <div style={{ ...hooksPauseStyle, ...pauseBorderStyle }}></div>
           : <div style={{ ...hooksPlayStyle, ...playBorderStyle }}></div>}
         </a>
-        {/* {status ? (
-          // If status is truthy, render Stop Icon (Chromogen is already recording)
-          <StopIcon style={{ color: '#D44B5A', fontSize: '40px' }} />
-        ) : (
-          // Else render Play Icon (Chromogen has stopped recording)
-          <PlayArrowIcon style={{ color: '#FCE3A3', fontSize: '40px' }} />
-        )} */}
       </button>
       <button
         id="testBtn"
         type="submit"
+        onClick={() => sendMessage('editFile')}
         style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f'}}
         onMouseEnter={() => document.getElementById("testBtn")!.style.color = '#f6f071'}
-        onMouseLeave={() => document.getElementById("testBtn")!.style.color = '#90d1f0'}
-        onClick={() => sendMessage('editFile')}>
+        onMouseLeave={() => document.getElementById("testBtn")!.style.color = '#90d1f0'}>
         Show Test
       </button>
       <button id="downloadBtn"

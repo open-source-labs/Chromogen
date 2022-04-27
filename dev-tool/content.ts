@@ -10,6 +10,5 @@ window.addEventListener('message', (message) => {
 
 // Relay messages from background.js (DevTools panel listener) to package
 chrome.runtime.onMessage.addListener((message) => {
-    // console.log('inside content.ts - relay msg from background to package', message)
     window.postMessage(message, '*');
 });

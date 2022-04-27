@@ -4,5 +4,4 @@ import { ChromogenObserver } from './recoil_generator/src/component/ChromogenObs
 import { useState } from './hooks_generator/hooks_src/api/hooks-api'
 import { HooksChromogenObserver } from './hooks_generator/hooks_src/component/HooksChromogenObserver';
 // CHROMGOEN FAMILY APIs ARE CURRENTLY UNSTABLE
-// import { atomFamily, selectorFamily } from 'recoil';
 export { atom, selector, atomFamily, selectorFamily, HooksChromogenObserver, ChromogenObserver, useState };

@@ -4,8 +4,7 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Recorder from './Recorder';
 import StateTree from './StateTree';
 import TextBox from './TextBox';
-import TreeChart from '../d3stateTree';
-import { Message } from '@material-ui/icons';
+import { Message } from '@material-ui/icons'; 
 /* eslint-enable */
 
 const App: React.FC = () => {
@@ -55,8 +54,10 @@ const App: React.FC = () => {
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="header">chromogen</div>
-      <Recorder status={status} />
+      <p className="header">chromogen</p>
+      <span>
+        <Recorder status={status} />
+      </span>
       <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>
@@ -66,12 +67,14 @@ const App: React.FC = () => {
       <div />
 
       <div id="installMessage">
+
         <div>Please </div>
-        <code>npm install chromogen </code>
+        <code>npm install team mslead </code>
         <div>in your app before using this extension. </div>
         <div>
-          <GitHubIcon /> <span>github.com/oslabs-beta/Chromogen</span>
+            <GitHubIcon />
         </div>
+            <span>github.com/oslabs-beta/Chromogen</span>
       </div>
 
       <div />

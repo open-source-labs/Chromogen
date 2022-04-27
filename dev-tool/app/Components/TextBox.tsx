@@ -1,4 +1,3 @@
-import { SettingsEthernetTwoTone } from '@material-ui/icons';
 import React, { useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
 
@@ -32,7 +31,6 @@ const TextBox: React.FC<{ test: string }> = ({ test }) => {
 
   const hooksButtonStyle: CSSProperties = {
     display: 'inline-block',
-    // justifyContent: 'space-evenly',
     justifyContent: 'right',
     margin: '4px',
     marginLeft: '13px',

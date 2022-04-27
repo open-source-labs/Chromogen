@@ -2,6 +2,7 @@
 
 html {
   height: 100vh;
+  width: 100vw;
   color: #1b1b1b;
   background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(86, 158, 226));
 }
@@ -20,75 +21,79 @@ textarea {
   color: white;
 }
 
-/* App.jsx */
-/* .App {
-  display: grid;
-  grid-template-rows: 33fr 33fr 33fr;
-  font-family: 'Palanquin', sans-serif;
-  height: 100vh;
-} */
 .App div {
-  width: 100%;
+  width: 100vw;
 }
-.App .header{
-  text-align: right;
-  margin: 15px 10px 0px auto;
-  padding-right: 20px;
+.header{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
   font: Arial;
-  font-size: 1rem;
-  letter-spacing: 2px;
+  font-size: 1.5rem;
+  letter-spacing: 2.5px;
   color: white;
   text-shadow: #83beb1c2 1px 2px 0px;
   height: 2vh;
-  width: 100vw;
+  width: 95vw;
 }
+
 #label{
-  /* display: flex; */
-  /* direction: row-reverse; */
+  display: flex;
   text-align: right;
   font: Arial;
-  font-size: 12px;
-  /* took out marigin - causes horizontal scrolling */
-  /* padding-right: 10px; */
+  font-size: 15px;
+  margin: 0px 10px;
   padding-top: 5px;
   color: rgb(144, 209, 240);
-  width: 80vw;
+  width: 100vw;
+  justify-content: center;
 }
 
 #textBox{
-  /* background: rgb(158, 158, 160); */
   background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
-  /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
   color: rgb(144, 209, 240);
   border-top: solid;
-  /* border-radius: 4px; */
-  /* margin: 10px 0px 0px 0px; */
   height: 50vh;
   width: 100vw;
 }
 
 #stateTree{
-  /* background: rgb(158, 158, 160); */
-    background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));
-  /* background-image: linear-gradient(to right, rgb(158, 158, 160), rgb(46, 46, 47)); */
+  background-image: linear-gradient(to right, rgb(85, 85, 101), rgb(34, 85, 179));
   color: rgb(144, 209, 240);
-  /* border-radius: 4px; */
   border-top: solid;
-  /* changed left margin to 0 */
-  margin: 10px 0px 0px 0px;
   height: 50vh;
 }
 
 #stateBox {
-  height: 20vw;
-  margin: 25px;
-  width: 90%;
+  height: 50vh;
+  margin: 10px;
+  width: 95%;
+}
+
+/* wrapper container */
+#wrapperRef {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 85%;
 }
 
 /* svg container */
 #svgRef {
+  display: flex;
   width: 100%;
+  align-items: center;
+  height: 100%;
 }
+
+/* node labels */
+.nodeLabel {
+  fill: white;
+  text-shadow: 1px 1px 1.2px black;
+  font-size: 13;
+  font-weight: 'bold';
+}
+
 
 /* Recorder.tsx */
 .recorder-div { 
@@ -96,9 +101,7 @@ textarea {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  /* border-top: 2px solid #83beb1;
-  border-bottom: 2px solid #83beb1; */
-  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54));
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));
   height: auto;
 } 
 #recorderBtn {
@@ -110,7 +113,6 @@ textarea {
   width: 14px;
   height: 14px;
   font-size: 14px;
-  /* margin: 8 8 8 13 */
   cursor: 'pointer';
 }
 #recorderBtn:focus {
@@ -129,7 +131,7 @@ textarea {
 #editBoxPost {
   float: left;
   width: 100vw;
-  /* min-height: 75px; */
+  height: 70vh;
   outline: none;
   resize: both;
   overflow: auto;
@@ -163,7 +165,6 @@ span {
   color: white;
 }
 /* Media queries */
-
 @media (max-width: 450px) {
   .recorder-div {
     flex-direction: column; 

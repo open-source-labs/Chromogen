@@ -25,6 +25,7 @@ function TreeChart({ state }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
+  
 
   // will be called initially and on every data/state change
   useEffect(() => {
@@ -36,23 +37,14 @@ function TreeChart({ state }) {
 
     // transform hierarchical data/state
     const root = hierarchy(state);
-    const treeLayout = tree().size([dimensions.height - 50, dimensions.width - 60 ]); // -> adjusting tree size according to height and width of the dimensions
-    console.log('here are dimensions', dimensions, 'height: ', dimensions.height, 'width: ', dimensions.width);
-
-    console.log('hi, I\'m state', state);
-    console.log('hi, i\'m root', root); // -> think about how this can be manipulated for dynamic rendering
-    console.log(root.descendants()); // -> root.descendants are all the nodes of the tree
-    console.log(root.links()); // -> all lines that link parent nodes to their children
+    const treeLayout = tree().size([dimensions.height, dimensions.width - 50 ]); // -> adjusting tree size according to height and width of the dimensions
 
     const linkGenerator = linkHorizontal()
-      // .source(link => link.source) // -> default, so do not need to define them
-      // .target(link => link.target) // -> likewise, default
       .x(link => link.y)
       .y(link => link.x);
 
 
     treeLayout(root);
-    // console.log('node.data: ', data, 'node.state: ', state)
 
     // nodes
     svg
@@ -94,18 +86,19 @@ function TreeChart({ state }) {
       .delay(linkObj => linkObj.source.depth * 500) // -> ensures that animation will start from each source node of linkObj, from parent to children
       .attr('stroke-dashoffset', 0)
 
-    // labels
+    // node labels
     svg
-      .selectAll('.label') // -> class name of labels (state)
+      .selectAll('.nodeLabel') // -> class name of labels (state)
       .data(root.descendants())
       // .join(enter => enter.append('text').attr('opacity', 0))
       .join('text')
-      .attr('class', 'label')
+      .attr('class', 'nodeLabel')
       .text(node => node.data.name) // -> node.state? -> node.data
       .attr('text-anchor', 'middle')
-      .attr('font-size', 12)
-      .attr('x', node => node.y + 15)
-      .attr('y', node => node.x) // -> make it dynamic
+      // .attr('fill', 'black')
+      // .attr('stroke', 'white')
+      .attr('x', node => node.y + 15) // -> make it dynamic, coordinate with 'cx' svg to center label to each node
+      .attr('y', node => node.x) 
       // animation following
       .attr('opacity', 0)
       .transition()
@@ -116,7 +109,8 @@ function TreeChart({ state }) {
   }, [state, dimensions]);
 
   return (
-    <div ref={wrapperRef} style={{ marginBottom: '1rem'}}>
+    // <div ref={wrapperRef} style={{ marginBottom: '1rem'}}>
+      <div ref={wrapperRef} id='wrapperRef'>
       <svg ref={svgRef} id='svgRef'></svg>
     </div>
   );
