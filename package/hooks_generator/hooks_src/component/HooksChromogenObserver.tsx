@@ -132,16 +132,12 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
       //store reducer will send any state changes to dev tool
       //update state object
-      console.log('result', result) // -> expect to be an object with properties add, subtract, and todolist
-      console.log('hooks previous state', hooksLedger.previousState) //-> 2d array of state
+      // hooksLedger.previousState is 2d array of state
       const newStateObj = prevStateObj(hooksLedger.previousState);
-      console.log('newStateObject is' , newStateObj)
       const newStateTreeObj = stateTreeObj(newStateObj);
-      console.log('newStateTreeObj', newStateTreeObj);
 
       window.postMessage({ action: 'stateChange', stateObj: newStateTreeObj }, '*');
 
-     // window.postMessage({ action: 'stateChange', stateObj: result }, '*');
       return result;
     }; //end storeReducer
     
