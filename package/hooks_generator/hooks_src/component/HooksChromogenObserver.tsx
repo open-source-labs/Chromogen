@@ -95,7 +95,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
     }
 
     const registeredReducers: Record<string | number, Reducer<any, ReducerAction<any>>> = {};
-
     const storeReducer: Reducer<any, StoreReducerAction> = (state, action) => {
       const actionReducerId = action.type.split('/')[0];
       const isInitAction = /\/_init$/.test(action.type);
