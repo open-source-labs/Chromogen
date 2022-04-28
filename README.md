@@ -32,11 +32,11 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Installation for Recoil Apps](#Installation-for-Recoil-Apps)
-- [Usage for Recoil Apps](#Usage-for-Recoil-Apps)
-- [Installation for Hooks Apps](#Installation-for-Hooks-Apps)
-- [Usage for Hooks Apps](#Usage-for-Hooks-Apps)
-- [Chrome DevTool (Optional)](<#Chrome-DevTool-(Optional)>)
+- [Installation for Recoil Apps](#installation-for-recoil-apps)
+- [Usage for Recoil Apps](#usage-for-recoil-apps)
+- [Installation for Hooks Apps](#installation-for-hooks-apps)
+- [Usage for Hooks Apps](#usage-for-hooks-apps)
+- [New and Improved Chrome DevTool](<#new-and-improved-chrome-devtool>)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
 - [License](#license)
@@ -44,11 +44,13 @@
 
 ## Overview
 
-You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
+You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is a major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
 
-[Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
+[Enter Chromogen](https://www.npmjs.com/package/chromog3n). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
 
 ### Chromogen is currently in active Beta
+  
+### Chromogen is now compatible with React V18!
 
 <b>FOR RECOIL APPS</b>
 
@@ -80,7 +82,7 @@ We are always open to suggestions to meet the needs of our userbase. Want to see
 
 ### Recoil Demo To-Do App
 
-Chromogen's [official demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
+Chromogen's [official Recoil demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
 
 <Br>
 
@@ -261,7 +263,7 @@ After following the installation steps above, launch your application as normal.
 
 <div align="center">
 
-![Buttons](./assets/README-root/demoTodo.gif)
+![Buttons](./assets/README-root/chromogen3.gif)
 
 </div>
 
@@ -271,12 +273,6 @@ The button on the right is the **download** button. Clicking it will download a 
 
 Once you've recorded all the interactions you want to test, click the pause button and then the download button to generate the test file. You can now drag-and-drop the downloaded file into your app's test directory.
 
-<div align="center">
-
-![Download](./assets/README-root/newDownload.png)&nbsp;&nbsp;&nbsp;&nbsp;![File](./assets/README-root/testFilePath.png)
-
-</div>
-
 You're now ready to run your tests! After running your normal Jest test command, you should see a test suite for `chromogen.test.js`.
 
 The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
@@ -285,14 +281,16 @@ The current tests check whether state has changed after an interaction and check
 
 ## New and Improved Chrome DevTool!
 
-[Install Chromogen DevTool Extension V3.0 (pending Chrome Review)]
-[Install Chromogen DevTool Extension V2.0](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
+Chromogen DevTool Extension V3.0.0 is coming soon, pending Chrome Review!
 
-The DevTool shows a dynamic state tree responsive to user interaction with application. Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
+[Install Chromogen DevTool Extension V1.4.1](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
+
+DevTool V3.0.0 now shows a _**dynamic D3 state tree**_ responsive to user interaction with application! Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
   
 <div align="center">
 
-![DevTool Panel](./assets/README-root/devtool.png)
+<img src="./assets/README-root/devtool.png" width="400px"/>
+<!-- ![DevTool Panel](./assets/README-root/devtool.png) -->
 
 </div>
 
