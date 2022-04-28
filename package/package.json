@@ -1,5 +1,5 @@
 {
-  "name": "chromog3n",
+  "name": "chromogen",
   "version": "3.0.0",
   "description": "simple, interaction-driven Jest test generator for Recoil and React Hooks apps",
   "main": "build/index.js",
