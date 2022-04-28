@@ -1,4 +1,4 @@
-import { useState as hooksUseState } from '../../../package/hooks_generator/hooks_src/api/hooks-api'
+import { useState as hooksUseState } from 'chromog3n'
 
 const MainContainer: React.FC = () => {
 

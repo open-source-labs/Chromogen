@@ -4,7 +4,6 @@
 
 // Relay messages from package to background.js (-> DevTools panel)
 window.addEventListener('message', (message) => {
-    // console.log('inside content.ts - relay msg from package to background.js -> devtools panel', message)
     chrome.runtime.sendMessage(message.data);
 });
 

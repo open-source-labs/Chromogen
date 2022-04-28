@@ -224,15 +224,16 @@ Import `HooksChromgenObserver`. HooksChromogenObserver should wrap the parent mo
 
 ```jsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import { HooksChromogenObserver } from 'chromogen';
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+  
+root.render(
     <HooksChromogenObserver name="App">
       <App />
     </HooksChromogenObserver>
-  document.getElementById('root'),
 );
 ```
 

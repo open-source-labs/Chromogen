@@ -1,11 +1,9 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import GitHubIcon from '@material-ui/icons/GitHub';
-// import { GitHub } from '../../build/imgs/github'
 import Recorder from './Recorder';
 import StateTree from './StateTree';
 import TextBox from './TextBox';
-import { Message } from '@material-ui/icons'; 
 /* eslint-enable */
 
 const App: React.FC = () => {
@@ -55,9 +53,8 @@ const App: React.FC = () => {
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="header">chromogen</div>
+      <div id="header">chromogen</div>
       <Recorder status={status} />
-
       <StateTree state={stateChange}/>
       <TextBox test={test}/>
     </div>
@@ -69,7 +66,7 @@ const App: React.FC = () => {
       <div id="installMessage">
 
         <div>Please </div>
-        <code>npm install team mslead </code>
+        <code>npm install chromogen </code>
         <div>in your app before using this extension. </div>
         <div>
             <GitHubIcon />

@@ -2,21 +2,10 @@ import React, { useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
 
 const TextBox: React.FC<{ test: string }> = ({ test }) => {
-
-  // attempt to make height of textbox responsive to test length
-  function calcHeight(value) {
-    let numberOfLineBreaks = (value.match(/\n/g) || []).length;
-    // min-height + lines x line-height + padding + border
-    let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
-    return newHeight;
-  }
   
   useEffect(() => {
     const editBox = document.getElementById('editBoxPost') as HTMLInputElement;
     if (editBox) editBox.value = test;
-    editBox.addEventListener("onKeyUp", () => {
-      editBox.style.height = calcHeight(editBox.value) + "px";
-    });
   }, [test]);
 
   const backgroundConnection = chrome.runtime.connect();
@@ -55,8 +44,5 @@ const TextBox: React.FC<{ test: string }> = ({ test }) => {
     </div>
   );
 };
-
-
-
 
 export default TextBox;

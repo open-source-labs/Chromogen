@@ -10,19 +10,16 @@ export function useHookedReducer<S, A>(
 ): [S, Dispatch<A>] {
   
   const initialReducerState = useMemo(() => {
-    //console.log('reducerId', reducerId)
     const initialStateInStore = store.getState()[reducerId];
     return initialStateInStore === undefined ? initialState : initialStateInStore;
   }, []);
 
-  //console.log('initialreducer state', initialReducerState)
   const [localState, setState] = useState<S>(initialReducerState);
 
 //Creating state property in store to save all state changes
 store.subscribe(() => {
   hooksLedger.state = store.getState()[reducerId]
 });
-
 
  //wrapped store.subscribe method inside useEffect to avoid listening to change exponentially
 //  useEffect(() => {
@@ -33,8 +30,6 @@ store.subscribe(() => {
 //   return unsubscribe;
 //  }, [])
  
-
-
 const dispatch = useMemo<Dispatch<A>>(() => {
 
   const dispatch = (action: any) => {     
