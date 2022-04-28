@@ -21,6 +21,8 @@
 </div>
 <br />
 
+**Now Compatible with React V18**
+
 Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your app after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
 <br /><br /><br />
 
@@ -50,7 +52,7 @@ Before using Chromogen, you'll need to make two changes to your application:
 ```jsx
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { ChromogenObserver } from 'chromogen';
+import { ChromogenObserver } from 'chromog3n';
 import MyComponent from './components/MyComponent.jsx';
 
 const App = (props) => (
@@ -97,12 +99,9 @@ export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)}
 
 ## Usage
 
-<img
-    alt="chromogen demo-todo"
-    src="https://chromogen.dev/1st.gif"
-  />
+![Buttons](../assets/README-root/hooksDemo.gif)
 
-1. After installing Chromogen and following the above directionsa accordingly, launch your application as you normally would.
+1. After installing Chromogen and following the above directions accordingly, launch your application as you normally would.
 
 2. Two buttons will appear in the lower left corner. The play (left) button toggles test recording on and off. It will always start automatically by default. The download (right) button generates and downloads the test file containing all cumulative recorded tests.
 
@@ -125,15 +124,16 @@ To track state changes in your application's useState Hooks, import HooksChromog
 
 ```jsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
-import { HooksChromogenObserver } from 'chromogen';
+import { HooksChromogenObserver } from 'chromog3n';
 
-ReactDOM.render(
-    <HooksChromogenObserver name="App">
-      <App />
-    </HooksChromogenObserver>
-  document.getElementById('root'),
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  <HooksChromogenObserver name="App">
+    <App />
+  </HooksChromogenObserver>
 );
 ```
 
@@ -150,8 +150,6 @@ const App: React.FC = () => {
   return (...)
 };
 ```
-
-<i>Note: Only track one useState Hook at a time for accurate test suite generation.</i>
 <br><Br>
 
 ### Coverage
@@ -164,14 +162,11 @@ identifies and excludes these cases at runtime without issue.
 
 ### DevTool
 
-<img
-    alt="chromogen devtool"
-    src="https://chromogen.dev/chromogen3.gif"
-  />
+![Buttons](../assets/README-root/chromogen3.gif)
 
-If the injected control buttons interfere with your application, you can optionally download [Chromogen's DevTool](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US) extension. This will move the control buttons into a DevTool panel with no change in functionality.
+[Refer to Chromogen's README for downloading this improved DevTool!](https://github.com/open-source-labs/Chromogen)
 <Br><br>
 
 ## Chromogen is currently in active Beta
 
-Please visit our [main repo](https://github.com/oslabs-beta/Chromogen) for more detailed instructions, as well as any bug reports, support issues, or feature requests.
+Please visit our [main repo](https://github.com/open-source-labs/Chromogen) for more detailed instructions, as well as any bug reports, support issues, or feature requests.
