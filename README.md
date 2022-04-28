@@ -50,7 +50,7 @@ You're an independent developer or part of a lean team. You want reliable unit t
 
 ### Chromogen is currently in active Beta
 
-<b>FOR RECOIL APPS:</b>
+<b>FOR RECOIL APPS</b>
 
 Chromogen currently supports three main types of tests for Recoil apps:
 
@@ -93,10 +93,10 @@ Before running Chromogen, you'll need to make two changes to your application:
 
 <i>Note: These changes do have a small performance cost, so they should be reverted before deploying to production.</i>
 
-### Download the Chromogen package from npm.
+### Download the Chromogen package from npm
 
 ```
-npm install chromogen
+npm install chromog3n
 ```
 
 ### Import the ChromogenObserver component
@@ -106,7 +106,7 @@ ChromogenObserver should be included as a direct child of RecoilRoot. It does no
 ```jsx
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { ChromogenObserver } from 'chromogen';
+import { ChromogenObserver } from 'chromog3n';
 import MyComponent from './components/MyComponent.jsx';
 
 const App = (props) => (
@@ -142,7 +142,7 @@ import * as misc from './store/arbitraryRecoilState';
 Wherever you import `atom` and/or `selector` functions from Recoil (typically in your `store` file), import them from Chromogen instead. The arguments passed in do **not** need to change in any away, and the return value will still be a normal RecoilAtom or RecoilSelector. Chromogen wraps the native Recoil functions to track which pieces of state have been created, as well as when various selectors are called and what values they return.
 
 ```js
-import { atom, selector } from 'chromogen';
+import { atom, selector } from 'chromog3n';
 
 export const fooState = atom({
   key: 'fooState',
@@ -212,42 +212,43 @@ Before using Chromogen, you'll need to make two changes to your application:
 1. Import the `<HooksChromogenObserver />` component and wrap it around the parent most `<App />`
 2. Import `useState` function from Chromogen instead of React. Chromogen has engineered `useState` to track state changes.
 
-### Download the Chromogen package from npm.
+### Download the Chromogen package from npm
 
 ```
-npm install chromogen
+npm install chromog3n
 ```
 
 ### Import the HooksChromogenObserver component
 
-Import `HooksChromgenObserver`. HooksChromogenObserver should wrap the parent most component of the user's app (usually inside of index.js).
+Import `HooksChromgenObserver`. HooksChromogenObserver should wrap the parent most component of the user's app (usually inside of `index.js`).
 
 ```jsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
-import { HooksChromogenObserver } from 'chromogen';
+import { HooksChromogenObserver } from 'chromog3n';
 
-ReactDOM.render(
-    <HooksChromogenObserver name="App">
-      <App />
-    </HooksChromogenObserver>
-  document.getElementById('root'),
-);
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  <HooksChromogenObserver name="App">
+    <App />
+  </HooksChromogenObserver>
+);  
 ```
 
 ### Import useState Hook from Chromogen
 
 Chromogen has engineered React's `useState` Hook to include a state change tracker. Wherever your app imports `useState` from React, import `useState` from Chromogen instead.
 
-By default, Chromogen requires a second parameter in the useState hooks as `id` to generate a test suite for the user's application.
+By default, Chromogen requires a second `id` parameter (a string describing your chosen label for state) in the useState hooks to generate a test suite for the user's application.
 
 ```jsx
 import React from 'react';
-import { useState as hooksUseState } from 'chromogen';
+import { useState as hooksUseState } from 'chromog3n';
 
 const App: React.FC = () => {
-  const [elements, setElements] = hooksUseState<number[]>([0], "id");
+  const [elements, setElements] = hooksUseState<number>(0, "id");
   return (...)
 };
 ```
@@ -260,7 +261,7 @@ After following the installation steps above, launch your application as normal.
 
 <div align="center">
 
-![Buttons](./assets/README-root/hooksDemo.gif)
+![Buttons](./assets/README-root/demoTodo.gif)
 
 </div>
 
@@ -276,21 +277,22 @@ Once you've recorded all the interactions you want to test, click the pause butt
 
 </div>
 
-You're now ready to run your tests! After running your normal Jest test command, you should a test suite for `chromogen.test.js`.
+You're now ready to run your tests! After running your normal Jest test command, you should see a test suite for `chromogen.test.js`.
 
 The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
 
 <br><br>
 
-## Chrome DevTool (Optional)
+## New and Improved Chrome DevTool!
 
-[Install Chromogen DevTool Extension](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
+[Install Chromogen DevTool Extension V3.0 (pending Chrome Review)]
+[Install Chromogen DevTool Extension V2.0](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
 
-If the injected buttons interfere with the functioning or layout of your application, you can also control Chromogen through an optional DevTool panel. As soon as Chromogen detects that the panel has been opened and loaded, the injected buttons will disappear from the application view. The recording and download buttons on the panel work exactly the same as outlined above.
-
+The DevTool shows a dynamic state tree responsive to user interaction with application. Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
+  
 <div align="center">
 
-![DevTool Panel](./assets/README-root/devtool-panel.png)
+![DevTool Panel](./assets/README-root/devtool.png)
 
 </div>
 
@@ -314,7 +316,7 @@ a 👍. This helps us prioritize what to work on.
 
 ### Questions
 
-For questions related to using the package, you may either file an issue or _gmail_ us: `chromogen.app`.
+For questions related to using the package, you may either file an issue or _gmail_ us: `chromogen3.0dev`.
 <br><Br>
 
 ## Core Team
@@ -322,29 +324,39 @@ For questions related to using the package, you may either file an issue or _gma
 <br>
 
 <table>
-  <tr>
-    <td align="center"><a href="https://github.com/michellebholland"><img src="https://avatars3.githubusercontent.com/u/64747593" width="150px;" alt=""/><br /><sub><b>Michelle Holland</b></sub></a></td>
+  <tr align="center">
+    <td align="center"><a href="https://github.com/michellebholland"><img src="https://avatars3.githubusercontent.com/u/64747593" width="100px;" alt=""/><br /><sub><b>Michelle Holland</b></sub></a></td>
     <!-- SPACE -->
-    <td align="center"><a href="https://github.com/andywang23"><img src="https://avatars1.githubusercontent.com/u/64433815" width="150px;" alt=""/><br /><sub><b>Andy Wang</b></sub></a></td>
+    <td align="center"><a href="https://github.com/andywang23"><img src="https://avatars1.githubusercontent.com/u/64433815" width="100px;" alt=""/><br /><sub><b>Andy Wang</b></sub></a></td>
     <!-- SPACE -->
-    <td align="center"><a href="https://github.com/connorrose"><img src="https://avatars1.githubusercontent.com/u/42079810" width="150px;" alt=""/><br /><sub><b>Connor Rose Delisle</b></sub></a></td>
+    <td align="center"><a href="https://github.com/connorrose"><img src="https://avatars1.githubusercontent.com/u/42079810" width="100px;" alt=""/><br /><sub><b>Connor Rose Delisle</b></sub></a></td>
     <!-- SPACE -->
-    <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="150px;" alt=""/><br /><sub><b>Jim Chen</b></sub></a></td>
+    <td align="center"><a href="https://github.com/chenchingk"><img src="https://avatars0.githubusercontent.com/u/40308081" width="100px;" alt=""/><br /><sub><b>Jim Chen</b></sub></a></td>
    <!-- SPACE -->
-
-   <br>
-   <td align="center"><a href="https://github.com/amyy98"><img src="https://media-exp1.licdn.com/dms/image/C4E03AQHJz67MSeI7Pw/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=E1Lf--QoVaRPClVVxGjEhUAort0G1UHyM2IdIkUdV_0" width="150px;" alt=""/><br /><sub><b>Amy Yee</b></sub></a></td>
+  <td align="center"><a href="https://github.com/amyy98"><img src="https://avatars.githubusercontent.com/u/68040348?v=4" width="100px;" alt=""/><br /><sub><b>Amy Yee</b></sub></a></td>
      <!-- SPACE -->
-      <td align="center"><a href="https://github.com/wlstjs"><img src="https://avatars1.githubusercontent.com/u/68680285?s=400&u=5b89d376d4d27a77442b74dcfe1c9c4025ce6453&v=4" width="150px;" alt=""/><br /><sub><b>Jinseon Shin</b></sub></a></td>
+      <td align="center"><a href="https://github.com/wlstjs"><img src="https://avatars1.githubusercontent.com/u/68680285?s=400&u=5b89d376d4d27a77442b74dcfe1c9c4025ce6453&v=4" width="100px;" alt=""/><br /><sub><b>Jinseon Shin</b></sub></a></td>
    <!-- SPACE -->
-       <td align="center"><a href="https://github.com/rtumel123"><img src="https://media-exp1.licdn.com/dms/image/C4E03AQEfadHTTgopog/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=G_ZYBPIbzTeJfZPELKiAoNeHNFnHwukX02E2v1-jZ9c" width="150px;" alt=""/><br /><sub><b>Ryan Tumel</b></sub></a></td>
-   <!-- SPACE -->
-         <td align="center"><a href="https://github.com/cgreer011"><img src="https://media-exp1.licdn.com/dms/image/C4E03AQGVS66UliP03A/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=Hw09TN_ObXiVzmBLbIRfUyVvfskRBc_F9vXt9AYy72Y" width="150px;" alt=""/><br /><sub><b>Cameron Greer</b></sub></a></td>
-           <!-- SPACE -->
-         <td align="center"><a href="https://github.com/nicholasjs"><img src="https://media-exp1.licdn.com/dms/image/C5603AQEeCnAZRgST9Q/profile-displayphoto-shrink_200_200/0?e=1608768000&v=beta&t=1aGCazRr9QdzKXfyL6sQz5UMl-_Idf9SpHQPfRnCPY4" width="150px;" alt=""/><br /><sub><b>Nicholas Shay</b></sub></a></td>
-
-  </tr>
-  </table>
+       <td align="center"><a href="https://github.com/rtumel123"><img src="https://i.postimg.cc/MGDTWMhQ/Ryan.jpg" width="100px;" alt=""/><br /><sub><b>Ryan Tumel</b></sub></a></td>
+       <!-- SPACE -->
+         <td align="center"><a href="https://github.com/cgreer011"><img src="https://i.postimg.cc/qMPgQdsz/cam.jpg" width="100px;" alt=""/><br /><sub><b>Cameron Greer</b></sub></a></td>
+          <!-- SPACE -->
+         <td align="center"><a href="https://github.com/nicholasjs"><img src="https://avatars.githubusercontent.com/u/59386257?v=4" width="100px;" alt=""/><br /><sub><b>Nicholas Shay</b></sub></a></td>
+</tr>
+<tr align="center">
+              <!-- SPACE -->
+         <td align="center"><a href="https://github.com/mp-04"><img src="https://i.postimg.cc/nz6GjXXV/mp.jpg" width="100px;" alt=""/><br /><sub><b>Marcellies Pettiford</b></sub></a></td>
+    <!-- SPACE -->
+         <td align="center"><a href="https://github.com/smk53664"><img src="https://i.postimg.cc/mrRkfN64/sung.jpg" width="100px;" alt=""/><br /><sub><b>Sung Kim</b></sub></a></td>
+    <!-- SPACE -->
+         <td align="center"><a href="https://github.com/lina4lee"><img src="https://i.postimg.cc/bJwvdYhF/lina.jpg" width="100px;" alt=""/><br /><sub><b>Lina Lee</b></sub></a></td>
+    <!-- SPACE -->
+         <td align="center"><a href="https://github.com/ericaysoh"><img src="https://i.postimg.cc/76tZzvPP/erica.jpg" width="100px;" alt=""/><br /><sub><b>Erica Oh</b></sub></a></td>
+    <!-- SPACE -->
+         <td align="center"><a href="https://github.com/dtalmaraz"><img src="https://avatars.githubusercontent.com/u/94757231?v=4" width="100px;" alt=""/><br /><sub><b>Dani Almaraz</b></sub></a></td>
+    
+</tr>
+</table>
 <br><br>
 
 ## LICENSE
