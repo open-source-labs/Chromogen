@@ -53,12 +53,11 @@ export const createPrevStateObj = (stateArrays: Array<Array<any>>): object => {
   const stateObj: object = {};
   
   for(let i = 0; i < stateArrays.length; i++){
-  //check if stateArrays[i][0] exists in object
    if (stateArrays[i][1] !== undefined) {
          const key = stateArrays[i][0]
          if (key in stateObj){
           const oldValue = stateObj[key];
-          //bug has to do with pushing arrays
+           
           if(Array.isArray(stateArrays[i][1])){
             oldValue.push(stateArrays[i][1][0]);
           }
@@ -100,16 +99,11 @@ export const generateStateTreeObj = (stateObj: object): D3Obj => {
       name: property,
       children: []
     }
-    //iterate through values array of each property
-    //add each element of array to inner obj children array
-   for (let i= 0; i < stateObj[property].length; i++){
-      //need to push a new object to children with only name property
-      //check with erica -> should the values here be strings or can they be numbers?
-      //const lastIndex = stateObj[property].length - 1;
-      //innerObj.children.push({name: `${stateObj[property][lastIndex]}`})
+
+    for (let i= 0; i < stateObj[property].length; i++){
+
       innerObj.children.push({name: `${stateObj[property][i]}`})
     }
-    //then push innerObj to d3Obj children array
     d3Obj.children.push(innerObj)
   }
 

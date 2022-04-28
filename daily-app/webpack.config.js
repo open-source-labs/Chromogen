@@ -54,13 +54,6 @@ module.exports = {
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     },
-    // proxy: {
-    //   "/info/**": {
-    //     target: 'http://localhost:3000',
-    //     secure: false,
-    //     changeOrigin: true,
-    //   },
-    // },
     static: {
       directory: path.resolve(__dirname, '/client'),
       publicPath: '/build'
