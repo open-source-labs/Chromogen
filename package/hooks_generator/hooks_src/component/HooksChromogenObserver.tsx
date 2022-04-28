@@ -35,7 +35,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   const [recording, setRecording] = reactUseState(true);
   // DevTool will be default false unless user opens up devTool (=> true)
   const [devtool, setDevtool] = reactUseState<boolean>(false);
-  const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
+  const [, setEditFile] = reactUseState<undefined | string>(undefined);
 
   // DevTool message handling
   const receiveMessage = (message: any) => {
