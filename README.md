@@ -49,6 +49,8 @@ You're an independent developer or part of a lean team. You want reliable unit t
 [Enter Chromogen](https://www.npmjs.com/package/chromog3n). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
 
 ### Chromogen is currently in active Beta
+  
+### Chromogen is now compatible with React V18!
 
 <b>FOR RECOIL APPS</b>
 
@@ -279,10 +281,11 @@ The current tests check whether state has changed after an interaction and check
 
 ## New and Improved Chrome DevTool!
 
-Chromogen DevTool Extension V3.0.0 is coming soon, pending Chrome Review
+Chromogen DevTool Extension V3.0.0 is coming soon, pending Chrome Review!
+
 [Install Chromogen DevTool Extension V1.4.1](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
 
-The DevTool shows a dynamic state tree responsive to user interaction with application. Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
+DevTool V3.0.0 now shows a _**dynamic D3 state tree**_ responsive to user interaction with application! Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
   
 <div align="center">
 
