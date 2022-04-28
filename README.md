@@ -32,11 +32,11 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Installation for Recoil Apps](#Installation-for-Recoil-Apps)
-- [Usage for Recoil Apps](#Usage-for-Recoil-Apps)
-- [Installation for Hooks Apps](#Installation-for-Hooks-Apps)
-- [Usage for Hooks Apps](#Usage-for-Hooks-Apps)
-- [Chrome DevTool (Optional)](<#Chrome-DevTool-(Optional)>)
+- [Installation for Recoil Apps](#installation-for-recoil-apps)
+- [Usage for Recoil Apps](#usage-for-recoil-apps)
+- [Installation for Hooks Apps](#installation-for-hooks-apps)
+- [Usage for Hooks Apps](#usage-for-hooks-apps)
+- [New and Improved Chrome DevTool](<#new-and-improved-chrome-devtool>)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
 - [License](#license)
@@ -44,9 +44,9 @@
 
 ## Overview
 
-You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
+You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is a major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
 
-[Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
+[Enter Chromogen](https://www.npmjs.com/package/chromog3n). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
 
 ### Chromogen is currently in active Beta
 
@@ -80,7 +80,7 @@ We are always open to suggestions to meet the needs of our userbase. Want to see
 
 ### Recoil Demo To-Do App
 
-Chromogen's [official demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
+Chromogen's [official Recoil demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
 
 <Br>
 
@@ -285,14 +285,15 @@ The current tests check whether state has changed after an interaction and check
 
 ## New and Improved Chrome DevTool!
 
-[Install Chromogen DevTool Extension V3.0 (pending Chrome Review)]
-[Install Chromogen DevTool Extension V2.0](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
+Chromogen DevTool Extension V3.0.0 is coming soon, pending Chrome Review
+[Install Chromogen DevTool Extension V1.4.1](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
 
 The DevTool shows a dynamic state tree responsive to user interaction with application. Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
   
 <div align="center">
 
-![DevTool Panel](./assets/README-root/devtool.png)
+<img/ src="./assets/README-root/devtool.png" width="400px">
+<!-- ![DevTool Panel](./assets/README-root/devtool.png) -->
 
 </div>
 
