@@ -13,7 +13,7 @@
 
 <br />
 
-[![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromog3n)
+[![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
 [![Build Status](https://travis-ci.org/oslabs-beta/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE)
 <br />
@@ -28,10 +28,10 @@ Chromogen is a Jest unit-test generation tool for Recoil selectors and React use
 
 ## Installation
 
-Start by installing the <a href="https://www.npmjs.com/package/chromog3n">Chromogen</a> package from npm:
+Start by installing the <a href="https://www.npmjs.com/package/chromogen">Chromogen</a> package from npm:
 
 ```
-npm i chromog3n
+npm i chromogen
 ```
 
 Scroll down if you are looking to test Hooks.
@@ -52,7 +52,7 @@ Before using Chromogen, you'll need to make two changes to your application:
 ```jsx
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { ChromogenObserver } from 'chromog3n';
+import { ChromogenObserver } from 'chromogen';
 import MyComponent from './components/MyComponent.jsx';
 
 const App = (props) => (
@@ -89,7 +89,7 @@ import * as misc from './store/arbitraryRecoilState';
 ### Imports
 
 ```js
-import { atom, selector } from 'chromog3n';
+import { atom, selector } from 'chromogen';
 
 export myAtom = atom({key: 'myAtom', default: true});
 export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)});
@@ -126,7 +126,7 @@ To track state changes in your application's useState Hooks, import HooksChromog
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import { HooksChromogenObserver } from 'chromog3n';
+import { HooksChromogenObserver } from 'chromogen';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -143,7 +143,7 @@ Wherever you import useState from React in your file, import useState from Chrom
 
 ```jsx
 import React from 'react';
-import { useState as hooksUseState } from 'chromog3n';
+import { useState as hooksUseState } from 'chromogen';
 
 const App: React.FC = () => {
   const [elements, setElements] = hooksUseState<number>(0, "id");
