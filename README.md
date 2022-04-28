@@ -261,7 +261,7 @@ After following the installation steps above, launch your application as normal.
 
 <div align="center">
 
-![Buttons](./assets/README-root/demoTodo.gif)
+![Buttons](./assets/README-root/chromogen3.gif)
 
 </div>
 
@@ -270,12 +270,6 @@ The pause button on the left is the **pause recording** button. Clicking it will
 The button on the right is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
 
 Once you've recorded all the interactions you want to test, click the pause button and then the download button to generate the test file. You can now drag-and-drop the downloaded file into your app's test directory.
-
-<div align="center">
-
-![Download](./assets/README-root/newDownload.png)&nbsp;&nbsp;&nbsp;&nbsp;![File](./assets/README-root/testFilePath.png)
-
-</div>
 
 You're now ready to run your tests! After running your normal Jest test command, you should see a test suite for `chromogen.test.js`.
 
@@ -292,7 +286,7 @@ The DevTool shows a dynamic state tree responsive to user interaction with appli
   
 <div align="center">
 
-<img/ src="./assets/README-root/devtool.png" width="400px">
+<img src="./assets/README-root/devtool.png" width="400px"/>
 <!-- ![DevTool Panel](./assets/README-root/devtool.png) -->
 
 </div>
