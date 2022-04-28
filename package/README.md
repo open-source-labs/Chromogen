@@ -13,7 +13,7 @@
 
 <br />
 
-[![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
+[![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromog3n)
 [![Build Status](https://travis-ci.org/oslabs-beta/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE)
 <br />
@@ -26,10 +26,10 @@ Chromogen is a Jest unit-test generation tool for Recoil selectors and React use
 
 ## Installation
 
-Start by installing the <a href="https://www.npmjs.com/package/chromogen">Chromogen</a> package from npm:
+Start by installing the <a href="https://www.npmjs.com/package/chromog3n">Chromogen</a> package from npm:
 
 ```
-npm i chromogen
+npm i chromog3n
 ```
 
 Scroll down if you are looking to test Hooks.
@@ -87,7 +87,7 @@ import * as misc from './store/arbitraryRecoilState';
 ### Imports
 
 ```js
-import { atom, selector } from 'chromogen';
+import { atom, selector } from 'chromog3n';
 
 export myAtom = atom({key: 'myAtom', default: true});
 export mySelector = selector({key: 'mySelector', get: ({ get }) => !get(myAtom)});
@@ -143,10 +143,10 @@ Wherever you import useState from React in your file, import useState from Chrom
 
 ```jsx
 import React from 'react';
-import { useState as hooksUseState } from 'chromogen';
+import { useState as hooksUseState } from 'chromog3n';
 
 const App: React.FC = () => {
-  const [elements, setElements] = hooksUseState<number[]>([0], "id");
+  const [elements, setElements] = hooksUseState<number>(0, "id");
   return (...)
 };
 ```
@@ -166,7 +166,7 @@ identifies and excludes these cases at runtime without issue.
 
 <img
     alt="chromogen devtool"
-    src="https://chromogen.dev/devToolDemo.gif"
+    src="https://chromogen.dev/chromogen3.gif"
   />
 
 If the injected control buttons interfere with your application, you can optionally download [Chromogen's DevTool](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US) extension. This will move the control buttons into a DevTool panel with no change in functionality.
