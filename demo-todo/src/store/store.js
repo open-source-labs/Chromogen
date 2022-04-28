@@ -126,23 +126,23 @@ const quoteTextState = selector({
 });
 
 // ASYNC SELECTOR - fetch comic img
-const xkcdState = selector({
-  key: 'xkcdState',
-  get: async ({ get }) => {
-    const quoteNumber = get(quoteNumberState);
-    try {
-      // Fetch much be proxied through cors-anywhere to test on localhost
-      const response = await fetch(
-        `https://cors-anywhere.herokuapp.com/http://xkcd.com/${quoteNumber}/info.0.json`,
-      );
-      const { img } = await response.json();
-      return img;
-    } catch (err) {
-      // Fallback comic
-      return 'https://imgs.xkcd.com/comics/api.png';
-    }
-  },
-});
+// const xkcdState = selector({
+//   key: 'xkcdState',
+//   get: async ({ get }) => {
+//     const quoteNumber = get(quoteNumberState);
+//     try {
+//       // Fetch much be proxied through cors-anywhere to test on localhost
+//       const response = await fetch(
+//         `https://cors-anywhere.herokuapp.com/http://xkcd.com/${quoteNumber}/info.0.json`,
+//       );
+//       const { img } = await response.json();
+//       return img;
+//     } catch (err) {
+//       // Fallback comic
+//       return 'https://imgs.xkcd.com/comics/api.png';
+//     }
+//   },
+// });
 
 const searchBarSelectorFam = selectorFamily({
   key: 'searchBarSelectorFam',
@@ -168,6 +168,6 @@ export {
   todoListSortedStats,
   refreshFilterState,
   quoteTextState,
-  xkcdState,
+  //xkcdState,
   searchBarSelectorFam,
 };
