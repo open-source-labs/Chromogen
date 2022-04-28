@@ -1,9 +1,9 @@
 {
   "name" : "Chromogen Developer Tool",
-  "version" : "0.3.0",
+  "version" : "3.0.0",
   "manifest_version" : 3,
-  "description" : "DevTool panel for Chromogen, a UX-driven test generator for Recoil apps.",
-  "author" : "Team MSLED",
+  "description" : "DevTool panel for Chromogen, a UI-driven test generator for Recoil/React apps.",
+  "author" : "Team Chromogen",
   "icons": { "128": "./imgs/chromogen-logo.png"},
   "devtools_page" : "devtools.html",
   "background": {
