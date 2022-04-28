@@ -16,6 +16,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
   const [devtool, setDevtool] = useState<boolean>(false);
+  const [, setEditFile] =useState<undefined | string>(undefined);
 
   // DevTool message handling
   const receiveMessage = (message: any) => {
@@ -27,6 +28,10 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       case 'downloadFile':
         generateFile(setFile, storeMap);
         break;
+      case 'editFile':
+        const array = generateFile(setEditFile, storeMap);
+        window.postMessage({ action: 'editFileReceived', data: array }, '*');
+        break;       
       case 'toggleRecord':
         setRecording(!recording);
         window.postMessage({ action: 'setStatus' }, '*');
@@ -146,6 +151,8 @@ const playBorderStyle = {
                 type="button"
                 onClick={() => {
                   setRecording(!recording);
+                  // if (!recording) return true;
+                  // return false;
                 }}
                 onMouseEnter={() => recording ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
                 onMouseLeave={() => recording ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}

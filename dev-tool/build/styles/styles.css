@@ -1,38 +1,105 @@
 /* General styles */
+
 html {
   height: 100vh;
-  color: #d4d4d8;
-  background-color: rgb(30, 30, 31);
+  width: 100vw;
+  color: #1b1b1b;
+  background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(86, 158, 226));
 }
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
+}
+p{
+  color: white;
+}
+textarea {
+  width: 100vw;
+  height: 50vw;
+  border-radius: 10px;
+  background: grey;
+  color: white;
 }
 
 /* App.jsx */
-.App {
-  display: grid;
-  grid-template-rows: 33fr 33fr 33fr;
-  font-family: 'Palanquin', sans-serif;
-  height: 100vh;
-}
 .App div {
-  text-align: center;
-  font-size: 2.5rem;
-  letter-spacing: 4px;
-  width: 100%;
-  text-shadow: #83beb1c2 1px 2px 0;
+  width: 100vw;
 }
 
-/* Recorder.jsx */
+#header{
+  display: flex;
+  justify-content: flex-end;
+  width: 97vw;
+  margin-top: 15px;
+  font-size: 1.5rem;
+  letter-spacing: 2.5px;
+  color: white;
+  text-shadow: #83beb1c2 1px 2px 0px;
+  height: 2vh;
+}
+
+#label{
+  display: flex;
+  justify-content: center;
+  text-align: right;
+  font-size: 15px;
+  margin: 0px 10px;
+  padding-top: 5px;
+  color: rgb(144, 209, 240);
+  width: 98%;
+}
+
+#textBox{
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
+  color: rgb(144, 209, 240);
+  border-top: solid;
+  height: 80vh;
+  width: 100vw;
+}
+#stateTree{
+  background-image: linear-gradient(to right, rgb(85, 85, 101), rgb(34, 85, 179));
+  color: rgb(144, 209, 240);
+  border-top: solid;
+  height: 50vh;
+}
+#stateBox {
+  height: 50vh;
+  margin: 10px;
+  width: 95%;
+}
+
+/* wrapper container */
+#wrapperRef {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 85%;
+}
+
+/* svg container */
+#svgRef {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 100%;
+}
+
+/* node labels */
+.nodeLabel {
+  fill: white;
+  text-shadow: 1px 1px 1.2px black;
+  font-size: 15;
+  font-weight: 'bold';
+}
+
+/* Recorder.tsx */
 .recorder-div { 
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  border-top: 2px solid #83beb1;
-  border-bottom: 2px solid #83beb1;
-  background-color: rgb(48, 48, 49);
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));
+  height: auto;
 } 
 #recorderBtn {
   border: none;
@@ -40,9 +107,10 @@ body {
   border-radius: 11px;
   background-color: rgb(30, 30, 31);
   color: #8ccabd;
-  width: 200px;
-  height: 50px;
-  font-size: 18px;
+  width: 90%;
+  height: 14px;
+  font-size: 14px;
+  cursor: 'pointer';
 }
 #recorderBtn:focus {
   outline: none;
@@ -50,6 +118,21 @@ body {
 }
 #recorderBtn:hover {
   border: 2px solid rgb(48, 48, 49);
+}
+#buttons {
+  display: flex;
+}
+
+/* TextBox.tsx */
+#editBoxPost {
+  float: left;
+  width: 99vw;
+  height: 70vh;
+  outline: none;
+  resize: both;
+  overflow: auto;
+  border: transparent;
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
 }
 
 /* Install Chromogen render */
@@ -65,6 +148,7 @@ body {
   font-size: 1.7rem;
   text-decoration: none;
   vertical-align: middle;
+  color: white;
 }
 code {
   color: #8ccabd;
@@ -73,9 +157,10 @@ span {
   font-size: 1rem;
   margin-top: 5px;
 }
-
+#testing{
+  color: white;
+}
 /* Media queries */
-
 @media (max-width: 450px) {
   .recorder-div {
     flex-direction: column; 
