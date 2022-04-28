@@ -161,7 +161,6 @@ span {
   color: white;
 }
 /* Media queries */
-
 @media (max-width: 450px) {
   .recorder-div {
     flex-direction: column; 
