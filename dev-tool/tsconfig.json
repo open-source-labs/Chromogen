@@ -10,8 +10,6 @@
       "allowJs": true, // allow a partial TypeScript and JavaScript codebase
       "esModuleInterop": true // enable flexible import syntax
   },
-  "include": [
-      "./"
-, "../demo-todo/test"  ],
+  "include": ["./" ],
   "exclude": ["node_modules", ".vscode"]
 }

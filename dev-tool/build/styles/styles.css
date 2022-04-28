@@ -22,59 +22,46 @@ textarea {
 }
 
 /* App.jsx */
-/* .App {
-  display: grid;
-  grid-template-rows: 33fr 33fr 33fr;
-  font-family: 'Palanquin', sans-serif;
-  height: 100vh;
-} */
 .App div {
   width: 100vw;
 }
 
-.header{
+#header{
   display: flex;
-  /* text-align: right; */
   justify-content: flex-end;
-  /* margin: 0px auto; */
+  width: 97vw;
   margin-top: 15px;
-  font: Arial;
   font-size: 1.5rem;
   letter-spacing: 2.5px;
   color: white;
   text-shadow: #83beb1c2 1px 2px 0px;
   height: 2vh;
-  width: 95vw;
 }
 
 #label{
   display: flex;
+  justify-content: center;
   text-align: right;
-  font: Arial;
   font-size: 15px;
   margin: 0px 10px;
   padding-top: 5px;
   color: rgb(144, 209, 240);
-  width: 100vw;
-  justify-content: center;
+  width: 98%;
 }
 
 #textBox{
   background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
   color: rgb(144, 209, 240);
   border-top: solid;
-  height: 50vh;
+  height: 80vh;
   width: 100vw;
 }
-
 #stateTree{
   background-image: linear-gradient(to right, rgb(85, 85, 101), rgb(34, 85, 179));
   color: rgb(144, 209, 240);
   border-top: solid;
-
   height: 50vh;
 }
-
 #stateBox {
   height: 50vh;
   margin: 10px;
@@ -87,8 +74,6 @@ textarea {
   width: 100%;
   align-items: center;
   height: 85%;
-  /* border-color: coral;
-  border-style: solid; */
 }
 
 /* svg container */
@@ -101,14 +86,11 @@ textarea {
 
 /* node labels */
 .nodeLabel {
-  /* display: flex;
-  align-items: center; */
   fill: white;
   text-shadow: 1px 1px 1.2px black;
-  font-size: 13;
+  font-size: 15;
   font-weight: 'bold';
 }
-
 
 /* Recorder.tsx */
 .recorder-div { 
@@ -116,9 +98,6 @@ textarea {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  /* border-top: 2px solid #83beb1;
-  border-bottom: 2px solid #83beb1; */
-  /* background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(24, 1, 54)); */
   background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));
   height: auto;
 } 
@@ -128,10 +107,9 @@ textarea {
   border-radius: 11px;
   background-color: rgb(30, 30, 31);
   color: #8ccabd;
-  width: 14px;
+  width: 90%;
   height: 14px;
   font-size: 14px;
-  /* margin: 8 8 8 13 */
   cursor: 'pointer';
 }
 #recorderBtn:focus {
@@ -146,18 +124,15 @@ textarea {
 }
 
 /* TextBox.tsx */
-
 #editBoxPost {
   float: left;
-  width: 100vw;
+  width: 99vw;
   height: 70vh;
-  /* min-height: 75px; */
   outline: none;
   resize: both;
   overflow: auto;
-  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
-  /* background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179)); */
   border: transparent;
+  background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
 }
 
 /* Install Chromogen render */
@@ -173,6 +148,7 @@ textarea {
   font-size: 1.7rem;
   text-decoration: none;
   vertical-align: middle;
+  color: white;
 }
 code {
   color: #8ccabd;
@@ -181,7 +157,6 @@ span {
   font-size: 1rem;
   margin-top: 5px;
 }
-
 #testing{
   color: white;
 }
