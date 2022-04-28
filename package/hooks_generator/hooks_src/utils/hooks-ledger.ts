@@ -1,4 +1,4 @@
-import {Ledger} from '../hooks-types'
+import { Ledger } from '../hooks-types';
 
 // Storing initialState, currState, and prevState but through the store
 export const hooksLedger: Ledger = {
@@ -7,4 +7,5 @@ export const hooksLedger: Ledger = {
   initialState: '',
   currState: '',
   dispCount: 0,
+  previousState: []
 };

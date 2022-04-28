@@ -2,11 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Recorder from './Recorder';
+import StateTree from './StateTree';
+import TextBox from './TextBox';
 /* eslint-enable */
 
 const App: React.FC = () => {
   const [status, setStatus] = useState(true);
   const [connected, setConnected] = useState(false);
+  const [fileReceived, setFileReceived] = useState(false);
+  const [stateChange, setStateChange] = useState({});
+  const [test, setTest] = useState('');
 
   useEffect(() => {
     // Create a connection to the background page
@@ -24,14 +29,34 @@ const App: React.FC = () => {
       if (message.action === 'setStatus') {
         setStatus(!status);
       }
+      if (message.action === 'editFileReceived') {
+        if (message.data) {
+          console.log('this is app.tsx and message is', message)
+          setFileReceived(true);
+          const testAsArray = message.data;
+          const blob = new Blob(testAsArray);
+          const blobreader = new FileReader();
+          blobreader.readAsText(blob);
+          // load event fires when a file has been read successfully
+          const readFile = blobreader.addEventListener('loadend', function () {
+            setTest(String(blobreader.result));
+            return blobreader.result;
+          })
+        }
+      }
+      if (message.action === 'stateChange'){
+        setStateChange(message.stateObj);
+      }
     });
-  }, [connected, status]);
+  }, [connected, status, fileReceived]);
 
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
-      <div className="row">chromogen</div>
+      <div id="header">chromogen</div>
       <Recorder status={status} />
+      <StateTree state={stateChange}/>
+      <TextBox test={test}/>
     </div>
   ) : (
     // Otherwise, render 'please install' message along with Github Icon
@@ -39,12 +64,14 @@ const App: React.FC = () => {
       <div />
 
       <div id="installMessage">
+
         <div>Please </div>
         <code>npm install chromogen </code>
         <div>in your app before using this extension. </div>
         <div>
-          <GitHubIcon /> <span>github.com/oslabs-beta/Chromogen</span>
+            <GitHubIcon />
         </div>
+            <span>github.com/oslabs-beta/Chromogen</span>
       </div>
 
       <div />

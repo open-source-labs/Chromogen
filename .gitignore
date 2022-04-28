@@ -16,3 +16,5 @@ dev-tool/build/bundles
 
 # Demo App
 chromogen.test.js
+
+package-lock.json
