@@ -1,5 +1,5 @@
 {
-  "name" : "My Little Chromogen Tool",
+  "name" : "Chromogen Developer Tool",
   "version" : "0.3.0",
   "manifest_version" : 3,
   "description" : "DevTool panel for Chromogen, a UX-driven test generator for Recoil apps.",

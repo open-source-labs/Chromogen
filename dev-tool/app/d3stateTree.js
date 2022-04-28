@@ -38,22 +38,15 @@ function TreeChart({ state }) {
     // transform hierarchical data/state
     const root = hierarchy(state);
     const treeLayout = tree().size([dimensions.height, dimensions.width - 50 ]); // -> adjusting tree size according to height and width of the dimensions
-    console.log('here are dimensions', dimensions, 'height: ', dimensions.height, 'width: ', dimensions.width);
 
-    console.log('hi, I\'m state', state);
-    console.log('hi, i\'m root', root); // -> think about how this can be manipulated for dynamic rendering
-    console.log(root.descendants()); // -> root.descendants are all the nodes of the tree
-    console.log(root.links()); // -> all lines that link parent nodes to their children
+    // console.log(root.descendants()); // -> root.descendants are all the nodes of the tree
+    // console.log(root.links()); // -> all lines that link parent nodes to their children
 
     const linkGenerator = linkHorizontal()
-      // .source(link => link.source) // -> default, so do not need to define them
-      // .target(link => link.target) // -> likewise, default
       .x(link => link.y)
       .y(link => link.x);
 
-
     treeLayout(root);
-    // console.log('node.data: ', data, 'node.state: ', state)
 
     // nodes
     svg
@@ -61,7 +54,7 @@ function TreeChart({ state }) {
       .data(root.descendants())
       .join('circle')
       .attr('class', 'node')
-      .attr('r', 10) // -> r = radius of circle, originally set to 4
+      .attr('r', 10) // -> r = radius of circle
       .attr('fill', 'pink')
       .attr('cx', node => node.y + 15)
       .attr('cy', node => node.x)
@@ -99,13 +92,10 @@ function TreeChart({ state }) {
     svg
       .selectAll('.nodeLabel') // -> class name of labels (state)
       .data(root.descendants())
-      // .join(enter => enter.append('text').attr('opacity', 0))
       .join('text')
       .attr('class', 'nodeLabel')
-      .text(node => node.data.name) // -> node.state? -> node.data
+      .text(node => node.data.name)
       .attr('text-anchor', 'middle')
-      // .attr('fill', 'black')
-      // .attr('stroke', 'white')
       .attr('x', node => node.y + 15) // -> make it dynamic, coordinate with 'cx' svg to center label to each node
       .attr('y', node => node.x) 
       // animation following
@@ -118,8 +108,7 @@ function TreeChart({ state }) {
   }, [state, dimensions]);
 
   return (
-    // <div ref={wrapperRef} style={{ marginBottom: '1rem'}}>
-      <div ref={wrapperRef} id='wrapperRef'>
+    <div ref={wrapperRef} id='wrapperRef'>
       <svg ref={svgRef} id='svgRef'></svg>
     </div>
   );

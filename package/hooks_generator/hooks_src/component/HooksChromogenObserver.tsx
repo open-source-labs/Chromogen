@@ -26,7 +26,6 @@ interface StoreReducerAction {
 
 // Export hooksChromogenObserver
 export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
-  //initialState = {},
   initialState = [],
   children,
 }) {
@@ -39,7 +38,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   const [editFile, setEditFile] = reactUseState<undefined | string>(undefined);
 
   // DevTool message handling
-    // We want the user to manually toggle between Hooks or Recoil on both DevTool & main app (ADD IN FUNCTIONALITY)
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
       case 'connectChromogen':
@@ -76,9 +74,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
   // Auto-click download link when a new file is generated (via button click)
   useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [file]);
 
-  // with updated state in editFile, readfile 
-  // useEffect(() => document.getElementById('chromogen-hooks-download')!.click(), [editFile]);
-
   const omit = (obj: Record<string, any>, keyToRemove: string) =>
     Object.keys(obj)
       .filter((key) => key !== keyToRemove)
@@ -100,12 +95,10 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       const isInitAction = /\/_init$/.test(action.type);
       const isTeardownAction = /\/_teardown$/.test(action.type);
 
-      //currentState keeps logging as undefined, even with state changes
-      //currentState is initial state value
       const currentState = isTeardownAction ? omit(state, actionReducerId) : { ...state };
 
       // Object.keys(registeredReducers)) returns an array with reducer id strings as entries
-      //all properties of state object will be updated by reducer
+      // all properties of state object will be updated by reducer
       const result =  Object.keys(registeredReducers).reduce((acc, reducerId) => {
         const reducer = registeredReducers[reducerId];
         const reducerState = state[reducerId];
@@ -130,28 +123,16 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
       }, currentState)
 
-      //store reducer will send any state changes to dev tool
-      //update state object
-      // hooksLedger.previousState is 2d array of state
-      console.log('this is hooksLedger previous state', hooksLedger.previousState)
-      console.log('is this our id?', hooksLedger.id)
-      const currId = hooksLedger.id;
-
-      //now push result[id] to previousState array
-      //if (result[currId] !== undefined){
-       // hooksLedger.previousState.push([ currId, result[currId]]); // ['subtract', -4]
-      //}
-
-      console.log('hooks ledger state is', hooksLedger.previousState)
+      // store reducer will send any state changes to dev tool
+      
       const newStateObj = prevStateObj(hooksLedger.previousState);
       const newStateTreeObj = stateTreeObj(newStateObj);
-      //console.log('result - does this show most resent', result)
 
-      //iterate through result
+      // iterate through result
       window.postMessage({ action: 'stateChange', stateObj: newStateTreeObj }, '*');
 
       return result;
-    }; //end storeReducer
+    }; // end storeReducer
     
     const store: EnhancedStore = createStore(storeReducer, initialState);
 
@@ -173,7 +154,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
     };
 
     return store;
-  }, []);//end storeMemo
+  }, []); // end storeMemo
 
 
   useEffect(() => {
