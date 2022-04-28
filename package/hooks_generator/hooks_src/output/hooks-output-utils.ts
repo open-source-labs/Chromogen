@@ -12,7 +12,7 @@ export function importHooksId(id: string | number) {
 export function testState(state: any, id: string | number) {
   return `'should show that current state in ${id} is not null or undefined', () => {
     expect(${state}).not.toBe(undefined);
-    expect(${state}).not.toBe(null));
+    expect(${state}).not.toBe(null);
   }`
 }
 
@@ -27,7 +27,7 @@ export function testStateChange (prevState: Array<Array<any>>) {
     for (let i = 1; i < value.length; i++){
       resultStr += `it('should show that state in ${key} changes after every dispatch', () => {
         expect(${value[i]}).not.toBe(${value[i - 1]})}
-      }\n\t`
+      )\n\t`
     }
   }
 

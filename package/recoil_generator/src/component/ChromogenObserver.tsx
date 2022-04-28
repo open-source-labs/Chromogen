@@ -16,7 +16,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
   const [devtool, setDevtool] = useState<boolean>(false);
-  const [editFile, setEditFile] =useState<undefined | string>(undefined);
+  const [, setEditFile] =useState<undefined | string>(undefined);
 
   // DevTool message handling
   const receiveMessage = (message: any) => {
