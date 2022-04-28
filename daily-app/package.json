@@ -1,7 +1,7 @@
 {
-  "name": "daily-app",
+  "name": "demo-todo",
   "version": "1.0.0",
-  "description": "App for daily journaling and goal setting.",
+  "description": "Demo todo to test Chromogen for React Hooks",
   "main": "webpack.config.js",
   "scripts": {
     "test": "test",
@@ -13,10 +13,10 @@
   },
   "keywords": [
     "daily",
-    "journal",
+    "todo",
     "app"
   ],
-  "author": "Dani",
+  "author": "Dani Almaraz",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^5.1.3",
