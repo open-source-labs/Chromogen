@@ -1,4 +1,4 @@
-import { selector, selectorFamily } from 'chromog3n';
+import { selector, selectorFamily } from 'chromogen';
 import {
   todoListState,
   todoListFilterState,

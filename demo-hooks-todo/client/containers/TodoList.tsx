@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState as reactUseState} from 'react';
-import { useState as hooksUseState } from 'chromog3n'
+import { useState as hooksUseState } from 'chromogen';
 
 function Todo({todo, index, markTodo, removeTodo}) {
   return (

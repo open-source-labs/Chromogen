@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from'react-dom/client';
 import App from './App';
-import { HooksChromogenObserver } from 'chromog3n';
+import { HooksChromogenObserver } from 'chromogen';
 
 const root = createRoot(document.getElementById('root'));
 
