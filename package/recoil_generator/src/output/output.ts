@@ -38,12 +38,16 @@ export const output = ({
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {
 ${
-  importRecoilState(atoms)
-  + importRecoilState(selectors)
-  + importRecoilFamily(atomFamilies)
+  importRecoilState(selectors)
   + importRecoilFamily(selectorFamilies)
 }
 } from '<ADD STORE FILEPATH>';
+import { 
+${
+  importRecoilState(atoms)
+  + importRecoilFamily(atomFamilies)
+}
+} from '<ADD ATOM FILEPATH>';
 
 // Suppress 'Batcher' warnings from React / Recoil conflict
 console.error = jest.fn();
