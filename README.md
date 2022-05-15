@@ -16,14 +16,14 @@
 <!--- Update coverage badge to main repo once Coveralls permission is granted --->
 
 [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
-[![Build Status](https://travis-ci.com/open-source-labs/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
-[![Coverage Status](https://coveralls.io/repos/github/open-source-labs/Chromogen/badge.svg?branch=master)](https://coveralls.io/github/oslabs-beta/Chromogen?branch=master)
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE)
+[![Build Status](https://travis-ci.com/open-source-labs/Chromogen.svg?branch=master)](https://travis-ci.org/open-source-labs/Chromogen)
+[![Coverage Status](https://coveralls.io/repos/github/open-source-labs/Chromogen/badge.svg?branch=master)](https://coveralls.io/github/open-source-labs/Chromogen?branch=master)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/open-source-labs/Chromogen/blob/master/LICENSE)
 
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=CHROMOGEN%20-%20A%20UI-driven%20Jest%20test%20generator%20for%20Recoil%20apps%0A&url=https://www.npmjs.com/package/Chromogen&hashtags=React,Recoil,Jest,testing)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen)
-[![Github stars](https://img.shields.io/github/stars/oslabs-beta/Chromogen?style=social)](https://github.com/open-source-labs/Chromogen)
+[![Github stars](https://img.shields.io/github/stars/open-source-labs/Chromogen?style=social)](https://github.com/open-source-labs/Chromogen)
 <br />
 
 </div>
@@ -281,9 +281,7 @@ The current tests check whether state has changed after an interaction and check
 
 ## New and Improved Chrome DevTool!
 
-Chromogen DevTool Extension V3.0.0 is coming soon, pending Chrome Review!
-
-[Install Chromogen DevTool Extension V1.4.1](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
+[Install Chromogen DevTool Extension V3.0.0](https://chrome.google.com/webstore/detail/chromogen-developer-tool/ehhlabbajneoafjedaaogkmpeaclepdl)
 
 DevTool V3.0.0 now shows a _**dynamic D3 state tree**_ responsive to user interaction with application! Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
   

@@ -9,7 +9,8 @@
     "build": "webpack",
     "dev": "NODE_ENV=development webpack server",
     "gulp-prod": "node_modules/.bin/gulp prod",
-    "gulp-dev": "node_modules/.bin/gulp dev"
+    "gulp-dev": "node_modules/.bin/gulp dev",
+    "build-test": "webpack --mode=production"
   },
   "keywords": [
     "daily",

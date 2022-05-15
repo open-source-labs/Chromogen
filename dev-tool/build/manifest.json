@@ -4,7 +4,7 @@
   "manifest_version" : 3,
   "description" : "DevTool panel for Chromogen, a UI-driven test generator for Recoil/React apps.",
   "author" : "Team Chromogen",
-  "icons": { "128": "./imgs/chromogen-logo.png"},
+  "icons": { "128": "./imgs/chromogen-logo-blue.png"},
   "devtools_page" : "devtools.html",
   "background": {
     "service_worker": "background.bundle.js"

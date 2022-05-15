@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "simple, interaction-driven test generator for Recoil apps",
   "scripts": {
-    "ci-all": "(npm ci); (cd ./package && npm ci); (cd ./dev-tool && npm ci); (cd ./demo-todo && npm ci);",
+    "ci-all": "(npm ci); (cd ./package && npm ci); (cd ./dev-tool && npm ci); (cd ./demo-todo && npm ci); (cd ./demo-hooks-todo && npm ci);",
     "build": "echo \"ERROR! Nothing to build in root directory.\n\""
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/oslabs-beta/Chromogen.git"
+    "url": "https://github.com/open-source-labs/Chromogen.git"
   },
   "contributors": [
     {
@@ -70,9 +70,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/Chromogen/issues"
+    "url": "https://github.com/open-source-labs/Chromogen/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/Chromogen#readme",
+  "homepage": "https://github.com/open-source-labs/Chromogen#readme",
   "devDependencies": {
     "@typescript-eslint/parser": "^3.9.1",
     "eslint": "^7.2.0",

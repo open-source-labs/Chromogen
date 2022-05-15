@@ -1,6 +1,6 @@
 <div align="center">
 
-# The official demo app for [Chromogen](https://github.com/oslabs-beta/Chromogen).
+# The official demo app for [Chromogen](https://github.com/open-source-labs/Chromogen).
 
 ![demo app interface](../assets/README-demo/demo-app.png)
 

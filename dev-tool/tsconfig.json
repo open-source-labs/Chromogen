@@ -10,6 +10,9 @@
       "allowJs": true, // allow a partial TypeScript and JavaScript codebase
       "esModuleInterop": true // enable flexible import syntax
   },
+  "types": [
+    "chrome"
+  ],
   "include": ["./" ],
   "exclude": ["node_modules", ".vscode"]
 }
