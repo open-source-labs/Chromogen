@@ -281,9 +281,7 @@ The current tests check whether state has changed after an interaction and check
 
 ## New and Improved Chrome DevTool!
 
-Chromogen DevTool Extension V3.0.0 is coming soon, pending Chrome Review!
-
-[Install Chromogen DevTool Extension V1.4.1](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
+[Install Chromogen DevTool Extension V3.0.0](https://chrome.google.com/webstore/detail/chromogen-developer-tool/ehhlabbajneoafjedaaogkmpeaclepdl)
 
 DevTool V3.0.0 now shows a _**dynamic D3 state tree**_ responsive to user interaction with application! Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
   
