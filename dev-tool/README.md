@@ -10,7 +10,7 @@ Please install [Chromogen](#https://chrome.google.com/webstore/detail/chromogen/
 ### You must download Chromogen package from npm before using our Dev Tool.
 
 ```
-npm install chromog3n
+npm install chromogen
 ``` 
 
 
