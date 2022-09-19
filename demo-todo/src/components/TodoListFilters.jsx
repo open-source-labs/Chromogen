@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import SortIcon from '@material-ui/icons/Sort';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import SortIcon from '@mui/icons-material/Sort';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { todoListStatsState, todoListSortedStats, refreshFilterState } from '../store/store';
 import { todoListFilterState, todoListSortState } from '../store/atoms';
