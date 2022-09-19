@@ -1,4 +1,4 @@
-import { useState as hooksUseState } from 'chromog3n'
+import { useState as hooksUseState } from 'chromogen'
 
 const MainContainer: React.FC = () => {
 

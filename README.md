@@ -46,7 +46,7 @@
 
 You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is a major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
 
-[Enter Chromogen](https://www.npmjs.com/package/chromog3n). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
+[Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
 
 ### Chromogen is currently in active Beta
   
@@ -98,7 +98,7 @@ Before running Chromogen, you'll need to make two changes to your application:
 ### Download the Chromogen package from npm
 
 ```
-npm install chromog3n
+npm install chromogen
 ```
 
 ### Import the ChromogenObserver component
@@ -108,7 +108,7 @@ ChromogenObserver should be included as a direct child of RecoilRoot. It does no
 ```jsx
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { ChromogenObserver } from 'chromog3n';
+import { ChromogenObserver } from 'chromogen';
 import MyComponent from './components/MyComponent.jsx';
 
 const App = (props) => (
@@ -144,7 +144,7 @@ import * as misc from './store/arbitraryRecoilState';
 Wherever you import `atom` and/or `selector` functions from Recoil (typically in your `store` file), import them from Chromogen instead. The arguments passed in do **not** need to change in any away, and the return value will still be a normal RecoilAtom or RecoilSelector. Chromogen wraps the native Recoil functions to track which pieces of state have been created, as well as when various selectors are called and what values they return.
 
 ```js
-import { atom, selector } from 'chromog3n';
+import { atom, selector } from 'chromogen';
 
 export const fooState = atom({
   key: 'fooState',
@@ -217,7 +217,7 @@ Before using Chromogen, you'll need to make two changes to your application:
 ### Download the Chromogen package from npm
 
 ```
-npm install chromog3n
+npm install chromogen
 ```
 
 ### Import the HooksChromogenObserver component
@@ -228,7 +228,7 @@ Import `HooksChromgenObserver`. HooksChromogenObserver should wrap the parent mo
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import { HooksChromogenObserver } from 'chromog3n';
+import { HooksChromogenObserver } from 'chromogen';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -247,7 +247,7 @@ By default, Chromogen requires a second `id` parameter (a string describing your
 
 ```jsx
 import React from 'react';
-import { useState as hooksUseState } from 'chromog3n';
+import { useState as hooksUseState } from 'chromogen';
 
 const App: React.FC = () => {
   const [elements, setElements] = hooksUseState<number>(0, "id");
@@ -281,9 +281,7 @@ The current tests check whether state has changed after an interaction and check
 
 ## New and Improved Chrome DevTool!
 
-Chromogen DevTool Extension V3.0.0 is coming soon, pending Chrome Review!
-
-[Install Chromogen DevTool Extension V1.4.1](https://chrome.google.com/webstore/detail/chromogen/cciblhdjhpdbpeenlnnhccooheamamnd?hl=en-US)
+[Install Chromogen DevTool Extension V3.0.0](https://chrome.google.com/webstore/detail/chromogen-developer-tool/ehhlabbajneoafjedaaogkmpeaclepdl)
 
 DevTool V3.0.0 now shows a _**dynamic D3 state tree**_ responsive to user interaction with application! Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
   

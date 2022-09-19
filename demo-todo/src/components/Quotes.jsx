@@ -6,7 +6,7 @@ import { quoteNumberState } from '../store/atoms';
 const Quotes = () => {
   const setQuoteNumber = useSetRecoilState(quoteNumberState);
   const quoteText = useRecoilValue(quoteTextState);
-  const xkcdURL = useRecoilValue(xkcdState);
+  //const xkcdURL = useRecoilValue(xkcdState);
 
   return (
     <>
@@ -16,7 +16,7 @@ const Quotes = () => {
           New Quote
         </button>
       </div>
-      <img alt="xkcd" src={xkcdURL} />
+      {/* <img alt="xkcd" src={xkcdURL} /> */}
     </>
   );
 };
