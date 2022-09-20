@@ -50,7 +50,7 @@ describe('selector', () => {
     expect(selectors[0]).toEqual('exampleSelector');
   });
 
-  it('should return an object if an input condition evaluates to true', () => {
+  xit('should return an object if an input condition evaluates to true', () => {
     // verify that selector (recoilSelector in this context) invocation returns an object
     expect(typeof selector(test)).toBe('object');
   });
