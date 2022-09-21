@@ -1,19 +1,18 @@
 import React from 'react';
-// import { useRecoilState } from 'recoil';
 import Checkbox from '@mui/material/Checkbox';
-// import { todoListState } from '../store/atoms';
 import '../styles/styles.css';
+import shallow from 'zustand/shallow';
+import { useToDoStore } from '../store/store';
 
-function replaceItemAtIndex(arr, index, newValue) {
-  return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
-}
-
-function removeItemAtIndex(arr, index) {
-  return [...arr.slice(0, index), ...arr.slice(index + 1)];
-}
+const selector = (state) => ({
+  todoListState: state.todoListState,
+  deleteTodoListItem: state.deleteTodoListItem,
+});
 
 const TodoItem = ({ item }) => {
   // const [todoList, setTodoList] = useRecoilState(todoListState);
+  const { todoListState, deleteTodoListItem } = useToDoStore(selector, shallow);
+
   // const index = todoList.findIndex((listItem) => listItem === item);
 
   // const editItemText = ({ target: { value } }) => {
@@ -28,10 +27,6 @@ const TodoItem = ({ item }) => {
   //     ...item,
   //     isComplete: !item.isComplete,
   //   });
-  //   setTodoList(newList);
-  // };
-  // const deleteItem = () => {
-  //   const newList = removeItemAtIndex(todoList, index);
   //   setTodoList(newList);
   // };
 
@@ -51,7 +46,7 @@ const TodoItem = ({ item }) => {
         inputProps={{ 'aria-label': 'primary checkbox' }}
         onChange={console.log}
       />
-      <button type="submit" onClick={console.log}>
+      <button type="submit" onClick={() => deleteTodoListItem(item.id)}>
         X
       </button>
     </div>

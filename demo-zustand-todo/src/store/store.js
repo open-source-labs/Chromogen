@@ -1,4 +1,4 @@
-import create from 'zustand'
+import create from 'zustand';
 // import {
 //   todoListState,
 //   todoListFilterState,
@@ -7,16 +7,21 @@ import create from 'zustand'
 //   searchResultState,
 // } from './atoms';
 
-const useToDoStore = create((set) => ({ 
-  todoListState : [{
-    text: 'test text',
-    isComplete: false,
-    priority: 'medium'
-  }],
+const useToDoStore = create((set) => ({
+  todoListState: [
+    {
+      id: 1,
+      text: 'test text',
+      isComplete: false,
+      priority: 'medium',
+    },
+  ],
   todoListFilterState: 'Show All',
   todoListSortState: false,
   quoteNumberState: Math.floor(Math.random() * 1643),
-  addTodoListItem: (todo) => set((state) => ({todoListState: [...state.todoListState, todo]})),
+  addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] })),
+  deleteTodoListItem: id =>
+    set(state => ({ todoListState: state.todoListState.filter(todo => todo.id !== id)})),
   searchResultState: {
     all: {
       searchTerm: '',
@@ -33,8 +38,9 @@ const useToDoStore = create((set) => ({
     low: {
       searchTerm: '',
       results: [],
-    }
-}}))
+    },
+  },
+}));
 
 /* ----- SELECTORS ---- */
 
@@ -201,10 +207,7 @@ const useToDoStore = create((set) => ({
 //   searchBarSelectorFam,
 // };
 
-export {
-  useToDoStore
-};
-
+export { useToDoStore };
 
 /*todoListState,  default: [],
 todoListFilterState, default: 'Show All',

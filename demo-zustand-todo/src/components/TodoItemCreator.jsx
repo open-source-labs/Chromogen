@@ -6,9 +6,13 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import { useToDoStore } from '../store/store';
+import shallow from 'zustand/shallow';
+
+
+const selector = state => state.addTodoListItem;
 
 // utility for creating unique Id
-let id = 0;
+let id = 1;
 const getId = () => {
   id += 1;
   return id;
@@ -17,7 +21,7 @@ const getId = () => {
 const TodoItemCreator = () => {
   const [inputValue, setInputValue] = useState('');
   const [priorityValue, setPriorityValue] = useState('low');
-  const addTodoListItem = useToDoStore(state => state.addTodoListItem);
+  const addTodoListItem = useToDoStore(selector);
 
   const addItem = () => {
     addTodoListItem(
