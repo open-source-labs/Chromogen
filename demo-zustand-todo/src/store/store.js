@@ -12,7 +12,7 @@ const useToDoStore = create((set) => ({
     {
       id: 1,
       text: 'test text',
-      isComplete: false,
+      isComplete: false, 
       priority: 'medium',
     },
   ],
@@ -28,6 +28,13 @@ const useToDoStore = create((set) => ({
   quoteNumber: 0,
 
   changeQuoteNumber: () => set(state => ({quoteNumber: Math.floor(Math.random() * 1643)})),
+
+  setAllComplete: () => set(state =>
+    ({ todoListState: 
+      state.todoListState.some(todo => todo.isComplete === false) ? 
+      state.todoListState.map(todo => {return{...todo, isComplete: true}}) :
+      state.todoListState.map(todo => {return{...todo, isComplete: false}})
+    })),
   
   addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] })),
 

@@ -2,11 +2,15 @@ import React from 'react';
 // import { useRecoilState, useRecoilValue } from 'recoil';
 import Checkbox from '@mui/material/Checkbox';
 // import { allCompleteState, filteredListContentState } from '../store/store';
+import shallow from 'zustand/shallow';
 import { useToDoStore } from '../store/store';
 
+const selector = (state) => ({
+  setAllComplete : state.setAllComplete
+});
+
 const TodoQuickCheck = () => {
-  // const [allComplete, setAllComplete] = useRecoilState(allCompleteState);
-  // const display = useRecoilValue(filteredListContentState);
+  const { setAllComplete } = useToDoStore(selector, shallow);
 
   return (
     <div id="quickCheck">
@@ -15,9 +19,9 @@ const TodoQuickCheck = () => {
         checked={true}
         color="default"
         inputProps={{ 'aria-label': 'primary checkbox' }}
-        onChange={() => console.log('hi')}
+        onClick={() => setAllComplete()}
       />
-      all
+      All
     </div>
   );
 };
