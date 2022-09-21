@@ -5,8 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
-import { useSetRecoilState } from 'recoil';
-import { todoListState } from '../store/atoms';
+import { useToDoStore } from '../store/store';
 
 // utility for creating unique Id
 let id = 0;
@@ -18,18 +17,17 @@ const getId = () => {
 const TodoItemCreator = () => {
   const [inputValue, setInputValue] = useState('');
   const [priorityValue, setPriorityValue] = useState('low');
-  const setTodoList = useSetRecoilState(todoListState);
+  const addTodoListItem = useToDoStore(state => state.addTodoListItem);
 
   const addItem = () => {
-    setTodoList((oldTodoList) => [
-      ...oldTodoList,
+    addTodoListItem(
       {
         id: getId(),
         text: inputValue,
         priority: priorityValue,
         isComplete: false,
-      },
-    ]);
+      }
+    );
     setInputValue('');
     setPriorityValue('low');
   };
