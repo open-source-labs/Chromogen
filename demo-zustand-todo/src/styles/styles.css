@@ -1,0 +1,242 @@
+/* -------------General Styles---------------- */
+html {
+  margin: 0;
+  background-color: rgb(48, 48, 48);
+  color: whitesmoke;
+  font-family: 'Palanquin', sans-serif;
+  overflow: hidden;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.3rem;
+  color: #af6358;
+  text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
+  letter-spacing: 3px;
+  font-style: italic;
+}
+input,
+button,
+select {
+  background-color: rgb(63, 63, 63);
+  border: 1px solid lightgray;
+  border: none;
+  padding: 20px;
+  border-radius: 4px;
+  color: whitesmoke;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+/* remove browser defaults */
+button:focus {
+  outline: none;
+}
+input:focus {
+  outline: none;
+}
+/* ------------TodoList------------- */
+
+/* topmost container */
+.mainContainer {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: 15fr 33fr 33fr;
+}
+
+/* overall row container for todo list display */
+.todosDisplayRow {
+  margin: 0 auto;
+  width: 700px;
+}
+
+/* container for entire list display */
+.todosContainer {
+  background-color: rgb(63, 63, 63);
+  box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
+  border-radius: 5px;
+  padding: 5px 12px 0 12px;
+}
+
+/* -------------TodoItemCreator---------------- */
+
+.itemCreator button {
+  padding: 0px;
+}
+
+input::placeholder {
+  font-style: italic;
+  letter-spacing: 1.5px;
+}
+
+.itemCreator input {
+  padding: 0 0 0 5%;
+  width: 70%;
+  height: 60px;
+}
+
+#radioContainer svg {
+  margin-top: 11px;
+  opacity: 0.7;
+}
+
+/* -------------TodoItem---------------- */
+
+.itemContainer,
+.lowPriority,
+.mediumPriority,
+.highPriority {
+  display: grid;
+  grid-template-columns: 79fr 14fr 7fr;
+  border-bottom: 1px solid rgba(245, 245, 245, 0.336);
+}
+
+/* dynamic checkbox color */
+.highPriority svg {
+  color: #ef5350;
+  opacity: 0.7;
+  margin-right: 28px;
+}
+.mediumPriority svg {
+  color: #ffee58;
+  opacity: 0.7;
+  margin-right: 28px;
+}
+.lowPriority svg {
+  color: #66bb6a;
+  opacity: 0.7;
+  margin-right: 28px;
+}
+
+#todoItem button {
+  margin-left: 7px;
+}
+
+/* -------------TodoListFilter---------------- */
+
+ul {
+  display: grid;
+  grid-template-columns: 27fr 27fr 27fr 6fr 6fr 6fr;
+  margin: 0;
+  padding: 0px;
+  width: 100%;
+}
+
+.filter-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-right: 1px solid rgba(143, 143, 143, 0.26);
+  padding: 10px 20px;
+  border-radius: 0px 0px 4px 4px;
+}
+
+/* dynamic sort icon color */
+#sortedWhite svg {
+  color: whitesmoke;
+}
+#unsortedGray svg {
+  color: rgba(245, 245, 245, 0.336);
+}
+#unsortedGray {
+  width: 64px;
+}
+
+#statsSpan {
+  display: grid;
+  grid-template-columns: 30fr 30fr 30fr;
+  align-items: center;
+}
+#highSpan {
+  color: #ef5350;
+  opacity: 0.7;
+  margin-right: 4px;
+}
+#mediumSpan {
+  color: #ffee58;
+  opacity: 0.7;
+  margin-right: 4px;
+}
+#lowSpan {
+  color: #66bb6a;
+  opacity: 0.7;
+}
+
+/* filter stats (number) */
+button span {
+  opacity: 0.6;
+}
+
+/* ----------QuoteBox---------- */
+
+#quoteContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#quoteContainer p {
+  white-space: pre-wrap;
+}
+
+.quoteBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: rgb(63, 63, 63);
+  box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
+  border-radius: 5px;
+  margin: auto;
+  padding: 12px;
+}
+
+.quoteBox img {
+  margin: 20px;
+  height: 150px;
+  width: 150px;
+}
+
+.quoteBox button {
+  width: 150px;
+}
+
+.quoteBox button:hover {
+  border: 1px solid whitesmoke;
+  cursor: pointer;
+}
+
+/* ---------- TodoQuickCheck ---------- */
+
+#quickCheck {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#quickCheck svg {
+  color: #af6358;
+}
+
+/* ---------- Search ---------- */
+.searchContainer {
+  margin-top: 100px;
+  background-color: rgb(63, 63, 63);
+  box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
+  border-radius: 5px;
+  padding: 5px 12px 12px 12px;
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+
+.searchField {
+  border-bottom: solid 1px whitesmoke;
+  border-radius: 0;
+}
+
+.prioritySelect {
+  grid-column-start: 2;
+  border-bottom: solid 1px whitesmoke;
+  border-radius: 0;
+}
+
+.searchResults {
+  grid-column-start: span 3;
+}
