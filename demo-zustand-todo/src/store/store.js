@@ -21,7 +21,22 @@ const useToDoStore = create((set) => ({
 
   todoListSortState: false,
 
-  quoteNumberState: Math.floor(Math.random() * 1643),
+  quoteText: 'hello for now',
+
+  quoteNumberState: () => Math.floor(Math.random() * 1643),
+
+  quoteFetch: () => set(state => {
+  fetch('https://type.fit/api/quotes')
+    .then((response) => response.json())
+    .then((data) => {
+      const quote = data[state.quoteNumberState];
+      state.quoteText = `"${quote.text}"\n\t- ${quote.author || 'unknown'}`;
+    })
+    .catch((err) => {
+      console.error(err);
+      return 'No quote available';
+    });
+}),
   
   addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] })),
 
@@ -185,24 +200,24 @@ const useToDoStore = create((set) => ({
 //   },
 // });
 
-// // ASYNC SELECTOR - fetch comic img
-// // const xkcdState = selector({
-// //   key: 'xkcdState',
-// //   get: async ({ get }) => {
-// //     const quoteNumber = get(quoteNumberState);
-// //     try {
-// //       // Fetch much be proxied through cors-anywhere to test on localhost
-// //       const response = await fetch(
-// //         `https://cors-anywhere.herokuapp.com/http://xkcd.com/${quoteNumber}/info.0.json`,
-// //       );
-// //       const { img } = await response.json();
-// //       return img;
-// //     } catch (err) {
-// //       // Fallback comic
-// //       return 'https://imgs.xkcd.com/comics/api.png';
-// //     }
-// //   },
-// // });
+// ASYNC SELECTOR - fetch comic img
+// const xkcdState = selector({
+//   key: 'xkcdState',
+//   get: async ({ get }) => {
+//     const quoteNumber = get(quoteNumberState);
+//     try {
+//       // Fetch much be proxied through cors-anywhere to test on localhost
+//       const response = await fetch(
+//         `https://cors-anywhere.herokuapp.com/http://xkcd.com/${quoteNumber}/info.0.json`,
+//       );
+//       const { img } = await response.json();
+//       return img;
+//     } catch (err) {
+//       // Fallback comic
+//       return 'https://imgs.xkcd.com/comics/api.png';
+//     }
+//   },
+// });
 
 // const searchBarSelectorFam = selectorFamily({
 //   key: 'searchBarSelectorFam',

@@ -3,10 +3,14 @@ import React from 'react';
 // import { quoteTextState, xkcdState } from '../store/store';
 // import { quoteNumberState } from '../store/atoms';
 
+const selector = (state) => ({
+  
+}
+
 const Quotes = () => {
-  // const setQuoteNumber = useSetRecoilState(quoteNumberState);
-  // const quoteText = useRecoilValue(quoteTextState);
-  //const xkcdURL = useRecoilValue(xkcdState);
+  const setQuoteNumber = useSetRecoilState(quoteNumberState);
+  const quoteText = useRecoilValue(quoteTextState);
+  const xkcdURL = useRecoilValue(xkcdState);
 
   return (
     <>
