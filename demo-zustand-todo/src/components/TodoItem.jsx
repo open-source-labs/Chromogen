@@ -7,28 +7,15 @@ import { useToDoStore } from '../store/store';
 const selector = (state) => ({
   todoListState: state.todoListState,
   deleteTodoListItem: state.deleteTodoListItem,
+  editItemText: state.editItemText,
+  toggleItemCompletion: state.toggleItemCompletion,
 });
 
 const TodoItem = ({ item }) => {
-  // const [todoList, setTodoList] = useRecoilState(todoListState);
-  const { todoListState, deleteTodoListItem } = useToDoStore(selector, shallow);
-
-  // const index = todoList.findIndex((listItem) => listItem === item);
-
-  // const editItemText = ({ target: { value } }) => {
-  //   const newList = replaceItemAtIndex(todoList, index, {
-  //     ...item,
-  //     text: value,
-  //   });
-  //   setTodoList(newList);
-  // };
-  // const toggleItemCompletion = () => {
-  //   const newList = replaceItemAtIndex(todoList, index, {
-  //     ...item,
-  //     isComplete: !item.isComplete,
-  //   });
-  //   setTodoList(newList);
-  // };
+  const { todoListState, deleteTodoListItem, editItemText, toggleItemCompletion } = useToDoStore(
+    selector,
+    shallow,
+  );
 
   const checkBoxClasses = {
     low: 'lowPriority',
@@ -38,13 +25,17 @@ const TodoItem = ({ item }) => {
 
   return (
     <div className={checkBoxClasses[item.priority] || 'itemContainer'} id="todoItem">
-      <input type="text" value={item.text} onChange={console.log} />
+      <input
+        type="text"
+        value={item.text}
+        onChange={(e) => editItemText(e.target.value, item.id)}
+      />
       <Checkbox
         disableRipple
         checked={item.isComplete}
         color="default"
         inputProps={{ 'aria-label': 'primary checkbox' }}
-        onChange={console.log}
+        onClick={() => toggleItemCompletion(item.id)}
       />
       <button type="submit" onClick={() => deleteTodoListItem(item.id)}>
         X

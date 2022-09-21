@@ -16,12 +16,37 @@ const useToDoStore = create((set) => ({
       priority: 'medium',
     },
   ],
+  
   todoListFilterState: 'Show All',
+
   todoListSortState: false,
+
   quoteNumberState: Math.floor(Math.random() * 1643),
+  
   addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] })),
+
   deleteTodoListItem: id =>
     set(state => ({ todoListState: state.todoListState.filter(todo => todo.id !== id)})),
+
+  editItemText: (text, id) => set(state => ({ todoListState: state.todoListState.map(todo => {
+    if (todo.id === id) {
+      return {...todo, text: text};
+    }else{
+      return todo;
+    };
+  })
+  })),
+  
+  toggleItemCompletion: id => set(state =>
+  ({todoListState: state.todoListState.map(todo => {
+     if (todo.id === id) {
+      return {...todo, isComplete: !todo.isComplete};
+    }else{
+      return todo;
+    }; 
+  })
+  })),
+    
   searchResultState: {
     all: {
       searchTerm: '',
