@@ -21,22 +21,13 @@ const useToDoStore = create((set) => ({
 
   todoListSortState: false,
 
-  quoteText: 'hello for now',
+  quoteText: 'Hope it dont fuck up',
 
-  quoteNumberState: () => Math.floor(Math.random() * 1643),
+  changeQuoteText: (text) => set(state => ({quoteText: text})),
 
-  quoteFetch: () => set(state => {
-  fetch('https://type.fit/api/quotes')
-    .then((response) => response.json())
-    .then((data) => {
-      const quote = data[state.quoteNumberState];
-      state.quoteText = `"${quote.text}"\n\t- ${quote.author || 'unknown'}`;
-    })
-    .catch((err) => {
-      console.error(err);
-      return 'No quote available';
-    });
-}),
+  quoteNumber: 0,
+
+  changeQuoteNumber: () => set(state => ({quoteNumber: Math.floor(Math.random() * 1643)})),
   
   addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] })),
 
