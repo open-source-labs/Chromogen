@@ -65,6 +65,13 @@ const useToDoStore = create((set) => ({
       results: [],
     },
   },
+
+  setSearchState: (searchTerm, priority) => set(state => {
+    if (searchTerm === '') return { searchResultState: { ...state.searchResultState, [priority]: { searchTerm, results: [] } } };
+    let results = [...state.todoListState].filter(todo => todo.text.includes(searchTerm));
+    if (priority !== 'all') results = results.filter(todo => todo.priority === priority);
+    return { searchResultState: { ...state.searchResultState, [priority]: { searchTerm, results } } };
+  }),
 }));
 
 /* ----- SELECTORS ---- */
