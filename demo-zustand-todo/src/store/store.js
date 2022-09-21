@@ -1,12 +1,4 @@
 import create from 'zustand';
-// import {
-//   todoListState,
-//   todoListFilterState,
-//   todoListSortState,
-//   quoteNumberState,
-//   searchResultState,
-// } from './atoms';
-
 const useToDoStore = create((set) => ({
   todoListState: [
     {
@@ -16,37 +8,45 @@ const useToDoStore = create((set) => ({
       priority: 'medium',
     },
   ],
-  
+
   todoListFilterState: 'Show All',
 
   todoListSortState: false,
 
   quoteNumberState: Math.floor(Math.random() * 1643),
-  
+
+  resetFiltersAndSorted: () => set(() => ({ todoListFilterState: 'Show All', todoListSortState: false })),
+
+  toggleSort: () => set(state => ({ todoListSortState: !state.todoListSortState })),
+
+  setFilter: filter => set(() => ({ todoListFilterState: filter })),
+
   addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] })),
 
   deleteTodoListItem: id =>
-    set(state => ({ todoListState: state.todoListState.filter(todo => todo.id !== id)})),
+    set(state => ({ todoListState: state.todoListState.filter(todo => todo.id !== id) })),
 
-  editItemText: (text, id) => set(state => ({ todoListState: state.todoListState.map(todo => {
-    if (todo.id === id) {
-      return {...todo, text: text};
-    }else{
-      return todo;
-    };
-  })
+  editItemText: (text, id) => set(state => ({
+    todoListState: state.todoListState.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, text: text };
+      } else {
+        return todo;
+      };
+    })
   })),
-  
+
   toggleItemCompletion: id => set(state =>
-  ({todoListState: state.todoListState.map(todo => {
-     if (todo.id === id) {
-      return {...todo, isComplete: !todo.isComplete};
-    }else{
-      return todo;
-    }; 
-  })
+  ({
+    todoListState: state.todoListState.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, isComplete: !todo.isComplete };
+      } else {
+        return todo;
+      };
+    })
   })),
-    
+
   searchResultState: {
     all: {
       searchTerm: '',
