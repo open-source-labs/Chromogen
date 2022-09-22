@@ -35,6 +35,15 @@ const useToDoStore = create((set) => ({
       state.todoListState.map(todo => {return{...todo, isComplete: true}}) :
       state.todoListState.map(todo => {return{...todo, isComplete: false}})
     })),
+
+  checkBox: false,
+
+  setCheckBox: () => set(state =>
+    ({ checkBox: 
+      state.todoListState.some(todo => todo.isComplete === false) ? 
+      false :
+      true
+    })),
   
   addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] })),
 
