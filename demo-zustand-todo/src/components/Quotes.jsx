@@ -1,16 +1,11 @@
 import React from 'react';
 import shallow from 'zustand/shallow';
-//import { useRecoilValue, useSetRecoilState } from 'recoil';
-// import { quoteTextState, xkcdState } from '../store/store';
-// import { quoteNumberState } from '../store/atoms';
 import { useToDoStore } from '../store/store';
 import { useEffect } from 'react';
 
 const selector = (state) => ({
   changeQuoteText: state.changeQuoteText,
   quoteText: state.quoteText
-  //changeQuoteNumber: state.changeQuoteNumber,
-  //quoteNumber: state.quoteNumber,
 });
 
 
@@ -20,20 +15,6 @@ const Quotes = () => {
     selector,
     shallow,
   );
-
-  // const quoteFetch = () => {
-
-  // fetch('https://type.fit/api/quotes')
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     const quote = data[quoteNumber];
-  //     changeQuoteText(`"${quote.text}"\n\t- ${quote.author || 'unknown'}`);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //     return 'No quote available';
-  //   });
-  // }
 
   const fetchMe = () => {
 

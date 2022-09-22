@@ -21,7 +21,7 @@ const useToDoStore = create((set) => ({
 
   todoListSortState: false,
 
-  quoteText: 'Hope it dont fuck up',
+  quoteText: '',
 
   changeQuoteText: (text) => set(state => ({quoteText: text})),
 
