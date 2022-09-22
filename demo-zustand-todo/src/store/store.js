@@ -12,7 +12,7 @@ const useToDoStore = create((set) => ({
     {
       id: 1,
       text: 'test text',
-      isComplete: false,
+      isComplete: false, 
       priority: 'medium',
     },
   ],
@@ -21,7 +21,29 @@ const useToDoStore = create((set) => ({
 
   todoListSortState: false,
 
-  quoteNumberState: Math.floor(Math.random() * 1643),
+  quoteText: '',
+
+  changeQuoteText: (text) => set(state => ({quoteText: text})),
+
+  quoteNumber: 0,
+
+  changeQuoteNumber: () => set(state => ({quoteNumber: Math.floor(Math.random() * 1643)})),
+
+  setAllComplete: () => set(state =>
+    ({ todoListState: 
+      state.todoListState.some(todo => todo.isComplete === false) ? 
+      state.todoListState.map(todo => {return{...todo, isComplete: true}}) :
+      state.todoListState.map(todo => {return{...todo, isComplete: false}})
+    })),
+
+  checkBox: false,
+
+  setCheckBox: () => set(state =>
+    ({ checkBox: 
+      state.todoListState.some(todo => todo.isComplete === false) ? 
+      false :
+      true
+    })),
   
   addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] })),
 
@@ -185,24 +207,24 @@ const useToDoStore = create((set) => ({
 //   },
 // });
 
-// // ASYNC SELECTOR - fetch comic img
-// // const xkcdState = selector({
-// //   key: 'xkcdState',
-// //   get: async ({ get }) => {
-// //     const quoteNumber = get(quoteNumberState);
-// //     try {
-// //       // Fetch much be proxied through cors-anywhere to test on localhost
-// //       const response = await fetch(
-// //         `https://cors-anywhere.herokuapp.com/http://xkcd.com/${quoteNumber}/info.0.json`,
-// //       );
-// //       const { img } = await response.json();
-// //       return img;
-// //     } catch (err) {
-// //       // Fallback comic
-// //       return 'https://imgs.xkcd.com/comics/api.png';
-// //     }
-// //   },
-// // });
+// ASYNC SELECTOR - fetch comic img
+// const xkcdState = selector({
+//   key: 'xkcdState',
+//   get: async ({ get }) => {
+//     const quoteNumber = get(quoteNumberState);
+//     try {
+//       // Fetch much be proxied through cors-anywhere to test on localhost
+//       const response = await fetch(
+//         `https://cors-anywhere.herokuapp.com/http://xkcd.com/${quoteNumber}/info.0.json`,
+//       );
+//       const { img } = await response.json();
+//       return img;
+//     } catch (err) {
+//       // Fallback comic
+//       return 'https://imgs.xkcd.com/comics/api.png';
+//     }
+//   },
+// });
 
 // const searchBarSelectorFam = selectorFamily({
 //   key: 'searchBarSelectorFam',

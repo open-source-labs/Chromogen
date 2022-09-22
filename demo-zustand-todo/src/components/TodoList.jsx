@@ -1,6 +1,5 @@
 import React from 'react';
 // import { useRecoilValue } from 'recoil';
-import { useToDoStore } from '../store/store';
 import TodoItem from './TodoItem';
 import TodoItemCreator from './TodoItemCreator';
 import TodoListFilters from './TodoListFilters';
@@ -9,6 +8,7 @@ import Quotes from './Quotes';
 import SearchBar from './SearchBar';
 import '../styles/styles.css';
 import shallow from 'zustand/shallow';
+import { useToDoStore } from '../store/store';
 
 const selector = state => ({
   todoListState: state.todoListState,
