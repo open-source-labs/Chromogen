@@ -10,10 +10,6 @@ import { ledger } from '../utils/ledger';
 import { styles, generateFile } from './component-utils';
 /* eslint-enable */
 
-//fc is function component... explicit about its return type
-//ChromogenObserver type is React.FC<{ store?: Array<object> | object }> 
-//React.FC store is optional, if it has a store its type can be an Array<object> or object
-//ChromogenObserver is a component like any other component
 export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   const [file, setFile] = useState<undefined | string>(undefined);
@@ -23,7 +19,6 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   const [, setEditFile] =useState<undefined | string>(undefined);
 
   // DevTool message handling
-  //message is an event like 'click' in eventlisteners
   const receiveMessage = (message: any) => {
     switch (message.data.action) {
       case 'connectChromogen':
@@ -87,7 +82,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       setStoreMap(newStore);
     }
   }, []);
-  //provides the previous statae and current state as snapshots
+
   useRecoilTransactionObserver_UNSTABLE(
     ({ previousSnapshot, snapshot }: { previousSnapshot: Snapshot; snapshot: Snapshot }): void => {
       // Map current snapshot to array of atom states
