@@ -45,11 +45,11 @@ const TodoItemCreator = () => {
   };
 
   /* MUI Radio Button styles */
-  const GreenRadio = (props) => <Radio color="default" size="small" {...props} />;
+  const GreenRadio = (props) => <Radio style={{ color: 'green' }} size="small" {...props} />;
 
-  const YellowRadio = (props) => <Radio color="default" size="small" {...props} />;
+  const YellowRadio = (props) => <Radio style={{ color: 'yellow' }} size="small" {...props} />;
 
-  const RedRadio = (props) => <Radio color="default" size="small" {...props} />;
+  const RedRadio = (props) => <Radio style={{ color: 'red' }} size="small" {...props} />;
 
   return (
     <div className="itemCreator">
