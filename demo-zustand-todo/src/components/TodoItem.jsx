@@ -15,7 +15,7 @@ const TodoItem = ({ item }) => {
   const { todoListState, deleteTodoListItem, editItemText, toggleItemCompletion } = useToDoStore(
     selector,
     shallow,
-  );
+  );  
 
   const checkBoxClasses = {
     low: 'lowPriority',
