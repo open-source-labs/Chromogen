@@ -1,6 +1,4 @@
-import {
-  create as zustandCreate,
-} from 'zustand';
+import zustandCreate from 'zustand';
 
 // import zustand shallow next
 export function create(creatorFunction) {

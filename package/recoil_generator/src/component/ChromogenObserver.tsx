@@ -16,7 +16,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
   const [recording, setRecording] = useRecoilState<boolean>(recordingState);
   const [devtool, setDevtool] = useState<boolean>(false);
-  const [, setEditFile] =useState<undefined | string>(undefined);
+  const [, setEditFile] = useState<undefined | string>(undefined);
 
   // DevTool message handling
   const receiveMessage = (message: any) => {
@@ -31,7 +31,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       case 'editFile':
         const array = generateFile(setEditFile, storeMap);
         window.postMessage({ action: 'editFileReceived', data: array }, '*');
-        break;       
+        break;
       case 'toggleRecord':
         setRecording(!recording);
         window.postMessage({ action: 'setStatus' }, '*');
@@ -59,7 +59,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
       const newStore: Map<string, string> = new Map();
 
       storeArr.forEach((storeModule) => {
-        Object.entries(storeModule).forEach(([variable, imported]) => {
+        Object.entries(storeModule).forEach(([variable, imported]: [any, any]) => {
           let key;
           /** Relevant imports will be either an object (for vanilla atoms or selectors)
            * or functions (for atom or selector families). If we are examining a family function,
@@ -127,15 +127,15 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
     },
   );
 
-const [pauseColor, setPauseColor] = useState('#90d1f0');
-const pauseBorderStyle = {
-  borderColor: `${pauseColor}`,
-};
+  const [pauseColor, setPauseColor] = useState('#90d1f0');
+  const pauseBorderStyle = {
+    borderColor: `${pauseColor}`,
+  };
 
-const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0')
-const playBorderStyle = {
-  borderColor: `${playColor}`,
-};
+  const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0')
+  const playBorderStyle = {
+    borderColor: `${playColor}`,
+  };
 
   return (
     <>
@@ -156,10 +156,10 @@ const playBorderStyle = {
                 }}
                 onMouseEnter={() => recording ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
                 onMouseLeave={() => recording ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}
-              ><a>{recording ? 
-                <div style={{...styles.pauseStyle, ...pauseBorderStyle}}></div>
-                 : <div style={{...styles.playStyle, ...playBorderStyle}}></div>
-                 }</a>
+              ><a>{recording ?
+                <div style={{ ...styles.pauseStyle, ...pauseBorderStyle }}></div>
+                : <div style={{ ...styles.playStyle, ...playBorderStyle }}></div>
+              }</a>
               </button>
               <button
                 aria-label="capture test"
@@ -169,7 +169,7 @@ const playBorderStyle = {
                 onClick={() => generateFile(setFile, storeMap)}
                 onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
                 onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
-                ><a>{'Download'}</a>
+              ><a>{'Download'}</a>
               </button>
             </div>
           </div>
