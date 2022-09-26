@@ -54,6 +54,7 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
 
   // Update storeMap with src variable names if store prop passed
   useEffect(() => {
+    console.log('hi we can change whatever we want')
     if (store !== undefined) {
       const storeArr = Array.isArray(store) ? store : [store];
       const newStore: Map<string, string> = new Map();

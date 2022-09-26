@@ -28,7 +28,7 @@ const filterList = (list, filter) => {
 }
 
 const sortList = (list, sortingMethod) => {
-  if(!sortingMethod) return list;
+  if (!sortingMethod) return list;
   const high = list.filter((item) => item.priority === 'high');
   const medium = list.filter((item) => item.priority === 'medium');
   const low = list.filter((item) => item.priority === 'low');
@@ -37,7 +37,7 @@ const sortList = (list, sortingMethod) => {
 
 const TodoList = () => {
   // const todoList = useRecoilValue(sortedTodoListState);
-  const {todoListState, todoListFilterState, todoListSortState} = useToDoStore(selector, shallow);
+  const { todoListState, todoListFilterState, todoListSortState } = useToDoStore(selector, shallow);
   const todoList = sortList(filterList(todoListState, todoListFilterState), todoListSortState);
 
 
