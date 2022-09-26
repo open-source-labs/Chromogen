@@ -1,15 +1,8 @@
-import { create } from 'chromogen';
+import { create } from 'chromogen-zustand';
 const useToDoStore = create((set) => ({
-  todoListState: [
-    {
-      id: 1,
-      text: 'test text',
-      isComplete: false,
-      priority: 'medium',
-    },
-  ],
+  todoListState: [],
 
-  todoListFilterState: 'Show All',
+  todoListFilterState: 'Show ddAll',
 
   todoListSortState: false,
 
