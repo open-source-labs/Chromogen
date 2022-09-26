@@ -1,6 +1,6 @@
 {
-  "name": "chromogen",
-  "version": "3.0.0",
+  "name": "chromogen-zustand",
+  "version": "3.0.14",
   "description": "simple, interaction-driven Jest test generator for Recoil and React Hooks apps",
   "main": "build/index.js",
   "keywords": [
@@ -92,8 +92,9 @@
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "recoil": "^0.7.5",
-    "redux": "^4.0.5"
+    "recoil": "^0.7.2",
+    "redux": "^4.0.5",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -109,7 +110,6 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "jest": "^26.4.2",
     "react-test-renderer": "^18.0.0",
-    "typescript": "^4.0.3",
-    "zustand": "^4.1.1"
+    "typescript": "^4.0.3"
   }
 }
