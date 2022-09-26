@@ -23,7 +23,7 @@ export function create(creatorFunction) {
       api
     );
 
-  return zustandCreate(log(creatorFunction));;
+  return zustandCreate(log(creatorFunction));
 }
 
 
