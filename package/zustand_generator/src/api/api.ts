@@ -1,7 +1,16 @@
 import zustandCreate from 'zustand';
 
-// import zustand shallow next
+const debug = true;
+const initialState = {};
+
 export function create(creatorFunction) {
+
+  const initialStateEntries = Object.entries(creatorFunction()).filter(([, v]) => typeof v !== 'function');
+  for (const [k, v] of initialStateEntries) {
+    initialState[k] = v;
+  }
+
+  if (debug) console.log({ initialState })
 
   const log = (config) => (set, get, api) =>
     config(
@@ -14,10 +23,7 @@ export function create(creatorFunction) {
       api
     );
 
-  const newStore = zustandCreate(log(creatorFunction));
-  const initialState = newStore();
-  console.log({ initialState });
-  return newStore;
+  return zustandCreate(log(creatorFunction));
 }
 
 
