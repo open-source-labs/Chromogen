@@ -1,6 +1,6 @@
 import React from 'react';
 import shallow from 'zustand/shallow';
-import { useToDoStore } from '../store/store';
+import useToDoStore from '../store/store';
 import { useEffect } from 'react';
 
 const selector = (state) => ({
@@ -21,22 +21,22 @@ const Quotes = () => {
     let randomNum = Math.floor(Math.random() * 1643);
 
     fetch('https://type.fit/api/quotes')
-    .then((response) => response.json())
-    .then((data) => {
-      const quote = data[randomNum];
-      changeQuoteText(`"${quote.text}"\n\t- ${quote.author || 'unknown'}`);
-    })
-    .catch((err) => {
-      console.error(err);
-      return 'No quote available';
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        const quote = data[randomNum];
+        changeQuoteText(`"${quote.text}"\n\t- ${quote.author || 'unknown'}`);
+      })
+      .catch((err) => {
+        console.error(err);
+        return 'No quote available';
+      });
 
   }
 
-  useEffect(() => fetchMe(),[]);
+  useEffect(() => fetchMe(), []);
 
 
-  
+
   // const setQuoteNumber = useToDoStore(selector, shallow,);
   // const quoteText = useRecoilValue(quoteTextState);
   // const xkcdURL = useRecoilValue(xkcdState);

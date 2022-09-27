@@ -1,18 +1,8 @@
 import { renderHook, act } from '@testing-library/react';
-import {
-  useToDoStore
-} from '../src/store/store';
-
-// Suppress 'Batcher' warnings from React / Recoil conflict
-console.error = jest.fn();
-
-// Hook to return atom/selector values and/or modifiers for react-recoil-hooks-testing-library
+import useToDoStore from '../src/store/store';
 
 describe('INITIAL RENDER', () => {
   const { result } = renderHook(useToDoStore);
-
-  console.log({ result });
-  console.log(result.current);
 
   it('filteredTodoListState should initialize correctly', () => {
     expect(result.current.todoListState).toStrictEqual([]);
@@ -22,21 +12,24 @@ describe('INITIAL RENDER', () => {
     expect(result.current.todoListFilterState).toStrictEqual('Show All');
   });
 
-  // it('allCompleteState should initialize correctly', () => {
-  //   expect(result.current.allCompleteStateValue).toStrictEqual(true);
-  // });
+  it('todoListSortState should initialize correctly', () => {
+    expect(result.current.todoListSortState).toStrictEqual(false);
+  });
 
-  // it('filteredListContentState should initialize correctly', () => {
-  //   expect(result.current.filteredListContentStateValue).toStrictEqual(false);
-  // });
+  it('quoteText should initialize correctly', () => {
+    expect(result.current.quoteText).toStrictEqual('');
+  });
 
-  // it('todoListSortedStats should initialize correctly', () => {
-  //   expect(result.current.todoListSortedStatsValue).toStrictEqual({});
-  // });
+  it('quoteNumber should initialize correctly', () => {
+    expect(result.current.quoteNumber).toStrictEqual(0);
+  });
 
-  // it('todoListStatsState should initialize correctly', () => {
-  //   expect(result.current.todoListStatsStateValue).toStrictEqual({ "totalNum": 0, "totalCompletedNum": 0, "totalUncompletedNum": 0, "percentCompleted": 0 });
-  // });
+  it('checkBox should initialize correctly', () => {
+    expect(result.current.checkBox).toStrictEqual(false);
+  });
 
+  it('searchResultState should initialize correctly', () => {
+    expect(result.current.searchResultState).toStrictEqual({ all: { searchTerm: '', results: [], }, high: { searchTerm: '', results: [], }, medium: { searchTerm: '', results: [], }, low: { searchTerm: '', results: [], }, });
+  });
 
 });

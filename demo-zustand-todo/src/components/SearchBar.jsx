@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useToDoStore } from '../store/store'
+import useToDoStore from '../store/store'
 import shallow from 'zustand/shallow'
 
 import ReadOnlyTodoItem from './ReadOnlyTodoItem';
