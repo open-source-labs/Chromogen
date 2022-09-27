@@ -1,4 +1,5 @@
 import zustandCreate from 'zustand';
+import { ledger } from '../utils/ledger';
 
 const debug = true;
 const initialState = {};
@@ -9,6 +10,8 @@ export function create(creatorFunction) {
   for (const [k, v] of initialStateEntries) {
     initialState[k] = v;
   }
+
+  ledger.initialRender = initialState;
 
   if (debug) console.log({ initialState })
 

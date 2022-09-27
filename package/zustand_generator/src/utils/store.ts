@@ -1,10 +1,6 @@
-/* eslint-disable */
-import type { RecoilState } from 'recoil';
-import { atom } from 'recoil';
-/* eslint-enable */
+import create from 'zustand';
 
-// Recording toggle
-export const recordingState: RecoilState<boolean> = atom<boolean>({
-  key: 'recordingState',
-  default: true,
-});
+export const useStore = create((set) => ({
+  recording: false,
+  toggleRecording: () => set(state => { recording: !state.recording })
+}));

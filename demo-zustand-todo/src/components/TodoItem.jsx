@@ -2,7 +2,7 @@ import React from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import '../styles/styles.css';
 import shallow from 'zustand/shallow';
-import { useToDoStore } from '../store/store';
+import useToDoStore from '../store/store';
 
 const selector = (state) => ({
   todoListState: state.todoListState,
@@ -15,7 +15,7 @@ const TodoItem = ({ item }) => {
   const { todoListState, deleteTodoListItem, editItemText, toggleItemCompletion } = useToDoStore(
     selector,
     shallow,
-  );  
+  );
 
   const checkBoxClasses = {
     low: 'lowPriority',

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SortIcon from '@mui/icons-material/Sort';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useToDoStore } from '../store/store';
+import useToDoStore from '../store/store';
 import shallow from 'zustand/shallow';
 
 const selector = state => ({

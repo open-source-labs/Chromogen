@@ -1,16 +1,9 @@
 /* eslint-disable */
 import type { Ledger } from '../types';
-import { RecoilState, SerializableParam } from 'recoil';
 /* eslint-enable */
 
-export const ledger: Ledger<RecoilState<any>, any, SerializableParam> = {
-  atoms: [],
-  selectors: [], //get
-  atomFamilies: {},
-  selectorFamilies: {},
-  setters: [], //set
-  initialRender: [],
-  initialRenderFamilies: [],
+export const ledger: Ledger<any, any, any> = {
+  store: {},
+  initialRender: {},
   transactions: [],//get
-  setTransactions: [],//set
 };

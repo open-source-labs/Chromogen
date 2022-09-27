@@ -8,7 +8,7 @@ import Quotes from './Quotes';
 import SearchBar from './SearchBar';
 import '../styles/styles.css';
 import shallow from 'zustand/shallow';
-import { useToDoStore } from '../store/store';
+import useToDoStore from '../store/store';
 
 const selector = state => ({
   todoListState: state.todoListState,
