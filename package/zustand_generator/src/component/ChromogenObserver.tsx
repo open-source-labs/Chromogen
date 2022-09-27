@@ -11,7 +11,7 @@ const selector = state => ({
   toggleRecording: state.toggleRecording
 });
 
-export const ChromogenObserver: React.FC<{ store?: object }> = ({ store }) => {
+export const ChromogenZustandObserver: React.FC<{ store?: object }> = ({ store }) => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   const [file, setFile] = useState<undefined | string>(undefined);
   const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
