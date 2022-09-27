@@ -16,12 +16,7 @@ export const output = ({
   initialRender,
 }: Ledger<string, any, any>): string =>
   `import { renderHook, act } from '@testing-library/react';
-import 
-${importZustandStore()}
- from '<ADD STORE FILEPATH>';
-
-// Suppress 'Batcher' warnings from React / Recoil conflict
-console.error = jest.fn();
+  ${importZustandStore()}from '<ADD STORE FILEPATH>';
 
 describe('INITIAL RENDER', () => { 
   const { result } = renderHook(useStoreHook); 
