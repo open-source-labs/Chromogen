@@ -91,7 +91,7 @@ const useToDoStore = create(devtools((set) => ({
     if (priority !== 'all') results = results.filter(todo => todo.priority === priority);
     return { searchResultState: { ...state.searchResultState, [priority]: { searchTerm, results } } };
   }, false, 'setSearchState'),
-})));
+})), {});
 
 
 export default useToDoStore;

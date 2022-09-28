@@ -6,27 +6,16 @@ const initialRender = {};
 // const storeFunctions = {};
 
 export function create(creatorFunction) {
-  const initialStateEntries = Object.entries(creatorFunction());
-  for (const [k, v] of initialStateEntries) {
-    // if (typeof v === 'function') storeFunctions[k] = [v];
-    initialRender[k] = v;
-  }
-
-  ledger.initialRender = initialRender;
-
-  // const modifiedFunctions = Object.entries(storeFunctions).map(([k, v]: [any, any]) => {
-  //   const wrappedFunction = (...args) => {
-  //     console.log('my function name is ', k);
-  //     return v(...args);
-  //   }
-  //   return [k, wrappedFunction];
-  // });
 
 
-  if (debug) console.log({ initialRender })
-
-  const log = (config) => (set, get, api) =>
-    config(
+  const log = (config) => (set, get, api) => {
+    const initialStateEntries = Object.entries(config(api.setState, get, api));
+    for (const [k, v] of initialStateEntries) {
+      if (typeof v !== 'function') initialRender[k] = v;
+    }
+    ledger.initialRender = initialRender;
+    if (debug) console.log({ initialRender })
+    return config(
       (...args) => {
         console.log('  applying', args)
         console.log('function name is ', args[2]);
@@ -36,6 +25,7 @@ export function create(creatorFunction) {
       get,
       api
     );
+  }
 
   return zustandCreate(log(creatorFunction));
 }
