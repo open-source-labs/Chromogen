@@ -15,11 +15,12 @@ export const setFilter = (selectors: string[], setters: string[]): string[] =>
 export const output = ({
   initialRender,
 }: Ledger<string, any, any>): string =>
-  `import { renderHook, act } from '@testing-library/react';
-  ${importZustandStore()}from '<ADD STORE FILEPATH>';
+  `
+import { renderHook, act } from '@testing-library/react';
+${importZustandStore()}
 
 describe('INITIAL RENDER', () => { 
-  const { result } = renderHook(useStoreHook); 
+  const { result } = renderHook(useStore); 
   
   ${testInitialState(initialRender)}
 });`
