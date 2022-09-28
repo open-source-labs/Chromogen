@@ -1,7 +1,8 @@
-import { create } from 'chromogen-zustand';
+import { chromogen } from 'chromogen-zustand';
+import create from 'zustand'
 import { devtools } from 'zustand/middleware';
 
-const useToDoStore = create(devtools((set) => ({
+const useToDoStore = create(chromogen((set) => ({
   todoListState: [],
 
   todoListFilterState: 'Show All',

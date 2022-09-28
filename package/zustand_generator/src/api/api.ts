@@ -1,35 +1,36 @@
-import zustandCreate from 'zustand';
 import { ledger } from '../utils/ledger';
 
 const debug = true;
-const initialRender = {};
+let initialRender = {};
 // const storeFunctions = {};
+const filterFuncStore = (store) => {
+  const result = {};
+  for (const [k, v] of Object.entries(store)) {
+    if (typeof v !== 'function') result[k] = v;
+  }
+  return result;
+};
 
-export function create(creatorFunction) {
-
-
-  const log = (config) => (set, get, api) => {
-    const initialStateEntries = Object.entries(config(api.setState, get, api));
-    for (const [k, v] of initialStateEntries) {
-      if (typeof v !== 'function') initialRender[k] = v;
-    }
+export function chromogen(creatorFunction) {
+  return (set, get, api) => {
+    const initialStateEntries = creatorFunction(api.setState, get, api);
+    initialRender = filterFuncStore(initialStateEntries);
     ledger.initialRender = initialRender;
-    if (debug) console.log({ initialRender })
-    return config(
+    if (debug) console.log({ initialRender });
+    return creatorFunction(
       (...args) => {
-        console.log('  applying', args)
-        console.log('function name is ', args[2]);
-        set(...args)
-        console.log('  new state', get())
+        const newAction = { action: args[2], before: filterFuncStore(get()) };
+        console.log(args[2]);
+        set(...args);
+        newAction['after'] = get();
+        ledger.transactions.push(newAction);
+        console.log(ledger);
       },
       get,
-      api
+      api,
     );
-  }
-
-  return zustandCreate(log(creatorFunction));
+  };
 }
-
 
 // Get the initial value of all properties inside the store
 // Upon any change, compare before and after and add it to some sort of transaction list
