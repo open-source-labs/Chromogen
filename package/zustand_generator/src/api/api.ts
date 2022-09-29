@@ -2,8 +2,8 @@ import { ledger } from '../utils/ledger';
 
 const debug = true;
 let initialRender = {};
-// const storeFunctions = {};
-const filterFuncStore = (store) => {
+
+const filterOutFuncs = (store) => {
   const result = {};
   for (const [k, v] of Object.entries(store)) {
     if (typeof v !== 'function') result[k] = v;
@@ -11,20 +11,43 @@ const filterFuncStore = (store) => {
   return result;
 };
 
+const diffStateObjects = (oldStore, newStore) => {
+  const changedValues = {};
+  for (const [k, v] of Object.entries(newStore)) {
+    if (JSON.stringify(oldStore[k]) !== JSON.stringify(v)) changedValues[k] = v;
+  }
+  return changedValues;
+}
+
 export function chromogen(creatorFunction) {
   return (set, get, api) => {
+
+    //get initial render and save it to ledger
     const initialStateEntries = creatorFunction(api.setState, get, api);
-    initialRender = filterFuncStore(initialStateEntries);
+    initialRender = filterOutFuncs(initialStateEntries);
     ledger.initialRender = initialRender;
+
+    //log if debug mode is enabled
     if (debug) console.log({ initialRender });
+
+    //return wrapped creatorFunction
     return creatorFunction(
       (...args) => {
-        const newAction = { action: args[2], before: filterFuncStore(get()) };
-        console.log(args[2]);
+        const action = args[2];
+        const oldStore = filterOutFuncs(get());
+        const funcArguments = args.slice(3);
+
         set(...args);
-        newAction['after'] = get();
+        const newStore = filterOutFuncs(get());
+        const changedValues = diffStateObjects(oldStore, newStore)
+
+        const newAction = {
+          action,
+          changedValues,
+          arguments: funcArguments
+        }
+
         ledger.transactions.push(newAction);
-        console.log(ledger);
       },
       get,
       api,
@@ -32,5 +55,3 @@ export function chromogen(creatorFunction) {
   };
 }
 
-// Get the initial value of all properties inside the store
-// Upon any change, compare before and after and add it to some sort of transaction list

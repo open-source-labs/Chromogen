@@ -33,7 +33,7 @@ const Quotes = () => {
 
   }
 
-  useEffect(() => fetchMe(), []);
+  // useEffect(() => fetchMe(), []);
 
 
 

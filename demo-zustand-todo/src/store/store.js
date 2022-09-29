@@ -1,6 +1,5 @@
 import { chromogen } from 'chromogen-zustand';
 import create from 'zustand'
-import { devtools } from 'zustand/middleware';
 
 const useToDoStore = create(chromogen((set) => ({
   todoListState: [],
@@ -17,7 +16,7 @@ const useToDoStore = create(chromogen((set) => ({
 
   quoteText: '',
 
-  changeQuoteText: (text) => set(state => ({ quoteText: text }), false, 'changeQuoteText'),
+  changeQuoteText: (text) => set(state => ({ quoteText: text }), false, 'changeQuoteText', text),
 
   quoteNumber: 0,
 
@@ -41,10 +40,9 @@ const useToDoStore = create(chromogen((set) => ({
         true
   }), false, 'setCheckBox'),
 
-  addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] }), false, 'addTodoListItem'),
+  addTodoListItem: todo => set(state => ({ todoListState: [...state.todoListState, todo] }), false, 'addTodoListItem', todo),
 
-  deleteTodoListItem: id =>
-    set(state => ({ todoListState: state.todoListState.filter(todo => todo.id !== id) }), false, 'deleteTodoListItem'),
+  deleteTodoListItem: id => set(state => ({ todoListState: state.todoListState.filter(todo => todo.id !== id) }), false, 'deleteTodoListItem', id),
 
   editItemText: (text, id) => set(state => ({
     todoListState: state.todoListState.map(todo => {
@@ -54,7 +52,7 @@ const useToDoStore = create(chromogen((set) => ({
         return todo;
       };
     })
-  }), false, 'editItemText'),
+  }), false, 'editItemText', text, id),
 
   toggleItemCompletion: id => set(state =>
   ({
@@ -65,7 +63,7 @@ const useToDoStore = create(chromogen((set) => ({
         return todo;
       };
     })
-  }), false, 'toggleItemCompletion'),
+  }), false, 'toggleItemCompletion', id),
 
   searchResultState: {
     all: {
@@ -91,8 +89,9 @@ const useToDoStore = create(chromogen((set) => ({
     let results = [...state.todoListState].filter(todo => todo.text.includes(searchTerm));
     if (priority !== 'all') results = results.filter(todo => todo.priority === priority);
     return { searchResultState: { ...state.searchResultState, [priority]: { searchTerm, results } } };
-  }, false, 'setSearchState'),
-})), {});
+  }, false, 'setSearchState', searchTerm, priority)
+
+})));
 
 
 export default useToDoStore;
