@@ -2,7 +2,8 @@
 import type { Ledger } from '../types';
 import {
   importZustandStore,
-  testInitialState
+  testInitialState,
+  testStateChangesAct
 } from './output-utils';
 
 /* eslint-enable */
@@ -14,7 +15,8 @@ export const setFilter = (selectors: string[], setters: string[]): string[] =>
 /* ----- MAIN ----- */
 export const output = ({
   initialRender,
-}: Ledger<string, any, any>): string =>
+  transactions
+}: Ledger<string, any>): string =>
   `
 import { renderHook, act } from '@testing-library/react';
 ${importZustandStore()}
@@ -23,4 +25,11 @@ describe('INITIAL RENDER', () => {
   const { result } = renderHook(useStore); 
   
   ${testInitialState(initialRender)}
+});
+
+
+describe('STATE CHANGES', () => { 
+  const { result } = renderHook(useStore);
+ 
+  ${testStateChangesAct(transactions)}
 });`
