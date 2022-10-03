@@ -67,11 +67,10 @@ export const generateFile = (setFile: Function, storeMap: Map<string, string>): 
     transactions,
   } = ledger;
 
-  const finalLedger: Ledger<any, any> =
+  const finalLedger: Ledger =
     storeMap.size > 0
       ? ({
         initialRender,
-        store: 'dummyStore',
         transactions: transactions,
       })
       : { ...ledger };

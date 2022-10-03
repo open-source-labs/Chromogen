@@ -16,8 +16,8 @@ export function testInitialState(initialRender: {}): string {
   }, '')
 }
 
-export function testStateChangesAct(transactions: Transaction[]): string {
-  let groupedTransactions: Transaction[][] = [...transactions, { action: 'DUMMY_END_OF_LIST', changedValues: {} }].reduce((acc: { groups: Transaction[][], currentGroup: Transaction[], changedValues: { [nameOfChangedValue: string]: any } }, cur) => {
+export function testStateChangesAct(transactions: Transaction<any>[]): string {
+  let groupedTransactions: Transaction<any>[][] = [...transactions, { action: 'DUMMY_END_OF_LIST', changedValues: {} }].reduce((acc: { groups: Transaction<any>[][], currentGroup: Transaction<any>[], changedValues: { [nameOfChangedValue: string]: any } }, cur) => {
     if (Object.keys(cur.changedValues).some(v => acc.changedValues[v]) || cur.action === 'DUMMY_END_OF_LIST') {
       acc.groups.push(acc.currentGroup);
       acc.currentGroup = [cur];
@@ -45,14 +45,14 @@ function testStateChangesExpect([propertyName, newValue]: [string, any]): string
   return `\nexpect(result.current.${propertyName}).toStrictEqual(${JSON.stringify(newValue)});`;
 };
 
-function generateActLine(t: Transaction): string {
+function generateActLine(t: Transaction<any>): string {
   const { action } = t;
   const args = t.arguments;
   return `\tresult.current.${action}(${args?.map(arg => JSON.stringify(arg)).join(', ')});\n`
 }
 
 
-function generateItBlock(transactions: Transaction[]): { str: string, actBlock: string } {
+function generateItBlock(transactions: Transaction<any>[]): { str: string, actBlock: string } {
   const valuesChanged: string[] = [];
   let expectBlock = '';
 

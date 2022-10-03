@@ -2,8 +2,7 @@
 import type { Ledger } from '../types';
 /* eslint-enable */
 
-export const ledger: Ledger<any, any> = {
-  store: {},
+export const ledger: Ledger = {
   initialRender: {},
   transactions: [],//get
 };

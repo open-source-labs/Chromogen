@@ -16,7 +16,7 @@ export const setFilter = (selectors: string[], setters: string[]): string[] =>
 export const output = ({
   initialRender,
   transactions
-}: Ledger<string, any>): string =>
+}: Ledger): string =>
   `
 import { renderHook, act } from '@testing-library/react';
 ${importZustandStore()}
