@@ -1,15 +1,21 @@
 // ----- EXPORTING TYPES TO BE USED IN SRC/.TSX FILES -----
 
-export interface Transaction {
+type NotAFunction = { [k: string]: unknown } & ({ bind?: never } | { call?: never });
+
+export type InitialRender = {
+  [stateParam: string]: NotAFunction;
+}
+
+export interface Transaction<T extends any[]> {
   action: string,
-  arguments?: any[],
+  arguments?: T,
   changedValues: {
-    [nameOfChangedValue: string]: any;
+    [nameOfChangedValue: string]: NotAFunction;
   }
 }
-// atoms should take RecoilState<any>[] | string[]
-export interface Ledger<T, S> {
-  store: T;
-  initialRender: S;
-  transactions: Transaction[];
+
+
+export interface Ledger {
+  initialRender: InitialRender,
+  transactions: Transaction<any>[]
 }

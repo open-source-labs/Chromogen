@@ -1,8 +1,11 @@
 import create from 'zustand';
-import { devtools } from 'zustand/middleware'
 
+interface RecordingState {
+  recording: boolean,
+  toggleRecording: () => void,
+}
 
-export const useStore = create(devtools((set) => ({
+export const useStore = create<RecordingState>((set) => ({
   recording: true,
-  toggleRecording: () => { set(state => ({ recording: !state.recording }), false, 'toggleRecording') }
-})));
+  toggleRecording: () => { set(state => ({ recording: !state.recording }), false) }
+}));
