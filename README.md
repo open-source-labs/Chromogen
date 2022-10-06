@@ -42,6 +42,10 @@
 - [License](#license)
   <Br><br />
 
+- [Zustand Support]()
+- [Installqa]
+  <Br><br />
+
 ## Overview
 
 You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is a major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
@@ -200,7 +204,7 @@ export const barState = selector({
 ```
 
 <br><Br>
-
+## RECOIL TEST SETUP
 
 Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
 
@@ -254,7 +258,7 @@ const App = () => (
 export default App;
 ```
 
-Import `chromogenZustandMiddleware`. Invoke `chromogenZustandMiddleware` immediately after create with your creator function being passed within it.  **Note**, when using chromogen, the set function requires a second argument of true or false rather than the default being set to false.  Be sure to set it to false if you don't want your state overwritten. Then, set a third argument as a string of the action name and add any additional arguments that the action takes in
+Import `chromogenZustandMiddleware`. Invoke `chromogenZustandMiddleware` immediately after create, with your creator function being passed within it.  **Note**, when using chromogen, the set function requires a second argument of true or false rather than the default being set to false.  Be sure to set it to false if you don't want your state overwritten. Then, set a third argument as a string of the action name and add any additional arguments that the action takes in
 
 ```jsx
 import { chromogenZustandMiddleware } from 'chromogen';
