@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilTransactionObserver_UNSTABLE } from 'recoil';
 import { dummyParam } from '../utils/utils';
 import { recordingState } from '../utils/store';
 import { ledger } from '../utils/ledger';
-import { styles, generateFile } from './component-utils';
+import { styles, generateFile, generateTests } from './component-utils';
 /* eslint-enable */
 
 export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = ({ store }) => {
@@ -170,6 +170,16 @@ export const ChromogenObserver: React.FC<{ store?: Array<object> | object }> = (
                 onMouseEnter={() => document.getElementById("chromogen-generate-file")!.style.color = '#f6f071'}
                 onMouseLeave={() => document.getElementById("chromogen-generate-file")!.style.color = '#90d1f0'}
               ><a>{'Download'}</a>
+              </button>
+              <button
+                aria-label="copy test"
+                id="chromogen-copy-test"
+                style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f', marginLeft: '-2px', marginRight: '13px' }}
+                type="button"
+                onClick={() => { navigator.clipboard.writeText(generateTests(storeMap)[0]) }}
+                onMouseEnter={() => document.getElementById("chromogen-copy-test")!.style.color = '#f6f071'}
+                onMouseLeave={() => document.getElementById("chromogen-copy-test")!.style.color = '#90d1f0'}
+              ><a>{'Copy To Clipboard'}</a>
               </button>
             </div>
           </div>

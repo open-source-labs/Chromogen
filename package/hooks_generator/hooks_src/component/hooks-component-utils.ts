@@ -51,33 +51,33 @@ export const hookStyles = { hooksButtonStyle, hooksDivStyle, hooksPlayStyle, hoo
 export const createPrevStateObj = (stateArrays: Array<Array<any>>): object => {
 
   const stateObj: object = {};
-  
-  for(let i = 0; i < stateArrays.length; i++){
-   if (stateArrays[i][1] !== undefined) {
-         const key = stateArrays[i][0]
-         if (key in stateObj){
-          const oldValue = stateObj[key];
-           
-          if(Array.isArray(stateArrays[i][1])){
-            oldValue.push(stateArrays[i][1][0]);
-          }
-          else{
-            oldValue.push(stateArrays[i][1]);
-          }
-            stateObj[key] = oldValue;
-            console.log('state[key]', stateObj[key])
 
-         }
+  for (let i = 0; i < stateArrays.length; i++) {
+    if (stateArrays[i][1] !== undefined) {
+      const key = stateArrays[i][0]
+      if (key in stateObj) {
+        const oldValue = stateObj[key];
+
+        if (Array.isArray(stateArrays[i][1])) {
+          oldValue.push(stateArrays[i][1][0]);
+        }
+        else {
+          oldValue.push(stateArrays[i][1]);
+        }
+        stateObj[key] = oldValue;
+        console.log('state[key]', stateObj[key])
+
+      }
       else {
-        if (!Array.isArray(stateArrays[i][1])){
+        if (!Array.isArray(stateArrays[i][1])) {
           stateObj[key] = [stateArrays[i][1]];
-        } else{
+        } else {
           stateObj[key] = stateArrays[i][1];
         }
-        }
+      }
+    }
   }
- }
- console.log('state object inside create previous state object' , stateObj)
+  console.log('state object inside create previous state object', stateObj)
   return stateObj
 }
 
@@ -87,22 +87,22 @@ type D3Obj = {
 }
 
 export const generateStateTreeObj = (stateObj: object): D3Obj => {
-  const d3Obj : D3Obj = {
+  const d3Obj: D3Obj = {
     name: 'root',
     children: []
   };
 
   //iterate through properties of our state object
   //to parse each and place in d3Obj
-  for (const property in stateObj){
-    const innerObj : D3Obj = {
+  for (const property in stateObj) {
+    const innerObj: D3Obj = {
       name: property,
       children: []
     }
 
-    for (let i= 0; i < stateObj[property].length; i++){
+    for (let i = 0; i < stateObj[property].length; i++) {
 
-      innerObj.children.push({name: `${stateObj[property][i]}`})
+      innerObj.children.push({ name: `${stateObj[property][i]}` })
     }
     d3Obj.children.push(innerObj)
   }
@@ -116,3 +116,5 @@ export const generateHooksFile = (setHooksFile: Function): any => {
   setHooksFile(URL.createObjectURL(blob));
   return [output(ledger)];
 };
+
+
