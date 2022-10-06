@@ -56,9 +56,9 @@ function generateItBlock(transactions: Transaction<any>[]): { str: string, actBl
   const valuesChanged: string[] = [];
   let expectBlock = '';
 
-  transactions.forEach(t => Object.entries(t.changedValues).forEach(pair => {
-    valuesChanged.push(pair[0]);
-    expectBlock += testStateChangesExpect(pair)
+  transactions.forEach(t => Object.entries(t.changedValues).forEach(([changedValue, newValue]) => {
+    valuesChanged.push(changedValue);
+    expectBlock += testStateChangesExpect([changedValue, newValue])
   }));
 
   let newActBlock = transactions.map(generateActLine).join('');

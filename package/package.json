@@ -1,6 +1,6 @@
 {
   "name": "chromogen-zustand",
-  "version": "3.0.51",
+  "version": "3.0.52",
   "description": "simple, interaction-driven Jest test generator for Recoil and React Hooks apps",
   "main": "build/index.js",
   "keywords": [
