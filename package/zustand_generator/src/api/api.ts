@@ -57,7 +57,7 @@ type Write<T, U> = Omit<T, keyof U> & U
 
 type WithDevtools<S> = Write<S, StoreDevtools<S>>
 
-export type NamedSet<T> = WithDevtools<StoreApi<T>>['setState']
+type NamedSet<T> = WithDevtools<StoreApi<T>>['setState']
 
 
 const chromogenImpl: ChromogenImpl = (creatorFunction) => (set, get, api) => {

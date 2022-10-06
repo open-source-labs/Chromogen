@@ -5,12 +5,7 @@ import {
   testInitialState,
   testStateChangesAct
 } from './output-utils';
-
 /* eslint-enable */
-
-/* ----- HELPERS ----- */
-export const setFilter = (selectors: string[], setters: string[]): string[] =>
-  selectors.filter((key) => !setters.includes(key));
 
 /* ----- MAIN ----- */
 export const output = ({
