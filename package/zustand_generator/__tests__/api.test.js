@@ -1,10 +1,10 @@
 import { ledger } from '../src/utils/ledger';
-import { chromogen } from '../src/api/api';
+import { chromogenZustandMiddleware } from '../src/api/api';
 import { renderHook, act } from '@testing-library/react';
 import create from 'zustand';
 
-// testing chromogen middleware
-describe('chromogen', () => {
+// testing chromogenZustandMiddleware
+describe('chromogenZustandMiddleware', () => {
     // destructuring atoms from ledger interface in utils folder
     it('is a function', () => {
         expect(typeof chromogen).toBe('function');
@@ -12,7 +12,7 @@ describe('chromogen', () => {
 
     it('should update ledger upon invocation', () => {
         // creating a mock store
-        const useStore = create(chromogen(
+        const useStore = create(chromogenZustandMiddleware(
             (set) => ({
                 count: 0,
                 increment: () => {
