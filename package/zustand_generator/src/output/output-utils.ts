@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Transaction } from '../types';
+import type { Transaction, InitialRender } from '../types';
 
 // } from '../types';
 /* eslint-enable */
@@ -10,7 +10,7 @@ export function importZustandStore(): string {
   return `import useStore from '<ADD STORE FILEPATH>';`;
 }
 
-export function testInitialState(initialRender: {}): string {
+export function testInitialState(initialRender: InitialRender): string {
   return Object.entries(initialRender).reduce((acc, [k, v]) => {
     return acc + `\tit('${k} should initialize correctly', () => {\n\t\texpect(result.current.${k}).toStrictEqual(${JSON.stringify(v)});\n\t});\n\n`
   }, '')
@@ -41,11 +41,11 @@ export function testStateChangesAct(transactions: Transaction<any>[]): string {
   }, { str: '', actStatements: '' }).str;
 
 }
-function testStateChangesExpect([propertyName, newValue]: [string, any]): string {
+export function testStateChangesExpect([propertyName, newValue]: [string, any]): string {
   return `\nexpect(result.current.${propertyName}).toStrictEqual(${JSON.stringify(newValue)});`;
 };
 
-function generateActLine(t: Transaction<any>): string {
+export function generateActLine<T extends any[]>(t: Transaction<T>): string {
   const { action } = t;
   const args = t.arguments;
   return `\tresult.current.${action}(${args?.map(arg => JSON.stringify(arg)).join(', ')});\n`
@@ -60,8 +60,6 @@ function generateItBlock(transactions: Transaction<any>[]): { str: string, actBl
     valuesChanged.push(pair[0]);
     expectBlock += testStateChangesExpect(pair)
   }));
-
-  console.log({ transactions });
 
   let newActBlock = transactions.map(generateActLine).join('');
 

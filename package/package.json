@@ -16,6 +16,7 @@
     "prepublishOnly": "npm run build",
     "build": "tsc",
     "test": "jest --verbose --coverage",
+    "ztest": "jest --verbose --coverage --testPathPattern=package/zustand_generator/__tests__/",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
