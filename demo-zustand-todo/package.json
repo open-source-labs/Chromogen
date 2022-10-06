@@ -62,7 +62,7 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.6",
     "babel-jest": "^26.3.0",
-    "chromogen-zustand": "3.0.51",
+    "chromogen-zustand": "3.0.52",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-test-renderer": "^18.1.0",
