@@ -65,7 +65,6 @@ export const createPrevStateObj = (stateArrays: Array<Array<any>>): object => {
           oldValue.push(stateArrays[i][1]);
         }
         stateObj[key] = oldValue;
-        console.log('state[key]', stateObj[key])
 
       }
       else {
@@ -77,7 +76,6 @@ export const createPrevStateObj = (stateArrays: Array<Array<any>>): object => {
       }
     }
   }
-  console.log('state object inside create previous state object', stateObj)
   return stateObj
 }
 
@@ -107,7 +105,6 @@ export const generateStateTreeObj = (stateObj: object): D3Obj => {
     d3Obj.children.push(innerObj)
   }
 
-  console.log('d3 object inside generate state tree object', d3Obj)
   return d3Obj;
 }
 

@@ -25,22 +25,19 @@ function TreeChart({ state }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
-  
+
 
   // will be called initially and on every data/state change
   useEffect(() => {
     const svg = select(svgRef.current);
     if (!dimensions) {
-      console.log('d3 tree not rendering');
-      return
+      return;
     };
 
     // transform hierarchical data/state
     const root = hierarchy(state);
-    const treeLayout = tree().size([dimensions.height, dimensions.width - 50 ]); // -> adjusting tree size according to height and width of the dimensions
+    const treeLayout = tree().size([dimensions.height, dimensions.width - 50]); // -> adjusting tree size according to height and width of the dimensions
 
-    // console.log(root.descendants()); // -> root.descendants are all the nodes of the tree
-    // console.log(root.links()); // -> all lines that link parent nodes to their children
 
     const linkGenerator = linkHorizontal()
       .x(link => link.y)
@@ -75,11 +72,11 @@ function TreeChart({ state }) {
       .attr('stroke', 'lightblue')
       .attr('d', linkGenerator /*same thing as -> linkObj => linkGenerator(linkObj)*/)
       //animation following; optional
-      .attr('stroke-dasharray', function(){
+      .attr('stroke-dasharray', function () {
         const length = this.getTotalLength();
         return `${length} ${length}`;
       })
-      .attr('stroke-dashoffset', function(){
+      .attr('stroke-dashoffset', function () {
         const length = this.getTotalLength();
         return length;
       })
@@ -97,7 +94,7 @@ function TreeChart({ state }) {
       .text(node => node.data.name)
       .attr('text-anchor', 'middle')
       .attr('x', node => node.y + 15) // -> make it dynamic, coordinate with 'cx' svg to center label to each node
-      .attr('y', node => node.x) 
+      .attr('y', node => node.x)
       // animation following
       .attr('opacity', 0)
       .transition()

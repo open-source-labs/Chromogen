@@ -25,7 +25,7 @@ interface StoreReducerAction {
 }
 
 // Export hooksChromogenObserver
-export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
+export const HooksChromogenObserver: React.FC<StateInspectorProps> = function ({
   initialState = [],
   children,
 }) {
@@ -42,7 +42,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
     switch (message.data.action) {
       case 'connectChromogen':
         setDevtool(true);
-        console.log('inside connectChromogen in HooksChromogenObserver devtool is:', devtool)
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':
@@ -79,10 +78,8 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       .filter((key) => key !== keyToRemove)
       .reduce<Record<string, any>>((acc, key) => {
         acc[key] = obj[key];
-        console.log('obj', obj);
-        console.log('key', key)
         return acc;
-  }, {});
+      }, {});
 
   const store = useMemo<EnhancedStore | undefined>(() => {
     if (typeof window === 'undefined') {
@@ -99,7 +96,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
       // Object.keys(registeredReducers)) returns an array with reducer id strings as entries
       // all properties of state object will be updated by reducer
-      const result =  Object.keys(registeredReducers).reduce((acc, reducerId) => {
+      const result = Object.keys(registeredReducers).reduce((acc, reducerId) => {
         const reducer = registeredReducers[reducerId];
         const reducerState = state[reducerId];
 
@@ -108,7 +105,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
         if (isForCurrentReducer) {
           //adding 2d array to previousState in ledger to keep track of each reducerId and its associated state change
-          const arr:any[] = [];
+          const arr: any[] = [];
           arr[0] = reducerId;
           arr[1] = acc[reducerId];
           hooksLedger.previousState.push(arr);
@@ -124,7 +121,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
       }, currentState)
 
       // store reducer will send any state changes to dev tool
-      
+
       const newStateObj = prevStateObj(hooksLedger.previousState);
       const newStateTreeObj = stateTreeObj(newStateObj);
 
@@ -133,7 +130,7 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
 
       return result;
     }; // end storeReducer
-    
+
     const store: EnhancedStore = createStore(storeReducer, initialState);
 
     store.registerHookedReducer = (reducer, initialState, reducerId) => {
@@ -161,16 +158,15 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function({
     store && store.dispatch({ type: 'REINSPECT/@@INIT', payload: {} });
   }, []);
 
-const [pauseColor, setPauseColor] = useState('#90d1f0');
-const pauseBorderStyle = {
-  borderColor: `${pauseColor}`,
-};
+  const [pauseColor, setPauseColor] = useState('#90d1f0');
+  const pauseBorderStyle = {
+    borderColor: `${pauseColor}`,
+  };
 
-const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0')
-const playBorderStyle = {
-  borderColor: `${playColor}`,
-};
-console.log('dev tool', devtool)
+  const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0')
+  const playBorderStyle = {
+    borderColor: `${playColor}`,
+  };
   // User imports hooksChromogenObserver to their app
   return (
     <>
@@ -192,10 +188,10 @@ console.log('dev tool', devtool)
               onMouseEnter={() => recording ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
               onMouseLeave={() => recording ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}
             >
-              <a>{recording ? 
-                <div style={{...styles.hooksPauseStyle, ...pauseBorderStyle}}></div>
-                 : <div style={{...styles.hooksPlayStyle, ...playBorderStyle}}></div>
-                 }</a>
+              <a>{recording ?
+                <div style={{ ...styles.hooksPauseStyle, ...pauseBorderStyle }}></div>
+                : <div style={{ ...styles.hooksPlayStyle, ...playBorderStyle }}></div>
+              }</a>
             </button>
             <button
               aria-label="capture test"
@@ -209,11 +205,11 @@ console.log('dev tool', devtool)
               <a>{'Download'}</a>
             </button>
           </div>
-         </ObserverContext.Provider> 
+        </ObserverContext.Provider>
       )}
       <a
         download="chromogen-hooks.test.js"
-        href={file} 
+        href={file}
         id="chromogen-hooks-download"
         style={{ display: 'none' }}
       >
