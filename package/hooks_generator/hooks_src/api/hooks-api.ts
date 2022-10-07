@@ -34,7 +34,7 @@ export const useState = <S>(initialState: S | (() => S), id: string | number) =>
     () => (typeof initialState === 'function' ? (initialState as () => S)() : initialState),
     [],
   );
-  
+
   return useHookedReducer<S, any>(
     stateReducer,
     finalInitialState,

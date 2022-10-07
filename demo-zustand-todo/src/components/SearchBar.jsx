@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import useToDoStore from '../store/store'
-import shallow from 'zustand/shallow'
+import useToDoStore from '../store/store';
+import shallow from 'zustand/shallow';
 
 import ReadOnlyTodoItem from './ReadOnlyTodoItem';
 
 const selector = (state) => ({
   searchResultState: state.searchResultState,
-  setSearchState: state.setSearchState
-})
+  setSearchState: state.setSearchState,
+});
 
 const SearchBar = () => {
   const [searchFilter, setSearchFilter] = useState('all');
   const [searchText, setSearchText] = useState('');
-  const { searchResultState, setSearchState } = useToDoStore(selector, shallow)
+  const { searchResultState, setSearchState } = useToDoStore(selector, shallow);
   const searchResults = searchResultState[searchFilter];
 
   const onSearchTextChange = (e) => {

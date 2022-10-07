@@ -1,8 +1,6 @@
 import React from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import '../styles/styles.css';
-// import { todoListState } from '../store/atoms';
-// import { useRecoilValue } from 'recoil';
 import useToDoStore from '../store/store';
 
 const ReadOnlyTodoItem = ({ item }) => {

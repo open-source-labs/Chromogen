@@ -5,28 +5,38 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import useToDoStore from '../store/store';
 import shallow from 'zustand/shallow';
 
-const selector = state => ({
+const selector = (state) => ({
   todoListFilterState: state.todoListFilterState,
   todoListState: state.todoListState,
   resetFiltersAndSorted: state.resetFiltersAndSorted,
   todoListSortState: state.todoListSortState,
   toggleSort: state.toggleSort,
   setFilter: state.setFilter,
-})
+});
 
 const TodoListFilters = () => {
-  const { todoListFilterState, todoListState, resetFiltersAndSorted, todoListSortState, toggleSort, setFilter } = useToDoStore(selector, shallow);
+  const {
+    todoListFilterState,
+    todoListState,
+    resetFiltersAndSorted,
+    todoListSortState,
+    toggleSort,
+    setFilter,
+  } = useToDoStore(selector, shallow);
+
   // // selector - grabs totals for each category
   const { high, medium, low } = todoListState.reduce((acc, cur) => {
     acc[cur.priority] = (acc[cur.priority] ?? 0) + 1;
     return acc;
   }, {});
+
   // // toggle priority stats display
   const [displayStats, setDisplayStats] = useState(false);
+
   // // selector - totals for each filter
   const totalNum = todoListState.length;
-  const totalCompletedNum = todoListState.filter(todo => todo.isComplete).length;
-  const totalUncompletedNum = todoListState.filter(todo => !todo.isComplete).length
+  const totalCompletedNum = todoListState.filter((todo) => todo.isComplete).length;
+  const totalUncompletedNum = todoListState.filter((todo) => !todo.isComplete).length;
 
   const updateFilter = ({ target: { value } }) => setFilter(value);
 

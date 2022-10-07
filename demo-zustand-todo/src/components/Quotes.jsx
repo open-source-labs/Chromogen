@@ -5,19 +5,13 @@ import { useEffect } from 'react';
 
 const selector = (state) => ({
   changeQuoteText: state.changeQuoteText,
-  quoteText: state.quoteText
+  quoteText: state.quoteText,
 });
 
-
-
 const Quotes = () => {
-  const { changeQuoteText, quoteText } = useToDoStore(
-    selector,
-    shallow,
-  );
+  const { changeQuoteText, quoteText } = useToDoStore(selector, shallow);
 
   const fetchMe = () => {
-
     let randomNum = Math.floor(Math.random() * 1643);
 
     fetch('https://type.fit/api/quotes')
@@ -30,16 +24,9 @@ const Quotes = () => {
         console.error(err);
         return 'No quote available';
       });
-
-  }
+  };
 
   useEffect(() => fetchMe(), []);
-
-
-
-  // const setQuoteNumber = useToDoStore(selector, shallow,);
-  // const quoteText = useRecoilValue(quoteTextState);
-  // const xkcdURL = useRecoilValue(xkcdState);
 
   return (
     <>
@@ -49,7 +36,6 @@ const Quotes = () => {
           New Quote
         </button>
       </div>
-      {/* <img alt="xkcd" src={xkcdURL} /> */}
     </>
   );
 };
