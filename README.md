@@ -9,7 +9,7 @@
   />
 </a>
 
-<h3>A UI-driven test-generation package for <a href="https://github.com/facebookexperimental/Recoil">Recoil.js</a> selectors and <a href="https://github.com/facebook/react">React</a> useState Hooks.</h3>
+<h3>A UI-driven test-generation package for <a href= https://github.com/pmndrs/zustand> Zustand</a> Stores, <a href="https://github.com/facebookexperimental/Recoil">Recoil.js</a> selectors, and <a href="https://github.com/facebook/react">React</a> useState Hooks.</h3>
 
 <br />
 
@@ -32,31 +32,45 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Usage for All Apps](#usage-for-all-apps)
+- [Installation for Zustand Apps](#installation-for-zustand-apps)
+- [Zustand Test Setup](#zustand-test-setup)
 - [Installation for Recoil Apps](#installation-for-recoil-apps)
-- [Usage for Recoil Apps](#usage-for-recoil-apps)
+- [Recoil Test Setup](#recoil-test-setup)
 - [Installation for Hooks Apps](#installation-for-hooks-apps)
-- [Usage for Hooks Apps](#usage-for-hooks-apps)
 - [New and Improved Chrome DevTool](<#new-and-improved-chrome-devtool>)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
 - [License](#license)
   <Br><br />
 
-- [Zustand Support]()
-- [Installqa]
-  <Br><br />
 
 ## Overview
 
-You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is a major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
+You're an independent developer or part of a lean team. You want reliable unit tests for your new Zustand, React-Recoil, or React Hooks app, but you need to move fast and time is a major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
+<br><Br>
 
-[Enter Chromogen 4.0 ](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors, Zustand create function, and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
+
+[Enter Chromogen 4.0](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Zustand Stores, Recoil selectors, and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file. Alternatively, you can utilize our `Copy To Clip Board` button to grab all of the generated test code.
 
 ### Chromogen is currently in active Beta
   
 ### Chromogen is now compatible with React V18!
 
 <br><Br>
+<b>FOR ZUSTAND APPS</b>
+
+Chromogen currently supports two types of testing for Zustand applications:
+
+1. **Initial Store State** on page load.
+2. **Store State Changes** whenever an action is invoked throughout your application.
+
+On initial render, Chromogen captures store state as a whole and keeps track of any subsequent state changes.  As part of producing tests, additional parameters are needed when setting up your actions/reducers in order to keep track of passed in arguments.  
+
+Importing ChromogenObserver and rendering it in your App component is necessary in order to download your unit tests
+
+<br><Br>
+<hr>
 <b>FOR RECOIL APPS</b>
 
 Chromogen currently supports three main types of tests for Recoil apps:
@@ -70,20 +84,6 @@ These test suites will be captured for _synchronous_ selectors and selectorFamil
 At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime.
 
 By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the ChromogenObserver component as a `store` prop. The installation instructions below contain further details.
-
-
-<br><Br>
-<hr>
-<b>FOR ZUSTAND APPS</b>
-
-Chromogen currently supports two types of testing for Zustand applications:
-
-1. **Initial Store State** on page load.
-2. **Store State Changes** whenever an action is invoked throughout your application.
-
-On initial render, Chromogen captures store state as a whole and keeps track of any subsequent state changes.  As part of producing tests, additional parameters are needed when setting up your actions/reducers in order to keep track of passed in arguments.  
-
-Importing ChromogenObserver and rendering it in your App component is necessary in order to download your unit tests
 
 <br><Br>
 <hr>
@@ -100,16 +100,17 @@ Currently, these test suites will be captured only for the useState Hook. We are
 We are always open to suggestions to meet the needs of our userbase. Want to see this or any other feature added to the package? [Let us know!](#contributing)
 
 <br><Br>
-<b>**Note** USAGE FOR ALL APPS</b>
+
+### USAGE FOR ALL APPS
 After following the installation steps above, launch your application as normal. You should see two buttons in the bottom left corner.
 
 <div align="center">
 
-![Buttons](./assets/README-root/chromogen3.gif)
+![Buttons](./assets/README-root/demo-zustand1.gif)
 
 </div>
 
-The pause button on the left is the **pause recording** button.![](https://file%2B.vscode-resource.vscode-cdn.net/Users/yuehaowong/Chromogen/assets/README-root/chromogen3.gif) Clicking it will pause recording, so that no tests are generated during subsequent state changes. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
+The pause button on the left is the **pause recording** button. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
 
 The button in the middle is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
 
@@ -204,7 +205,8 @@ export const barState = selector({
 ```
 
 <br><Br>
-## RECOIL TEST SETUP
+
+### RECOIL TEST SETUP
 
 Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
 
@@ -212,7 +214,6 @@ Before running the test file, you'll need to specify the import path for your st
 | :-----------------------------------------------------------: | :----------------------------------------------------------: |
 | ![Default Filepath](./assets/README-root/filepath-before.png) | ![Updated Filepath](./assets/README-root/filepath-after.png) |
 
-You're now ready to run your tests! Upon running your normal Jest test command, you should see three suites for `chromogen.test.js`:
 
 <div align="center">
 
@@ -227,7 +228,7 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 <br><br><Br>
 
-## Installation for Zustand Apps
+### Installation for Zustand Apps
 Before using Chromogen, you'll need to make two changes to your application:
 
 1. Import the `<ChromogenZustandObserver />` component and render it alongside any other components in `<App />`
@@ -275,6 +276,22 @@ const useStore = create(chromogenZustandMiddleware((set) => {
 
 export default App;
 ```
+
+
+### ZUSTAND TEST SETUP
+
+Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
+
+|                          **BEFORE**                           |                          **AFTER**                           |
+| :-----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![Default Filepath](./assets/README-root/filepath-before.png) | ![Updated Filepath](./assets/README-root/filepath-after.png) |
+
+
+<div align="center">
+
+![Test Output](./assets/README-root/test-output.png)
+
+</div>
 
 <br><br><Br>
 ## Installation for Hooks Apps

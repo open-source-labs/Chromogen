@@ -15,7 +15,7 @@ const selector = (state) => ({
 const TodoQuickCheck = () => {
   const { setAllComplete, checkBox, setCheckBox } = useToDoStore(selector, shallow);
 
-  // useEffect(() => setCheckBox());
+  useEffect(() => setCheckBox());
 
   return (
     <div id="quickCheck">
