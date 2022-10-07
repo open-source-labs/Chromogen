@@ -130,8 +130,7 @@ The current tests check whether state has changed after an interaction and check
 ```
 npm install chromogen
 ```
-
-<br><Br>
+<br>
 
 ### Installation for Zustand Apps
 Before using Chromogen, you'll need to make two changes to your application:
@@ -176,7 +175,7 @@ const useStore = create(chromogenZustandMiddleware((set) => {
 export default useStore;
 ```
 
-
+<br>
 ### ZUSTAND TEST SETUP
 
 Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all stores are imported from a single path; if that's not possible, you'll need to separately import each set of stores from their appropriate path.
@@ -192,7 +191,8 @@ Before running the test file, you'll need to specify the import path for your st
 
 </div>
 
-<br><Br>
+<br>
+
 ### Recoil Demo To-Do App
 
 Chromogen's [official Recoil demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
@@ -265,7 +265,27 @@ export const barState = selector({
 });
 ```
 
-<br><br><Br>
+Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
+
+|                          **BEFORE**                           |                          **AFTER**                           |
+| :-----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![Default Filepath](./assets/README-root/filepath-before.png) | ![Updated Filepath](./assets/README-root/filepath-after.png) |
+
+You're now ready to run your tests! Upon running your normal Jest test command, you should see three suites for `chromogen.test.js`:
+
+<div align="center">
+
+![Test Output](./assets/README-root/test-output.png)
+
+</div>
+
+**Initial Render** tests whether each selector returns the correct value at launch. There is one test per selector.
+
+**Selectors** tests the return value of various selectors for a given state. Each test represents the app state after a transaction has occured, generally triggered by some user interaction. For each selector that ran after that transaction, the test asserts on the selector's return value for the given state.
+
+**Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
+
+<br><br>
 
 ### Installation for Hooks Apps
 
