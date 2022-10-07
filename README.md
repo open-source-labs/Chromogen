@@ -51,9 +51,7 @@ You're an independent developer or part of a lean team. You want reliable unit t
 <br><Br>
 
 
-[Enter Chromogen 4.0](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Zustand Stores, Recoil selectors, and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file. Alternatively, you can utilize our `Copy To Clip Board` button to grab all of the generated test code.
-
-### Chromogen is currently in active Beta
+[Enter Chromogen - Now on version 4.0](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Zustand Stores, Recoil selectors, and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file. Alternatively, you can copy the generated tests straight to your clipboard.
   
 ### Chromogen is now compatible with React V18!
 
@@ -63,9 +61,9 @@ You're an independent developer or part of a lean team. You want reliable unit t
 Chromogen currently supports two types of testing for Zustand applications:
 
 1. **Initial Store State** on page load.
-2. **Store State Changes** whenever an action is invoked throughout your application.
+2. **Store State Changes** whenever an action is invoked on the store.
 
-On initial render, Chromogen captures store state as a whole and keeps track of any subsequent state changes.  As part of producing tests, additional parameters are needed when setting up your actions/reducers in order to keep track of passed in arguments.  
+On initial render, Chromogen captures store state as a whole and keeps track of any subsequent state changes.  In order to generate tests, you'll need to make some changes to how your store is created.
 
 Importing ChromogenObserver and rendering it in your App component is necessary in order to download your unit tests
 
@@ -136,7 +134,7 @@ npm install chromogen
 Before using Chromogen, you'll need to make two changes to your application:
 
 1. Import the `<ChromogenZustandObserver />` component and render it alongside any other components in `<App />`
-2. Import `chromogen` function from Chromogen. This will be used as middleware when setting up your store.
+2. Import `chromogenZustandMiddleware` function from Chromogen. This will be used as middleware when setting up your store.
 
 ### Import the ChromogenZustandObserver component
 
@@ -157,7 +155,10 @@ const App = () => (
 export default App;
 ```
 
-Import `chromogenZustandMiddleware`. Invoke `chromogenZustandMiddleware` immediately after create, with your creator function being passed within it.  **Note**, when using chromogen, the set function requires a second argument of true or false rather than the default being set to false.  Be sure to set it to false if you don't want your state overwritten. Then, set a third argument as a string of the action name and add any additional arguments that the action takes in
+Import `chromogenZustandMiddleware`. When you call create, wrap your store function with chromogenZustandMiddleware.  **Note**, when using chromogenZustandMiddleware, you'll need to provide some additional arguments into the set function.
+1. *Overwrite State* (boolean) - Without middleware, this defaults to `false`, but you'll need to explicitly provide a value when using Chromogen.
+2. *Action Name* - Used for test generation
+3. *Action Parameters* - If the action requires input parameters, pass these in after the Action Name.
 
 ```jsx
 import { chromogenZustandMiddleware } from 'chromogen';
@@ -331,11 +332,11 @@ const App: React.FC = () => {
 
 <br><br>
 
-## New and Improved Chrome DevTool!
+## Chrome DevTool!
 
 [Install Chromogen DevTool Extension V3.0.0](https://chrome.google.com/webstore/detail/chromogen-developer-tool/ehhlabbajneoafjedaaogkmpeaclepdl)
 
-DevTool V3.0.0 now shows a _**dynamic D3 state tree**_ responsive to user interaction with application! Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
+The Chromogen DevTool shows a _**dynamic D3 state tree**_ responsive to user interaction with application! Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
   
 <div align="center">
 
