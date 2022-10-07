@@ -7,7 +7,7 @@ import create from 'zustand';
 describe('chromogenZustandMiddleware', () => {
     // destructuring atoms from ledger interface in utils folder
     it('is a function', () => {
-        expect(typeof chromogen).toBe('function');
+        expect(typeof chromogenZustandMiddleware).toBe('function');
     });
 
     it('should update ledger upon invocation', () => {
