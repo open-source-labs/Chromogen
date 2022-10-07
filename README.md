@@ -98,8 +98,8 @@ Currently, these test suites will be captured only for the useState Hook. We are
 <br><Br>
 
 We are always open to suggestions to meet the needs of our userbase. Want to see this or any other feature added to the package? [Let us know!](#contributing)
-
 <br><Br>
+<hr>
 
 ### USAGE FOR ALL APPS
 After following the installation steps above, launch your application as normal. You should see two buttons in the bottom left corner.
@@ -114,21 +114,88 @@ The pause button on the left is the **pause recording** button. Clicking it will
 
 The button in the middle is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
 
-The button on the right is the **copy** button. Clicking it will copy your tests, including _all_ tests generated since the app was last launched or refreshed.
+The button on the right is the **copy-to-clipboard** button. Clicking it will copy your tests, including _all_ tests generated since the app was last launched or refreshed.
 
-Once you've recorded all the interactions you want to test, click the pause button and then the download button to generate the test file or press copy to copy to your clipboard. You can now drag-and-drop the downloaded file into your app's test directory or paste the code in your new file.
+Once you've recorded all the interactions you want to test, click the pause button and then the download button to generate the test file or press copy to copy to your clipboard. You can now drag-and-drop the downloaded file into your app's test directory or paste the code in your new file. **Don't forget to add the source path in your test file**
 
 You're now ready to run your tests! After running your normal Jest test command, you should see a test suite for `chromogen.test.js`.
 
 The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
 
 <hr>
+<Br>
+
+### Download the Chromogen package from npm
+
+```
+npm install chromogen
+```
+
+<br><Br>
+
+### Installation for Zustand Apps
+Before using Chromogen, you'll need to make two changes to your application:
+
+1. Import the `<ChromogenZustandObserver />` component and render it alongside any other components in `<App />`
+2. Import `chromogen` function from Chromogen. This will be used as middleware when setting up your store.
+
+### Import the ChromogenZustandObserver component
+
+Import `ChromogenZustandObserver`. ChromogenZustandObserver can be rendered alongside any other components in `<App />`.
+
+```jsx
+import React from 'react';
+import { ChromogenZustandObserver } from 'chromogen';
+import TodoList from './TodoList';
+
+const App = () => (
+    <>
+        <ChromogenZustandObserver />
+        <TodoList />
+    </>
+);
+
+export default App;
+```
+
+Import `chromogenZustandMiddleware`. Invoke `chromogenZustandMiddleware` immediately after create, with your creator function being passed within it.  **Note**, when using chromogen, the set function requires a second argument of true or false rather than the default being set to false.  Be sure to set it to false if you don't want your state overwritten. Then, set a third argument as a string of the action name and add any additional arguments that the action takes in
+
+```jsx
+import { chromogenZustandMiddleware } from 'chromogen';
+import create from 'zustand'
+
+const useStore = create(chromogenZustandMiddleware((set) => {
+  counter: 0,
+  color: 'black',
+  prioritizeTask: ['walking', 5],
+  addCounter: () => set(() => {counter: counter += 1}, false, 'addCounter'),
+  changeColor: (newColor) => set(() => {color: newColor}, false, 'changeColor', newColor),
+  setTaskPriority: (task, priority) => set(() => {prioritizeTask: [task, priority]}, false, 'setTaskPriority', task, priority)
+}))
+
+export default useStore;
+```
+
+
+### ZUSTAND TEST SETUP
+
+Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all stores are imported from a single path; if that's not possible, you'll need to separately import each set of stores from their appropriate path.
+
+|                          **BEFORE**                           |                          **AFTER**                           |
+| :-----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![Default Filepath](./assets/README-root/zustand-test-filepath-1.png) | ![Updated Filepath](./assets/README-root/zustand-test-filepath-2.png) |
+
+
+<div align="center">
+
+![Test Output](./assets/README-root/zustand-test-snapshot-2.png)
+
+</div>
+
 <br><Br>
 ### Recoil Demo To-Do App
 
 Chromogen's [official Recoil demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
-
-<Br>
 
 ## Installation for Recoil Apps
 
@@ -138,12 +205,6 @@ Before running Chromogen, you'll need to make two changes to your application:
 1. Import the `atom` and `selector` functions from Chromogen instead of Recoil
 
 <i>Note: These changes do have a small performance cost, so they should be reverted before deploying to production.</i>
-
-### Download the Chromogen package from npm
-
-```
-npm install chromogen
-```
 
 ### Import the ChromogenObserver component
 
@@ -204,108 +265,14 @@ export const barState = selector({
 });
 ```
 
-<br><Br>
-
-### RECOIL TEST SETUP
-
-Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
-
-|                          **BEFORE**                           |                          **AFTER**                           |
-| :-----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![Default Filepath](./assets/README-root/filepath-before.png) | ![Updated Filepath](./assets/README-root/filepath-after.png) |
-
-
-<div align="center">
-
-![Test Output](./assets/README-root/test-output.png)
-
-</div>
-
-**Initial Render** tests whether each selector returns the correct value at launch. There is one test per selector.
-
-**Selectors** tests the return value of various selectors for a given state. Each test represents the app state after a transaction has occured, generally triggered by some user interaction. For each selector that ran after that transaction, the test asserts on the selector's return value for the given state.
-
-**Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 <br><br><Br>
 
-### Installation for Zustand Apps
-Before using Chromogen, you'll need to make two changes to your application:
-
-1. Import the `<ChromogenZustandObserver />` component and render it alongside any other components in `<App />`
-2. Import `chromogen` function from Chromogen. This will be used as middleware when setting up your store.
-
-### Download the Chromogen package from npm
-
-```
-npm install chromogen
-```
-
-### Import the ChromogenZustandObserver component
-
-Import `ChromogenZustandObserver`. ChromogenZustandObserver can be rendered alongside any other components in `<App />`.
-
-```jsx
-import React from 'react';
-import { ChromogenZustandObserver } from 'chromogen-zustand';
-import TodoList from './TodoList';
-
-const App = () => (
-    <>
-        <ChromogenZustandObserver />
-        <TodoList />
-    </>
-);
-
-export default App;
-```
-
-Import `chromogenZustandMiddleware`. Invoke `chromogenZustandMiddleware` immediately after create, with your creator function being passed within it.  **Note**, when using chromogen, the set function requires a second argument of true or false rather than the default being set to false.  Be sure to set it to false if you don't want your state overwritten. Then, set a third argument as a string of the action name and add any additional arguments that the action takes in
-
-```jsx
-import { chromogenZustandMiddleware } from 'chromogen';
-import create from 'zustand'
-
-const useStore = create(chromogenZustandMiddleware((set) => {
-  counter: 0,
-  color: 'black',
-  prioritizeTask: ['walking', 5],
-  addCounter: () => set(() => {counter: counter += 1}, false, 'addCounter'),
-  changeColor: (newColor) => set(() => {color: newColor}, false, 'changeColor', newColor),
-  setTaskPriority: (task, priority) => set(() => {prioritizeTask: [task, priority]}, false, 'setTaskPriority', task, priority)
-}))
-
-export default App;
-```
-
-
-### ZUSTAND TEST SETUP
-
-Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
-
-|                          **BEFORE**                           |                          **AFTER**                           |
-| :-----------------------------------------------------------: | :----------------------------------------------------------: |
-| ![Default Filepath](./assets/README-root/filepath-before.png) | ![Updated Filepath](./assets/README-root/filepath-after.png) |
-
-
-<div align="center">
-
-![Test Output](./assets/README-root/test-output.png)
-
-</div>
-
-<br><br><Br>
-## Installation for Hooks Apps
+### Installation for Hooks Apps
 
 Before using Chromogen, you'll need to make two changes to your application:
 
 1. Import the `<HooksChromogenObserver />` component and wrap it around the parent most `<App />`
 2. Import `useState` function from Chromogen instead of React. Chromogen has engineered `useState` to track state changes.
-
-### Download the Chromogen package from npm
-
-```
-npm install chromogen
-```
 
 ### Import the HooksChromogenObserver component
 
