@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
 
 const TextBox: React.FC<{ test: string }> = ({ test }) => {
-  
   useEffect(() => {
     const editBox = document.getElementById('editBoxPost') as HTMLInputElement;
     if (editBox) editBox.value = test;
@@ -38,8 +37,7 @@ const TextBox: React.FC<{ test: string }> = ({ test }) => {
     <div id="textBox">
       <div id="label">Tests</div>
       <div id="textBoxEdit">
-        <textarea id='editBoxPost' defaultValue={'here is where we need to read file'}
-        ></textarea>
+        <textarea id="editBoxPost" defaultValue={'here is where we need to read file'}></textarea>
       </div>
     </div>
   );

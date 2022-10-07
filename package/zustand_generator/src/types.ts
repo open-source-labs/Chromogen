@@ -4,18 +4,17 @@ type NotAFunction = { [k: string]: unknown } & ({ bind?: never } | { call?: neve
 
 export type InitialRender = {
   [stateParam: string]: NotAFunction;
-}
+};
 
 export interface Transaction<T extends any[]> {
-  action: string,
-  arguments?: T,
+  action: string;
+  arguments?: T;
   changedValues: {
     [nameOfChangedValue: string]: NotAFunction;
-  }
+  };
 }
 
-
 export interface Ledger {
-  initialRender: InitialRender,
-  transactions: Transaction<any>[]
+  initialRender: InitialRender;
+  transactions: Transaction<any>[];
 }

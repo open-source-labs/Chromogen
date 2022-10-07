@@ -30,7 +30,7 @@ const App: React.FC = () => {
       }
       if (message.action === 'editFileReceived') {
         if (message.data) {
-          console.log('this is app.tsx and message is', message)
+          console.log('this is app.tsx and message is', message);
           setFileReceived(true);
           const testAsArray = message.data;
           const blob = new Blob(testAsArray);
@@ -40,10 +40,10 @@ const App: React.FC = () => {
           const readFile = blobreader.addEventListener('loadend', function () {
             setTest(String(blobreader.result));
             return blobreader.result;
-          })
+          });
         }
       }
-      if (message.action === 'stateChange'){
+      if (message.action === 'stateChange') {
         setStateChange(message.stateObj);
       }
     });
@@ -54,8 +54,8 @@ const App: React.FC = () => {
     <div className="App">
       <div id="header">chromogen</div>
       <Recorder status={status} />
-      <StateTree state={stateChange}/>
-      <TextBox test={test}/>
+      <StateTree state={stateChange} />
+      <TextBox test={test} />
     </div>
   ) : (
     // Otherwise, render 'please install' message along with Github Icon
@@ -63,11 +63,10 @@ const App: React.FC = () => {
       <div />
 
       <div id="installMessage">
-
         <div>Please </div>
         <code>npm install chromogen </code>
         <div>in your app before using this extension. </div>
-            <span>github.com/oslabs-beta/Chromogen</span>
+        <span>github.com/oslabs-beta/Chromogen</span>
       </div>
 
       <div />

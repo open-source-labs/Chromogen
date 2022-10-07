@@ -46,7 +46,7 @@ chrome.runtime.onMessage.addListener((message: Message, sender) => {
       connections[tabId].postMessage({
         action: message.action,
         stateObj: message.stateObj,
-        data: message.data
+        data: message.data,
       });
     }
   }

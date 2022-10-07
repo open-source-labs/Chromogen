@@ -1,24 +1,24 @@
 import { ledger } from '../utils/ledger';
 import { Transaction, InitialRender } from '../types';
-import { StoreApi, State, StateCreator, StoreMutatorIdentifier } from 'zustand';
+import { StoreApi, StateCreator, StoreMutatorIdentifier } from 'zustand';
 
 type Chromogen = <
-  T extends State,
+  T extends unknown,
   Mps extends [StoreMutatorIdentifier, unknown][] = [],
-  Mcs extends [StoreMutatorIdentifier, unknown][] = []
-  >(
-  creatorFunction: StateCreator<T, Mps, Mcs>
-) => StateCreator<T, Mps, Mcs>
+  Mcs extends [StoreMutatorIdentifier, unknown][] = [],
+>(
+  creatorFunction: StateCreator<T, Mps, Mcs>,
+) => StateCreator<T, Mps, Mcs>;
 
-type ChromogenImpl = <T extends State>(
-  creatorFunction: PopArgument<StateCreator<T, [], []>>
-) => PopArgument<StateCreator<T, [], []>>
+type ChromogenImpl = <T extends unknown>(
+  creatorFunction: PopArgument<StateCreator<T, [], []>>,
+) => PopArgument<StateCreator<T, [], []>>;
 
 type PopArgument<T extends (...a: never[]) => unknown> = T extends (
   ...a: [...infer A, infer _]
 ) => infer R
   ? (...a: A) => R
-  : never
+  : never;
 
 type TakeTwo<T> = T extends []
   ? [undefined, undefined]
@@ -38,51 +38,46 @@ type TakeTwo<T> = T extends []
   ? [A0, A1?]
   : T extends [(infer A0)?, (infer A1)?, ...unknown[]]
   ? [A0?, A1?]
-  : never
-
+  : never;
 
 type StoreDevtools<S> = S extends {
-  setState: (...a: infer Sa) => infer Sr
+  setState: (...a: infer Sa) => infer Sr;
 }
   ? {
-    setState<A extends string | { type: unknown }>(
-      ...a: [...a: TakeTwo<Sa>, action?: A]
-    ): Sr
-  }
-  : never
+      setState<A extends string | { type: unknown }>(...a: [...a: TakeTwo<Sa>, action?: A]): Sr;
+    }
+  : never;
 
-type Write<T, U> = Omit<T, keyof U> & U
+type Write<T, U> = Omit<T, keyof U> & U;
 
-type WithDevtools<S> = Write<S, StoreDevtools<S>>
+type WithDevtools<S> = Write<S, StoreDevtools<S>>;
 
-type NamedSet<T> = WithDevtools<StoreApi<T>>['setState']
-
+type NamedSet<T> = WithDevtools<StoreApi<T>>['setState'];
 
 const chromogenImpl: ChromogenImpl = (creatorFunction) => (set, get, api) => {
-
   //get initial render and save it to ledger
   const initialStateEntries = creatorFunction(api.setState, get, api);
   const initialRender: InitialRender = filterOutFuncs(initialStateEntries);
   ledger.initialRender = initialRender;
 
-  type S = ReturnType<typeof creatorFunction>
+  type S = ReturnType<typeof creatorFunction>;
   (api.setState as NamedSet<S>) = (partial, replace, action, ...args) => {
     const oldStore = filterOutFuncs(get());
     const r = set(partial, replace);
     const newStore = filterOutFuncs(get());
-    const changedValues = diffStateObjects(oldStore, newStore)
+    const changedValues = diffStateObjects(oldStore, newStore);
 
     const newAction: Transaction<typeof args> = {
       action: typeof action === 'string' ? action : 'UnknownAction',
       changedValues,
       arguments: args,
-    }
+    };
 
     ledger.transactions.push(newAction);
     return r;
-  }
-  return creatorFunction(api.setState, get, api)
-}
+  };
+  return creatorFunction(api.setState, get, api);
+};
 
 export const chromogenZustandMiddleware = chromogenImpl as unknown as Chromogen;
 
@@ -100,5 +95,4 @@ const diffStateObjects = (oldStore, newStore) => {
     if (JSON.stringify(oldStore[k]) !== JSON.stringify(v)) changedValues[k] = v;
   }
   return changedValues;
-}
-
+};
