@@ -89,7 +89,7 @@ const chromogenImpl: ChromogenImpl = (creatorFunction) => (set, get, api) => {
   return creatorFunction(api.setState, get, api)
 }
 
-export const chromogen = chromogenImpl as unknown as Chromogen;
+export const chromogenZustandMiddleware = chromogenImpl as unknown as Chromogen;
 
 const filterOutFuncs = (store) => {
   const result = {};
