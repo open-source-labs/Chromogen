@@ -19,7 +19,6 @@ export const ChromogenZustandObserver: React.FC<{ store?: object }> = ({ store }
   const [devtool, setDevtool] = useState<boolean>(false);
   const [, setEditFile] = useState<undefined | string>(undefined);
 
-  console.log({ recording })
   // DevTool message handling
   const receiveMessage = (message: any) => {
     switch (message.data.action) {

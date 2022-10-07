@@ -2,13 +2,11 @@ import { ledger } from '../utils/ledger';
 import { Transaction, InitialRender } from '../types';
 import { StoreApi, State, StateCreator, StoreMutatorIdentifier } from 'zustand';
 
-const debug = true;
-
 type Chromogen = <
   T extends State,
   Mps extends [StoreMutatorIdentifier, unknown][] = [],
   Mcs extends [StoreMutatorIdentifier, unknown][] = []
->(
+  >(
   creatorFunction: StateCreator<T, Mps, Mcs>
 ) => StateCreator<T, Mps, Mcs>
 
@@ -66,9 +64,6 @@ const chromogenImpl: ChromogenImpl = (creatorFunction) => (set, get, api) => {
   const initialStateEntries = creatorFunction(api.setState, get, api);
   const initialRender: InitialRender = filterOutFuncs(initialStateEntries);
   ledger.initialRender = initialRender;
-
-  //log if debug mode is enabled
-  if (debug) console.log({ initialRender });
 
   type S = ReturnType<typeof creatorFunction>
   (api.setState as NamedSet<S>) = (partial, replace, action, ...args) => {
