@@ -51,15 +51,13 @@ const pauseStyle: CSSProperties = {
 
 export const styles = { buttonStyle, divStyle, playStyle, pauseStyle };
 
-/**
- * onclick function that generates test file & sets download URL
- *
- * Key-to-Variable name mapping is applied if storeMap has any contents
- * (meaning atom / selector nodes were passed as props)
- * Applying only at point-of-download keeps performance cost low for users who
- * don't need to pass nodes while creating a moderate performance hit for others
- * only while downloading, never while interacting with their app.
- */
+/*
+ generateFile generates test file & sets download URL
+ The passed in setFile function updates _file_ state in Chromogen observer 
+ Applying only at point-of-download keeps performance cost low for users who
+ don't need to pass nodes while creating a moderate performance hit for others
+ only while downloading, never while interacting with their app.
+*/
 export const generateFile = (setFile: Function, storeMap: Map<string, string>): string[] => {
   const tests = generateTests(storeMap);
   const blob = new Blob(tests);
@@ -67,6 +65,7 @@ export const generateFile = (setFile: Function, storeMap: Map<string, string>): 
   return tests;
 };
 
+/* generateTests is invoked within generateFile, returning our desired test string within an array */
 export const generateTests = (storeMap: Map<string, string>): string[] => {
   const { initialRender, transactions } = ledger;
 
