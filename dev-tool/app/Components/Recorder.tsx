@@ -64,25 +64,36 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
     borderColor: `${pauseColor}`,
   };
 
-  const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0')
+  const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0');
   const playBorderStyle = {
     borderColor: `${playColor}`,
   };
 
   return (
-    <div id='buttons'>
+    <div id="buttons">
       <button
         id="recorderBtn"
         //type="submit"
         aria-label={status ? 'pause' : 'record'}
         onClick={() => sendMessage('toggleRecord')}
         style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
-        onMouseEnter={() => status ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
-        onMouseLeave={() => status ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}
+        onMouseEnter={() =>
+          status
+            ? setPauseColor('#f6f071')
+            : setPlayColor('transparent transparent transparent #f6f071')
+        }
+        onMouseLeave={() =>
+          status
+            ? setPauseColor('#90d1f0')
+            : setPlayColor('transparent transparent transparent #90d1f0')
+        }
       >
-        <a>{status ?
-          <div style={{ ...hooksPauseStyle, ...pauseBorderStyle }}></div>
-          : <div style={{ ...hooksPlayStyle, ...playBorderStyle }}></div>}
+        <a>
+          {status ? (
+            <div style={{ ...hooksPauseStyle, ...pauseBorderStyle }}></div>
+          ) : (
+            <div style={{ ...hooksPlayStyle, ...playBorderStyle }}></div>
+          )}
         </a>
       </button>
       <button
@@ -90,15 +101,18 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
         type="submit"
         onClick={() => sendMessage('editFile')}
         style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
-        onMouseEnter={() => document.getElementById("testBtn")!.style.color = '#f6f071'}
-        onMouseLeave={() => document.getElementById("testBtn")!.style.color = '#90d1f0'}>
+        onMouseEnter={() => (document.getElementById('testBtn')!.style.color = '#f6f071')}
+        onMouseLeave={() => (document.getElementById('testBtn')!.style.color = '#90d1f0')}
+      >
         Show Test
       </button>
-      <button id="downloadBtn"
+      <button
+        id="downloadBtn"
         style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
-        onMouseEnter={() => document.getElementById("downloadBtn")!.style.color = '#f6f071'}
-        onMouseLeave={() => document.getElementById("downloadBtn")!.style.color = '#90d1f0'}
-        onClick={() => sendMessage('downloadFile')}>
+        onMouseEnter={() => (document.getElementById('downloadBtn')!.style.color = '#f6f071')}
+        onMouseLeave={() => (document.getElementById('downloadBtn')!.style.color = '#90d1f0')}
+        onClick={() => sendMessage('downloadFile')}
+      >
         Download
       </button>
 

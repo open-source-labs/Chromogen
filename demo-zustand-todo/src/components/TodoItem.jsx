@@ -12,7 +12,7 @@ const selector = (state) => ({
 });
 
 const TodoItem = ({ item }) => {
-  const { todoListState, deleteTodoListItem, editItemText, toggleItemCompletion } = useToDoStore(
+  const { deleteTodoListItem, editItemText, toggleItemCompletion } = useToDoStore(
     selector,
     shallow,
   );

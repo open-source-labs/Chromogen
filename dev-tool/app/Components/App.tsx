@@ -31,7 +31,7 @@ const App: React.FC = () => {
       }
       if (message.action === 'editFileReceived') {
         if (message.data) {
-          console.log('this is app.tsx and message is', message)
+          console.log('this is app.tsx and message is', message);
           setFileReceived(true);
           const testAsArray = message.data;
           const blob = new Blob(testAsArray);
@@ -41,7 +41,7 @@ const App: React.FC = () => {
           const readFile = blobreader.addEventListener('loadend', function () {
             setTest(String(blobreader.result));
             return blobreader.result;
-          })
+          });
         }
       }
       if (message.action === 'stateChange') {
@@ -95,7 +95,6 @@ const App: React.FC = () => {
       <div />
 
       <div id="installMessage">
-
         <div>Please </div>
         <code>npm install chromogen </code>
         <div>in your app before using this extension. </div>

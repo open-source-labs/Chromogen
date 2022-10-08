@@ -1,7 +1,5 @@
 import React from 'react';
-// import { useRecoilState, useRecoilValue } from 'recoil';
 import Checkbox from '@mui/material/Checkbox';
-// import { allCompleteState, filteredListContentState } from '../store/store';
 import shallow from 'zustand/shallow';
 import useToDoStore from '../store/store';
 import { useEffect } from 'react';
@@ -9,7 +7,7 @@ import { useEffect } from 'react';
 const selector = (state) => ({
   setAllComplete: state.setAllComplete,
   checkBox: state.checkBox,
-  setCheckBox: state.setCheckBox
+  setCheckBox: state.setCheckBox,
 });
 
 const TodoQuickCheck = () => {

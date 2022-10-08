@@ -61,25 +61,22 @@ export const styles = { buttonStyle, divStyle, playStyle, pauseStyle };
  * only while downloading, never while interacting with their app.
  */
 export const generateFile = (setFile: Function, storeMap: Map<string, string>): string[] => {
-  const tests = generateTests(storeMap)
+  const tests = generateTests(storeMap);
   const blob = new Blob(tests);
   setFile(URL.createObjectURL(blob));
   return tests;
 };
 
 export const generateTests = (storeMap: Map<string, string>): string[] => {
-  const {
-    initialRender,
-    transactions,
-  } = ledger;
+  const { initialRender, transactions } = ledger;
 
   const finalLedger: Ledger =
     storeMap.size > 0
-      ? ({
-        initialRender,
-        transactions: transactions,
-      })
+      ? {
+          initialRender,
+          transactions: transactions,
+        }
       : { ...ledger };
 
   return [output(finalLedger)];
-}
+};

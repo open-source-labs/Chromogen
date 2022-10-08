@@ -21,15 +21,6 @@ export function useHookedReducer<S, A>(
     hooksLedger.state = store.getState()[reducerId]
   });
 
-  //wrapped store.subscribe method inside useEffect to avoid listening to change exponentially
-  //  useEffect(() => {
-  //   const unsubscribe = store.subscribe(() => {
-  //     hooksLedger.state = store.getState()[reducerId]
-  //     console.log('hooks ledger after store is called on reducer id.', hooksLedger)
-  //   })
-  //   return unsubscribe;
-  //  }, [])
-
   const dispatch = useMemo<Dispatch<A>>(() => {
 
     const dispatch = (action: any) => {

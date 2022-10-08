@@ -42,7 +42,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function ({
     switch (message.data.action) {
       case 'connectChromogen':
         setDevtool(true);
-        console.log('inside connectChromogen in HooksChromogenObserver devtool is:', devtool)
         window.postMessage({ action: 'moduleConnected' }, '*');
         break;
       case 'downloadFile':
@@ -79,8 +78,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function ({
       .filter((key) => key !== keyToRemove)
       .reduce<Record<string, any>>((acc, key) => {
         acc[key] = obj[key];
-        console.log('obj', obj);
-        console.log('key', key)
         return acc;
       }, {});
 
@@ -170,7 +167,6 @@ export const HooksChromogenObserver: React.FC<StateInspectorProps> = function ({
   const playBorderStyle = {
     borderColor: `${playColor}`,
   };
-  console.log('dev tool', devtool)
   // User imports hooksChromogenObserver to their app
   return (
     <>
