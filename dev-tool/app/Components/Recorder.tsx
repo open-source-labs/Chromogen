@@ -115,6 +115,7 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
       >
         Download
       </button>
+
     </div>
   );
 };
