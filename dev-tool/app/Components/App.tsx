@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Recorder from './Recorder';
 import StateTree from './StateTree';
 import TextBox from './TextBox';
+import type { CSSProperties } from 'react';
 /* eslint-enable */
 
 const App: React.FC = () => {
@@ -43,19 +44,50 @@ const App: React.FC = () => {
           })
         }
       }
-      if (message.action === 'stateChange'){
+      if (message.action === 'stateChange') {
         setStateChange(message.stateObj);
       }
     });
   }, [connected, status, fileReceived]);
 
+  const hooksButtonStyle: CSSProperties = {
+    display: 'inline-block',
+    margin: '8px',
+    marginLeft: '13px',
+    padding: '0px',
+    height: '25px',
+    width: '65px',
+    borderRadius: '4px',
+    justifyContent: 'space-evenly',
+    border: '1px',
+    cursor: 'pointer',
+    color: '#90d1f0',
+    fontSize: '10px',
+  };
+
+  const reset = () => {
+    setStatus(true);
+    setConnected(false);
+    setFileReceived(false);
+    setStateChange({});
+    setTest('');
+    return
+  }
+
   return connected ? (
     // Render extension if Chromogen is installed
     <div className="App">
       <div id="header">chromogen</div>
+      <button id="refreshBtn"
+        style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
+        onMouseEnter={() => document.getElementById("refreshBtn")!.style.color = '#f6f071'}
+        onMouseLeave={() => document.getElementById("refreshBtn")!.style.color = '#90d1f0'}
+        onClick={() => reset()}>
+        Refresh
+      </button>
       <Recorder status={status} />
-      <StateTree state={stateChange}/>
-      <TextBox test={test}/>
+      <StateTree state={stateChange} />
+      <TextBox test={test} />
     </div>
   ) : (
     // Otherwise, render 'please install' message along with Github Icon
@@ -67,7 +99,7 @@ const App: React.FC = () => {
         <div>Please </div>
         <code>npm install chromogen </code>
         <div>in your app before using this extension. </div>
-            <span>github.com/oslabs-beta/Chromogen</span>
+        <span>github.com/oslabs-beta/Chromogen</span>
       </div>
 
       <div />

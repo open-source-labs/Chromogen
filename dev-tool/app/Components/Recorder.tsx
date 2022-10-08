@@ -75,7 +75,7 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
         id="recorderBtn"
         //type="submit"
         aria-label={status ? 'pause' : 'record'}
-        onClick={() => sendMessage('toggleRecord') }
+        onClick={() => sendMessage('toggleRecord')}
         style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
         onMouseEnter={() => status ? setPauseColor('#f6f071') : setPlayColor('transparent transparent transparent #f6f071')}
         onMouseLeave={() => status ? setPauseColor('#90d1f0') : setPlayColor('transparent transparent transparent #90d1f0')}
@@ -89,7 +89,7 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
         id="testBtn"
         type="submit"
         onClick={() => sendMessage('editFile')}
-        style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f'}}
+        style={{ ...hooksButtonStyle, backgroundColor: '#7f7f7f' }}
         onMouseEnter={() => document.getElementById("testBtn")!.style.color = '#f6f071'}
         onMouseLeave={() => document.getElementById("testBtn")!.style.color = '#90d1f0'}>
         Show Test
@@ -101,6 +101,7 @@ const Recorder: React.FC<{ status: boolean }> = ({ status }) => {
         onClick={() => sendMessage('downloadFile')}>
         Download
       </button>
+
     </div>
   );
 };
