@@ -5,6 +5,7 @@ import { useStore } from '../utils/store';
 import { styles, generateFile, generateTests } from './component-utils';
 /* eslint-enable */
 
+/* using a zustand store to keep track or recording state */
 const selector = (state) => ({
   recording: state.recording,
   toggleRecording: state.toggleRecording,

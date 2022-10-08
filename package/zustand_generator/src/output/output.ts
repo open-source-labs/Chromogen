@@ -4,6 +4,7 @@ import { importZustandStore, testInitialState, testStateChangesAct } from './out
 /* eslint-enable */
 
 /* ----- MAIN ----- */
+/* Output takes in initialRender and transactions from the ledger and tests them from the functions in output-utils*/
 export const output = ({ initialRender, transactions }: Ledger): string =>
   `
 import { renderHook, act } from '@testing-library/react';
