@@ -18,6 +18,7 @@ function Todo({ todo, index, markTodo, removeTodo }) {
 }
 
 function FormTodo({ addTodo }) {
+
   const [, setValue] = hooksUseState<string>('', 'todo');
   const [inputVal, setInputVal] = reactUseState<string>('');
 

@@ -2,10 +2,10 @@
 
 <a href="https://chromogen.dev">
   <img
-    height="110"
-    width="600"
+    height="200"
+    width="450"
     alt="Chromogen logo"
-    src="./assets/logo/chromogen-banner.png"
+    src="./assets/logo/Chromogen-1 (2).png"
   />
 </a>
 

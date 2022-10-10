@@ -40,14 +40,20 @@ const TodoList = () => {
 
   return (
     <div className="mainContainer">
+      <center>
+        <img
+          id="newChromogenLogo"
+          src="https://i.postimg.cc/sgXkWQmt/Chromogen-1.png"
+          alt="this is supposed to be our logo"
+        />
+      </center>
       <div className="row quoteBox">
         <React.Suspense fallback={<small>Loading...</small>}>
           <Quotes />
         </React.Suspense>
       </div>
-
       <div className="row todosDisplayRow">
-        <h1>Totally Todos!</h1>
+        <h1>To-Do List</h1>
 
         <div className="todosContainer">
           <TodoQuickCheck />
