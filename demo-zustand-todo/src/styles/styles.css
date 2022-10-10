@@ -52,7 +52,6 @@ input:focus {
   margin: 0 auto;
   width: 700px;
   color: #9ee6f7;
-  margin-top: -220px;
 }
 
 /* container for entire list display */
@@ -193,7 +192,6 @@ button span {
   border-radius: 5px;
   margin: auto;
   padding: 12px;
-  margin-top: 100px;
 }
 
 .quoteBox img {
