@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-=======
->>>>>>> dev
 import { useState as reactUseState } from 'react';
 import { useState as hooksUseState } from 'chromogen';
 
