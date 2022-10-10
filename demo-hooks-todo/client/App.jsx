@@ -3,13 +3,13 @@ import TodoList from './containers/TodoList';
 import MainContainer from './containers/MainContainer';
 import './styles.css';
 
-function App () {
-  return(
+function App() {
+  return (
     <div>
-    <MainContainer />
-    <TodoList />
+      <MainContainer />
+      <TodoList />
     </div>
   );
-};
+}
 
 export default App;

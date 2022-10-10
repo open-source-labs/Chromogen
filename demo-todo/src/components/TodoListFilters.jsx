@@ -29,7 +29,7 @@ const TodoListFilters = () => {
 
   const sortIconColor = {
     true: 'sortedWhite',
-    false: 'unsortedGray',
+    false: 'aqua',
   };
 
   return (
