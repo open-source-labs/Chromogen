@@ -403,8 +403,6 @@ For questions related to using the package, you may either file an issue or _gma
          <td align="center"><a href="https://github.com/ericaysoh"><img src="https://i.postimg.cc/76tZzvPP/erica.jpg" width="100px;" alt=""/><br /><sub><b>Erica Oh</b></sub></a></td>
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/dtalmaraz"><img src="https://avatars.githubusercontent.com/u/94757231?v=4" width="100px;" alt=""/><br /><sub><b>Dani Almaraz</b></sub></a></td>
-    
-</tr>
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/crgb0s"><img src="https://i.postimg.cc/BbpvdSJD/craig.jpg" width="100px;" alt=""/><br /><sub><b>Craig Boswell</b></sub></a></td>
     <!-- SPACE -->

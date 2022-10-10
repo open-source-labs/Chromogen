@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useRecoilValue } from 'recoil';
 import TodoItem from './TodoItem';
 import TodoItemCreator from './TodoItemCreator';
 import TodoListFilters from './TodoListFilters';
@@ -36,7 +35,6 @@ const sortList = (list, sortingMethod) => {
 };
 
 const TodoList = () => {
-  // const todoList = useRecoilValue(sortedTodoListState);
   const { todoListState, todoListFilterState, todoListSortState } = useToDoStore(selector, shallow);
   const todoList = sortList(filterList(todoListState, todoListFilterState), todoListSortState);
 

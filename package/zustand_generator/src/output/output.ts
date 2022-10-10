@@ -1,17 +1,11 @@
 /* eslint-disable */
 import type { Ledger } from '../types';
-import {
-  importZustandStore,
-  testInitialState,
-  testStateChangesAct
-} from './output-utils';
+import { importZustandStore, testInitialState, testStateChangesAct } from './output-utils';
 /* eslint-enable */
 
 /* ----- MAIN ----- */
-export const output = ({
-  initialRender,
-  transactions
-}: Ledger): string =>
+/* Output takes in initialRender and transactions from the ledger and tests them from the functions in output-utils*/
+export const output = ({ initialRender, transactions }: Ledger): string =>
   `
 import { renderHook, act } from '@testing-library/react';
 ${importZustandStore()}
@@ -27,4 +21,4 @@ describe('STATE CHANGES', () => {
   const { result } = renderHook(useStore);
  
   ${testStateChangesAct(transactions)}
-});`
+});`;

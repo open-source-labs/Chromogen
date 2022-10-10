@@ -8,7 +8,7 @@ export function useHookedReducer<S, A>(
   store: EnhancedStore,
   reducerId: string | number,
 ): [S, Dispatch<A>] {
-  
+
   const initialReducerState = useMemo(() => {
     const initialStateInStore = store.getState()[reducerId];
     return initialStateInStore === undefined ? initialState : initialStateInStore;
@@ -16,23 +16,14 @@ export function useHookedReducer<S, A>(
 
   const [localState, setState] = useState<S>(initialReducerState);
 
-//Creating state property in store to save all state changes
-store.subscribe(() => {
-  hooksLedger.state = store.getState()[reducerId]
-});
+  //Creating state property in store to save all state changes
+  store.subscribe(() => {
+    hooksLedger.state = store.getState()[reducerId]
+  });
 
- //wrapped store.subscribe method inside useEffect to avoid listening to change exponentially
-//  useEffect(() => {
-//   const unsubscribe = store.subscribe(() => {
-//     hooksLedger.state = store.getState()[reducerId]
-//     console.log('hooks ledger after store is called on reducer id.', hooksLedger)
-//   })
-//   return unsubscribe;
-//  }, [])
- 
-const dispatch = useMemo<Dispatch<A>>(() => {
+  const dispatch = useMemo<Dispatch<A>>(() => {
 
-  const dispatch = (action: any) => {     
+    const dispatch = (action: any) => {
       if (action && typeof action === 'object' && typeof action.type === 'string') {
         store.dispatch({
           type: `${reducerId}/${action.type}`,
@@ -44,12 +35,12 @@ const dispatch = useMemo<Dispatch<A>>(() => {
           hooksLedger.state = store.getState()[reducerId];;
           hooksLedger.id = reducerId;
           hooksLedger.initialState = hooksLedger.state;
-          
+
           /* had to rid of state[0] to allow download function 
           hooksLedger.initialState = hooksLedger.state[0];*/
         });
-       
-        
+
+
         store.subscribe(() => {
           hooksLedger.currState = hooksLedger.state;
         });
@@ -63,14 +54,14 @@ const dispatch = useMemo<Dispatch<A>>(() => {
           payload: action,
         });
 
+      }
     }
-  }
-   return dispatch;
+    return dispatch;
   }, []);
 
 
 
-  
+
   useEffect(() => {
     const teardown = store.registerHookedReducer(reducer, initialReducerState, reducerId);
     let lastReducerState = localState;
