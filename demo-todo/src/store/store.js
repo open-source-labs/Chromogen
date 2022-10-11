@@ -1,4 +1,4 @@
-import { selector, selectorFamily } from 'chromogen';
+import { selector, selectorFamily } from 'chromogen-zustand';
 import {
   todoListState,
   todoListFilterState,
@@ -146,17 +146,22 @@ const quoteTextState = selector({
 
 const searchBarSelectorFam = selectorFamily({
   key: 'searchBarSelectorFam',
-  get: (searchFilter) => ({ get }) => get(searchResultState)[searchFilter],
-  set: (searchFilter) => ({ get, set }, searchTerm) => {
-    set(searchResultState, (prevState) => {
-      const newResults = get(todoListState).filter((todo) => {
-        if (searchTerm !== '' && todo.text.includes(searchTerm))
-          return searchFilter === 'all' ? true : todo.priority === searchFilter;
-        return false;
+  get:
+    (searchFilter) =>
+    ({ get }) =>
+      get(searchResultState)[searchFilter],
+  set:
+    (searchFilter) =>
+    ({ get, set }, searchTerm) => {
+      set(searchResultState, (prevState) => {
+        const newResults = get(todoListState).filter((todo) => {
+          if (searchTerm !== '' && todo.text.includes(searchTerm))
+            return searchFilter === 'all' ? true : todo.priority === searchFilter;
+          return false;
+        });
+        return { ...prevState, [searchFilter]: { searchTerm, results: newResults } };
       });
-      return { ...prevState, [searchFilter]: { searchTerm, results: newResults } };
-    });
-  },
+    },
 });
 
 export {

@@ -2,7 +2,7 @@ import { ledger } from '../src/utils/ledger.ts';
 import {generateFile} from '../src/component/component-utils';
 
 // Testing generateFile
-describe('generateFile', () => {
+xdescribe('generateFile', () => {
   const setFile = 0;
   const array = [[], [], []];
   let storeMap = new Map(array);

@@ -18,3 +18,10 @@ dev-tool/build/bundles
 chromogen.test.js
 
 package-lock.json
+
+dev-tool/build/app.bundle.js
+dev-tool/build/app.bundle.js.map
+dev-tool/build/background.bundle.js
+dev-tool/build/background.bundle.js.map
+dev-tool/build/content.bundle.js
+dev-tool/build/content.bundle.js.map
