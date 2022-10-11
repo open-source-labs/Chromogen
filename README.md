@@ -32,13 +32,11 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [In Beta](#in-beta)
 - [Usage for All Apps](#usage-for-all-apps)
 - [Installation for Zustand Apps](#installation-for-zustand-apps)
 - [Zustand Test Setup](#zustand-test-setup)
 - [Installation for Recoil Apps](#installation-for-recoil-apps)
 - [Recoil Test Setup](#recoil-test-setup)
-- [Chrome DevTool](<#chrome-devtool>)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
 - [License](#license)
@@ -54,14 +52,6 @@ You're an independent developer or part of a lean team. You want reliable unit t
 [Enter Chromogen - Now on version 4.0](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Zustand Stores and Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file. Alternatively, you can copy the generated tests straight to your clipboard.
 
 ### Chromogen is now compatible with React V18!
-
-<br><Br>
-
----
-
-## In Beta
-
-Test generation for react-use-hooks is currently under production...  To read more on this, check out the React-Hooks [README](./demo-hooks-todo/README.md).
 
 <br><Br>
 
@@ -313,37 +303,6 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 
 <br><br>
-
----
-
-## Chrome DevTool
-
-[Install Chromogen DevTool Extension V4.0.0](https://chrome.google.com/webstore/detail/chromogen-developer-tool/ehhlabbajneoafjedaaogkmpeaclepdl)
-
-<br>
-
----
-
-### New Feature
-
-
-There is a **Refresh** button that resets the state of your chrome extension.  Whenever you need to restart your extension after your app reloads, simply press refresh and interact as you typically would!  
-
----
-
-<br>
-
- Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
-  
-<div align="center">
-
-<img src="./assets/README-root/Dev-Tool.png" width="400px"/>
-<!-- ![DevTool Panel](./assets/README-root/devtool.png) -->
-
-</div>
-
-**Note**: The DevTool can be added as an unpacked extension by running `npm install && npm run build` in the `dev-tool` subdirectory and loading the resulting `build` folder.
-<Br><br><br>
 
 ---
 
