@@ -21,11 +21,16 @@ export const useState = <S>(initialState: S | (() => S), id: string | number) =>
   const inspectorStore = useContext(ObserverContext);
 
   // Keeping the first values
+  /*
+  store is the return values of useContext(ObserverContext)
+  when use state is invoked in app, a second argument is passed and being kept track of as reducerId
+  */
   const [store, reducerId] = useMemo<[EnhancedStore | undefined, string | number]>(
     () => [inspectorStore, id],
     [],
   );
 
+  //return initial state to update state in app on first call
   if (!store || !reducerId) {
     return useReactState<S>(initialState);
   }

@@ -1,4 +1,5 @@
-import { useState as hooksUseState } from 'chromogen';
+import { useState as hooksUseState } from 'chromogen-zustand';
+import React from 'react';
 
 const MainContainer: React.FC = () => {
   const [subtract, setSubtract] = hooksUseState<number>(0, 'subtract');
@@ -12,9 +13,9 @@ const MainContainer: React.FC = () => {
       <div className="buttonBox">
         <div className="buttonDiv" id="add">
           <p>
-            <span className="num">{add}</span>
+            <span data-testid="test-result-add" className="num">{add}</span>
           </p>
-          <button className="mainButton" onClick={() => setAdd(add + 1)}>
+          <button data-testid="test-add" id="add" className="mainButton" onClick={() => setAdd(add + 1)}>
             Add One
           </button>
         </div>

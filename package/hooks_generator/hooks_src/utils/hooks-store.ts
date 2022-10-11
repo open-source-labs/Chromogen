@@ -2,7 +2,7 @@ import React, { Reducer } from 'react';
 import { Store } from 'redux';
 
 type UnsubscribeFn = () => void;
-
+//ledger??
 export type EnhancedStore = Store & {
   registerHookedReducer: (
     reducer: Reducer<any, any>,
