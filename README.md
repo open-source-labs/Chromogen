@@ -323,7 +323,7 @@ a 👍. This helps us prioritize what to work on.
 
 ### Questions
 
-For questions related to using the package, you may either file an issue or _gmail_ us: `chromogen3.0dev`.
+For any questions and concerns related to using the package, feel free to message us via LinkedIn .
 <br><Br>
 
 ## Core Team
@@ -379,7 +379,7 @@ For questions related to using the package, you may either file an issue or _gma
 
 ## LICENSE
 
-Logo remixed from [AdobeExpress](https://www.adobe.com/express/) 
+Logo crafted with [AdobeExpress](https://www.adobe.com/express/) 
 
 README format adapted from [react-testing-library](https://github.com/testing-library/react-testing-library/blob/master/README.md) under [MIT license](https://github.com/testing-library/react-testing-library/blob/master/LICENSE).
 
