@@ -2,17 +2,10 @@
 
 <a href="https://chromogen.dev">
   <img
-<<<<<<< HEAD
-    height="250"
-    width="500"
-    alt="Chromogen logo"
-    src="./assets/logo/Chromogen-1_1.png"
-=======
     height="200"
     width="450"
     alt="Chromogen logo"
     src="./assets/logo/Chromogen-1 (2).png"
->>>>>>> dev
   />
 </a>
 
@@ -109,7 +102,7 @@ After following the installation steps above, launch your application as normal.
 
 <div align="center">
 
-![Buttons](./assets/README-root/demo-zustand1.gif)
+![Buttons](./assets/README-root/zustanddemo.gif)
 
 </div>
 
