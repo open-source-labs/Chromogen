@@ -2,6 +2,7 @@ import { ledger } from '../utils/ledger';
 import { Transaction, InitialRender } from '../types';
 import { StoreApi, StateCreator, StoreMutatorIdentifier } from 'zustand';
 
+//Referenced Zustand First Party Middleware for Type implementation
 type Chromogen = <
   T extends unknown,
   Mps extends [StoreMutatorIdentifier, unknown][] = [],
@@ -53,7 +54,11 @@ type Write<T, U> = Omit<T, keyof U> & U;
 type WithDevtools<S> = Write<S, StoreDevtools<S>>;
 
 type NamedSet<T> = WithDevtools<StoreApi<T>>['setState'];
-
+/*
+Chromogen Middleware business logic. Performs 2 main functions:
+    1. Captures initial state for all store properties and writes to ledger as initialRender (For generating initial state tests)
+    2. Wraps set function to capture any subsequent state changes (along with funciton name, arguments, and before/after for changes store slices)
+*/
 const chromogenImpl: ChromogenImpl = (creatorFunction) => (set, get, api) => {
   //get initial render and save it to ledger
   const initialStateEntries = creatorFunction(api.setState, get, api);
@@ -67,6 +72,7 @@ const chromogenImpl: ChromogenImpl = (creatorFunction) => (set, get, api) => {
     const newStore = filterOutFuncs(get());
     const changedValues = diffStateObjects(oldStore, newStore);
 
+    //create Transaction obj and write it to ledger for generating tests
     const newAction: Transaction<typeof args> = {
       action: typeof action === 'string' ? action : 'UnknownAction',
       changedValues,
@@ -81,6 +87,7 @@ const chromogenImpl: ChromogenImpl = (creatorFunction) => (set, get, api) => {
 
 export const chromogenZustandMiddleware = chromogenImpl as unknown as Chromogen;
 
+/* Goes through the store object and returns a new object containing state without any actions*/
 const filterOutFuncs = (store) => {
   const result = {};
   for (const [k, v] of Object.entries(store)) {
@@ -88,7 +95,7 @@ const filterOutFuncs = (store) => {
   }
   return result;
 };
-
+/* Identifies the difference between initial Store and  newStore containing newly invoked actions */
 const diffStateObjects = (oldStore, newStore) => {
   const changedValues = {};
   for (const [k, v] of Object.entries(newStore)) {

@@ -17,19 +17,19 @@ export function testState(state: any, id: string | number) {
 }
 
 // Testing that individual state is changing, and our ledger is updating accordingly
-export function testStateChange (prevState: Array<Array<any>>) {
-  
+export function testStateChange(prevState: Array<Array<any>>) {
+
   const prevStateObj = createPrevStateObj(prevState);
 
   let resultStr = '';
 
-  for (const [key , value] of Object.entries(prevStateObj)){
-    for (let i = 1; i < value.length; i++){
+  for (const [key, value] of Object.entries(prevStateObj)) {
+    for (let i = 1; i < value.length; i++) {
       resultStr += `it('should show that state in ${key} changes after every dispatch', () => {
         expect(${value[i]}).not.toBe(${value[i - 1]})}
       )\n\t`
     }
   }
 
-  return  resultStr;
+  return resultStr;
 }

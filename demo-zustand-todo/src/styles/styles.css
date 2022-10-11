@@ -1,16 +1,16 @@
 /* -------------General Styles---------------- */
 html {
   margin: 0;
-  background-color: rgb(48, 48, 48);
-  color: whitesmoke;
-  font-family: 'Palanquin', sans-serif;
-  overflow: hidden;
+  background-color: #2e3237;
+  color: #9ee6f7;
+  font-family: 'Times New Roman', sans-serif;
+  overflow-x: hidden;
 }
 
 h1 {
   text-align: center;
   font-size: 2.3rem;
-  color: #af6358;
+  color: #9ee6f7;
   text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
   letter-spacing: 3px;
   font-style: italic;
@@ -23,9 +23,10 @@ select {
   border: none;
   padding: 20px;
   border-radius: 4px;
-  color: whitesmoke;
-  font-size: 16px;
+  color: #9ee6f7;
+  font-size: 18px;
   letter-spacing: 1px;
+  font-family: 'Times New Roman', sans-serif;
 }
 
 /* remove browser defaults */
@@ -43,17 +44,19 @@ input:focus {
   height: 100vh;
   width: 100vw;
   grid-template-rows: 15fr 33fr 33fr;
+  /*background-image: ;*/
 }
 
 /* overall row container for todo list display */
 .todosDisplayRow {
   margin: 0 auto;
   width: 700px;
+  color: #9ee6f7;
 }
 
 /* container for entire list display */
 .todosContainer {
-  background-color: rgb(63, 63, 63);
+ background-color: rgb(63, 63, 63); 
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
   padding: 5px 12px 0 12px;
@@ -94,17 +97,17 @@ input::placeholder {
 
 /* dynamic checkbox color */
 .highPriority svg {
-  color: #ef5350;
+  color: #f10101;
   opacity: 0.7;
   margin-right: 28px;
 }
 .mediumPriority svg {
-  color: #ffee58;
+  color: #ffe600;
   opacity: 0.7;
   margin-right: 28px;
 }
 .lowPriority svg {
-  color: #66bb6a;
+  color: #05fb11;
   opacity: 0.7;
   margin-right: 28px;
 }
@@ -126,7 +129,7 @@ ul {
 .filter-button {
   margin-top: 10px;
   margin-bottom: 10px;
-  border-right: 1px solid rgba(143, 143, 143, 0.26);
+  border-right: 1px solid rgba(234, 230, 230, 0.26);
   padding: 10px 20px;
   border-radius: 0px 0px 4px 4px;
 }
@@ -173,6 +176,7 @@ button span {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-size: 18px;
 }
 
 #quoteContainer p {
@@ -201,8 +205,13 @@ button span {
 }
 
 .quoteBox button:hover {
-  border: 1px solid whitesmoke;
+  border: 1px solid #9ee6f7;
   cursor: pointer;
+  background-color: rgb(54, 52, 52) ;
+}
+
+.quoteBox button:active {
+  background-color: #75acb990 ;
 }
 
 /* ---------- TodoQuickCheck ---------- */
@@ -212,13 +221,13 @@ button span {
 }
 
 #quickCheck svg {
-  color: #af6358;
+  color: #9ee6f7;
 }
 
 /* ---------- Search ---------- */
 .searchContainer {
   margin-top: 100px;
-  background-color: rgb(63, 63, 63);
+  background-color: rgb(63, 63, 63); 
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
   padding: 5px 12px 12px 12px;
@@ -231,6 +240,7 @@ button span {
   border-radius: 0;
 }
 
+
 .prioritySelect {
   grid-column-start: 2;
   border-bottom: solid 1px whitesmoke;
@@ -240,3 +250,11 @@ button span {
 .searchResults {
   grid-column-start: span 3;
 }
+
+#newChromogenLogo {
+  display: flex;
+  justify-content: center;
+  width: 400px;
+  height: 300px;
+}
+
