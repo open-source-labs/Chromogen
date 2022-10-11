@@ -6,13 +6,16 @@ html {
   color: #1b1b1b;
   background-image: linear-gradient(to right, rgb(91, 49, 182), rgb(86, 158, 226));
 }
+
 body {
   margin: 0px;
   padding: 0px;
 }
-p{
+
+p {
   color: white;
 }
+
 textarea {
   width: 100vw;
   height: 50vw;
@@ -26,7 +29,7 @@ textarea {
   width: 100vw;
 }
 
-#header{
+#header {
   display: flex;
   justify-content: flex-end;
   width: 97vw;
@@ -38,7 +41,7 @@ textarea {
   height: 2vh;
 }
 
-#label{
+#label {
   display: flex;
   justify-content: center;
   text-align: right;
@@ -49,19 +52,21 @@ textarea {
   width: 98%;
 }
 
-#textBox{
+#textBox {
   background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(17, 17, 17));
   color: rgb(144, 209, 240);
   border-top: solid;
   height: 80vh;
   width: 100vw;
 }
-#stateTree{
+
+#stateTree {
   background-image: linear-gradient(to right, rgb(85, 85, 101), rgb(34, 85, 179));
   color: rgb(144, 209, 240);
   border-top: solid;
   height: 50vh;
 }
+
 #stateBox {
   height: 50vh;
   margin: 10px;
@@ -93,14 +98,15 @@ textarea {
 }
 
 /* Recorder.tsx */
-.recorder-div { 
+.recorder-div {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
   background-image: linear-gradient(to right, rgb(92, 92, 93), rgb(34, 85, 179));
   height: auto;
-} 
+}
+
 #recorderBtn {
   border: none;
   box-shadow: 0px 0px 9px 0px rgba(165, 165, 165, 0.123);
@@ -112,13 +118,16 @@ textarea {
   font-size: 14px;
   cursor: 'pointer';
 }
+
 #recorderBtn:focus {
   outline: none;
   color: #5f817a98;
 }
+
 #recorderBtn:hover {
   border: 2px solid rgb(48, 48, 49);
 }
+
 #buttons {
   display: flex;
 }
@@ -142,7 +151,10 @@ textarea {
   height: 100vh;
   text-align: center;
 }
-#installMessage div, code, span {
+
+#installMessage div,
+code,
+span {
   height: 40px;
   margin-top: 15px;
   font-size: 1.7rem;
@@ -150,19 +162,23 @@ textarea {
   vertical-align: middle;
   color: white;
 }
+
 code {
   color: #8ccabd;
 }
+
 span {
   font-size: 1rem;
   margin-top: 5px;
 }
-#testing{
+
+#testing {
   color: white;
 }
+
 /* Media queries */
 @media (max-width: 450px) {
   .recorder-div {
-    flex-direction: column; 
+    flex-direction: column;
   }
 }
