@@ -379,7 +379,7 @@ For questions related to using the package, you may either file an issue or _gma
 
 ## LICENSE
 
-Logo remixed from [ReactJS](https://github.com/reactjs/reactjs.org) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and [Smashicons](https://www.flaticon.com/authors/smashicons) via [www.flaticon.com](https://www.flaticon.com/)
+Logo remixed from [AdobeExpress](https://www.adobe.com/express/) 
 
 README format adapted from [react-testing-library](https://github.com/testing-library/react-testing-library/blob/master/README.md) under [MIT license](https://github.com/testing-library/react-testing-library/blob/master/LICENSE).
 
