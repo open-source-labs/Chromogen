@@ -5,7 +5,7 @@
     height="120"
     width="120"
     alt="chromogen logo"
-    src="../assets/logo/Chromogen.png"
+    src="https://github.com/open-source-labs/Chromogen/raw/master/assets/logo/Chromogen.png"
   />
 </a>
 
@@ -14,8 +14,8 @@
 <br />
 
 [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
-[![Build Status](https://travis-ci.org/open-source-labs/Chromogen.svg?branch=master)](https://travis-ci.org/oslabs-beta/Chromogen)
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/oslabs-beta/Chromogen/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/open-source-labs/Chromogen.svg?branch=master)](https://travis-ci.org/open-source-labs/Chromogen)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/open-source-labs/Chromogen/blob/master/LICENSE)
 <br />
 
 </div>
@@ -159,7 +159,7 @@ After following the installation steps above, launch your application as normal.
 
 <div align="center">
 
-![Buttons](../assets/README-root/ultratrimmedDemo.gif)
+![Buttons](https://github.com/open-source-labs/Chromogen/raw/master/assets/ultratrimmedDemo.gif)
 
 </div>
 
