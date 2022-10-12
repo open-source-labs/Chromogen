@@ -5,7 +5,7 @@
     height="120"
     width="120"
     alt="chromogen logo"
-    src="https://github.com/open-source-labs/Chromogen/raw/dev/assets/logo/Chromogen.png"
+    src="../assets/logo/Chromogen.png"
   />
 </a>
 
@@ -159,7 +159,7 @@ After following the installation steps above, launch your application as normal.
 
 <div align="center">
 
-![Buttons](./assets/README-root/zustanddemo.gif)
+![Buttons](../assets/README-root/ultratrimmedDemo.gif)
 
 </div>
 
