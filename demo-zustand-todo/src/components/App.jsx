@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChromogenZustandObserver } from 'chromogen-zustand';
+import { ChromogenZustandObserver } from 'chromogen';
 import TodoList from './TodoList';
 import '../styles/styles.css';
 
