@@ -1,15 +1,15 @@
 <div align="center">
 
-<a href="https://chromogen.dev">
+<a href="https://chromogen-site-eight.vercel.app/">
   <img
-    height="110"
-    width="600"
+    height="200"
+    width="450"
     alt="Chromogen logo"
-    src="./assets/logo/chromogen-banner.png"
+    src="./assets/logo/Chromogen.png"
   />
 </a>
 
-<h3>A UI-driven test-generation package for <a href="https://github.com/facebookexperimental/Recoil">Recoil.js</a> selectors and <a href="https://github.com/facebook/react">React</a> useState Hooks.</h3>
+<h3>A UI-driven test-generation package for <a href= https://github.com/pmndrs/zustand> Zustand</a> Stores and <a href="https://github.com/facebookexperimental/Recoil">Recoil.js</a> selectors.</h3>
 
 <br />
 
@@ -32,11 +32,13 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Supported Tests](#supported-tests)
+- [Installing the Package](#installing-the-package)
+- [Installation for Zustand Apps](#installation-for-zustand-apps)
 - [Installation for Recoil Apps](#installation-for-recoil-apps)
-- [Usage for Recoil Apps](#usage-for-recoil-apps)
-- [Installation for Hooks Apps](#installation-for-hooks-apps)
-- [Usage for Hooks Apps](#usage-for-hooks-apps)
-- [New and Improved Chrome DevTool](<#new-and-improved-chrome-devtool>)
+- [Usage for All Apps](#usage-for-all-apps)
+- [Test Setup](#test-setup)
+- [Demo Apps](#demo-apps)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
 - [License](#license)
@@ -44,15 +46,29 @@
 
 ## Overview
 
-You're an independent developer or part of a lean team. You want reliable unit tests for your new React-Recoil or React Hooks app, but you need to move fast and time is a major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
+You're an independent developer or part of a lean team. You want reliable unit tests for your new Zustand or React-Recoil app, but you need to move fast and time is a major constraint. More importantly, you want your tests to reflect how your users interact with the application, rather than testing implementation details.
+<br><Br>
 
-[Enter Chromogen](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Recoil selectors and React useState Hooks. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file.
+[Enter Chromogen - Now on version 4.0](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Zustand Stores and Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file. Alternatively, you can copy the generated tests straight to your clipboard.
+<b> Chromogen is now compatible with React V18! </b>
 
-### Chromogen is currently in active Beta
-  
-### Chromogen is now compatible with React V18!
+<br><hr>
 
-<b>FOR RECOIL APPS</b>
+## Supported Tests
+
+<b>Zustand Tests</b>
+
+Chromogen currently supports two types of testing for Zustand applications:
+
+1. **Initial Store State** on page load.
+2. **Store State Changes** whenever an action is invoked on the store.
+
+On initial render, Chromogen captures store state as a whole and keeps track of any subsequent state changes. In order to generate tests, you'll need to make some changes to how your store is created.
+
+To use Chromogen with your Zustand application, please see the [Installation for Zustand Apps](#installation-for-zustand-apps) section below.
+
+<br>
+<b>Recoil Tests</b>
 
 Chromogen currently supports three main types of tests for Recoil apps:
 
@@ -65,26 +81,69 @@ These test suites will be captured for _synchronous_ selectors and selectorFamil
 At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime.
 
 By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the ChromogenObserver component as a `store` prop. The installation instructions below contain further details.
-<br><Br>
 
-<b>FOR REACT HOOKS APPS</b>
+<br><hr>
 
-Chromogen currently supports one main type of test for React Hooks Apps:
+## Installing the Package
 
-1. **Initial state values** on page load for useState Hooks
-2. **useState's returned state variable** - _in beta_
+```
+npm install chromogen
+```
 
-Currently, these test suites will be captured only for the useState Hook. We are working on adding testing for the useReducer Hook in the near future.
-<br><Br>
+<br><hr>
 
-We are always open to suggestions to meet the needs of our userbase. Want to see this or any other feature added to the package? [Let us know!](#contributing)
-<br><Br>
+## Installation for Zustand Apps
 
-### Recoil Demo To-Do App
+Before using Chromogen, you'll need to make two changes to your application:
 
-Chromogen's [official Recoil demo app](demo-todo/README.md) provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
+1. Import the `<ChromogenZustandObserver />` component and render it alongside any other components in `<App />`
+2. Import `chromogenZustandMiddleware` function from Chromogen. This will be used as middleware when setting up your store.
 
-<Br>
+### Import the ChromogenZustandObserver component
+
+Import `ChromogenZustandObserver`. ChromogenZustandObserver can be rendered alongside any other components in `<App />`.
+
+```jsx
+import React from 'react';
+import { ChromogenZustandObserver } from 'chromogen';
+import TodoList from './TodoList';
+
+const App = () => (
+  <>
+    <ChromogenZustandObserver />
+    <TodoList />
+  </>
+);
+
+export default App;
+```
+
+Import `chromogenZustandMiddleware`. When you call create, wrap your store function with chromogenZustandMiddleware. **Note**, when using chromogenZustandMiddleware, you'll need to provide some additional arguments into the set function.
+
+1. _Overwrite State_ (boolean) - Without middleware, this defaults to `false`, but you'll need to explicitly provide a value when using Chromogen.
+2. _Action Name_ - Used for test generation
+3. _Action Parameters_ - If the action requires input parameters, pass these in after the Action Name.
+
+```jsx
+import { chromogenZustandMiddleware } from 'chromogen';
+import create from 'zustand';
+
+const useStore = create(
+  chromogenZustandMiddleware((set) => ({
+    counter: 0,
+    color: 'black',
+    prioritizeTask: ['walking', 5],
+    addCounter: () => set(() => ({ counter: (counter += 1) }), false, 'addCounter'),
+    changeColor: (newColor) => set(() => ({ color: newColor }), false, 'changeColor', newColor),
+    setTaskPriority: (task, priority) =>
+      set(() => ({ prioritizeTask: [task, priority] }), false, 'setTaskPriority', task, priority),
+  })),
+);
+
+export default useStore;
+```
+
+<br><hr>
 
 ## Installation for Recoil Apps
 
@@ -95,11 +154,7 @@ Before running Chromogen, you'll need to make two changes to your application:
 
 <i>Note: These changes do have a small performance cost, so they should be reverted before deploying to production.</i>
 
-### Download the Chromogen package from npm
-
-```
-npm install chromogen
-```
+<br>
 
 ### Import the ChromogenObserver component
 
@@ -139,6 +194,8 @@ import * as misc from './store/arbitraryRecoilState';
 <ChromogenObserver store={[atoms, selectors, misc]} />;
 ```
 
+<br>
+
 ### Import atom & selector functions from Chromogen
 
 Wherever you import `atom` and/or `selector` functions from Recoil (typically in your `store` file), import them from Chromogen instead. The arguments passed in do **not** need to change in any away, and the return value will still be a normal RecoilAtom or RecoilSelector. Chromogen wraps the native Recoil functions to track which pieces of state have been created, as well as when various selectors are called and what values they return.
@@ -160,31 +217,53 @@ export const barState = selector({
 });
 ```
 
-<br><Br>
+<br><hr>
 
-## Usage for Recoil Apps
+## Usage for All Apps
 
 After following the installation steps above, launch your application as normal. You should see two buttons in the bottom left corner.
 
 <div align="center">
 
-![Buttons](./assets/README-root/demoButtons.png)
+![Buttons](./assets/README-root/ultratrimmedDemo.gif)
 
 </div>
 
-The pause button on the left is the **pause recording** button. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
+The pause button on the left is the **pause recording** button. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
 
-The button on the right is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
+The button in the middle is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
 
-For example, if we want to test our demo to-do app's filter and sort buttons, we may want to have 10 or so different items with various priority levels and completion states. However, we don't necessarily want 10 separate tests just for adding items. We can instead add one or two items to generate tests for that functionality, then pause recording while we add the other 8 items. Once everything is added, we can resume recording to generate filter & sort tests with all 10 items present.
+The button on the right is the **copy-to-clipboard** button. Clicking it will copy your tests, including _all_ tests generated since the app was last launched or refreshed.
 
-Once you've recorded all the interactions you want to test, click the pause button and then the download button to download the test file. You can now drag-and-drop the downloaded file into your app's test directory.
+Once you've recorded all the interactions you want to test, click the pause button and then the download button to generate the test file or press copy to copy to your clipboard. You can now drag-and-drop the downloaded file into your app's test directory or paste the code in your new file. **Don't forget to add the source path in your test file**
+
+You're now ready to run your tests! After running your normal Jest test command, you should see a test suite for `chromogen.test.js`.
+
+The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
+
+<br><hr>
+
+## Test Setup
+
+### Zustand Test Setup
+
+Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all stores are imported from a single path; if that's not possible, you'll need to separately import each set of stores from their appropriate path.
+
+|                              **BEFORE**                               |                               **AFTER**                               |
+| :-------------------------------------------------------------------: | :-------------------------------------------------------------------: |
+| ![Default Filepath](./assets/README-root/zustand-test-filepath-1.png) | ![Updated Filepath](./assets/README-root/zustand-test-filepath-2.png) |
 
 <div align="center">
 
-![Download](./assets/README-root/newDownload.png)&nbsp;&nbsp;&nbsp;&nbsp;![File](./assets/README-root/testFilePath.png)
+![Test Output](./assets/README-root/zustand-test-snapshot-2.png)
 
 </div>
+
+<br>
+
+---
+
+### Recoil Test Setup
 
 Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
 
@@ -205,95 +284,22 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Selectors** tests the return value of various selectors for a given state. Each test represents the app state after a transaction has occured, generally triggered by some user interaction. For each selector that ran after that transaction, the test asserts on the selector's return value for the given state.
 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
-<br><br><Br>
 
-## Installation for Hooks Apps
+<br><hr>
 
-Before using Chromogen, you'll need to make two changes to your application:
+## Demo Apps
 
-1. Import the `<HooksChromogenObserver />` component and wrap it around the parent most `<App />`
-2. Import `useState` function from Chromogen instead of React. Chromogen has engineered `useState` to track state changes.
+### Zustand Demo To-Do App
 
-### Download the Chromogen package from npm
+Chromogen's open-source Zustand demo app provides a Zustand-based frontend with multiple store properties and actions to test. You can access this demo application <a href='https://demo-zustand-todo.vercel.app/'>here</a>, and view the source code in the `demo-zustand-todo` folder of this repository.
 
-```
-npm install chromogen
-```
+<br>
 
-### Import the HooksChromogenObserver component
+### Recoil Demo To-Do App
 
-Import `HooksChromgenObserver`. HooksChromogenObserver should wrap the parent most component of the user's app (usually inside of `index.js`).
+Chromogen's official Recoil demo app provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
 
-```jsx
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import { HooksChromogenObserver } from 'chromogen';
-
-const root = createRoot(document.getElementById('root'));
-
-root.render(
-  <HooksChromogenObserver name="App">
-    <App />
-  </HooksChromogenObserver>
-);  
-```
-
-### Import useState Hook from Chromogen
-
-Chromogen has engineered React's `useState` Hook to include a state change tracker. Wherever your app imports `useState` from React, import `useState` from Chromogen instead.
-
-By default, Chromogen requires a second `id` parameter (a string describing your chosen label for state) in the useState hooks to generate a test suite for the user's application.
-
-```jsx
-import React from 'react';
-import { useState as hooksUseState } from 'chromogen';
-
-const App: React.FC = () => {
-  const [elements, setElements] = hooksUseState<number>(0, "id");
-  return (...)
-};
-```
-
-<br> <br>
-
-## Usage for Hooks Apps
-
-After following the installation steps above, launch your application as normal. You should see two buttons in the bottom left corner.
-
-<div align="center">
-
-![Buttons](./assets/README-root/chromogen3.gif)
-
-</div>
-
-The pause button on the left is the **pause recording** button. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Clicking it will pause recording, so that no tests are generated during subsequent state changes. Pausing is useful for setting up a complex initial state with repetitive actions, where you don't want to test every step of the process.
-
-The button on the right is the **download** button. Clicking it will download a new test file that includes _all_ tests generated since the app was last launched or refreshed.
-
-Once you've recorded all the interactions you want to test, click the pause button and then the download button to generate the test file. You can now drag-and-drop the downloaded file into your app's test directory.
-
-You're now ready to run your tests! After running your normal Jest test command, you should see a test suite for `chromogen.test.js`.
-
-The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
-
-<br><br>
-
-## New and Improved Chrome DevTool!
-
-[Install Chromogen DevTool Extension V3.0.0](https://chrome.google.com/webstore/detail/chromogen-developer-tool/ehhlabbajneoafjedaaogkmpeaclepdl)
-
-DevTool V3.0.0 now shows a _**dynamic D3 state tree**_ responsive to user interaction with application! Press **pause recording** then click **Show Test** to see auto-generated tests right in the DevTool. Similar to an IDE, the test can be edited in the DevTool for ease of use. Then to download the file, click **Download** to generate a `js` file that can be saved into your codebase.
-  
-<div align="center">
-
-<img src="./assets/README-root/devtool.png" width="400px"/>
-<!-- ![DevTool Panel](./assets/README-root/devtool.png) -->
-
-</div>
-
-_Note:_ You may also access the DevTool can be added as an unpacked extension by running `npm install && npm run build` in the `dev-tool` subdirectory and loading the resulting `build` folder.
-<Br><br><br>
+<br><hr>
 
 ## Contributing
 
@@ -301,18 +307,18 @@ _Note:_ You may also access the DevTool can be added as an unpacked extension by
 
 We welcome community contributions, including new developers who've never [made an open source Pull Request before](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github). If you'd like to start a new PR, we recommend [creating an issue](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue) for discussion first. This lets us open a conversation, ensuring work is not duplicated unnecessarily and that the proposed PR is a fix or feature we're actively looking to add.
 
-### Bugs
+## Bugs
 
 Please [file an issue](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue) for bugs, missing documentation, or unexpected behavior.
 
-### Feature Requests
+## Feature Requests
 
 Please file an issue to suggest new features. Vote on feature requests by adding
 a 👍. This helps us prioritize what to work on.
 
-### Questions
+## Questions
 
-For questions related to using the package, you may either file an issue or _gmail_ us: `chromogen3.0dev`.
+For any questions and concerns related to using the package, feel free to email us via `chromogen.app@gmail.com`.
 <br><Br>
 
 ## Core Team
@@ -340,7 +346,7 @@ For questions related to using the package, you may either file an issue or _gma
          <td align="center"><a href="https://github.com/nicholasjs"><img src="https://avatars.githubusercontent.com/u/59386257?v=4" width="100px;" alt=""/><br /><sub><b>Nicholas Shay</b></sub></a></td>
 </tr>
 <tr align="center">
-              <!-- SPACE -->
+    <!-- SPACE -->
          <td align="center"><a href="https://github.com/mp-04"><img src="https://i.postimg.cc/nz6GjXXV/mp.jpg" width="100px;" alt=""/><br /><sub><b>Marcellies Pettiford</b></sub></a></td>
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/smk53664"><img src="https://i.postimg.cc/mrRkfN64/sung.jpg" width="100px;" alt=""/><br /><sub><b>Sung Kim</b></sub></a></td>
@@ -350,14 +356,23 @@ For questions related to using the package, you may either file an issue or _gma
          <td align="center"><a href="https://github.com/ericaysoh"><img src="https://i.postimg.cc/76tZzvPP/erica.jpg" width="100px;" alt=""/><br /><sub><b>Erica Oh</b></sub></a></td>
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/dtalmaraz"><img src="https://avatars.githubusercontent.com/u/94757231?v=4" width="100px;" alt=""/><br /><sub><b>Dani Almaraz</b></sub></a></td>
-    
+    <!-- SPACE -->
+    <tr align="center">
+         <td align="center"><a href="https://github.com/crgb0s"><img src="https://i.postimg.cc/BbpvdSJD/craig.jpg" width="100px;" alt=""/><br /><sub><b>Craig Boswell</b></sub></a></td>
+    <!-- SPACE -->
+         <td align="center"><a href="https://github.com/Hali3030"><img src="https://i.postimg.cc/xTj7Yf0C/hussein.jpg" width="100px;" alt=""/><br /><sub><b>Hussein Ahmed</b></sub></a></td>
+    <!-- SPACE -->
+         <td align="center"><a href="https://github.com/iannkila"><img src="https://i.postimg.cc/rwcBD1C8/ian.jpg" width="100px;" alt=""/><br /><sub><b>Ian Kila</b></sub></a></td>
+    <!-- SPACE -->
+         <td align="center"><a href="https://github.com/yuehaowong"><img src="https://i.postimg.cc/T2JqRnwj/yuehao.jpg" width="100px;" alt=""/><br /><sub><b>Yuehao Wong</b></sub></a></td>
+     </tr>            
 </tr>
 </table>
 <br><br>
 
 ## LICENSE
 
-Logo remixed from [ReactJS](https://github.com/reactjs/reactjs.org) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and [Smashicons](https://www.flaticon.com/authors/smashicons) via [www.flaticon.com](https://www.flaticon.com/)
+Logo crafted with [AdobeExpress](https://www.adobe.com/express/)
 
 README format adapted from [react-testing-library](https://github.com/testing-library/react-testing-library/blob/master/README.md) under [MIT license](https://github.com/testing-library/react-testing-library/blob/master/LICENSE).
 

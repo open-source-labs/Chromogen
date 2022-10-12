@@ -12,7 +12,6 @@ coverage
 package/build
 
 # DevTool
-dev-tool/build/bundles
 
 # Demo App
 chromogen.test.js

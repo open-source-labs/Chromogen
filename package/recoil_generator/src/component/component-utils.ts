@@ -61,7 +61,7 @@ export const styles = { buttonStyle, divStyle, playStyle, pauseStyle };
  * don't need to pass nodes while creating a moderate performance hit for others
  * only while downloading, never while interacting with their app.
  */
-export const generateFile = (setFile: Function, storeMap: Map<string, string>): string[] => {
+export const generateTests = (storeMap: Map<string, string>): string[] => {
   const {
     atoms,
     selectors,
@@ -134,7 +134,12 @@ export const generateFile = (setFile: Function, storeMap: Map<string, string>): 
       : { ...ledger, atoms: atoms.map(({ key }) => key) };
 
   //return setFile(URL.createObjectURL(new Blob([output(finalLedger)])));
-  const blob = new Blob([output(finalLedger)])
-  setFile(URL.createObjectURL(blob));
   return [output(finalLedger)];
+};
+
+export const generateFile = (setFile: Function, storeMap: Map<string, string>): string[] => {
+  const tests = generateTests(storeMap);
+  const blob = new Blob(tests);
+  setFile(URL.createObjectURL(blob));
+  return tests;
 };

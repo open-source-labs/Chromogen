@@ -186,7 +186,7 @@ describe('testSetters', () => {
 
 // TEST FOR ATOMFAMILYHOOK lines 70-81
 //create mock transactionArray
-describe('atomFamilyHook', () => {
+xdescribe('atomFamilyHook', () => {
   const transactionArray = [
     {
       atomFamilyState: [

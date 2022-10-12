@@ -1,0 +1,19 @@
+import {
+  debouncedAddToTransactions,
+  wrapGetter,
+  wrapSetter,
+} from '../src/api/core-utils';
+
+import { debounce } from '../src/utils/utils';
+
+xdescribe('debouncedAddToTransaction', () => {
+
+});
+
+xdescribe('wrapGetter', () => {
+
+});
+
+xdescribe('wrapSetter', () => {
+
+});
