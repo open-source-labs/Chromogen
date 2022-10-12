@@ -41,120 +41,78 @@ describe('INITIAL RENDER', () => {
 describe('STATE CHANGES', () => {
   const { result } = renderHook(useStore);
 
-  it('todoListState should update correctly', () => {
+  it('checkBox & quoteText & todoListState should update correctly', () => {
     const { result } = renderHook(useStore);
 
     act(() => {
+      result.current.setCheckBox();
+      result.current.setCheckBox();
+      result.current.changeQuoteText(
+        '"Your ability to learn faster than your competition is your only sustainable competitive advantage."\n\t- Arie de Gues',
+      );
       result.current.addTodoListItem({ id: 2, text: 'tennis', priority: 'low', isComplete: false });
     });
 
+    expect(result.current.checkBox).toStrictEqual(true);
+    expect(result.current.quoteText).toStrictEqual(
+      '"Your ability to learn faster than your competition is your only sustainable competitive advantage."\n\t- Arie de Gues',
+    );
     expect(result.current.todoListState).toStrictEqual([
       { id: 2, text: 'tennis', priority: 'low', isComplete: false },
     ]);
   });
+  it('checkBox & todoListState should update correctly', () => {
+    const { result } = renderHook(useStore);
+
+    act(() => {
+      result.current.setCheckBox();
+      result.current.setCheckBox();
+      result.current.addTodoListItem({ id: 3, text: 'hockey', priority: 'low', isComplete: false });
+      result.current.setCheckBox();
+    });
+
+    expect(result.current.checkBox).toStrictEqual(false);
+    expect(result.current.todoListState).toStrictEqual([
+      { id: 2, text: 'tennis', priority: 'low', isComplete: false },
+      { id: 3, text: 'hockey', priority: 'low', isComplete: false },
+    ]);
+  });
   it('todoListState should update correctly', () => {
     const { result } = renderHook(useStore);
 
     act(() => {
-      result.current.addTodoListItem({
-        id: 3,
-        text: 'baseball',
-        priority: 'low',
-        isComplete: false,
-      });
+      result.current.addTodoListItem({ id: 4, text: 'hocka', priority: 'low', isComplete: false });
+      result.current.setCheckBox();
     });
 
     expect(result.current.todoListState).toStrictEqual([
       { id: 2, text: 'tennis', priority: 'low', isComplete: false },
-      { id: 3, text: 'baseball', priority: 'low', isComplete: false },
-    ]);
-  });
-
-  it('todoListState should update correctly', () => {
-    const { result } = renderHook(useStore);
-
-    act(() => {
-      result.current.addTodoListItem({
-        id: 4,
-        text: 'spaghetti',
-        priority: 'low',
-        isComplete: false,
-      });
-    });
-
-    expect(result.current.todoListState).toStrictEqual([
-      { id: 2, text: 'tennis', priority: 'low', isComplete: false },
-      { id: 3, text: 'baseball', priority: 'low', isComplete: false },
-      { id: 4, text: 'spaghetti', priority: 'low', isComplete: false },
-    ]);
-  });
-  it('todoListState should update correctly', () => {
-    const { result } = renderHook(useStore);
-
-    act(() => {
-      result.current.addTodoListItem({
-        id: 5,
-        text: 'penne alla vodka',
-        priority: 'low',
-        isComplete: false,
-      });
-    });
-
-    expect(result.current.todoListState).toStrictEqual([
-      { id: 2, text: 'tennis', priority: 'low', isComplete: false },
-      { id: 3, text: 'baseball', priority: 'low', isComplete: false },
-      { id: 4, text: 'spaghetti', priority: 'low', isComplete: false },
-      { id: 5, text: 'penne alla vodka', priority: 'low', isComplete: false },
-    ]);
-  });
-  it('todoListState should update correctly', () => {
-    const { result } = renderHook(useStore);
-
-    act(() => {
-      result.current.toggleItemCompletion(2);
-    });
-
-    expect(result.current.todoListState).toStrictEqual([
-      { id: 2, text: 'tennis', priority: 'low', isComplete: true },
-      { id: 3, text: 'baseball', priority: 'low', isComplete: false },
-      { id: 4, text: 'spaghetti', priority: 'low', isComplete: false },
-      { id: 5, text: 'penne alla vodka', priority: 'low', isComplete: false },
-    ]);
-  });
-  it('todoListState should update correctly', () => {
-    const { result } = renderHook(useStore);
-
-    act(() => {
-      result.current.toggleItemCompletion(4);
-    });
-
-    expect(result.current.todoListState).toStrictEqual([
-      { id: 2, text: 'tennis', priority: 'low', isComplete: true },
-      { id: 3, text: 'baseball', priority: 'low', isComplete: false },
-      { id: 4, text: 'spaghetti', priority: 'low', isComplete: true },
-      { id: 5, text: 'penne alla vodka', priority: 'low', isComplete: false },
+      { id: 3, text: 'hockey', priority: 'low', isComplete: false },
+      { id: 4, text: 'hocka', priority: 'low', isComplete: false },
     ]);
   });
   it('todoListState & searchResultState should update correctly', () => {
     const { result } = renderHook(useStore);
 
     act(() => {
-      result.current.toggleItemCompletion(5);
-      result.current.setSearchState('t', 'all');
+      result.current.addTodoListItem({ id: 5, text: 'canoe', priority: 'low', isComplete: false });
+      result.current.setCheckBox();
+      result.current.setSearchState('c', 'all');
     });
 
     expect(result.current.todoListState).toStrictEqual([
-      { id: 2, text: 'tennis', priority: 'low', isComplete: true },
-      { id: 3, text: 'baseball', priority: 'low', isComplete: false },
-      { id: 4, text: 'spaghetti', priority: 'low', isComplete: true },
-      { id: 5, text: 'penne alla vodka', priority: 'low', isComplete: true },
+      { id: 2, text: 'tennis', priority: 'low', isComplete: false },
+      { id: 3, text: 'hockey', priority: 'low', isComplete: false },
+      { id: 4, text: 'hocka', priority: 'low', isComplete: false },
+      { id: 5, text: 'canoe', priority: 'low', isComplete: false },
     ]);
     expect(result.current.searchResultState).toStrictEqual({
       all: {
-        searchTerm: 't',
+        searchTerm: 'c',
         results: [
-          { id: 2, text: 'tennis', priority: 'low', isComplete: true },
-          { id: 4, text: 'spaghetti', priority: 'low', isComplete: true },
+          { id: 3, text: 'hockey', priority: 'low', isComplete: false },
+          { id: 4, text: 'hocka', priority: 'low', isComplete: false },
+          { id: 5, text: 'canoe', priority: 'low', isComplete: false },
         ],
       },
       high: { searchTerm: '', results: [] },
@@ -166,13 +124,13 @@ describe('STATE CHANGES', () => {
     const { result } = renderHook(useStore);
 
     act(() => {
-      result.current.setSearchState('te', 'all');
+      result.current.setSearchState('ca', 'all');
     });
 
     expect(result.current.searchResultState).toStrictEqual({
       all: {
-        searchTerm: 'te',
-        results: [{ id: 2, text: 'tennis', priority: 'low', isComplete: true }],
+        searchTerm: 'ca',
+        results: [{ id: 5, text: 'canoe', priority: 'low', isComplete: false }],
       },
       high: { searchTerm: '', results: [] },
       medium: { searchTerm: '', results: [] },
@@ -183,13 +141,13 @@ describe('STATE CHANGES', () => {
     const { result } = renderHook(useStore);
 
     act(() => {
-      result.current.setSearchState('ten', 'all');
+      result.current.setSearchState('can', 'all');
     });
 
     expect(result.current.searchResultState).toStrictEqual({
       all: {
-        searchTerm: 'ten',
-        results: [{ id: 2, text: 'tennis', priority: 'low', isComplete: true }],
+        searchTerm: 'can',
+        results: [{ id: 5, text: 'canoe', priority: 'low', isComplete: false }],
       },
       high: { searchTerm: '', results: [] },
       medium: { searchTerm: '', results: [] },
@@ -200,13 +158,13 @@ describe('STATE CHANGES', () => {
     const { result } = renderHook(useStore);
 
     act(() => {
-      result.current.setSearchState('tenn', 'all');
+      result.current.setSearchState('cano', 'all');
     });
 
     expect(result.current.searchResultState).toStrictEqual({
       all: {
-        searchTerm: 'tenn',
-        results: [{ id: 2, text: 'tennis', priority: 'low', isComplete: true }],
+        searchTerm: 'cano',
+        results: [{ id: 5, text: 'canoe', priority: 'low', isComplete: false }],
       },
       high: { searchTerm: '', results: [] },
       medium: { searchTerm: '', results: [] },
