@@ -1,7 +1,9 @@
 /* eslint-disable */
 import type { Transaction, InitialRender } from '../types';
-
 // } from '../types';
+
+import { dummyParam } from '../utils/utils';
+
 /* eslint-enable */
 
 /* ----- HELPER FUNCTIONS ----- */
@@ -21,11 +23,13 @@ export function testInitialState(initialRender: InitialRender): string {
   }, '');
 }
 
+const dummyTransaction = { action: dummyParam, changedValues: {} };
+
+//Takes in an array of transactions and returns a full set of tests ("it blocks") for all actions and corresponding state changes
 export function testStateChangesAct(transactions: Transaction<any>[]): string {
-  let groupedTransactions: Transaction<any>[][] = [
-    ...transactions,
-    { action: 'DUMMY_END_OF_LIST', changedValues: {} },
-  ].reduce(
+  //Groups transactions together based on whether the transactions impact the same slice of state
+  //Each "group" of transactions will affect each store parameter 0 or 1 times.
+  let groupedTransactions: Transaction<any>[][] = [...transactions, dummyTransaction].reduce(
     (
       acc: {
         groups: Transaction<any>[][];
@@ -36,7 +40,7 @@ export function testStateChangesAct(transactions: Transaction<any>[]): string {
     ) => {
       if (
         Object.keys(cur.changedValues).some((v) => acc.changedValues[v])
-        || cur.action === 'DUMMY_END_OF_LIST'
+        || cur.action === dummyParam
       ) {
         acc.groups.push(acc.currentGroup);
         acc.currentGroup = [cur];
@@ -53,6 +57,7 @@ export function testStateChangesAct(transactions: Transaction<any>[]): string {
     { groups: [], currentGroup: [], changedValues: {} },
   ).groups;
 
+  //For each group of transactions, we generate an "It block"
   return groupedTransactions.reduce(
     (acc, group) => {
       const { str, actBlock } = generateItBlock(group);
@@ -63,16 +68,20 @@ export function testStateChangesAct(transactions: Transaction<any>[]): string {
     { str: '', actStatements: '' },
   ).str;
 }
+//Takes in an entry for a slice of state and generates an expect statement asserting that the state properties have correct value in the store
 export function testStateChangesExpect([propertyName, newValue]: [string, any]): string {
   return `\nexpect(result.current.${propertyName}).toStrictEqual(${JSON.stringify(newValue)});`;
 }
 
+//Takes in a transaction and generates an act statement using the action name and argument(s)
 export function generateActLine<T extends any[]>(t: Transaction<T>): string {
   const { action } = t;
   const args = t.arguments;
   return `\tresult.current.${action}(${args?.map((arg) => JSON.stringify(arg)).join(', ')});\n`;
 }
 
+//Takes in an array of grouped Transactions and returns an It Block (unit test) with all act &
+// expect statements for transactions in input
 function generateItBlock(transactions: Transaction<any>[]): { str: string; actBlock: string } {
   const valuesChanged: string[] = [];
   let expectBlock = '';

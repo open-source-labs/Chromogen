@@ -2,7 +2,9 @@ import { ledger } from '../utils/ledger';
 import { Transaction, InitialRender } from '../types';
 import { StoreApi, StateCreator, StoreMutatorIdentifier } from 'zustand';
 
-//Referenced Zustand First Party Middleware for Type implementation
+// Referenced Zustand First Party Middleware for Type implementation
+// See here: https://github.com/pmndrs/zustand/tree/main/src/middleware
+
 type Chromogen = <
   T extends unknown,
   Mps extends [StoreMutatorIdentifier, unknown][] = [],
