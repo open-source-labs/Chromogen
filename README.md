@@ -287,41 +287,41 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 
 <br><hr>
 
-### Demo Apps
+## Demo Apps
 
-## Zustand Demo To-Do App
+### Zustand Demo To-Do App
 
 Chromogen's open-source Zustand demo app provides a Zustand-based frontend with multiple store properties and actions to test. You can access this demo application <a href='https://demo-zustand-todo.vercel.app/'>here</a>, and view the source code in the `demo-zustand-todo` folder of this repository.
 
 <br>
 
-## Recoil Demo To-Do App
+### Recoil Demo To-Do App
 
 Chromogen's official Recoil demo app provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
 
 <br><hr>
 
-### Contributing
+## Contributing
 
 **We expect all contributors to abide by the standards of behavior outlined in the [Code of Conduct](CODE_OF_CONDUCT.md).**
 
 We welcome community contributions, including new developers who've never [made an open source Pull Request before](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github). If you'd like to start a new PR, we recommend [creating an issue](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue) for discussion first. This lets us open a conversation, ensuring work is not duplicated unnecessarily and that the proposed PR is a fix or feature we're actively looking to add.
 
-### Bugs
+## Bugs
 
 Please [file an issue](https://docs.github.com/en/github/managing-your-work-on-github/creating-an-issue) for bugs, missing documentation, or unexpected behavior.
 
-### Feature Requests
+## Feature Requests
 
 Please file an issue to suggest new features. Vote on feature requests by adding
 a 👍. This helps us prioritize what to work on.
 
-### Questions
+## Questions
 
 For any questions and concerns related to using the package, feel free to message us via LinkedIn .
 <br><Br>
 
-### Core Team
+## Core Team
 
 <br>
 
