@@ -310,7 +310,7 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 
 ## Zustand Demo To-Do App
 
-Chromogen's open-source Zustand demo app provides a Zustand-based frontend with multiple store properties and actions to test. You can access this demo application here, and view the source code in the `demo-zustand-todo` folder of this repository.
+Chromogen's open-source Zustand demo app provides a Zustand-based frontend with multiple store properties and actions to test. You can access this demo application <a href='https://demo-zustand-todo.vercel.app/'>here</a>, and view the source code in the `demo-zustand-todo` folder of this repository.
 
 <br>
 
