@@ -33,7 +33,7 @@
 
 - [Overview](#overview)
 - [Supported Tests](#supported-tests)
-- [Installation for All Apps](#installation-for-all-apps)
+- [Installing the Package](#installing-the-package)
 - [Installation for Zustand Apps](#installation-for-zustand-apps)
 - [Installation for Recoil Apps](#installation-for-recoil-apps)
 - [Usage for All Apps](#usage-for-all-apps)
@@ -50,16 +50,13 @@ You're an independent developer or part of a lean team. You want reliable unit t
 <br><Br>
 
 [Enter Chromogen - Now on version 4.0](https://www.npmjs.com/package/chromogen). Chromogen is a Jest unit-test generation tool for Zustand Stores and Recoil selectors. It captures state changes during user interaction and auto-generates corresponding test suites. Simply launch your application after following the installation instructions below, interact as a user normally would, and with one click you can download a ready-to-run Jest test file. Alternatively, you can copy the generated tests straight to your clipboard.
+<b> Chromogen is now compatible with React V18! </b>
 
-### Chromogen is now compatible with React V18!
+<br><hr>
 
-<br><br>
+## Supported Tests
 
----
-
-### SUPPORTED TESTS
-
-<b>FOR ZUSTAND APPS</b>
+<b>Zustand Tests</b>
 
 Chromogen currently supports two types of testing for Zustand applications:
 
@@ -70,10 +67,8 @@ On initial render, Chromogen captures store state as a whole and keeps track of 
 
 To use Chromogen with your Zustand application, please see the [Installation for Zustand Apps](#installation-for-zustand-apps) section below.
 
-<br><Br>
-
-<hr>
-<b>FOR RECOIL APPS</b>
+<br>
+<b>Recoil Tests</b>
 
 Chromogen currently supports three main types of tests for Recoil apps:
 
@@ -87,21 +82,17 @@ At this time, we have no plans to introduce testing for async selectors; the moc
 
 By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the ChromogenObserver component as a `store` prop. The installation instructions below contain further details.
 
-<br><br>
+<br><hr>
 
-## <hr>
-
-### INSTALLATION FOR ALL APPS
+## Installing the Package
 
 ```
 npm install chromogen
 ```
 
-<br>
+<br><hr>
 
----
-
-### INSTALLATION FOR ZUSTAND APPS
+## Installation for Zustand Apps
 
 Before using Chromogen, you'll need to make two changes to your application:
 
@@ -152,9 +143,9 @@ const useStore = create(
 export default useStore;
 ```
 
-## <br>
+<br><hr>
 
-### INSTALLATION FOR RECOIL APPS
+## Installation for Recoil Apps
 
 Before running Chromogen, you'll need to make two changes to your application:
 
@@ -165,9 +156,7 @@ Before running Chromogen, you'll need to make two changes to your application:
 
 <br>
 
----
-
-## Import the ChromogenObserver component
+### Import the ChromogenObserver component
 
 ChromogenObserver should be included as a direct child of RecoilRoot. It does not need to wrap any other components, and it takes no mandatory props. It utilizes Recoil's TransactionObserver Hook to record snapshots on state change.
 
@@ -207,9 +196,7 @@ import * as misc from './store/arbitraryRecoilState';
 
 <br>
 
----
-
-## Import atom & selector functions from Chromogen
+### Import atom & selector functions from Chromogen
 
 Wherever you import `atom` and/or `selector` functions from Recoil (typically in your `store` file), import them from Chromogen instead. The arguments passed in do **not** need to change in any away, and the return value will still be a normal RecoilAtom or RecoilSelector. Chromogen wraps the native Recoil functions to track which pieces of state have been created, as well as when various selectors are called and what values they return.
 
@@ -230,11 +217,9 @@ export const barState = selector({
 });
 ```
 
-<br>
+<br><hr>
 
----
-
-### USAGE FOR ALL APPS
+## Usage for All Apps
 
 After following the installation steps above, launch your application as normal. You should see two buttons in the bottom left corner.
 
@@ -256,13 +241,11 @@ You're now ready to run your tests! After running your normal Jest test command,
 
 The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
 
-<br>
+<br><hr>
 
----
+## Test Setup
 
-### TEST SETUP
-
-## Zustand Test Setup
+### Zustand Test Setup
 
 Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all stores are imported from a single path; if that's not possible, you'll need to separately import each set of stores from their appropriate path.
 
@@ -280,7 +263,7 @@ Before running the test file, you'll need to specify the import path for your st
 
 ---
 
-## RECOIL TEST SETUP
+### Recoil Test Setup
 
 Before running the test file, you'll need to specify the import path for your store by replacing `<ADD STORE FILEPATH>`. The default output assumes that all atoms and selectors are imported from a single path; if that's not possible, you'll need to separately import each set of atoms and/or selectors from their appropriate path.
 
@@ -302,11 +285,9 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 
-<br><br>
+<br><hr>
 
----
-
-### DEMO APPS
+### Demo Apps
 
 ## Zustand Demo To-Do App
 
@@ -318,9 +299,7 @@ Chromogen's open-source Zustand demo app provides a Zustand-based frontend with 
 
 Chromogen's official Recoil demo app provides a ready-to-run Recoil frontend with a number of different selector implementations to test against. It's available in the `demo-todo` folder of this repository and comes with Chromogen pre-installed; just run `npm install && npm start` to launch.
 
-<br>
-
----
+<br><hr>
 
 ### Contributing
 
@@ -377,7 +356,6 @@ For any questions and concerns related to using the package, feel free to messag
          <td align="center"><a href="https://github.com/ericaysoh"><img src="https://i.postimg.cc/76tZzvPP/erica.jpg" width="100px;" alt=""/><br /><sub><b>Erica Oh</b></sub></a></td>
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/dtalmaraz"><img src="https://avatars.githubusercontent.com/u/94757231?v=4" width="100px;" alt=""/><br /><sub><b>Dani Almaraz</b></sub></a></td>
-<tr align="center">
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/crgb0s"><img src="https://i.postimg.cc/BbpvdSJD/craig.jpg" width="100px;" alt=""/><br /><sub><b>Craig Boswell</b></sub></a></td>
     <!-- SPACE -->
