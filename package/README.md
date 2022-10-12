@@ -159,7 +159,7 @@ After following the installation steps above, launch your application as normal.
 
 <div align="center">
 
-![Buttons](https://github.com/open-source-labs/Chromogen/raw/master/assets/ultratrimmedDemo.gif)
+![Buttons](https://github.com/open-source-labs/Chromogen/raw/master/assets/README-root/ultratrimmedDemo.gif)
 
 </div>
 
