@@ -22,3 +22,5 @@ describe('STATE CHANGES', () => {
  
   ${testStateChangesAct(transactions)}
 });`;
+
+//NOTE: Test output is not linted/formatted in any meaningful way. The Chromogen team recommends formatting tests in line with your personal or organizational preferences;

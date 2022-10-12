@@ -5,7 +5,8 @@ interface RecordingState {
   toggleRecording: () => void;
 }
 
-/*Allows for recording to always be on during page load 
+/*
+Allows for recording to always be on during page load 
 and the ability to pause recording
 */
 export const useStore = create<RecordingState>((set) => ({
