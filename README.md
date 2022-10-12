@@ -225,7 +225,7 @@ After following the installation steps above, launch your application as normal.
 
 <div align="center">
 
-![Buttons](./assets/README-root/zustanddemo.gif)
+![Buttons](./assets/README-root/ultratrimmedDemo.gif)
 
 </div>
 
@@ -318,7 +318,7 @@ a 👍. This helps us prioritize what to work on.
 
 ## Questions
 
-For any questions and concerns related to using the package, feel free to message us via LinkedIn .
+For any questions and concerns related to using the package, feel free to email us via `chromogen.app@gmail.com`.
 <br><Br>
 
 ## Core Team
@@ -346,7 +346,7 @@ For any questions and concerns related to using the package, feel free to messag
          <td align="center"><a href="https://github.com/nicholasjs"><img src="https://avatars.githubusercontent.com/u/59386257?v=4" width="100px;" alt=""/><br /><sub><b>Nicholas Shay</b></sub></a></td>
 </tr>
 <tr align="center">
-              <!-- SPACE -->
+    <!-- SPACE -->
          <td align="center"><a href="https://github.com/mp-04"><img src="https://i.postimg.cc/nz6GjXXV/mp.jpg" width="100px;" alt=""/><br /><sub><b>Marcellies Pettiford</b></sub></a></td>
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/smk53664"><img src="https://i.postimg.cc/mrRkfN64/sung.jpg" width="100px;" alt=""/><br /><sub><b>Sung Kim</b></sub></a></td>
@@ -357,13 +357,15 @@ For any questions and concerns related to using the package, feel free to messag
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/dtalmaraz"><img src="https://avatars.githubusercontent.com/u/94757231?v=4" width="100px;" alt=""/><br /><sub><b>Dani Almaraz</b></sub></a></td>
     <!-- SPACE -->
+    <tr align="center">
          <td align="center"><a href="https://github.com/crgb0s"><img src="https://i.postimg.cc/BbpvdSJD/craig.jpg" width="100px;" alt=""/><br /><sub><b>Craig Boswell</b></sub></a></td>
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/Hali3030"><img src="https://i.postimg.cc/xTj7Yf0C/hussein.jpg" width="100px;" alt=""/><br /><sub><b>Hussein Ahmed</b></sub></a></td>
     <!-- SPACE -->
          <td align="center"><a href="https://github.com/iannkila"><img src="https://i.postimg.cc/rwcBD1C8/ian.jpg" width="100px;" alt=""/><br /><sub><b>Ian Kila</b></sub></a></td>
     <!-- SPACE -->
-         <td align="center"><a href="https://github.com/yuehaowong"><img src="https://i.postimg.cc/T2JqRnwj/yuehao.jpg" width="100px;" alt=""/><br /><sub><b>Yuehao Wong</b></sub></a></td>        
+         <td align="center"><a href="https://github.com/yuehaowong"><img src="https://i.postimg.cc/T2JqRnwj/yuehao.jpg" width="100px;" alt=""/><br /><sub><b>Yuehao Wong</b></sub></a></td>
+     </tr>            
 </tr>
 </table>
 <br><br>
