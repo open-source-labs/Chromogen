@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import { dummyParam } from '../utils/utils';
 import { useStore } from '../utils/store';
 import { styles, generateFile, generateTests } from './component-utils';
 /* eslint-enable */
@@ -11,10 +10,10 @@ const selector = (state) => ({
   toggleRecording: state.toggleRecording,
 });
 
-export const ChromogenZustandObserver: React.FC<{ store?: object }> = ({ store }) => {
+export const ChromogenZustandObserver: React.FC = () => {
   // Initializing as undefined over null to match React typing for AnchorHTML attributes
   const [file, setFile] = useState<undefined | string>(undefined);
-  const [storeMap, setStoreMap] = useState<Map<string, string>>(new Map());
+  const [storeMap] = useState<Map<string, string>>(new Map());
   const { recording, toggleRecording } = useStore<{
     recording: boolean;
     toggleRecording: Function;
