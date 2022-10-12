@@ -14,7 +14,6 @@
 <br />
 
 [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
-[![Build Status](https://travis-ci.org/open-source-labs/Chromogen.svg?branch=master)](https://travis-ci.org/open-source-labs/Chromogen)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/open-source-labs/Chromogen/blob/master/LICENSE)
 <br />
 

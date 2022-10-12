@@ -14,10 +14,7 @@
 <br />
 
 [![npm version](https://img.shields.io/npm/v/chromogen)](https://www.npmjs.com/package/chromogen)
-[![Build Status](https://travis-ci.org/open-source-labs/Chromogen.svg?branch=master)](https://travis-ci.org/open-source-labs/Chromogen)
-[![Coverage Status](https://coveralls.io/repos/github/open-source-labs/Chromogen/badge.svg?branch=master)](https://coveralls.io/github/open-source-labs/Chromogen?branch=master)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/open-source-labs/Chromogen/blob/master/LICENSE)
-
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=CHROMOGEN%20-%20A%20UI-driven%20Jest%20test%20generator%20for%20Recoil%20apps%0A&url=https://www.npmjs.com/package/Chromogen&hashtags=React,Recoil,Jest,testing)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![npm downloads](https://img.shields.io/npm/dm/chromogen)](https://www.npmjs.com/package/chromogen)
