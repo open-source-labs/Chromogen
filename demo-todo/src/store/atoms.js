@@ -1,4 +1,4 @@
-import { atom } from 'chromogen-zustand';
+import { atom } from 'chromogen';
 
 /* ----- ATOMS ----- */
 

@@ -1,6 +1,6 @@
 {
-  "name": "chromogen-zustand",
-  "version": "3.0.54",
+  "name": "chromogen",
+  "version": "4.0.1",
   "description": "simple, interaction-driven Jest test generator for Recoil and React Hooks apps",
   "main": "build/index.js",
   "keywords": [
@@ -16,7 +16,6 @@
     "prepublishOnly": "npm run build",
     "build": "tsc",
     "test": "jest --verbose --coverage",
-    "ztest": "jest --verbose --coverage --testPathPattern=package/zustand_generator/__tests__/",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
