@@ -1,6 +1,6 @@
 {
   "name": "chromogen",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "simple, interaction-driven Jest test generator for Recoil and React Hooks apps",
   "main": "build/index.js",
   "keywords": [
