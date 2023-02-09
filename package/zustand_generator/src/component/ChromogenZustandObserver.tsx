@@ -38,6 +38,7 @@ export const ChromogenZustandObserver: React.FC = () => {
       {
         <div>
           <div style={styles.divStyle}>
+            <h1>Testing!</h1>
             <button
               aria-label={recording ? 'pause' : 'record'}
               id="chromogen-toggle-record"

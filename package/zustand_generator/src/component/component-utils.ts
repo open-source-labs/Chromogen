@@ -25,9 +25,9 @@ const buttonStyle: CSSProperties = {
 const divStyle: CSSProperties = {
   display: 'flex',
   position: 'absolute',
-  bottom: '100px',
-  left: '100px',
-  backgroundColor: '#aaa',
+  bottom: '40px',
+  left: '40px',
+  backgroundColor: 'yellow',
   borderRadius: '4px',
   margin: 0,
   padding: 0,
