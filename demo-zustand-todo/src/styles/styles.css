@@ -1,3 +1,48 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html,
+body,
+#root, /* for create-react-app */
+#__next /* for Next.js */ {
+  height: 100%;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+#root,
+#__next {
+  isolation: isolate;
+}
+
 /* -------------General Styles---------------- */
 html {
   margin: 0;
@@ -56,7 +101,7 @@ input:focus {
 
 /* container for entire list display */
 .todosContainer {
- background-color: rgb(63, 63, 63); 
+  background-color: rgb(63, 63, 63);
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
   padding: 5px 12px 0 12px;
@@ -207,11 +252,11 @@ button span {
 .quoteBox button:hover {
   border: 1px solid #9ee6f7;
   cursor: pointer;
-  background-color: rgb(54, 52, 52) ;
+  background-color: rgb(54, 52, 52);
 }
 
 .quoteBox button:active {
-  background-color: #75acb990 ;
+  background-color: #75acb990;
 }
 
 /* ---------- TodoQuickCheck ---------- */
@@ -227,7 +272,7 @@ button span {
 /* ---------- Search ---------- */
 .searchContainer {
   margin-top: 100px;
-  background-color: rgb(63, 63, 63); 
+  background-color: rgb(63, 63, 63);
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
   padding: 5px 12px 12px 12px;
@@ -239,7 +284,6 @@ button span {
   border-bottom: solid 1px whitesmoke;
   border-radius: 0;
 }
-
 
 .prioritySelect {
   grid-column-start: 2;
@@ -257,4 +301,3 @@ button span {
   width: 400px;
   height: 300px;
 }
-
