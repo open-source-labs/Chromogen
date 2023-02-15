@@ -18,7 +18,8 @@
     "test": "jest --verbose --coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "update": "tsc && npm --prefix ../demo-zustand-todo run update",
-    "update-z": "tsc && npm --prefix ../../zustand/examples/demo run update"
+    "update-z": "tsc && npm --prefix ../../zustand/examples/demo run update",
+    "symlink": "npm --prefix ../demo-zustand-todo run symlink"
   },
   "repository": {
     "type": "git",
