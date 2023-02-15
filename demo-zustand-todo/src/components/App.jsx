@@ -5,8 +5,9 @@ import '../styles/styles.css';
 
 const App = () => (
   <>
-    <ChromogenZustandObserver />
-    <TodoList />
+    <ChromogenZustandObserver>
+      <TodoList />
+    </ChromogenZustandObserver>
   </>
 );
 
