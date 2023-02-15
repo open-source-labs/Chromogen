@@ -32,9 +32,9 @@ const Quotes = () => {
     <>
       <div id="quoteContainer">
         <p>{quoteText}</p>
-        <button type="button" onClick={() => fetchMe()}>
+        <a href="" onClick={() => fetchMe()}>
           New Quote
-        </button>
+        </a>
       </div>
     </>
   );

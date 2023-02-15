@@ -1,11 +1,7 @@
 import Editor from './Editor';
 import React from 'react';
-
-/* using a zustand store to keep track of recording state */
-// const selector = (state) => ({
-//   recording: state.recording,
-//   toggleRecording: state.toggleRecording,
-// });
+import { ledger } from '../utils/ledger';
+import { generateTests } from './component-utils';
 
 const panel: React.CSSProperties = {
   display: 'flex',
@@ -16,100 +12,21 @@ interface Props {
 }
 
 export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Element => {
+  const [code, setCode] = React.useState('');
+  const [storeMap] = React.useState<Map<string, string>>(new Map());
+
+  React.useEffect(() => {
+    setCode(String(generateTests(storeMap)));
+    console.log(ledger.transactions, ledger.transactions.length);
+    // console.log(ledger.transactions[2].changedValues);
+  });
+
+  // React.useEffect(() => console.log(ledger.transactions[2].changedValues), []);
+
   return (
     <div style={panel}>
       {children}
-      <Editor />
+      <Editor code={code} />
     </div>
   );
-  // return (
-  //   <>
-  //     {
-  //       <div>
-  //         <div style={styles.divStyle}>
-  //           <h1>Testing!</h1>
-  //           <button
-  //             aria-label={recording ? 'pause' : 'record'}
-  //             id="chromogen-toggle-record"
-  //             style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f' }}
-  //             type="button"
-  //             onClick={() => {
-  //               toggleRecording();
-  //               // if (!recording) return true;
-  //               // return false;
-  //             }}
-  //             onMouseEnter={() =>
-  //               recording
-  //                 ? setPauseColor('#f6f071')
-  //                 : setPlayColor('transparent transparent transparent #f6f071')
-  //             }
-  //             onMouseLeave={() =>
-  //               recording
-  //                 ? setPauseColor('#90d1f0')
-  //                 : setPlayColor('transparent transparent transparent #90d1f0')
-  //             }
-  //           >
-  //             <a>
-  //               {recording ? (
-  //                 <div style={{ ...styles.pauseStyle, ...pauseBorderStyle }}></div>
-  //               ) : (
-  //                 <div style={{ ...styles.playStyle, ...playBorderStyle }}></div>
-  //               )}
-  //             </a>
-  //           </button>
-  //           <button
-  //             aria-label="capture test"
-  //             id="chromogen-generate-file"
-  //             style={{
-  //               ...styles.buttonStyle,
-  //               backgroundColor: '#7f7f7f',
-  //               marginLeft: '-2px',
-  //               marginRight: '13px',
-  //             }}
-  //             type="button"
-  //             onClick={() => generateFile(setFile, storeMap)}
-  //             onMouseEnter={() =>
-  //               (document.getElementById('chromogen-generate-file')!.style.color = '#f6f071')
-  //             }
-  //             onMouseLeave={() =>
-  //               (document.getElementById('chromogen-generate-file')!.style.color = '#90d1f0')
-  //             }
-  //           >
-  //             <a>{'Download'}</a>
-  //           </button>
-  //           <button
-  //             aria-label="copy test"
-  //             id="chromogen-copy-test"
-  //             style={{
-  //               ...styles.buttonStyle,
-  //               backgroundColor: '#7f7f7f',
-  //               marginLeft: '-2px',
-  //               marginRight: '13px',
-  //             }}
-  //             type="button"
-  //             onClick={() => {
-  //               navigator.clipboard.writeText(generateTests(storeMap)[0]);
-  //             }}
-  //             onMouseEnter={() =>
-  //               (document.getElementById('chromogen-copy-test')!.style.color = '#f6f071')
-  //             }
-  //             onMouseLeave={() =>
-  //               (document.getElementById('chromogen-copy-test')!.style.color = '#90d1f0')
-  //             }
-  //           >
-  //             <a>{'Copy To Clipboard'}</a>
-  //           </button>
-  //         </div>
-  //       </div>
-  //     }
-  //     <a
-  //       download="chromogen.test.js"
-  //       href={file}
-  //       id="chromogen-download"
-  //       style={{ display: 'none' }}
-  //     >
-  //       Download Test
-  //     </a>
-  //   </>
-  // );
 };
