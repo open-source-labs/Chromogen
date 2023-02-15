@@ -19,7 +19,6 @@
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "update": "tsc && npm --prefix ../demo-zustand-todo run update",
     "update-z": "tsc && npm --prefix ../../zustand/examples/demo run update"
-
   },
   "repository": {
     "type": "git",
@@ -109,6 +108,7 @@
     "typescript": ">=3.8.0"
   },
   "dependencies": {
+    "@uiw/react-textarea-code-editor": "^2.1.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "recoil": "^0.7.2",
