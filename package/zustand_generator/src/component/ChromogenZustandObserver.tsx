@@ -2,6 +2,7 @@ import Editor from './Editor';
 import React from 'react';
 import { ledger } from '../utils/ledger';
 import { generateTests } from './component-utils';
+import GlobalStyle from '../GlobalStyle';
 
 const panel: React.CSSProperties = {
   display: 'flex',
@@ -31,6 +32,7 @@ export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Ele
     <div style={panel}>
       {children}
       <Editor code={code} />
+      <GlobalStyle />
     </div>
   );
 };
