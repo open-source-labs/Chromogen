@@ -70,7 +70,7 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.6",
     "babel-jest": "^26.3.0",
-    "chromogen": "file:chromogen-4.0.4.tgz",
+    "chromogen": "file:../package",
     "file-loader": "^6.2.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

@@ -14,8 +14,7 @@ const GlobalStyle = createGlobalStyle`
 
 html,
 body,
-#root, // for create-react-app 
-#__next // for Next.js 
+#root // for create-react-app  
 {
   height: 100%;
 }
