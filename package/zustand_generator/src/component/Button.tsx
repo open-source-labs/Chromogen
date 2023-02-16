@@ -8,7 +8,7 @@ const Button = () => {
 
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: '20px' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', bottom: '20px', width: '100%' }}>
       {isRecording ? (
         <RecordButton handleClick={handleClick} />
       ) : (

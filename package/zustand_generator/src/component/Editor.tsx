@@ -11,12 +11,13 @@ const editorStyle: React.CSSProperties = {
   overflow: 'auto',
   borderLeft: '1px solid rgba(243,246,248,.1)',
   backgroundColor: '#1C1C1C',
+  width: '50vw'
 };
 const codePanel: React.CSSProperties = {
   display: 'flex',
-  flexGrow: 1,
+  // flexGrow: 1,
   overflowY: 'scroll',
-  height: 'calc(100vh - 200px)',
+  height: 'calc(100vh - 56px)',
 };
 
 interface Props {
@@ -39,17 +40,19 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
     <div style={editorStyle}>
       <Header isHidden={isHidden} setIsHidden={setIsHidden} />
       <div style={codePanel}>
-        <NumberList number={breakLine + 10} />
+        <NumberList number={breakLine? breakLine + 10 : 0} />
         <CodeEditor
           data-color-mode="dark"
           value={code}
           language="js"
-          placeholder="Please enter JS code."
+          placeholder=""
           onChange={(evn) => setInnerCode(evn.target.value)}
           padding={15}
           style={{
             maxWidth: 1000,
-            width: '40wv',
+            width: '100%',
+            maxHeight: '100vh',
+            overflow: 'visible',
             fontSize: 12,
             backgroundColor: '#1c1c1c',
             fontFamily:

@@ -29,7 +29,8 @@ const RecordButton = (props): JSX.Element => {
     background: '#181818',
     border: '1px solid rgba(243, 246, 248, 0.1)',
     boxShadow: '0px 18px 24px rgba(0, 0, 0, 0.16), 0px 12px 16px rgba(6, 9, 11, 0.1), 0px 6px 12px rgba(0, 0, 0, 0.18), 0px 1px 20px rgba(0, 0, 0, 0.12)',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    bottom: '20px'
   };
 
   const recordIcon: React.CSSProperties = {
@@ -85,7 +86,8 @@ const RecordButton = (props): JSX.Element => {
     background: '#212121',
     border: '1px solid rgba(243, 246, 248, 0.1)',
     boxShadow: '0px 18px 24px rgba(0, 0, 0, 0.16), 0px 12px 16px rgba(6, 9, 11, 0.1), 0px 6px 12px rgba(0, 0, 0, 0.18), 0px 1px 20px rgba(0, 0, 0, 0.12)',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    bottom: '20px'
   };
 
   const stopIcon: React.CSSProperties = {
