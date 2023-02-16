@@ -15,11 +15,15 @@ export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Ele
   const [code, setCode] = React.useState('');
   const [storeMap] = React.useState<Map<string, string>>(new Map());
 
+  const timer = setInterval(() => {
+    setCode(String(generateTests(storeMap)));
+  }, 2000);
+
   React.useEffect(() => {
     setCode(String(generateTests(storeMap)));
     console.log(ledger.transactions, ledger.transactions.length);
-    // console.log(ledger.transactions[2].changedValues);
-  });
+    timer;
+  }, [timer]);
 
   // React.useEffect(() => console.log(ledger.transactions[2].changedValues), []);
 

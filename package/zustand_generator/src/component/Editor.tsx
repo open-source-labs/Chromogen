@@ -36,14 +36,15 @@ const Editorfield = ({ code }: Props): JSX.Element => {
         onChange={(evn) => setInnerCode(evn.target.value)}
         padding={15}
         style={{
-          minWidth: 680,
-          width: '25wv',
+          maxWidth: 1000,
+          width: '40wv',
           fontSize: 12,
           backgroundColor: '#1c1c1c',
           fontFamily:
             'ui-monospace, SFMono-Regular, SF Mono, Consolas, Liberation Mono, Menlo,monospace',
         }}
       />
+
       {/* <button onClick={() => console.log(generateTests(storeMap)[0])}>Click me</button> */}
     </div>
   );
