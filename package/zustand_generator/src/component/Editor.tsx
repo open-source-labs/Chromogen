@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import NumberList from './Numbers';
 import { Header } from './Header';
+import Button from './Button';
 
 const editorStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
-  overflow: 'hidden',
+  overflow: 'auto',
   borderLeft: '1px solid rgba(243,246,248,.1)',
   backgroundColor: '#1C1C1C',
 };
@@ -15,6 +16,7 @@ const codePanel: React.CSSProperties = {
   display: 'flex',
   flexGrow: 1,
   overflowY: 'scroll',
+  height: 'calc(100vh - 200px)',
 };
 
 interface Props {
@@ -55,7 +57,7 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
           }}
         />
       </div>
-      <div style={{ position: 'absolute' }} />
+      <Button />
     </div>
   );
 };
