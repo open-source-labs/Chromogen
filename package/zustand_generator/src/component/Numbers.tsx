@@ -1,24 +1,28 @@
 import React from 'react';
 
 const listStyle: React.CSSProperties = {
-  paddingBlock: '15px',
+  paddingBlock: '28px',
   display: 'flex',
   flexDirection: 'column',
   alignContent: 'flex-end',
   textAlign: 'end',
-  background: 'white',
+  background: '#1c1c1c',
   paddingInline: '16px',
-  border: '1px solid white',
+  border: '1px solid #1c1c1c',
   height: 'auto',
 };
 
 const numberStyle: React.CSSProperties = {
   fontSize: 12,
-  color: 'rgba(162, 162, 162, 0.7)',
+  color: '#747478',
   fontFamily: 'ui-monospace, SFMono-Regular, SF Mono, Consolas, Liberation Mono, Menlo,monospace',
 };
 
-const unique = (val: number) => <p style={numberStyle}>{val}</p>;
+const unique = (val: number | string) => (
+  <p key={'number' + val} style={numberStyle}>
+    {val}
+  </p>
+);
 
 const numerous = (number = 1000) => {
   let pointer: number = 1;
