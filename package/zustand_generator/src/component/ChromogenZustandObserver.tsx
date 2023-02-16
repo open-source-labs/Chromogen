@@ -2,6 +2,7 @@ import Editor from './Editor';
 import React from 'react';
 import { ledger } from '../utils/ledger';
 import { generateTests } from './component-utils';
+import GlobalStyle from '../GlobalStyle';
 
 const panel: React.CSSProperties = {
   display: 'flex',
@@ -15,11 +16,15 @@ export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Ele
   const [code, setCode] = React.useState('');
   const [storeMap] = React.useState<Map<string, string>>(new Map());
 
+  const timer = setInterval(() => {
+    setCode(String(generateTests(storeMap)));
+  }, 2000);
+
   React.useEffect(() => {
     setCode(String(generateTests(storeMap)));
     console.log(ledger.transactions, ledger.transactions.length);
-    // console.log(ledger.transactions[2].changedValues);
-  });
+    timer;
+  }, [timer]);
 
   // React.useEffect(() => console.log(ledger.transactions[2].changedValues), []);
 
@@ -27,6 +32,7 @@ export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Ele
     <div style={panel}>
       {children}
       <Editor code={code} />
+      <GlobalStyle />
     </div>
   );
 };
