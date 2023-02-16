@@ -6,6 +6,8 @@ import GlobalStyle from '../GlobalStyle';
 
 const panel: React.CSSProperties = {
   display: 'flex',
+  position: 'relative',
+  // width: '531.49px'
 };
 
 interface Props {
