@@ -1,7 +1,6 @@
 import Editor from './Editor';
 import EditorTab from './EditorTab';
-import React, {useState} from 'react';
-import { ledger } from '../utils/ledger';
+import React, { useState } from 'react';
 import { generateTests } from './component-utils';
 import GlobalStyle from '../GlobalStyle';
 
@@ -19,12 +18,12 @@ export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Ele
   const [isHidden, setIsHidden] = useState(false);
 
   const timer = setInterval(() => {
+    console.log('Firing');
     setCode(String(generateTests(storeMap)));
-  }, 2000);
+  }, 1000);
 
   React.useEffect(() => {
-    setCode(String(generateTests(storeMap)));
-    console.log(ledger.transactions, ledger.transactions.length);
+    console.log(code);
     timer;
   }, [timer]);
 
@@ -33,10 +32,11 @@ export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Ele
   return (
     <div style={panel}>
       {children}
-      {isHidden
-        ? <EditorTab setIsHidden={setIsHidden} isHidden={isHidden}/>
-        : <Editor code={code} setIsHidden={setIsHidden} isHidden={isHidden}/>
-      }
+      {isHidden ? (
+        <EditorTab setIsHidden={setIsHidden} isHidden={isHidden} />
+      ) : (
+        <Editor code={code} setIsHidden={setIsHidden} isHidden={isHidden} />
+      )}
       <GlobalStyle />
     </div>
   );

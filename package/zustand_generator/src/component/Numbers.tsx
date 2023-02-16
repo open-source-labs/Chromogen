@@ -10,7 +10,6 @@ const listStyle: React.CSSProperties = {
   paddingInline: '16px',
   border: '1px solid #1c1c1c',
   height: 'auto',
-  maxWidth: '45px',
 };
 
 const numberStyle: React.CSSProperties = {
@@ -25,13 +24,16 @@ const unique = (val: number | string) => (
   </p>
 );
 
-const numerous = (number = 1000) => {
+const numerous = (num = 1000) => {
   let pointer: number = 1;
   let allNumbers: JSX.Element[] = [];
-  while (pointer < number) {
+
+  while (pointer < num) {
     allNumbers = [...allNumbers, unique(pointer)];
     pointer++;
   }
+
+  console.log(allNumbers);
 
   return allNumbers;
 };
