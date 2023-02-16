@@ -302,6 +302,10 @@ button span {
   color: #9ee6f7;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* ---------- Search ---------- */
 .searchContainer {
   display: sticky;
@@ -325,7 +329,6 @@ button span {
   border-bottom: solid 1px whitesmoke;
   border-radius: 0;
   -webkit-appearance-select: none;
-  appearance-select: none;
 }
 
 .searchResults {
