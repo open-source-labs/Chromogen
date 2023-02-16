@@ -1,5 +1,6 @@
 import Editor from './Editor';
-import React from 'react';
+import EditorTab from './EditorTab';
+import React, {useState} from 'react';
 
 /* using a zustand store to keep track of recording state */
 // const selector = (state) => ({
@@ -16,10 +17,15 @@ interface Props {
 }
 
 export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Element => {
+  const [isHidden, setIsHidden] = useState(false);
+
   return (
     <div style={panel}>
       {children}
-      <Editor />
+      {isHidden
+        ? <EditorTab setIsHidden={setIsHidden} isHidden={isHidden}/>
+        : <Editor setIsHidden={setIsHidden} isHidden={isHidden}/>
+      }
     </div>
   );
   // return (
