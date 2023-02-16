@@ -24,10 +24,13 @@ const buttonStyle: CSSProperties = {
 
 const divStyle: CSSProperties = {
   display: 'flex',
-  position: 'absolute',
-  bottom: '40px',
-  left: '40px',
-  backgroundColor: 'yellow',
+  position: 'relative',
+  height: '100%',
+  top: '0px',
+  right: '0px',
+  bottom: '0px',
+  width: '30vw',
+  backgroundColor: '#222222',
   borderRadius: '4px',
   margin: 0,
   padding: 0,

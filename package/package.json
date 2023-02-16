@@ -18,7 +18,8 @@
     "test": "jest --verbose --coverage",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "update": "tsc && npm --prefix ../demo-zustand-todo run update",
-    "update-z": "tsc && npm --prefix ../../zustand/examples/demo run update"
+    "update-z": "tsc && npm --prefix ../../zustand/examples/demo run update",
+    "symlink": "npm --prefix ../demo-zustand-todo run symlink"
   },
   "repository": {
     "type": "git",
@@ -128,6 +129,7 @@
     "@types/styled-components": "^5.1.26",
     "babel-jest": "^26.3.0",
     "coveralls": "^3.1.0",
+    "css-loader": "^6.7.3",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "jest": "^26.4.2",
     "react-test-renderer": "^18.0.0",

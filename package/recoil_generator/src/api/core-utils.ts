@@ -9,7 +9,7 @@ const { transactions, initialRender, selectors, setTransactions } = ledger;
 const DEBOUNCE_MS = 250;
 
 // Set timeout for selector get calls
-export const debouncedAddToTransactions = debounce(
+const debouncedAddToTransactions = debounce(
   (key, value, params) =>
     params !== undefined
       ? transactions[transactions.length - 1].familyUpdates.push({ key, value, params })
@@ -19,7 +19,7 @@ export const debouncedAddToTransactions = debounce(
 
 // the logic for recording selectors only when they fire
 // whenever get method is fired, chromogen records
-export const wrapGetter = (key: string, get: Function) => {
+const wrapGetter = (key: string, get: Function) => {
   let returnedPromise: boolean = false;
 
   return (utils: any) => {
@@ -51,7 +51,7 @@ export const wrapGetter = (key: string, get: Function) => {
   };
 };
 
-export const wrapSetter = (key: string, set: Function) => (utils: any, newValue: any) => {
+const wrapSetter = (key: string, set: Function) => (utils: any, newValue: any) => {
   if (utils.get(recordingState) && setTransactions.length > 0) {
     // allow TransactionObserver to push to array first
     // Length must be computed after timeout to correctly find last transaction
@@ -63,3 +63,5 @@ export const wrapSetter = (key: string, set: Function) => (utils: any, newValue:
   // returns what regular selector would return (?)
   return set(utils, newValue);
 };
+
+export {debouncedAddToTransactions, wrapGetter, wrapSetter};

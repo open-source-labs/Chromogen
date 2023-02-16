@@ -1,5 +1,6 @@
 import Editor from './Editor';
-import React from 'react';
+import EditorTab from './EditorTab';
+import React, {useState} from 'react';
 import { ledger } from '../utils/ledger';
 import { generateTests } from './component-utils';
 import GlobalStyle from '../GlobalStyle';
@@ -15,6 +16,7 @@ interface Props {
 export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Element => {
   const [code, setCode] = React.useState('');
   const [storeMap] = React.useState<Map<string, string>>(new Map());
+  const [isHidden, setIsHidden] = useState(false);
 
   const timer = setInterval(() => {
     setCode(String(generateTests(storeMap)));
@@ -31,7 +33,10 @@ export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Ele
   return (
     <div style={panel}>
       {children}
-      <Editor code={code} />
+      {isHidden
+        ? <EditorTab setIsHidden={setIsHidden} isHidden={isHidden}/>
+        : <Editor code={code} setIsHidden={setIsHidden} isHidden={isHidden}/>
+      }
       <GlobalStyle />
     </div>
   );
