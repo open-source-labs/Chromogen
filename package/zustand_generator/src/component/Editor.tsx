@@ -11,7 +11,7 @@ const editorStyle: React.CSSProperties = {
   overflow: 'auto',
   borderLeft: '1px solid rgba(243,246,248,.1)',
   backgroundColor: '#1C1C1C',
-  width: '50vw'
+  width: '50vw',
 };
 const codePanel: React.CSSProperties = {
   display: 'flex',
@@ -40,7 +40,7 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
     <div style={editorStyle}>
       <Header isHidden={isHidden} setIsHidden={setIsHidden} />
       <div style={codePanel}>
-        <NumberList number={breakLine? breakLine + 10 : 0} />
+        <NumberList number={breakLine ? breakLine + 10 : 0} />
         <CodeEditor
           data-color-mode="dark"
           value={code}
@@ -50,7 +50,7 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
           padding={15}
           style={{
             maxWidth: 1000,
-            width: '100%',
+            width: 'calc(100% - 60px)',
             maxHeight: '100vh',
             overflow: 'visible',
             fontSize: 12,
