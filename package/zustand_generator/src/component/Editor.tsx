@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import NumberList from './Numbers';
 import { Header } from './Header';
-import RecordButton from './Buttons/RecordButton';
+import RecordingButton from './Buttons/RecordingButton';
 
 const editorStyle: React.CSSProperties = {
   display: 'flex',
@@ -49,7 +49,7 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
           padding={15}
           style={{
             maxWidth: 1000,
-            width: '100%',
+            width: 'calc(100% - 60px)',
             maxHeight: '100vh',
             overflow: 'visible',
             fontSize: 12,
@@ -59,7 +59,7 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
           }}
         />
       </div>
-      <RecordButton />
+      <RecordingButton />
     </div>
   );
 };

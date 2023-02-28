@@ -10,6 +10,7 @@ const listStyle: React.CSSProperties = {
   paddingInline: '16px',
   border: '1px solid #1c1c1c',
   height: 'auto',
+  width: '60px',
 };
 
 const numberStyle: React.CSSProperties = {
