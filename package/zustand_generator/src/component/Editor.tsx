@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import NumberList from './Numbers';
 import { Header } from './Header';
-import Button from './Button';
+import RecordButton from './Buttons/RecordButton';
 
 const editorStyle: React.CSSProperties = {
   display: 'flex',
@@ -11,7 +11,7 @@ const editorStyle: React.CSSProperties = {
   overflow: 'auto',
   borderLeft: '1px solid rgba(243,246,248,.1)',
   backgroundColor: '#1C1C1C',
-  width: '50vw'
+  width: '50vw',
 };
 const codePanel: React.CSSProperties = {
   display: 'flex',
@@ -26,7 +26,6 @@ interface Props {
   isHidden: boolean;
 }
 const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
-  // const [storeMap] = React.useState<Map<string, string>>(new Map());
   const [, setInnerCode] = useState(code);
   let breakLine = 0;
 
@@ -40,7 +39,7 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
     <div style={editorStyle}>
       <Header isHidden={isHidden} setIsHidden={setIsHidden} />
       <div style={codePanel}>
-        <NumberList number={breakLine? breakLine + 10 : 0} />
+        <NumberList number={breakLine ? breakLine + 10 : 0} />
         <CodeEditor
           data-color-mode="dark"
           value={code}
@@ -60,7 +59,7 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
           }}
         />
       </div>
-      <Button />
+      <RecordButton />
     </div>
   );
 };
