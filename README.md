@@ -315,7 +315,76 @@ a 👍. This helps us prioritize what to work on.
 
 For any questions and concerns related to using the package, feel free to email us via `chromogen.app@gmail.com`.
 <br><Br>
+## Chromogen V5.0 updates
 
+**GUI Overhaul**
+
+**Why?**
+  
+  Hovering GUI blocked functionality of host app 
+  Recording/downloading interactivity was cumbersome and inflexible 
+  Suboptimal for CI/CD implementation Buttons not functional 
+  
+**What?**
+  
+  Discrete Collapsible IDE that allows for real-time observation & manual interactivity of generated tests 
+  
+**Next steps:**
+  
+  Recording button functionality
+  <br><Br>
+  
+ **Real-time feed rendering**
+
+**Why?**
+  
+  Generated tests were only accessible as a monolith of text, preventing isolation of individual components’ tests
+  
+  **What?**
+  
+  IDE updates in real-time as changes of state are recorded 
+  
+  **Next steps:**
+  
+  Test categorization. 
+  Filter groups of tests by: 
+
+  Initialization vs ΔState Action 
+
+  Description 
+  
+  and allow user to select which filter to apply to displayed generated tests.
+<br>
+   <br>
+   **CI/CD overhaul**
+
+**Why?**
+  
+  Travis Deprecated; CI/CD not functional
+  
+  **What?**
+  
+  Re-implemented with Jenkins
+  
+  <br>
+   <br>
+
+  
+ **Additional Next Steps**
+
+ **Add functionality for Zustand multi-store rendering & Asynchronous state**
+	
+**Docker containerization**
+  
+  **Why?**
+  
+  V 4.0 presented inconsistencies when accessed from different local machines. This hindered team workflow both with development and production-use
+  
+  **What?**
+  
+  Containerization of app ensures homogenous, improved User/Dev experience
+
+ <br> <br> <br> <br>
 ## Core Team
 
 <br>
