@@ -75,7 +75,8 @@ These test suites will be captured for _synchronous_ selectors and selectorFamil
 
 At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime.
 
-By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the ChromogenObserver component as a `store` prop. The installation instructions below contain further details.
+By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the Chromogen
+component as a `store` prop. The installation instructions below contain further details.
 
 <br><hr>
 
@@ -105,8 +106,9 @@ import TodoList from './TodoList';
 
 const App = () => (
   <>
-    <ChromogenZustandObserver />
+    <ChromogenZustandObserver>
     <TodoList />
+    </ChromogenZustandObserver>
   </>
 );
 
