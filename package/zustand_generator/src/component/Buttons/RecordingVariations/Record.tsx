@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const RecordButton = (props): JSX.Element => {
+const Record = (props): JSX.Element => {
   //hover
   const [isHover, setIsHover] = useState(false);
   const handleMouseEnter = () => {
@@ -133,4 +133,4 @@ const RecordButton = (props): JSX.Element => {
   );
 };
 
-export default RecordButton;
+export default Record;
