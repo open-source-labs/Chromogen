@@ -75,7 +75,8 @@ These test suites will be captured for _synchronous_ selectors and selectorFamil
 
 At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime.
 
-By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the ChromogenObserver component as a `store` prop. The installation instructions below contain further details.
+By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the Chromogen
+component as a `store` prop. The installation instructions below contain further details.
 
 <br><hr>
 
@@ -105,8 +106,9 @@ import TodoList from './TodoList';
 
 const App = () => (
   <>
-    <ChromogenZustandObserver />
+    <ChromogenZustandObserver>
     <TodoList />
+    </ChromogenZustandObserver>
   </>
 );
 
@@ -315,7 +317,74 @@ a 👍. This helps us prioritize what to work on.
 
 For any questions and concerns related to using the package, feel free to email us via `chromogen.app@gmail.com`.
 <br><Br>
+## Chromogen V5.0 updates
+<br><hr>
+**GUI Overhaul**
 
+**Why?**
+  
+    *Hovering GUI blocked functionality of host app 
+    *Recording/downloading interactivity was cumbersome and inflexible 
+    *Suboptimal for CI/CD implementation Buttons not functional 
+  
+**What?**
+  
+    *Discrete Collapsible IDE that allows for real-time observation & manual interactivity of generated tests 
+  
+**Next steps:**
+  
+    *Recording button functionality
+  <br><Br><br><hr>
+  
+ **Real-time feed rendering**
+
+**Why?**
+  
+    *Generated tests were only accessible as a monolith of text, preventing isolation of individual components’ tests
+  
+  **What?**
+  
+    *IDE updates in real-time as changes of state are recorded 
+  
+  **Next steps:**
+  
+    *Test categorization. 
+    *Filter groups of tests by: 
+
+    *Initialization vs ΔState Action 
+
+    *Description 
+  
+    *and allow user to select which filter to apply to displayed generated tests.
+<br><Br><br><hr>
+   **CI/CD overhaul**
+
+**Why?**
+  
+    *Travis Deprecated; CI/CD not functional
+  
+  **What?**
+  
+    *Re-implemented with Jenkins
+  
+  <br><Br><br><hr>
+
+  
+ **Additional Next Steps**
+
+ **Add functionality for Zustand multi-store rendering & Asynchronous state**
+	
+**Docker containerization**
+  
+  **Why?**
+  
+    *V 4.0 presented inconsistencies when accessed from different local machines. This hindered team workflow both with development and production-use
+  
+  **What?**
+  
+    *Containerization of app ensures homogenous, improved User/Dev experience
+
+ <br> <br> <br> <hr>
 ## Core Team
 
 <br>
