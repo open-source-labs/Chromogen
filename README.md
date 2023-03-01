@@ -316,58 +316,56 @@ a 👍. This helps us prioritize what to work on.
 For any questions and concerns related to using the package, feel free to email us via `chromogen.app@gmail.com`.
 <br><Br>
 ## Chromogen V5.0 updates
-
+<br><hr>
 **GUI Overhaul**
 
 **Why?**
   
-  Hovering GUI blocked functionality of host app 
-  Recording/downloading interactivity was cumbersome and inflexible 
-  Suboptimal for CI/CD implementation Buttons not functional 
+    *Hovering GUI blocked functionality of host app 
+    *Recording/downloading interactivity was cumbersome and inflexible 
+    *Suboptimal for CI/CD implementation Buttons not functional 
   
 **What?**
   
-  Discrete Collapsible IDE that allows for real-time observation & manual interactivity of generated tests 
+    *Discrete Collapsible IDE that allows for real-time observation & manual interactivity of generated tests 
   
 **Next steps:**
   
-  Recording button functionality
-  <br><Br>
+    *Recording button functionality
+  <br><Br><br><hr>
   
  **Real-time feed rendering**
 
 **Why?**
   
-  Generated tests were only accessible as a monolith of text, preventing isolation of individual components’ tests
+    *Generated tests were only accessible as a monolith of text, preventing isolation of individual components’ tests
   
   **What?**
   
-  IDE updates in real-time as changes of state are recorded 
+    *IDE updates in real-time as changes of state are recorded 
   
   **Next steps:**
   
-  Test categorization. 
-  Filter groups of tests by: 
+    *Test categorization. 
+    *Filter groups of tests by: 
 
-  Initialization vs ΔState Action 
+    *Initialization vs ΔState Action 
 
-  Description 
+    *Description 
   
-  and allow user to select which filter to apply to displayed generated tests.
-<br>
-   <br>
+    *and allow user to select which filter to apply to displayed generated tests.
+<br><Br><br><hr>
    **CI/CD overhaul**
 
 **Why?**
   
-  Travis Deprecated; CI/CD not functional
+    *Travis Deprecated; CI/CD not functional
   
   **What?**
   
-  Re-implemented with Jenkins
+    *Re-implemented with Jenkins
   
-  <br>
-   <br>
+  <br><Br><br><hr>
 
   
  **Additional Next Steps**
@@ -378,13 +376,13 @@ For any questions and concerns related to using the package, feel free to email 
   
   **Why?**
   
-  V 4.0 presented inconsistencies when accessed from different local machines. This hindered team workflow both with development and production-use
+    *V 4.0 presented inconsistencies when accessed from different local machines. This hindered team workflow both with development and production-use
   
   **What?**
   
-  Containerization of app ensures homogenous, improved User/Dev experience
+    *Containerization of app ensures homogenous, improved User/Dev experience
 
- <br> <br> <br> <br>
+ <br> <br> <br> <hr>
 ## Core Team
 
 <br>
