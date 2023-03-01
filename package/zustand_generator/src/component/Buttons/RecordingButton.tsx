@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import RecordButton from './notButtons/RecordButton';
-// import RecordButton from './notButtons/RecordButton';
-import StartButton from './notButtons/StartButton';
+import RecordButton from './RecordingVariations/Record';
+import StartButton from './RecordingVariations/Start';
 
-const Button = () => {
+const RecordingButton = () => {
   const [isRecording, setIsRecording] = useState(true);
   const handleClick = () => setIsRecording(!isRecording);
 
@@ -26,4 +25,4 @@ const Button = () => {
   );
 };
 
-export default Button;
+export default RecordingButton;

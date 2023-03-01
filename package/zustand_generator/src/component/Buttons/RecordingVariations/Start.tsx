@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const StartButton = (props): JSX.Element => {
+const Start = (props): JSX.Element => {
   //hover
   const [isHover, setIsHover] = useState(false);
   const handleMouseEnter = () => {
@@ -81,4 +81,4 @@ const StartButton = (props): JSX.Element => {
   );
 };
 
-export default StartButton;
+export default Start;

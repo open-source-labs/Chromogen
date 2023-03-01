@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import NumberList from './Numbers';
 import { Header } from './Header';
-import Button from './Button';
+import RecordingButton from './Buttons/RecordingButton';
 
 const editorStyle: React.CSSProperties = {
   display: 'flex',
@@ -26,7 +26,6 @@ interface Props {
   isHidden: boolean;
 }
 const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
-  // const [storeMap] = React.useState<Map<string, string>>(new Map());
   const [, setInnerCode] = useState(code);
   let breakLine = 0;
 
@@ -60,7 +59,7 @@ const Editorfield = ({ code, isHidden, setIsHidden }: Props): JSX.Element => {
           }}
         />
       </div>
-      <Button />
+      <RecordingButton />
     </div>
   );
 };
