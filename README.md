@@ -361,11 +361,11 @@ For any questions and concerns related to using the package, feel free to email 
 
 **Why?**
   
-    *Travis Deprecated; CI/CD not functional
+    *Travis implementation not functional
   
   **What?**
   
-    *Re-implemented with Jenkins
+    *Re-implemented CI/CD with Jenkins
   
   <br><Br><br><hr>
 
