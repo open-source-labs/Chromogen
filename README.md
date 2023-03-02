@@ -33,6 +33,7 @@
 - [Installation for Recoil Apps](#installation-for-recoil-apps)
 - [Usage for All Apps](#usage-for-all-apps)
 - [Test Setup](#test-setup)
+- [CI/CD with Jenkins](#jenkins)
 - [Demo Apps](#demo-apps)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
@@ -283,7 +284,91 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 
 <br><hr>
+	
+## CI/CD with Jenkins
+	
+You will need to have Docker installed to run Jenkins. Ru the following command to create a bridge network for Jenkins:
+	
+```jsx
+	
+	docker network create jenkins
+```
 
+	
+Enable Docker commands to be executable with Jenkins nodes:
+	
+```jsx
+	
+docker run \
+  --name jenkins-docker \
+  --rm \
+  --detach \
+  --privileged \
+  --network jenkins \
+  --network-alias docker \
+  --env DOCKER_TLS_CERTDIR=/certs \
+  --volume jenkins-docker-certs:/certs/client \
+  --volume jenkins-data:/var/jenkins_home \
+  --publish 2376:2376 \
+  --publish 3003:3003 --publish 5003:5003 \
+  docker:dind \
+  --storage-driver overlay2
+	
+	
+```
+	
+Build a Docker image from the DOckerfile within Chromogen:
+	
+```jsx
+	
+	docker build -t chromogen-jenkins .
+	
+```
+	
+Run your Chromogen-Jenkins image in Docker as a container:
+	
+```jsx
+	docker run \
+  --name jenkins-blueocean \
+  --detach \
+  --network jenkins \
+  --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client \
+  --env DOCKER_TLS_VERIFY=1 \
+  --publish 8080:8080 \
+  --publish 50000:50000 \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume jenkins-docker-certs:/certs/client:ro \
+  --volume "$HOME":/home \
+  --restart=on-failure \
+  --env JAVA_OPTS="-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true" \
+  myjenkins-blueocean:2.375.3-1	
+```
+	
+Navigate to your localhost:8080 and enter the password (between the two sets of asterisks) that is generated from the following command:
+	
+```jsx
+	docker logs jenkins-blueocean	
+	
+```
+	
+Create your first administrator user.
+	
+Stop and start your Docker container using one of the following:
+	
+```jsx
+	
+	docker stop jenkins-blueocean jenkins-docker
+	docker start jenkins-blueocean jenkins-docker
+	
+```
+
+When configuring your pipeline, make sure to set your pipeline definition to 'Pipeline Script from SCM' and enter the path to your local repositiory, specify the brand you are working from, set the Script Path to 'jenkins/Jenkinsfile', and uncheck 'Lightweight Checkout'.
+	
+	
+
+
+	
 ## Demo Apps
 
 ### Zustand Demo To-Do App
