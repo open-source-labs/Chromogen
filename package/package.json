@@ -1,6 +1,6 @@
 {
   "name": "chromogen",
-  "version": "4.0.4",
+  "version": "5.0.1",
   "description": "simple, interaction-driven Jest test generator for Recoil and React Hooks apps",
   "main": "build/index.js",
   "keywords": [
@@ -16,16 +16,31 @@
     "prepublishOnly": "npm run build",
     "build": "tsc",
     "test": "jest --verbose --coverage",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "update": "tsc && npm --prefix ../demo-zustand-todo run update",
-    "update-z": "tsc && npm --prefix ../../zustand/examples/demo run update",
-    "symlink": "npm --prefix ../demo-zustand-todo run symlink"
+    "localUpdate": "tsc && npm --prefix ../demo-zustand-todo run update",
+    "tarballUpdate": "npm --prefix ../demo-zustand-todo run symlink",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/open-source-labs/Chromogen.git"
   },
   "contributors": [
+    {
+      "name": "Brach Burdick",
+      "url": "https://github.com/sirbrachthepale/"
+    },
+    {
+      "name": "Francois Denavaut",
+      "url": "https://github.com/dnvt/"
+    },
+    {
+      "name": "Maggie Kwan",
+      "url": "https://github.com/maggiekwan/"
+    },
+    {
+      "name": "Lawrence Liang",
+      "url": "https://github.com/Lawliang/"
+    },
     {
       "name": "Michelle Holland",
       "url": "https://github.com/michellebholland/"

@@ -1,17 +1,16 @@
 {
   "name": "chromogen-todo",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "demo todo app for Chromogen using React + Recoil",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
     "test": "jest --verbose",
+    "update": " npm run uninstall && npm run install && npm run start",
     "uninstall": "npm uninstall chromogen",
     "install": "npm install ../package",
-    "update": " npm run uninstall && npm run install && npm run start",
     "buildPackage": "tsc",
-    "switchToPackage": "cd ../package",
-    "symlink": "npm --prefix ../package run build && npm pack ../package && npm uninstall chromogen && npm install ./chromogen-4.0.4.tgz && npm start"
+    "tarballUpdate": "npm --prefix ../package run build && npm pack ../package && npm uninstall chromogen && npm install ./chromogen-5.0.1.tgz && npm start"
   },
   "keywords": [
     "react",
@@ -26,6 +25,22 @@
     "url": "https://github.com/open-source-labs/Chromogen.git"
   },
   "contributors": [
+    {
+      "name": "Brach Burdick",
+      "url": "https://github.com/sirbrachthepale/"
+    },
+    {
+      "name": "Francois Denavaut",
+      "url": "https://github.com/dnvt/"
+    },
+    {
+      "name": "Maggie Kwan",
+      "url": "https://github.com/maggiekwan/"
+    },
+    {
+      "name": "Lawrence Liang",
+      "url": "https://github.com/Lawliang/"
+    },
     {
       "name": "Michelle Holland",
       "url": "https://github.com/michellebholland/"
