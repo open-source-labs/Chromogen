@@ -32,6 +32,7 @@
 - [Installation for Zustand Apps](#installation-for-zustand-apps)
 - [Installation for Recoil Apps](#installation-for-recoil-apps)
 - [Usage for All Apps](#usage-for-all-apps)
+- [Contributor Setup](#contributor-setup)
 - [Test Setup](#test-setup)
 - [CI/CD with Jenkins](#jenkins)
 - [Demo Apps](#demo-apps)
@@ -240,7 +241,38 @@ You're now ready to run your tests! After running your normal Jest test command,
 The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
 
 <br><hr>
+## Contributor Setup
+	
+In order to make/observe changes to the code, you'll have to run Chromogen locally as opposed to running via NPM.
+Due to inconsistencies across different machines, it is recomended to use the following method to run Chromogen locally.
 
+<br><Br>
+**Run for demos within this directory**
+
+After cloning the repo, 
+	
+```jsx
+	npm install
+```
+	
+from BOTH the /package directory (where the app lives) AND the /demo directory you're developing with.
+	
+Then, and ONLY then, run 
+	
+```jsx
+npm run tarballUpdate	
+```
+<br><Br>
+	
+**Run for local applications outside this directory**
+
+After cloning this repo, add the following script to your app's package.json:
+	
+```jsx
+"tarballUpdate": "npm --prefix <reference to the /package directory on your local machine> run build && npm pack <reference to the /package directory on your local machine> && npm uninstall chromogen && npm install ./chromogen-5.0.1.tgz && npm start"
+```
+	
+<br><hr>	
 ## Test Setup
 
 ### Zustand Test Setup
@@ -463,7 +495,8 @@ For any questions and concerns related to using the package, feel free to email 
   
   **Why?**
   
-    *V 4.0 presented inconsistencies when accessed from different local machines. This hindered team workflow both with development and production-use
+    *V 4.0 presented inconsistencies when accessed from different local machines. 
+	This hindered team workflow both with development and production-use
   
   **What?**
   
