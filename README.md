@@ -509,6 +509,10 @@ For any questions and concerns related to using the package, feel free to email 
 
 <table>
   <tr align="center">
+   <td align="center"><a href="https://github.com/sirbrachthepale"><img src="https://ca.slack-edge.com/T047AGRDFG8-U04EFS600F2-6758e04a3dcc-512" width="100px;" alt=""/><br /><sub><b>Brach Burdick</b></sub></a></td>
+    <td align="center"><a href="https://github.com/dnvt"><img src="https://avatars.githubusercontent.com/u/60344684?s=400&u=7fa22ae1486df42eaf172c3f08941416603387c0&v=4" width="100px;" alt=""/><br /><sub><b>Francois Denavaut</b></sub></a></td>
+     <td align="center"><a href="https://github.com/maggiekwan"><img src="https://ca.slack-edge.com/T047AGRDFG8-U046ZLFULCC-533eb79ef8c7-512" width="100px;" alt=""/><br /><sub><b>Maggie Kwan</b></sub></a></td>
+      <td align="center"><a href="https://github.com/Lawliang"><img src="https://ca.slack-edge.com/T047AGRDFG8-U04CQEBF85B-267e9eba74d2-512" width="100px;" alt=""/><br /><sub><b>Lawrence Liang</b></sub></a></td>
     <td align="center"><a href="https://github.com/michellebholland"><img src="https://avatars3.githubusercontent.com/u/64747593" width="100px;" alt=""/><br /><sub><b>Michelle Holland</b></sub></a></td>
     <!-- SPACE -->
     <td align="center"><a href="https://github.com/andywang23"><img src="https://avatars1.githubusercontent.com/u/64433815" width="100px;" alt=""/><br /><sub><b>Andy Wang</b></sub></a></td>
