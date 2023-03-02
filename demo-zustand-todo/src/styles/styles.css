@@ -1,9 +1,54 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html,
+body,
+#root, /* for create-react-app */
+#__next /* for Next.js */ {
+  height: 100%;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+#root,
+#__next {
+  isolation: isolate;
+}
+
 /* -------------General Styles---------------- */
 html {
   margin: 0;
   background-color: #2e3237;
   color: #9ee6f7;
-  font-family: 'Times New Roman', sans-serif;
   overflow-x: hidden;
 }
 
@@ -13,20 +58,18 @@ h1 {
   color: #9ee6f7;
   text-shadow: 1px 2px 2px rgba(250, 250, 250, 0.267);
   letter-spacing: 3px;
-  font-style: italic;
 }
 input,
 button,
 select {
-  background-color: rgb(63, 63, 63);
-  border: 1px solid lightgray;
+  background-color: transparent;
+  /* border: 1px solid lightgray; */
   border: none;
-  padding: 20px;
+  padding: 20px 0;
   border-radius: 4px;
   color: #9ee6f7;
   font-size: 18px;
   letter-spacing: 1px;
-  font-family: 'Times New Roman', sans-serif;
 }
 
 /* remove browser defaults */
@@ -40,23 +83,48 @@ input:focus {
 
 /* topmost container */
 .mainContainer {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
-  grid-template-rows: 15fr 33fr 33fr;
-  /*background-image: ;*/
+  overflow-y: scroll;
+}
+
+.wrapper {
+  display: flex;
+  margin: 0 auto;
+  padding-inline: 32px;
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  flex-direction: column;
+  padding-bottom: 24px;
 }
 
 /* overall row container for todo list display */
 .todosDisplayRow {
   margin: 0 auto;
-  width: 700px;
+  width: 100%;
+  height: 100%;
   color: #9ee6f7;
+}
+
+a {
+  color: #9ee6f7;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.todosDisplayRow h1 {
+  padding-block: 40px;
 }
 
 /* container for entire list display */
 .todosContainer {
- background-color: rgb(63, 63, 63); 
+  background-color: rgb(255, 255, 255, 0.1);
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
   padding: 5px 12px 0 12px;
@@ -64,24 +132,33 @@ input:focus {
 
 /* -------------TodoItemCreator---------------- */
 
+.itemCreator {
+  display: flex;
+  border-bottom: 1px solid rgba(245, 245, 245, 0.336);
+}
+
 .itemCreator button {
-  padding: 0px;
+  padding: 0 24px;
 }
 
 input::placeholder {
-  font-style: italic;
   letter-spacing: 1.5px;
 }
 
 .itemCreator input {
-  padding: 0 0 0 5%;
-  width: 70%;
+  padding: 0 0 0 12px;
+  flex-grow: 1;
   height: 60px;
 }
 
 #radioContainer svg {
   margin-top: 11px;
   opacity: 0.7;
+}
+
+label.MuiFormControlLabel-root {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* -------------TodoItem---------------- */
@@ -175,23 +252,25 @@ button span {
 #quoteContainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: 100%;
+  /* justify-content: space-between; */
   font-size: 18px;
 }
 
 #quoteContainer p {
   white-space: pre-wrap;
+  padding-bottom: 24px;
 }
 
 .quoteBox {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: rgb(63, 63, 63);
-  box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
+  border: 1px solid rgba(234, 230, 230, 0.1);
+  /* background-color: rgb(63, 63, 63); */
+  /* box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096); */
   border-radius: 5px;
-  margin: auto;
-  padding: 12px;
+  padding: 16px 24px;
 }
 
 .quoteBox img {
@@ -202,32 +281,37 @@ button span {
 
 .quoteBox button {
   width: 150px;
+  padding: 24 0;
+  text-align: left;
 }
 
 .quoteBox button:hover {
-  border: 1px solid #9ee6f7;
   cursor: pointer;
-  background-color: rgb(54, 52, 52) ;
+  /* background-color: rgba(255, 255, 255, 0.1); */
 }
 
-.quoteBox button:active {
-  background-color: #75acb990 ;
-}
+/* .quoteBox button:active {
+  background-color: #75acb990;
+} */
 
 /* ---------- TodoQuickCheck ---------- */
 
-#quickCheck {
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* #quickCheck {
+} */
 
 #quickCheck svg {
   color: #9ee6f7;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* ---------- Search ---------- */
 .searchContainer {
+  display: sticky;
   margin-top: 100px;
-  background-color: rgb(63, 63, 63); 
+  background-color: rgb(255, 255, 255, 0.1);
   box-shadow: 0px 0px 35px 20px rgba(10, 10, 10, 0.096);
   border-radius: 5px;
   padding: 5px 12px 12px 12px;
@@ -238,13 +322,14 @@ button span {
 .searchField {
   border-bottom: solid 1px whitesmoke;
   border-radius: 0;
+  padding-left: 12px;
 }
-
 
 .prioritySelect {
   grid-column-start: 2;
   border-bottom: solid 1px whitesmoke;
   border-radius: 0;
+  -webkit-appearance-select: none;
 }
 
 .searchResults {
@@ -258,3 +343,26 @@ button span {
   height: 300px;
 }
 
+select {
+  -webkit-appearance-select: none;
+  /* background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%238C98F2'><polygon points='0,0 100,0 50,50'/></svg>")
+    no-repeat; */
+}
+
+/*  */
+
+.w-tc-editor[data-color-mode*='dark'],
+[data-color-mode*='dark'] .w-tc-editor,
+[data-color-mode*='dark'] .w-tc-editor-var,
+body[data-color-mode*='dark'] {
+  --color-fg-default: #ddd;
+  --color-canvas-subtle: #161b22;
+  --color-prettylights-syntax-comment: #818c97;
+  --color-prettylights-syntax-entity-tag: #ed81b0;
+  --color-prettylights-syntax-entity: #d2a8ff;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #ddd;
+  --color-prettylights-syntax-constant: #ed8876;
+  --color-prettylights-syntax-string: #68afc8;
+  --color-prettylights-syntax-keyword: #ed81b0;
+  --color-prettylights-syntax-markup-bold: #c9d1d9;
+}
