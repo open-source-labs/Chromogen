@@ -1,6 +1,6 @@
 {
   "name": "chromogen",
-  "version": "4.0.4",
+  "version": "5.0.1",
   "description": "simple, interaction-driven Jest test generator for Recoil and React Hooks apps",
   "main": "build/index.js",
   "keywords": [
@@ -16,6 +16,8 @@
     "prepublishOnly": "npm run build",
     "build": "tsc",
     "test": "jest --verbose --coverage",
+    "localUpdate": "tsc && npm --prefix ../demo-zustand-todo run update",
+    "tarballUpdate": "npm --prefix ../demo-zustand-todo run symlink",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
@@ -23,6 +25,22 @@
     "url": "https://github.com/open-source-labs/Chromogen.git"
   },
   "contributors": [
+    {
+      "name": "Brach Burdick",
+      "url": "https://github.com/sirbrachthepale/"
+    },
+    {
+      "name": "Francois Denavaut",
+      "url": "https://github.com/dnvt/"
+    },
+    {
+      "name": "Maggie Kwan",
+      "url": "https://github.com/maggiekwan/"
+    },
+    {
+      "name": "Lawrence Liang",
+      "url": "https://github.com/Lawliang/"
+    },
     {
       "name": "Michelle Holland",
       "url": "https://github.com/michellebholland/"
@@ -106,10 +124,13 @@
     "typescript": ">=3.8.0"
   },
   "dependencies": {
+    "@uiw/react-textarea-code-editor": "^2.1.1",
+    "dependency-cruiser": "^12.9.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "recoil": "^0.7.2",
     "redux": "^4.0.5",
+    "styled-components": "^5.3.6",
     "zustand": "^4.1.1"
   },
   "devDependencies": {
@@ -121,10 +142,12 @@
     "@types/node": "^14.11.2",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.2",
+    "@types/styled-components": "^5.1.26",
     "babel-jest": "^26.3.0",
     "coveralls": "^3.1.0",
+    "css-loader": "^6.7.3",
     "eslint-config-airbnb-typescript": "^17.0.0",
-    "jest": "^26.4.2",
+    "jest": "^26.6.3",
     "react-test-renderer": "^18.0.0",
     "typescript": "^4.0.3"
   }

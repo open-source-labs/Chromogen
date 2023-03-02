@@ -32,7 +32,9 @@
 - [Installation for Zustand Apps](#installation-for-zustand-apps)
 - [Installation for Recoil Apps](#installation-for-recoil-apps)
 - [Usage for All Apps](#usage-for-all-apps)
+- [Contributor Setup](#contributor-setup)
 - [Test Setup](#test-setup)
+- [CI/CD with Jenkins](#jenkins)
 - [Demo Apps](#demo-apps)
 - [Contributing](#contributing)
 - [Core Team](#core-team)
@@ -75,7 +77,8 @@ These test suites will be captured for _synchronous_ selectors and selectorFamil
 
 At this time, we have no plans to introduce testing for async selectors; the mocking requirements are too opaque and fragile to accurately capture at runtime.
 
-By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the ChromogenObserver component as a `store` prop. The installation instructions below contain further details.
+By default, Chromogen uses atom and selector keys to populate the import & hook statements in the test file. If your source code does _not_ use matching variable and key names, you will need to pass the imported atoms and selectors to the Chromogen
+component as a `store` prop. The installation instructions below contain further details.
 
 <br><hr>
 
@@ -105,8 +108,9 @@ import TodoList from './TodoList';
 
 const App = () => (
   <>
-    <ChromogenZustandObserver />
+    <ChromogenZustandObserver>
     <TodoList />
+    </ChromogenZustandObserver>
   </>
 );
 
@@ -237,7 +241,38 @@ You're now ready to run your tests! After running your normal Jest test command,
 The current tests check whether state has changed after an interaction and checks whether the resulting state change variables have been updated as expected.
 
 <br><hr>
+## Contributor Setup
+	
+In order to make/observe changes to the code, you'll have to run Chromogen locally as opposed to running via NPM.
+Due to inconsistencies across different machines, it is recomended to use the following method to run Chromogen locally.
 
+<br><Br>
+**Run for demos within this directory**
+
+After cloning the repo, 
+	
+```jsx
+	npm install
+```
+	
+from BOTH the /package directory (where the app lives) AND the /demo directory you're developing with.
+	
+Then, and ONLY then, run 
+	
+```jsx
+npm run tarballUpdate	
+```
+<br><Br>
+	
+**Run for local applications outside this directory**
+
+After cloning this repo, add the following script to your app's package.json:
+	
+```jsx
+"tarballUpdate": "npm --prefix <reference to the /package directory on your local machine> run build && npm pack <reference to the /package directory on your local machine> && npm uninstall chromogen && npm install ./chromogen-5.0.1.tgz && npm start"
+```
+	
+<br><hr>	
 ## Test Setup
 
 ### Zustand Test Setup
@@ -281,7 +316,91 @@ You're now ready to run your tests! Upon running your normal Jest test command, 
 **Setters** tests the state that results from setting a writeable selector with a given value and starting state. There is one test per set call, asserting on each atom's value in the resulting state.
 
 <br><hr>
+	
+## CI/CD with Jenkins
+	
+You will need to have Docker installed to run Jenkins. Ru the following command to create a bridge network for Jenkins:
+	
+```jsx
+	
+	docker network create jenkins
+```
 
+	
+Enable Docker commands to be executable with Jenkins nodes:
+	
+```jsx
+	
+docker run \
+  --name jenkins-docker \
+  --rm \
+  --detach \
+  --privileged \
+  --network jenkins \
+  --network-alias docker \
+  --env DOCKER_TLS_CERTDIR=/certs \
+  --volume jenkins-docker-certs:/certs/client \
+  --volume jenkins-data:/var/jenkins_home \
+  --publish 2376:2376 \
+  --publish 3003:3003 --publish 5003:5003 \
+  docker:dind \
+  --storage-driver overlay2
+	
+	
+```
+	
+Build a Docker image from the DOckerfile within Chromogen:
+	
+```jsx
+	
+	docker build -t chromogen-jenkins .
+	
+```
+	
+Run your Chromogen-Jenkins image in Docker as a container:
+	
+```jsx
+	docker run \
+  --name jenkins-blueocean \
+  --detach \
+  --network jenkins \
+  --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client \
+  --env DOCKER_TLS_VERIFY=1 \
+  --publish 8080:8080 \
+  --publish 50000:50000 \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume jenkins-docker-certs:/certs/client:ro \
+  --volume "$HOME":/home \
+  --restart=on-failure \
+  --env JAVA_OPTS="-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true" \
+  myjenkins-blueocean:2.375.3-1	
+```
+	
+Navigate to your localhost:8080 and enter the password (between the two sets of asterisks) that is generated from the following command:
+	
+```jsx
+	docker logs jenkins-blueocean	
+	
+```
+	
+Create your first administrator user.
+	
+Stop and start your Docker container using one of the following:
+	
+```jsx
+	
+	docker stop jenkins-blueocean jenkins-docker
+	docker start jenkins-blueocean jenkins-docker
+	
+```
+
+When configuring your pipeline, make sure to set your pipeline definition to 'Pipeline Script from SCM' and enter the path to your local repositiory, specify the brand you are working from, set the Script Path to 'jenkins/Jenkinsfile', and uncheck 'Lightweight Checkout'.
+	
+	
+
+
+	
 ## Demo Apps
 
 ### Zustand Demo To-Do App
@@ -315,13 +434,85 @@ a 👍. This helps us prioritize what to work on.
 
 For any questions and concerns related to using the package, feel free to email us via `chromogen.app@gmail.com`.
 <br><Br>
+## Chromogen V5.0 updates
+<br><hr>
+**GUI Overhaul**
 
+**Why?**
+  
+    *Hovering GUI blocked functionality of host app 
+    *Recording/downloading interactivity was cumbersome and inflexible 
+    *Suboptimal for CI/CD implementation Buttons not functional 
+  
+**What?**
+  
+    *Discrete Collapsible IDE that allows for real-time observation & manual interactivity of generated tests 
+  
+**Next steps:**
+  
+    *Recording button functionality
+  <br><Br><br><hr>
+  
+ **Real-time feed rendering**
+
+**Why?**
+  
+    *Generated tests were only accessible as a monolith of text, preventing isolation of individual components’ tests
+  
+  **What?**
+  
+    *IDE updates in real-time as changes of state are recorded 
+  
+  **Next steps:**
+  
+    *Test categorization. 
+    *Filter groups of tests by: 
+
+    *Initialization vs ΔState Action 
+
+    *Description 
+  
+    *and allow user to select which filter to apply to displayed generated tests.
+<br><Br><br><hr>
+   **CI/CD overhaul**
+
+**Why?**
+  
+    *Travis implementation not functional
+  
+  **What?**
+  
+    *Re-implemented CI/CD with Jenkins
+  
+  <br><Br><br><hr>
+
+  
+ **Additional Next Steps**
+
+ **Add functionality for Zustand multi-store rendering & Asynchronous state**
+	
+**Docker containerization**
+  
+  **Why?**
+  
+    *V 4.0 presented inconsistencies when accessed from different local machines. 
+	This hindered team workflow both with development and production-use
+  
+  **What?**
+  
+    *Containerization of app ensures homogenous, improved User/Dev experience
+
+ <br> <br> <br> <hr>
 ## Core Team
 
 <br>
 
 <table>
   <tr align="center">
+   <td align="center"><a href="https://github.com/sirbrachthepale"><img src="https://ca.slack-edge.com/T047AGRDFG8-U04EFS600F2-6758e04a3dcc-512" width="100px;" alt=""/><br /><sub><b>Brach Burdick</b></sub></a></td>
+    <td align="center"><a href="https://github.com/dnvt"><img src="https://avatars.githubusercontent.com/u/60344684?s=400&u=7fa22ae1486df42eaf172c3f08941416603387c0&v=4" width="100px;" alt=""/><br /><sub><b>Francois Denavaut</b></sub></a></td>
+     <td align="center"><a href="https://github.com/maggiekwan"><img src="https://ca.slack-edge.com/T047AGRDFG8-U046ZLFULCC-533eb79ef8c7-512" width="100px;" alt=""/><br /><sub><b>Maggie Kwan</b></sub></a></td>
+      <td align="center"><a href="https://github.com/Lawliang"><img src="https://ca.slack-edge.com/T047AGRDFG8-U04CQEBF85B-267e9eba74d2-512" width="100px;" alt=""/><br /><sub><b>Lawrence Liang</b></sub></a></td>
     <td align="center"><a href="https://github.com/michellebholland"><img src="https://avatars3.githubusercontent.com/u/64747593" width="100px;" alt=""/><br /><sub><b>Michelle Holland</b></sub></a></td>
     <!-- SPACE -->
     <td align="center"><a href="https://github.com/andywang23"><img src="https://avatars1.githubusercontent.com/u/64433815" width="100px;" alt=""/><br /><sub><b>Andy Wang</b></sub></a></td>

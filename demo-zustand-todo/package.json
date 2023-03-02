@@ -1,11 +1,16 @@
 {
   "name": "chromogen-todo",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "demo todo app for Chromogen using React + Recoil",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "update": " npm run uninstall && npm run install && npm run start",
+    "uninstall": "npm uninstall chromogen",
+    "install": "npm install ../package",
+    "buildPackage": "tsc",
+    "tarballUpdate": "npm --prefix ../package run build && npm pack ../package && npm uninstall chromogen && npm install ./chromogen-5.0.1.tgz && npm start"
   },
   "keywords": [
     "react",
@@ -20,6 +25,22 @@
     "url": "https://github.com/open-source-labs/Chromogen.git"
   },
   "contributors": [
+    {
+      "name": "Brach Burdick",
+      "url": "https://github.com/sirbrachthepale/"
+    },
+    {
+      "name": "Francois Denavaut",
+      "url": "https://github.com/dnvt/"
+    },
+    {
+      "name": "Maggie Kwan",
+      "url": "https://github.com/maggiekwan/"
+    },
+    {
+      "name": "Lawrence Liang",
+      "url": "https://github.com/Lawliang/"
+    },
     {
       "name": "Michelle Holland",
       "url": "https://github.com/michellebholland/"
@@ -59,11 +80,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
+    "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.6",
     "babel-jest": "^26.3.0",
-    "chromogen": "^4.0.4",
+    "chromogen": "file:chromogen-4.0.4.tgz",
     "file-loader": "^6.2.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

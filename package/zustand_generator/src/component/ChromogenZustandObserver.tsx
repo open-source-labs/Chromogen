@@ -1,125 +1,45 @@
-/* eslint-disable */
-import React, { useState, useEffect } from 'react';
-import { useStore } from '../utils/store';
-import { styles, generateFile, generateTests } from './component-utils';
-/* eslint-enable */
+import Editor from './Editor';
+import EditorTab from './EditorTab';
+import React, { useState } from 'react';
+import { generateTests } from './component-utils';
+import GlobalStyle from '../GlobalStyle';
 
-/* using a zustand store to keep track of recording state */
-const selector = (state) => ({
-  recording: state.recording,
-  toggleRecording: state.toggleRecording,
-});
+const panel: React.CSSProperties = {
+  display: 'flex',
+  position: 'relative',
+  // width: '531.49px'
+};
 
-export const ChromogenZustandObserver: React.FC = () => {
-  // Initializing as undefined over null to match React typing for AnchorHTML attributes
-  const [file, setFile] = useState<undefined | string>(undefined);
-  const [storeMap] = useState<Map<string, string>>(new Map());
-  const { recording, toggleRecording } = useStore<{
-    recording: boolean;
-    toggleRecording: Function;
-  }>(selector);
+interface Props {
+  children: JSX.Element;
+}
 
-  // Auto-click download link when a new file is generated (via button click)
-  useEffect(() => document.getElementById('chromogen-download')!.click(), [file]);
-  // ! to get around strict null check in tsconfig
+export const ChromogenZustandObserver: React.FC<Props> = ({ children }): JSX.Element => {
+  const [code, setCode] = React.useState('');
+  const [storeMap] = React.useState<Map<string, string>>(new Map());
+  const [isHidden, setIsHidden] = useState(false);
 
-  const [pauseColor, setPauseColor] = useState('#90d1f0');
-  const pauseBorderStyle = {
-    borderColor: `${pauseColor}`,
-  };
+  const timer = setInterval(() => {
+    console.log('Firing');
+    setCode(String(generateTests(storeMap)));
+  }, 1000);
 
-  const [playColor, setPlayColor] = useState('transparent transparent transparent #90d1f0');
-  const playBorderStyle = {
-    borderColor: `${playColor}`,
-  };
+  React.useEffect(() => {
+    console.log(code);
+    timer;
+  }, [timer]);
+
+  // React.useEffect(() => console.log(ledger.transactions[2].changedValues), []);
 
   return (
-    <>
-      {
-        <div>
-          <div style={styles.divStyle}>
-            <button
-              aria-label={recording ? 'pause' : 'record'}
-              id="chromogen-toggle-record"
-              style={{ ...styles.buttonStyle, backgroundColor: '#7f7f7f' }}
-              type="button"
-              onClick={() => {
-                toggleRecording();
-                // if (!recording) return true;
-                // return false;
-              }}
-              onMouseEnter={() =>
-                recording
-                  ? setPauseColor('#f6f071')
-                  : setPlayColor('transparent transparent transparent #f6f071')
-              }
-              onMouseLeave={() =>
-                recording
-                  ? setPauseColor('#90d1f0')
-                  : setPlayColor('transparent transparent transparent #90d1f0')
-              }
-            >
-              <a>
-                {recording ? (
-                  <div style={{ ...styles.pauseStyle, ...pauseBorderStyle }}></div>
-                ) : (
-                  <div style={{ ...styles.playStyle, ...playBorderStyle }}></div>
-                )}
-              </a>
-            </button>
-            <button
-              aria-label="capture test"
-              id="chromogen-generate-file"
-              style={{
-                ...styles.buttonStyle,
-                backgroundColor: '#7f7f7f',
-                marginLeft: '-2px',
-                marginRight: '13px',
-              }}
-              type="button"
-              onClick={() => generateFile(setFile, storeMap)}
-              onMouseEnter={() =>
-                (document.getElementById('chromogen-generate-file')!.style.color = '#f6f071')
-              }
-              onMouseLeave={() =>
-                (document.getElementById('chromogen-generate-file')!.style.color = '#90d1f0')
-              }
-            >
-              <a>{'Download'}</a>
-            </button>
-            <button
-              aria-label="copy test"
-              id="chromogen-copy-test"
-              style={{
-                ...styles.buttonStyle,
-                backgroundColor: '#7f7f7f',
-                marginLeft: '-2px',
-                marginRight: '13px',
-              }}
-              type="button"
-              onClick={() => {
-                navigator.clipboard.writeText(generateTests(storeMap)[0]);
-              }}
-              onMouseEnter={() =>
-                (document.getElementById('chromogen-copy-test')!.style.color = '#f6f071')
-              }
-              onMouseLeave={() =>
-                (document.getElementById('chromogen-copy-test')!.style.color = '#90d1f0')
-              }
-            >
-              <a>{'Copy To Clipboard'}</a>
-            </button>
-          </div>
-        </div>
-      }
-      <a
-        download="chromogen.test.js"
-        href={file}
-        id="chromogen-download"
-        style={{ display: 'none' }}
-      >
-        Download Test
-      </a>
-    </>
+    <div style={panel}>
+      {children}
+      {isHidden ? (
+        <EditorTab setIsHidden={setIsHidden} isHidden={isHidden} />
+      ) : (
+        <Editor code={code} setIsHidden={setIsHidden} isHidden={isHidden} />
+      )}
+      <GlobalStyle />
+    </div>
   );
 };

@@ -34,7 +34,11 @@ const SearchBar = () => {
         onChange={onSearchTextChange}
         onLoad={onSearchTextChange}
       />
-      <select className="prioritySelect" onChange={onSelectChange}>
+      <select
+        style={{ WebkitAppearance: 'none' }}
+        className="prioritySelect"
+        onChange={onSelectChange}
+      >
         <option value="all">All Priorities</option>
         <option value="high">High Priority</option>
         <option value="medium">Medium Priority</option>

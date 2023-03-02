@@ -1,5 +1,5 @@
 import { chromogenZustandMiddleware } from 'chromogen';
-import create from 'zustand';
+import { create } from 'zustand';
 
 const useToDoStore = create(
   chromogenZustandMiddleware((set) => ({
